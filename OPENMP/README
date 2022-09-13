@@ -2,6 +2,14 @@ THIS FOLDER IS FOR COMPARING THE PARALLELISM OF 1 METHANE MOLECULE IN 4x4x4 MFI 
 --clang++-14
 --nvc++
 
+****************
+MORE DETAILS  **
+****************
+200,000 translation moves
+GPU: RTX 3080 Ti
+clang++-14 took 14.079884 seconds
+nvc++      took  6.049393 seconds 
+
 It also contains several shell scripts for using nvidia-mps. To learn more about nvidia-mps, check here: 
 https://docs.nvidia.com/deploy/mps/index.html
 and
