@@ -5,6 +5,7 @@ THIS FOLDER IS FOR COMPARING THE PARALLELISM OF 1 METHANE MOLECULE IN 4x4x4 MFI 
 ****************
 MORE DETAILS  **
 ****************
+To make, do ./CLANG_COMPILE for clang++-14, or ./NVC_COMPILE for nvc++
 200,000 translation moves
 Framework and Force Field parameters stored in the file in Restart folder.
 GPU: RTX 3080 Ti
