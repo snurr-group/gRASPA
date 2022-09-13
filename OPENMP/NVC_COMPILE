@@ -1,0 +1,23 @@
+#!/bin/bash
+
+clear 
+
+CXX="nvc++"
+
+COMMONFLAG=""
+
+ErrorFLAG=""
+
+GPUFLAG="-O3 -std=c++20 -mp=gpu -Minfo -g"
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c convert_array.cpp -o convert_array.o
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c framework_energy_difference.cpp -o framework_energy_difference.o
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c GPU_alloc.cpp -o GPU_alloc.o
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c read_data.cpp -o read_data.o
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c main.cpp -o main.o
+
+$CXX $COMMONFLAG $GPUFLAG main.o read_data.o convert_array.o GPU_alloc.o framework_energy_difference.o -o nvc.x

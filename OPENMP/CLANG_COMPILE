@@ -1,0 +1,21 @@
+#!/bin/bash
+
+CXX="clang++-14"
+
+COMMONFLAG="-fopenmp -O3 -ftree-vectorize -fno-stack-check -funroll-loops -ffast-math  -std=c++2b -stdlib=libc++ -Wunused -g"
+
+ErrorFLAG="-Wall -Wextra -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wunused -Woverloaded-virtual -Wpedantic -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2"
+
+GPUFLAG="-Xopenmp-target -march=sm_86 -fopenmp=libomp -fopenmp-targets=nvptx64-nvidia-cuda -O3 -fomit-frame-pointer -ftree-vectorize -fno-stack-check -funroll-loops -ffast-math  -std=c++2b -stdlib=libc++"
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c convert_array.cpp -o convert_array.o
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c framework_energy_difference.cpp -o framework_energy_difference.o
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c GPU_alloc.cpp -o GPU_alloc.o
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c read_data.cpp -o read_data.o
+
+$CXX $COMMONFLAG $GPUFLAG $ErrorFLAG -c main.cpp -o main.o
+
+$CXX $COMMONFLAG $GPUFLAG -std=c++2b -stdlib=libc++ -g main.o read_data.o convert_array.o GPU_alloc.o framework_energy_difference.o -o clang.x
