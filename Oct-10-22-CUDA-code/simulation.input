@@ -1,0 +1,18 @@
+UseGPUReduction no
+Useflag yes
+Cycles 1000
+Widom_Trials 300
+NumberOfBlocks 1
+
+FrameworkName MFI-2x2x2.poscar
+ChargeMethod None
+Temperature 200
+Pressure 4000
+DualPrecisionCBMC yes
+
+Component 0 MoleculeName             CO2
+            IdealGasRosenbluthWeight 1.0
+            FugacityCoefficient      1.0
+            ReinsertionProbability   1.0
+            SwapProbability   1.0
+            CreateNumberOfMolecules  0
