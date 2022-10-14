@@ -8,8 +8,7 @@ Need files:
 3. poscar file for the structure (MOF/zeolite)
 4. def files: force_field_mixing_rules.def (LJ parameters); pseudo_atoms.def (charges for pseudo-atoms); <molecule_name>.def (methane, CO2, ...)
 
-When the simulation finishes, a lammps data file will be written in the Movies folder. the lammps data file can be visualized using OVITO. 
-
+When the simulation finishes, a lammps data file will be written in the Movies folder.
 Zhao's note: this code cannot do ewald for now, but short-range coulombic interactions (q_i*q_j/r) is included. 
 
 Search for "Zhao's note" in the code for caveats, unaddressed issues and potential future changes in the code. 
