@@ -3,3 +3,4 @@ mainly changed structure of the code:
 added Allocate_size to Component struct. 
 Moved code for Deletion move to mc_insertion_deletion.h
 Cleaned up commented printf lines.
+Used Unified memory for different simulations (in progress). 
