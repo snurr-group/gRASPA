@@ -1,2 +1,3 @@
 Cleaned how the code allocate memory on the device (GPU).
 modified data structure for the code to support multiple simulations. 
+removed redundant variables. 
