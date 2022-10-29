@@ -1,3 +1,3 @@
 readme
 The code is still in construction. clearly there is something wrong with shared mem.
-to compile, do "./NVC_COMPILE"
+to compile, do "./NVC_COMPILE", some paths are needed to be changed
