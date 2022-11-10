@@ -1,0 +1,7 @@
+Code for performing multiple simulations in one setup on the GPU (also allowes for parallelization of pairwise energies).
+
+Currently working on translation/rotation moves. 
+
+It has issues with internal compiler errors (see the email).
+
+to compile, change the location of the cuda library in file "NVC_COMPILE", then execute that bash script. 
