@@ -5,3 +5,5 @@ Currently working on translation/rotation moves.
 It has issues with internal compiler errors (see the email).
 
 to compile, change the location of the cuda library in file "NVC_COMPILE", then execute that bash script. 
+
+To change settings, take a look at the simulation.input file. You can change the number of moves to perform, what moves to perform, and adsorbate molecules (currently support methane/propane/CO2).
