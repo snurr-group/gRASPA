@@ -41,6 +41,8 @@ enum CBMC_Types {CBMC_INSERTION = 0, CBMC_DELETION, REINSERTION_INSERTION, REINS
 
 enum SIMULATION_MODE {CREATE_MOLECULE = 0, INITIALIZATION, EQUILIBRATION, PRODUCTION};
 
+enum LAMBDA_TYPE {SHI_MAGINN = 0, BRICK_CFC};
+
 struct Complex
 {
   double real;
@@ -60,12 +62,33 @@ struct LAMBDA
 {
   int    newBin;     //Bins range from (-binsize/2, binsize/2), since lambda is from -1 to 1.
   int    currentBin;
+  int    lambdatype = SHI_MAGINN;
   double delta;  //size of the bin in the lambda histogram//
   double WangLandauScalingFactor;
   size_t binsize = {10};
   size_t FractionalMoleculeID;
   std::vector<double>Histogram;
   std::vector<double>biasFactor;
+  double2 SET_SCALE(double lambda)
+  {
+    double2 scaling;
+    switch(lambdatype)
+    {
+      case SHI_MAGINN: //Scale for Coulombic goes with pow(lambda,5)
+      {
+        scaling.x = lambda;
+        scaling.y = std::pow(lambda, 5);
+        break;
+      }
+      case BRICK_CFC: //Scale for Coulombic and VDW are according to the brick CFC code convention
+      {
+        scaling.x = lambda < 0.5 ? 2.0 * lambda : 1.0;
+        scaling.y = lambda < 0.5 ? 0.0 : 2.0 * (lambda - 0.5);
+        break;
+      }
+    }
+    return scaling;
+  }
 };
 
 struct Move_Statistics

@@ -56,7 +56,7 @@ static inline double Reinsertion(Boxsize& Box, Components& SystemComponents, Sim
   // INSERTION //
   ///////////////
   int CBMCType = REINSERTION_INSERTION; //Reinsertion-Insertion//
-  double2 newScale  = setScale(1.0); //Zhao's note: not used in reinsertion, just set to 1.0//
+  double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0); //Zhao's note: not used in reinsertion, just set to 1.0//
   double Rosenbluth=Widom_Move_FirstBead_PARTIAL(Box, SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, CBMCType, StoredR, &SelectedTrial, &SuccessConstruction, &energy, DualPrecision, newScale); //Not reinsertion, not Retrace//
   if(!SuccessConstruction)
     return 0.0;
@@ -155,7 +155,7 @@ static inline double Deletion(Boxsize& Box, Components& SystemComponents, Simula
   double energy = 0.0;
   double StoredR = 0.0; //Don't use this for Deletion//
   int CBMCType = CBMC_DELETION; //Deletion//
-  double2 newScale = setScale(1.0); //Set scale for full molecule (lambda = 1.0), Zhao's note: This is not used in deletion, just set to 1//
+  double2 newScale = SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0), Zhao's note: This is not used in deletion, just set to 1//
   double Rosenbluth=Widom_Move_FirstBead_PARTIAL(Box, SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, CBMCType, StoredR, &SelectedTrial, &SuccessConstruction, &energy, DualPrecision, newScale);
   if(SystemComponents.Moleculesize[SelectedComponent] > 1 && Rosenbluth > 1e-150)
   {
@@ -243,7 +243,7 @@ static inline double Insertion(Boxsize& Box, Components& SystemComponents, Simul
 
   SystemComponents.tempdeltaVDWReal = 0.0; SystemComponents.tempdeltaEwald = 0.0;
 
-  double2 newScale = setScale(1.0); //Set scale for full molecule (lambda = 1.0)//
+  double2 newScale = SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0)//
   double energy = Insertion_Body(Box, SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, DualPrecision, Rosenbluth, SuccessConstruction, SelectedTrial, preFactor, false, newScale); if(!SuccessConstruction) return 0.0;
   double IdealRosen = SystemComponents.IdealRosenbluthWeight[SelectedComponent];
   double RRR = get_random_from_zero_to_one();

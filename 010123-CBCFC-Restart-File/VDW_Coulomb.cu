@@ -158,28 +158,6 @@ double Framework_energy_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, Forc
   return Total_energy;
 }
 
-double2 setScale(double lambda)
-{
-  double2 scaling;
-  int CFCType = 0; //0: Linear with pow(lambda,5); 1: Non-Linear (RASPA3 and Brick code)//
-  switch(CFCType)
-  {
-    case 0:
-    {
-      scaling.x = lambda;
-      scaling.y = std::pow(lambda, 5);
-      break;
-    }
-    case 1:
-    {
-      scaling.x = lambda < 0.5 ? 2.0 * lambda : 1.0;
-      scaling.y = lambda < 0.5 ? 0.0 : 2.0 * (lambda - 0.5);
-      break;
-    }
-  }
-  return scaling;
-}
-
 __device__ void setScaleGPU(double lambda, double& scalingVDW, double& scalingCoulomb)
 {
   int CFCType = 0; //0: Linear with pow(lambda,5); 1: Non-Linear (RASPA3 and Brick code)//

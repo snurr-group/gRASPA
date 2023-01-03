@@ -1,12 +1,12 @@
 UseGPUReduction no
 Useflag yes
 
-NumberOfInitializationCycles 0
-NumberOfEquilibrationCycles  3001
+NumberOfInitializationCycles 3000
+NumberOfEquilibrationCycles  0
 NumberOfProductionCycles     0
 
-Widom_Trials 20
-Widom_Orientation 20
+Widom_Trials 10
+Widom_Orientation 10
 NumberOfBlocks 1
 AdsorbateAllocateSpace 5120
 NumberOfSimulations 3
@@ -27,6 +27,7 @@ Component 0 MoleculeName             CO2
             IdealGasRosenbluthWeight 1.0
             FugacityCoefficient      1.0
             CBCFProbability 3.0
+              LambdaType BrickCFC
             TranslationProbability 1.0
             SwapProbability 1.0
             ReinsertionProbability   1.0

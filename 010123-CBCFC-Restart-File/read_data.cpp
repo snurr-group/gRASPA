@@ -751,6 +751,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   double TranslationProb=0.0; double RotationProb=0.0; double WidomProb=0.0; double ReinsertionProb = 0.0; double SwapProb = 0.0; double CBCFProb = 0.0; double TotalProb=0.0;
   size_t CreateMolecule = 0; double idealrosen = 0.0; double fugacoeff = 0.0; double Molfrac = 1.0; //Set Molfraction = 1.0
   bool temp_hasfracmol = false;
+  int  LambdaType = SHI_MAGINN;
   std::string start_string = "Component " + std::to_string(AdsorbateComponent); //start when reading "Component 0" for example
   std::string terminate_string="Component " + std::to_string(component);     //terminate when reading "Component 1", if we are interested in Component 0
   //first get the line number of the destinated component
@@ -815,6 +816,22 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
         TotalProb+=CBCFProb;
         temp_hasfracmol=true;
       }
+      //Zhao's note: If using CBCF Move, choose the lambda type//
+      if (CBCFProb > 0.0)
+      {
+        if (str.find("LambdaType", 0) != std::string::npos)
+        {
+          termsScannedLined = split(str, ' ');
+          if(caseInSensStringCompare(termsScannedLined[1], "ShiMaginn"))
+          {
+            LambdaType = SHI_MAGINN;
+          }
+          else if(caseInSensStringCompare(termsScannedLined[1], "BrickCFC"))
+          {
+            LambdaType = BRICK_CFC;
+          }
+        }
+      }
       if (str.find("FugacityCoefficient", 0) != std::string::npos)
       {
         termsScannedLined = split(str, ' ');
@@ -865,6 +882,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
     lambda.newBin    = 0;
     lambda.delta     = 1.0/static_cast<double>(lambda.binsize); //Zhao's note: in raspa3, delta is 1/(nbin-1)
     lambda.WangLandauScalingFactor = 0.0; lambda.FractionalMoleculeID = 0;
+    lambda.lambdatype = LambdaType;
     lambda.Histogram.resize(lambda.binsize); lambda.biasFactor.resize(lambda.binsize);
     std::fill(lambda.Histogram.begin(),  lambda.Histogram.end(),  0.0);
     std::fill(lambda.biasFactor.begin(), lambda.biasFactor.end(), 0.0);

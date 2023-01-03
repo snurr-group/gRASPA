@@ -176,7 +176,7 @@ double Run_Simulation(int Cycles, Components& SystemComponents, Boxsize Box, Sim
 
           size_t NewBin = 5;
           double newLambda = static_cast<double>(NewBin) * SystemComponents.Lambda[comp].delta;
-          double2 newScale = setScale(newLambda);
+          double2 newScale = SystemComponents.Lambda[comp].SET_SCALE(newLambda);
           running_energy  += CreateMolecule(Box, SystemComponents, Sims, FF, Random, Widom, SelectedMol, comp, DualPrecision, newScale);
           if(SystemComponents.NumberOfMolecule_for_Component[comp] == OldVal)
           {
@@ -195,7 +195,7 @@ double Run_Simulation(int Cycles, Components& SystemComponents, Boxsize Box, Sim
         printf("Creating %zu Molecule for Component %zu; There are %zu Molecules of that component in the System\n", Created, comp, SystemComponents.NumberOfMolecule_for_Component[comp]);
         SelectedMol = Created; if(Created > 0) SelectedMol = Created - 1; //Zhao's note: this is a little confusing, but when number of molecule for that species = 0 or 1, the chosen molecule is zero. This is creating from zero loading, need to change in the future, when we read from restart file//
         size_t OldVal    = SystemComponents.NumberOfMolecule_for_Component[comp];
-        double2 newScale = setScale(1.0); //Set scale for full molecule (lambda = 1.0)//
+        double2 newScale = SystemComponents.Lambda[comp].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0)//
         running_energy  += CreateMolecule(Box, SystemComponents, Sims, FF, Random, Widom, SelectedMol, comp, DualPrecision, newScale);
         if(SystemComponents.NumberOfMolecule_for_Component[comp] == OldVal)
         {CreateFailCount ++;} else {NumberOfCreateMolecules[comp] --; Created ++;}
@@ -265,7 +265,7 @@ double Run_Simulation(int Cycles, Components& SystemComponents, Boxsize Box, Sim
       // PERFORM WIDOM INSERTION MOVE //
       //////////////////////////////////
       WidomCount ++;
-      double2 newScale = setScale(1.0); //Set scale for full molecule (lambda = 1.0)//
+      double2 newScale = SystemComponents.Lambda[comp].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0)//
       size_t SelectedTrial=0; bool SuccessConstruction = false; double energy = 0.0; double StoredR = 0.0;
       double Rosenbluth=Widom_Move_FirstBead_PARTIAL(Box, SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp, CBMC_INSERTION, StoredR, &SelectedTrial, &SuccessConstruction, &energy, false, newScale);
       if(SystemComponents.Moleculesize[comp] > 1 && Rosenbluth > 1e-150)

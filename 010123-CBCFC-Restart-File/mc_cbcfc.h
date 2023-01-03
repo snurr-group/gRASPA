@@ -201,9 +201,9 @@ static inline double CBCFMove(Boxsize& Box, Components& SystemComponents, Simula
     int newBin = SelectednewBin - static_cast<int>(nbin);
     double  newLambda = delta * static_cast<double>(newBin);
     //Zhao's note: Set the Scaling factors for VDW and Coulombic Interaction depending on the mode//
-    double2 oldScale  = setScale(oldLambda);
-    double2 InterScale= setScale(1.0);
-    double2 newScale  = setScale(newLambda);
+    double2 oldScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(oldLambda);
+    double2 InterScale= SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0);
+    double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(newLambda);
     //////////////////////////////////////////////////////////////////////////////
     //First step: Increase the scale of the *current* fractional molecule to 1.0//
     //////////////////////////////////////////////////////////////////////////////
@@ -258,9 +258,9 @@ static inline double CBCFMove(Boxsize& Box, Components& SystemComponents, Simula
     int newBin = SelectednewBin + nbin;
     double newLambda = delta * static_cast<double>(newBin);
     //Zhao's note: Set the Scaling factors for VDW and Coulombic Interaction depending on the mode//
-    double2 oldScale  = setScale(oldLambda);
-    double2 InterScale= setScale(1.0);
-    double2 newScale  = setScale(newLambda);
+    double2 oldScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(oldLambda);
+    double2 InterScale= SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0);
+    double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(newLambda);
     //////////////////////////////////////////////
     //First step: delete the fractional molecule//
     //////////////////////////////////////////////
@@ -358,8 +358,8 @@ static inline double CBCFMove(Boxsize& Box, Components& SystemComponents, Simula
     int newBin = static_cast<size_t>(SelectednewBin);
     double newLambda = delta * static_cast<double>(newBin);
     //Zhao's note: Set the Scaling factors for VDW and Coulombic Interaction depending on the mode//
-    double2 oldScale  = setScale(oldLambda);
-    double2 newScale  = setScale(newLambda);
+    double2 oldScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(oldLambda);
+    double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(newLambda);
     size_t start_position = 1;
     bool   SuccessConstruction = false;
     energy = CBCF_LambdaChange(Box, SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, oldScale, newScale, start_position, CBCF_LAMBDACHANGE, SuccessConstruction);

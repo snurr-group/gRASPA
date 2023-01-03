@@ -528,7 +528,7 @@ static inline double Translation_Move(Boxsize& Box, Components& SystemComponents
     // Calculate Ewald //
     if(!FF.noCharges) 
     {
-      double2 newScale  = setScale(1.0);
+      double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0);
       EwaldE = GPU_EwaldDifference_General(Box, Sims.d_a, Sims.New, Sims.Old, FF, Sims.Blocksum, SystemComponents, SelectedComponent, 0, 0, newScale);
       tot   += EwaldE;
       SystemComponents.tempdeltaEwald = EwaldE;
@@ -669,7 +669,7 @@ static inline double Rotation_Move(Boxsize& Box, Components& SystemComponents, S
   // Calculate Ewald //
   if(!FF.noCharges)
   {
-    double2 newScale  = setScale(1.0);
+    double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0);
     double EwaldE = GPU_EwaldDifference_General(Box, Sims.d_a, Sims.New, Sims.Old, FF, Sims.Blocksum, SystemComponents, SelectedComponent, 0, 0, newScale);
     tot   += EwaldE;
     //printf("EwaldE (GPU) is %.5f\n", EwaldE);

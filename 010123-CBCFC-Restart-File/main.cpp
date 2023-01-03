@@ -211,16 +211,16 @@ int main(void)
   {
     FinalEwaldE  = CPU_GPU_EwaldTotalEnergy(Box, device_Box, System, Sims[0].d_a, FF, device_FF, SystemComponents[0]);
     FinalEwaldE -= FrameworkEwaldE;
+    printf("After Simulations, Framework Ewald: %.5f, Final Ewald: %.5f, DIFF Ewald: %.5f\n", FrameworkEwaldE, FinalEwaldE, FinalEwaldE - InitialEwaldE);
+    Check_WaveVector_CPUGPU(device_Box, SystemComponents[0]); //Check WaveVector on the CPU and GPU//
   }
-  printf("After Simulations, Framework Ewald: %.5f, Final Ewald: %.5f, DIFF Ewald: %.5f\n", FrameworkEwaldE, FinalEwaldE, FinalEwaldE - InitialEwaldE);
-
-  Check_WaveVector_CPUGPU(device_Box, SystemComponents[0]); //Check WaveVector on the CPU and GPU//
-
   //Check if the Ewald Diff and running Diff make sense//
   for(size_t i = 0; i < NumberOfSimulations; i++)
   {
     if(RunSingleSim){if(i != SelectedSim) continue;}
     double diff = sum[i] - (FinalEwaldE - InitialEwaldE) - end_sys_energy[i] + sys_energy[i]; 
+    printf("Final Energy (Running Energy from Simulation): %.5f\n", sum[i] + InitialEwaldE + sys_energy[i]);
+    printf("Final Energy (Recalculated by Energy Check)  : %.5f\n", FinalEwaldE + end_sys_energy[i]);
     printf("Drift in Energy: %.5f\n", diff);
   }
   //////////////////////

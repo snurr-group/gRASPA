@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <iomanip>
 void create_movie_file(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames);
 
 static inline void create_Restart_file(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames);
@@ -77,7 +78,7 @@ static inline void WriteAtoms_Restart(Atoms* System, Components SystemComponents
     size_t molsize = SystemComponents.Moleculesize[i];
     //First write positions//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-position:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.x[j] << "  " << Data.y[j] << "  " << Data.z[j] << '\n';
+      textrestartFile << "Adsorbate-atom-position:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << std::setprecision (15) << Data.x[j] << "  " << std::setprecision (15) << Data.y[j] << "  " << std::setprecision (15) << Data.z[j] << '\n';
     //Then write velocities (Zhao's note: Not implemented yet)//
     for(size_t j = 0; j < Data.size; j++)
       textrestartFile << "Adsorbate-atom-velocity:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
@@ -108,16 +109,16 @@ static inline void WriteComponent_Restart(Atoms* System, Components SystemCompon
     if(SystemComponents.hasfractionalMolecule[i])
     {
       fracID = SystemComponents.Lambda[i].FractionalMoleculeID;
+      textrestartFile << "Fractional-molecule-id component " << i-SystemComponents.NumberOfFrameworks << ": " << fracID << "\n";
+      textrestartFile << "Lambda-factors component " << i-SystemComponents.NumberOfFrameworks << ": " << SystemComponents.Lambda[i].WangLandauScalingFactor << "\n";
+      textrestartFile << "Number-of-biasing-factors component  " << i-SystemComponents.NumberOfFrameworks << ": " << SystemComponents.Lambda[i].binsize << "\n";
+      textrestartFile << "Biasing-factors component " << i-SystemComponents.NumberOfFrameworks << ": "; 
+      for(size_t j = 0; j < SystemComponents.Lambda[i].binsize; j++)
+        textrestartFile << SystemComponents.Lambda[i].biasFactor[j] << " ";
+      textrestartFile << "\n";
+      textrestartFile << "Maximum-CF-Lambda-change component " << i-SystemComponents.NumberOfFrameworks << ": 0.50000\n"; //Zhao's note: continuous lambda not implemented
+      textrestartFile << "Maximum-CBCF-Lambda-change component " << i-SystemComponents.NumberOfFrameworks << ": 0.50000\n"; //Zhao's note: continuous lambda not implemented
     }
-    textrestartFile << "Fractional-molecule-id component " << i-SystemComponents.NumberOfFrameworks << ": " << fracID << "\n";
-    textrestartFile << "Lambda-factors component " << i-SystemComponents.NumberOfFrameworks << ": " << SystemComponents.Lambda[i].WangLandauScalingFactor << "\n";
-    textrestartFile << "Number-of-biasing-factors component  " << i-SystemComponents.NumberOfFrameworks << ": " << SystemComponents.Lambda[i].binsize << "\n";
-    textrestartFile << "Biasing-factors component " << i-SystemComponents.NumberOfFrameworks << ": "; 
-    for(size_t j = 0; j < SystemComponents.Lambda[i].binsize; j++)
-      textrestartFile << SystemComponents.Lambda[i].biasFactor[j] << " ";
-    textrestartFile << "\n";
-    textrestartFile << "Maximum-CF-Lambda-change component " << i-SystemComponents.NumberOfFrameworks << ": 0.50000\n"; //Zhao's note: continuous lambda not implemented
-    textrestartFile << "Maximum-CBCF-Lambda-change component " << i-SystemComponents.NumberOfFrameworks << ": 0.50000\n"; //Zhao's note: continuous lambda not implemented
     textrestartFile << "\n"; 
     textrestartFile << "Maximum-translation-change component " << i-SystemComponents.NumberOfFrameworks << ": " << MaxTranslation.x << " " << MaxTranslation.y << " " << MaxTranslation.z << "\n";
     textrestartFile << "Maximum-translation-in-plane-change component " << i-SystemComponents.NumberOfFrameworks << ": " << "0.000000,0.000000,0.000000" << "\n";
