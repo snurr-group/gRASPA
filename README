@@ -1,0 +1,5 @@
+How to install
+1. Need NVIDIA GPU (prefered RTX 30X0, speed tested on RTX 3080Ti and RTX 3090) 
+2. Need nvidia hpc compiler (nvc++), tested with version 22.5 (hpc-sdk-22.5)
+3. run the bash script (./NVC_COMPILE)
+4. compilation takes about 25 seconds. 
