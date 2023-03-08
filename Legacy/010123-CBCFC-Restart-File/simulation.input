@@ -1,0 +1,34 @@
+UseGPUReduction no
+Useflag yes
+
+NumberOfInitializationCycles 3000
+NumberOfEquilibrationCycles  0
+NumberOfProductionCycles     0
+
+Widom_Trials 10
+Widom_Orientation 10
+NumberOfBlocks 1
+AdsorbateAllocateSpace 5120
+NumberOfSimulations 3
+SingleSimulation yes
+
+FrameworkName NU-1000-FF-OH2OH2-Cl.poscar
+ChargeMethod Ewald
+Temperature 298
+Pressure 3000
+DualPrecisionCBMC yes
+
+OverlapCriteria 1e5
+CutOffVDW 12.8
+CutOffCoulomb 12.0
+EwaldPrecision 1e-6
+
+Component 0 MoleculeName             CO2
+            IdealGasRosenbluthWeight 1.0
+            FugacityCoefficient      1.0
+            CBCFProbability 3.0
+              LambdaType BrickCFC
+            TranslationProbability 1.0
+            SwapProbability 1.0
+            ReinsertionProbability   1.0
+            CreateNumberOfMolecules  2
