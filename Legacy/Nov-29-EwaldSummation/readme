@@ -1,1 +1,5 @@
+Added Ewald summation for translation/rotation/reinsertion/swap moves
 
+Next steps:
+1. add CFC Swap moves (scaling factors already implemented, need to write the moves)
+2. add Tail correction (only on the CPU (host) side).
