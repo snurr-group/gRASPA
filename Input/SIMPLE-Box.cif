@@ -1,0 +1,48 @@
+data_MFI_SI
+
+_audit_creation_method RASPA-1.0
+_audit_creation_date 2022-11-15
+_audit_author_name 'Zhao Li'
+
+_citation_author_name        'H. van Koningsveld, H. van Bekkum, and J. C. Jansen'
+_citation_title              'On the location and disorder of the tetrapropylammonium (TPA) ion in zeolite ZSM-5 with improved framework accuracy'
+_citation_journal_abbrev     'Acta Cryst.'
+_citation_journal_volume     B43
+_citation_page_first         127
+_citation_page_last          132
+_citation_year               1987
+
+_cell_length_a    40.044
+_cell_length_b    39.798
+_cell_length_c    26.766
+_cell_angle_alpha 90
+_cell_angle_beta  90
+_cell_angle_gamma 90
+_cell_volume      42656.2
+
+_symmetry_cell_setting          orthorhombic
+_symmetry_space_group_name_Hall 'P 1'
+_symmetry_space_group_name_H-M  'P 1'
+_symmetry_Int_Tables_number     1
+
+_symmetry_equiv_pos_as_xyz 'x,y,z'
+
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_charge
+Si1      Si4+   0.211190000000     0.028250000000     0.332010000000     2.05
+Si2      Si4+   0.153580000000     0.013860000000     0.405350000000     2.05
+Si3      Si4+   0.139555000000     0.030635000000     0.015600000000     2.05
+Si4      Si4+   0.061075000000     0.031490000000     0.013350000000     2.05
+O1       O2-    0.186300000000     0.026700000000     0.377900000000    -1.025
+O2       O2-    0.154200000000     0.029350000000     0.460550000000    -1.025
+O3       O2-    0.100350000000     0.029600000000     0.014450000000    -1.025
+O4       O2-    0.048450000000     0.030550000000     0.457200000000    -1.025
+O5       O2-    0.057450000000     0.027050000000     0.361850000000    -1.025
+O6       O2-    0.121750000000     0.027650000000     0.377000000000    -1.025
+O7       O2-    0.187100000000     0.421950000000     0.381400000000    -1.025
+O8       O2-    0.154250000000     0.422400000000     0.463600000000    -1.025

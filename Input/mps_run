@@ -1,0 +1,16 @@
+#!/bin/bash
+runs=5
+currentdir=$(pwd)
+for ((i = 0; i < $runs; i++)); do
+  echo  $i
+  mkdir $i
+  cp $currentdir/* $i/
+  cd $currentdir/$i
+  sed -i 's/xxx/'$i'/g' simulation.input
+  #sed -i 's/aaa/'$i'/g' simulation.input
+  #sed -i 's/bbb/'$nexti'/g' simulation.input
+  ./nvc_main.x > result_111_WholeRange_420_$i &
+  cd ../
+done
+
+wait
