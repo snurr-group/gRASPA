@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./main.x & 
+./main.x 
