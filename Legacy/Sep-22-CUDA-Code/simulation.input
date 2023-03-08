@@ -1,0 +1,12 @@
+UseGPUReduction no
+Useflag yes
+Cycles 5000
+Widom_Trials 300
+NumberOfBlocks 1
+
+Temperature 133.582
+Pressure 400000
+
+TranslationProbability 1.0
+WidomProbability 0.0
+SwapProbability  1.0
