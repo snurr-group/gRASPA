@@ -1,3 +1,8 @@
-**Source** folder contains all the source code file
+**Source** folder contains all the LATEST source code file
 **Input** folder contains all the input files 
+**Doc** folder contains the documents related to the code (A github.io page will be available soon). 
 **Legacy** folder contains all the previous versions of the code, labeled with the month-date-year of the code.
+
+**NOTE**
+1. When the source code is updated, the current files in **Source** and **Input** will be moved to **Legacy**, with month-date-year labeled.
+2. github.io page will be available soon. For now, just look at the Sphinx-generated webpages in the **Doc** folder. 
