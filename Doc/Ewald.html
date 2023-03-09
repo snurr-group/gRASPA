@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Ewald_Energy_Functions &#8212; cuda-raspa 0.0001 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="ewald-energy-functions">
+<span id="ewald-ref"></span><h1>Ewald_Energy_Functions<a class="headerlink" href="#ewald-energy-functions" title="Permalink to this heading">¶</a></h1>
+<ul class="simple">
+<li><dl class="simple">
+<dt>NOTES:</dt><dd><ul>
+<li><p>Ewald summation relies on the complex values</p></li>
+<li><p>See Complex struct in data_struct.h</p></li>
+<li><p>On the CPU, we use the complex number in the standard C++ library (std::complex)</p></li>
+<li><p>On the GPU, we use the user-defined comple struct</p></li>
+<li><p>arithmatics of complex values are also defined in this function</p></li>
+<li><dl class="simple">
+<dt>Similar to the CPU version, the wavevectors are stored in the <em>Eik</em> variables</dt><dd><ol class="arabic simple">
+<li><p><em>storedEik</em> is for storing wavevectors after a move is accepted</p></li>
+<li><dl class="simple">
+<dt><em>totalEik</em> is for storing temporary wavevectors before a move is accepted, or for intermediate steps</dt><dd><ul>
+<li><p>for example, for the first step of CBCF-insertion/CBCF-deletions</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><em>eik_x</em>, <em>eik_y</em>, <em>eik_z</em> are the temporary wavevectors in the x/y/z directions</dt><dd><p><em>. in RASPA-2.0/RASPA-3.0 the cross term *eik_xy</em> is also needed. However, it is not needed for the CUDA version since the cross terms are generated on the fly for each grid point.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<ol class="arabic simple">
+<li><dl class="simple">
+<dt><strong>Initialize_EwaldVector_General</strong></dt><dd><ul class="simple">
+<li><p>Prepare for the Ewald summation calculation for a move</p></li>
+<li><p>See data_struct.h for the move types</p></li>
+<li><p>All the new/old position/charge/scaling information are stored in the <em>Old</em> struct in the Simulation struct (see data_struct.h)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Fourier_Ewald_Diff</strong></dt><dd><ul class="simple">
+<li><p>Generalized CUDA kernel (GPU) function for Ewald summation for a move</p></li>
+<li><p>Each thread of the GPU takes care of a grid point (a set of kx/ky/kz)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>GPU_EwaldDifference_General</strong></dt><dd><ul class="simple">
+<li><p>Generalized function that handles the ewald summation for a move</p></li>
+<li><p>It has different modes based on the move performed</p></li>
+<li><p>This function does NOT take care of Reinsertion, Reinsertion has its own function</p></li>
+<li><p>The function first calls <em>Initialize_EwaldVector_General</em>, then <em>Fourier_Ewald_Diff</em></p></li>
+<li><p>Finally, when the fourier part is done, the function takes care of the exclusion part.</p></li>
+<li><p>The exclusion part currently assumes that the molecule is <strong>RIGID</strong>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>GPU_EwaldDifference_Reinsertion</strong></dt><dd><ul class="simple">
+<li><p>Function that does ewald summation for reinsertion move</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Fourier_Ewald_Diff_LambdaChange</strong></dt><dd><ul class="simple">
+<li><p>Special function used for lambda change of CBCFC</p></li>
+<li><p>a little faster than the generalized function <em>Fourier_Ewald_Diff</em>, since the position of the molecule is not changed</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>GPU_EwaldDifference_LambdaChange</strong></dt><dd><ul class="simple">
+<li><p>special function that handles ewald summation for CBCFC lambda change move</p></li>
+<li><p>calls <em>Fourier_Ewald_Diff_LambdaChange</em></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Setup_Ewald_Vector</strong></dt><dd><ul class="simple">
+<li><p>Prepares temporary wavevectors (<em>eik_x</em>, <em>eik_y</em>, <em>eik_z</em>) for the whole system</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>TotalEwald</strong></dt><dd><ul class="simple">
+<li><p>CUDA function that calculates the Ewald summation of the whole system</p></li>
+<li><p>Each block (by default, the bundle of 128 threads) handles a grid point (a set of kx/ky/kz)</p></li>
+<li><p>Work is distributed equally among the threads within the block</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>Ewald_TotalEnergy</strong></dt><dd><ul class="simple">
+<li><p>Function that calculates the ewald summation for the whole system</p></li>
+<li><p>Uses <em>Blocksum</em>, if allocated size for <em>blocksum</em> is smaller than required, more spaces are allocated</p></li>
+<li><p>Calls <em>Setup_Ewald_Vector</em>, then <em>TotalEwald</em></p></li>
+<li><p>Handles exclusion part assuming RIGID molecules</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">cuda-raspa</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Scripts.html">Scripts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Inputs.html">Inputs</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Zhao Li.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/Ewald.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,34 @@
+.. _SimBox_ref:
+
+=================
+Simulation Boxes
+=================
+
+		* Here are some of the features related to the simulation boxes for cuda-RASPA
+
+		* NOTE:
+				#. These inputs determines simulation mode
+				#. These inputs can be used to simulate NVT-Gibbs in two/more boxes
+				#. One can simulate the boxes at the same time, or sequentially
+				#. To do NVT-Gibbs, use **Empty-Box.cif** for **FrameworkName**
+				#. The code checks whether the simulation boxes have zero framework atoms in both boxes
+						* if so,  then it runs NVT-Gibbs (if NVT-Gibbs moves are also used)
+						* if not, then the simulation is reduced to running NVT/GCMC simulations in both boxes independently in parallel
+				
+		* Input Command **NumberOfSimulations**:
+				* (integer) Number of simulation boxes
+				* Usage:
+						#. Sets Number of simulation boxes
+						
+		* Input Command **SingleSimulation**:
+				* (boolean) yes/no
+				* Usage:
+						#. whether to simulate **Only one simulation box** (default simulation box zero)
+						#. If running NVT-Gibbs, set **NumberOfSimulations 2** and **SingleSimulation no**
+						#. Setting **SingleSimulation no**,  it will use function **Run_Simulation_MultipleBoxes** in axpy.cu
+						#. Setting **SingleSimulation yes**, it will use function **Run_Simulation_ForOneBox** in axpy.cu
+		* Input Command **FrameworkName**:
+				* list of (integer) Name of the framework file(s)
+				* Usage:
+						#. Length of this input command is dependent on the input of **NumberOfSimulations**
+						#. Make sure these commands are consistent

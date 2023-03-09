@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>GC-TMMC &#8212; cuda-raspa 0.0001 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="gc-tmmc">
+<span id="tmmc-ref"></span><h1>GC-TMMC<a class="headerlink" href="#gc-tmmc" title="Permalink to this heading">¶</a></h1>
+<blockquote>
+<div><blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>Input Command <strong>RunTMMC</strong>:</dt><dd><ul>
+<li><p>(boolean) yes/no</p></li>
+<li><p>gather statistics for the collection matrix and/or use TMMC bias for GC-TMMC</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Input Command <strong>UseBiasOnMacrostate</strong>:</dt><dd><ul>
+<li><p>(boolean) yes/no</p></li>
+<li><p>apply transition matrix (TM) bias on insertion/deletion</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Input Command <strong>TMMCMin/TMMCMax</strong>:</dt><dd><ul>
+<li><p>(integer) Number of molecules</p></li>
+<li><p>the min and max macrostate</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<ul>
+<li><dl>
+<dt>NOTE:</dt><dd><blockquote>
+<div><ol class="arabic simple">
+<li><p>To perform NVT-TMMC (TMMC statistics at a certain loading, which is NVT simulation), Let <strong>TMMCMin = TMMCMax</strong></p></li>
+<li><p>By default, all attempts that is out of the [TMMCMin, TMMCMax] bound is REJECTED</p></li>
+<li><p>If doing TMMC, <strong>CreateNumberOfMolecules</strong> should be greater than or equal to <strong>TMMCMin</strong></p></li>
+<li><p><strong>TMMCMax</strong> should be greater than or equal to <strong>TMMCMin</strong></p></li>
+<li><p>By default, the bias used for TMMC is the Transition matrix Bias, Wang-Landau bias is implemented, but not tested</p></li>
+<li><p>TMMC + CBCFC is not tested, but the lines of code related to TMMC is added to the CBCFC move</p></li>
+<li><p>At the end of the simulation, a folder called <strong>TMMC</strong> is generated, it contains the statistics from TMMC</p></li>
+</ol>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>FUTURE FEATURE:</dt><dd><ol class="arabic simple">
+<li><p>We will implement the use of Restart file + GC-TMMC in the future, currently you can only do CreateMolecules + GC-TMMC</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">cuda-raspa</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Scripts.html">Scripts</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Inputs.html">Inputs</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Zhao Li.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/TMMC.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

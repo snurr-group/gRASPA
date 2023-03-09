@@ -1,0 +1,16 @@
+.. _UnitCell_ref:
+
+================
+UnitCells
+================
+
+		* Input Command **UnitCell**:
+		
+				#. (integer) Framework-ID 
+				#. (integer) Number of UnitCell in x 
+				#. (integer) Number of UnitCell in y
+				#. (integer) Number of UnitCell in z
+		
+		* Usage:
+		
+				#. Read number of unit cells for a specific simulation box

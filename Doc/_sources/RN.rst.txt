@@ -1,0 +1,26 @@
+.. _RN_ref:
+
+================
+Random Number
+================
+
+		* Here are some of the features related to the random number for cuda-RASPA
+
+		* NOTE:
+				#. The random numbers (RN) are divided into RN on the CPU vs. on the GPU
+				#. See **struct RandomNumber** in **data_struct.h**
+				#. For the random number on the CPU, they are generated **on the fly**
+						* function **get_random_from_zero_to_one()** in **RN.cpp**
+				#. For random numbers on the GPU
+						* the code first generates **X** numbers (default 10 million)
+						* then the numbers are copied to the GPU
+				#. GPU random numbers are used when generating trial positions (first bead + orientations) for CBMC
+				#. When **X** numbers of GPU random numbers are used, the offset is added by **X**
+				#. When **the new offset** is greater or equal to the size of pregenerated random numbers
+						* The code regenerates random numbers on the CPU first, then the new random numbers are copied to the GPU
+				
+		* Input Command **RandomSeed**:
+				#. (integer) RandomSeed
+				
+				* Usage:
+						#. Sets random seed for the random number generator on the CPU

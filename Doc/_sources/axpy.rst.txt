@@ -1,0 +1,67 @@
+.. _axpy_ref:
+
+========
+axpy
+========
+
+#. RunMoves
+
+  * Inputs:
+		
+		.. code-block:: C
+		
+		  int Cycle, Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, double& running_energy, double& Rosenbluth, int SimulationMode
+				
+		
+		* Description: 
+		
+				Run a random move in a simulation box
+				
+#. CreateMolecule_InOneBox
+
+		* Inputs: 
+		
+		.. code-block:: C
+		
+		  Components& SystemComponents, Simulations& Sims, ForceField FF, RandomNumber Random, WidomStruct Widom, std::vector<size_t>& NumberOfCreateMolecules, bool AlreadyHasFractionalMolecule
+				
+		* Description:
+		
+				Do Insertion moves to insert molecules until the required number of molecules are created
+				
+		* NOTES:
+		
+		#. This function also creates fractional molecules in the box, if it reads a restart file and the restart file has fractional molecule, then no need to create fractional molecule
+		#. The create molecule function uses the same algorithm as a normal Insertion move. However, the acceptance rate is modified so that the move can be accepted even when the Rosenbluth weight is super low.
+		#. There is a limit on number of failure trials to create molecules. This is for preventing an infinite while loop if the required number is too big. 
+		
+#. Run_Simulation_MultipleBoxes
+
+  * Inputs:
+		
+		.. code-block:: C
+		
+				int Cycles, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField FF, RandomNumber Random, std::vector<WidomStruct>& Widom, std::vector<SystemEnergies>& Energy, int SimulationMode
+				
+		* Description
+		
+				Run Simulations for multiple boxes for a number of cycles
+				
+		* NOTES:
+		
+		#. The simulation is classified in different modes: INITIALIZATION, EQUILIBRATION, PRODUCTION
+		#. The code first loops over the cycles, then for each cycle, loop over the simulation boxes
+		#. FOR FUTURE: multiple boxes can be run in parallel, using cuda streams + openmp
+		
+#. Run_Simulation_ForOneBox
+
+  * inputs:
+		
+		.. code-block:: C
+		
+				int Cycles, Components& SystemComponents, Simulations& Sims, ForceField FF, RandomNumber Random, WidomStruct Widom, double init_energy, int SimulationMode
+				
+		* Description
+		
+				Run the simulation with one box for a number of cycles
+				

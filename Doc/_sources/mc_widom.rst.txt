@@ -1,0 +1,41 @@
+.. _widom_ref:
+
+================
+mc_widom
+================
+
+#. **Widom_Move_FirstBead_PARTIAL**/**Widom_Move_Chain_PARTIAL**
+
+		* **Widom_Move_FirstBead_PARTIAL** is similar to **HandleFirstBead** in *RASPA-2.0*
+		* Modes (see data_struct.h):
+				#. **CBMC_INSERTION**
+						* Used for Widom insertion, swap insertion, CBCF insertion, and create molecules
+						* Select trial based on the Boltzmann distribution
+				#. **CBMC_DELETION**
+						* Used for swap deletion, CBCF deletion
+						* The first trial is the original position/orientation for the selected molecule, the one being deleted
+						* Always select the first trial
+				#. **REINSERTION_INSERTION**
+						* Similar to CBMC_INSERTION
+						* For the first bead, the Rosenbluth weights are stored in variable StoredR
+						* StoredR = Total Rosenbluth weight - Rosenbluth weight for the selected trial
+						* See https://doi.org/10.1103/PhysRevE.51.1560
+				#. **REINSERTION_RETRACE**
+						* Similar to CBMC_DELETION
+						* For the first bead, only perform one trial, which is the molecule being selected
+						* Uses StoredR for the Rosenbluth weight of the other trials
+						* See https://doi.org/10.1103/PhysRevE.51.1560
+						
+#. get_random_trial_position_firstbead_SWITCH
+
+		* Prepare trial positions for the first bead
+		* By default, the first bead is the first atom in <*molecule*>.def
+		
+#. get_random_trial_position_chain_Quaternion_SWITCH
+
+		* Prepare trial orientations
+		* Uses parallel quaternions
+		* See: 
+				#. https://stackoverflow.com/questions/31600717/how-to-generate-a-random-quaternion-quickly
+				#. https://stackoverflow.com/questions/38978441/creating-uniform-random-quaternion-and-multiplication-of-two-quaternions
+				#. James J. Kuffner 2004
