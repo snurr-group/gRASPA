@@ -801,7 +801,7 @@ double Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, bool Us
     if(Nblock > Sim.Nblocks)
     {
       printf("Need to Allocate more space for blocksum\n");
-      cudaMalloc(&Sim.Blocksum, Nblock * sizeof(double));
+      cudaMallocHost(&Sim.Blocksum, Nblock * sizeof(double));
     }
     Nthread= 128;
 
