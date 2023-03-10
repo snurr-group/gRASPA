@@ -1021,7 +1021,7 @@ double Total_VDW_Coulomb_Energy(Simulations& Sim, ForceField FF, size_t totMol, 
   if(Nblock > Sim.Nblocks)
   {
     printf("More blocks for block sum is needed\n");
-    cudaMalloc(&Sim.Blocksum, Nblock * sizeof(double));
+    cudaMallocHost(&Sim.Blocksum, Nblock * sizeof(double));
   }
   //Calculate the energy of the new systems//
   TotalVDWCoul<<<Nblock, Nthread, Nthread * sizeof(double)>>>(Sim.Box, Sim.d_a, FF, Sim.Blocksum, Sim.device_flag, Host_threads + Guest_threads, Host_threads, totMol, NFrameworkAtomsPerThread, ConsiderHostHost, UseOffset);
