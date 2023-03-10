@@ -197,9 +197,9 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
   printf("Component allocate_sizes are: %zu, %zu\n", SystemComponents.Allocate_size[0], SystemComponents.Allocate_size[1]);
 
   Sims.flag        = (bool*)malloc(MaxTrialsize * sizeof(bool));
+  //Zhao's note: use pinned memory (cudaMallocHost) for partial sums//
   cudaMallocHost(&Sims.device_flag,          MaxTrialsize * sizeof(bool));
-
-  cudaMalloc(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));
+  cudaMallocHost(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));
   Sims.Nblocks = MaxResultsize/DEFAULTTHREAD + 1;
 
   printf("Allocated %zu doubles for Blocksums\n", MaxResultsize/DEFAULTTHREAD + 1);
