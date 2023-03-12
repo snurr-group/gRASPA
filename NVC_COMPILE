@@ -1,0 +1,39 @@
+#!/bin/bash
+
+rm *.o nvc_main.x
+
+cd Source/
+
+CXX="nvc++"
+
+LINKFLAG="-L/opt/nvidia/hpc_sdk/Linux_x86_64/22.5/cuda/lib64 -L/usr/lib64/ -L/opt/local/lib/gcc11/" ## -Mcuda flag is necessary for compiling cuda with nvc++
+
+#NVCFLAG="-O3 -std=c++20 -gpu=cc86 -Minline -fopenmp -Minfo -DUSE_DOUBLE -cuda"
+NVCFLAG="-O3 -std=c++20 -gpu=cc86 -Minline -fopenmp -cuda"
+
+#$CXX $NVCFLAG -c RN.cpp
+
+$CXX $NVCFLAG -c axpy.cu
+
+$CXX $NVCFLAG -c main.cpp
+
+$CXX $NVCFLAG -c read_data.cpp
+
+$CXX $NVCFLAG -c convert_array.cpp
+
+$CXX $NVCFLAG -c data_struct.cpp 
+
+$CXX $NVCFLAG -c VDW_Coulomb.cu
+
+$CXX $NVCFLAG -c GPU_Reduction.cu
+
+$CXX $NVCFLAG -c GPU_alloc.cu
+
+$CXX $NVCFLAG -c print_statistics.cu
+
+#$CXX $NVCFLAG -c EwaldDiff.cu
+
+$CXX $NVCFLAG $LINKFLAG main.o print_statistics.o GPU_alloc.o GPU_Reduction.o read_data.o convert_array.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x 
+
+mv nvc_main.x ../
+cd ../
