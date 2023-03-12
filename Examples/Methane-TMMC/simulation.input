@@ -1,0 +1,48 @@
+UseGPUReduction no
+Useflag yes
+
+NumberOfInitializationCycles 100000
+NumberOfEquilibrationCycles  500000
+NumberOfProductionCycles     500000
+
+UseMaxStep  yes
+MaxStepPerCycle 1
+
+RestartFile no
+RandomSeed  0
+
+Widom_Trials 10
+Widom_Orientation 10
+NumberOfBlocks 1
+AdsorbateAllocateSpace 10240
+NumberOfSimulations 1
+SingleSimulation yes
+
+DifferentFrameworks yes
+InputFileType cif
+FrameworkName 667
+UnitCells 0 1 1 1
+
+ChargeMethod None
+Temperature 95
+Pressure 6800
+
+OverlapCriteria 1e5
+CutOffVDW 12.8
+CutOffCoulomb 12.0
+EwaldPrecision 1e-6
+
+GibbsVolumeChangeProbability 0.1
+GibbsSwapProbability 0.1
+
+Component 0 MoleculeName             methane
+            IdealGasRosenbluthWeight 1.0
+            FugacityCoefficient      1.0
+            TranslationProbability   1.0
+            ReinsertionProbability   1.0
+            SwapProbability          1.0
+            RunTMMC yes
+            UseBiasOnMacrostate yes
+            TMMCMin 200
+            TMMCMax 300
+            CreateNumberOfMolecules  200
