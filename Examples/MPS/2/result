@@ -1,0 +1,2274 @@
+There are 1 simulations
+running only one simulation
+C              lennard-jones    52.83     3.43
+H              lennard-jones    22.14     2.57
+N              lennard-jones    34.72     3.26
+P              lennard-jones    153.46    3.69
+Ni             lennard-jones    7.55      2.52
+Ht             lennard-jones    0.0       0.0
+OT             lennard-jones    93.0      3.02
+Op             lennard-jones    78.0      3.154
+Ow             lennard-jones    78.0      3.154
+Hw             lennard-jones    0.0       0.0
+Lw             lennard-jones    0.0       0.0
+Zr             lennard-jones    34.7221   2.78317
+Cl             lennard-jones    50.3413   4.300
+O              lennard-jones    53.0     3.30
+Si             lennard-Jones    22.0     2.30
+CH4            lennard-jones   158.5     3.72
+C_co2          lennard-jones    29.933   2.745
+O_co2          lennard-jones    85.671   3.017
+NumberofDefinition: 18, Mx_shift: 324
+Name: C, 0.0000000000, 12.0000000000, 0.0000000000, 0.0000000000
+Name: H, 0.0000000000, 1.0000000000, 0.0000000000, 0.0000000000
+Name: N, 0.0000000000, 14.0000000000, 0.0000000000, 0.0000000000
+Name: P, 0.0000000000, 30.9700000000, 0.0000000000, 0.0000000000
+Name: Ni, 0.0000000000, 58.6934000000, 0.0000000000, 0.0000000000
+Name: Ht, 0.0000000000, 1.0007940000, 0.0000000000, 0.0000000000
+Name: OT, 0.0000000000, 15.9994000000, 0.0000000000, 0.0000000000
+Name: Op, 0.0000000000, 15.9994000000, 0.0000000000, 0.0000000000
+Name: Ow, 0.0000000000, 15.9994000000, 0.0000000000, 0.0000000000
+Name: Hw, 0.0000000000, 1.0007940000, 0.5200000000, 0.0000000000
+Name: Lw, 0.0000000000, 0.0000000000, -1.0400000000, 0.0000000000
+Name: Zr, 0.0000000000, 65.0000000000, 0.0000000000, 0.0000000000
+Name: Cl, 0.0000000000, 14.0000000000, 0.0000000000, 0.0000000000
+Name: O, 0.0000000000, 15.9990000000, -1.0250000000, 0.0000000000
+Name: Si, 0.0000000000, 28.0855000000, 2.0500000000, 0.0000000000
+Name: CH4, 0.0000000000, 16.0424600000, 0.0000000000, 0.0000000000
+Name: C_co2, 0.0000000000, 12.0000000000, 0.6512000000, 0.0000000000
+Name: O_co2, 0.0000000000, 15.9994000000, -0.3256000000, 0.0000000000
+found flag
+Random Seed is 2.00000
+line is 19, Allocate space for adsorbate is 10240
+found SameFrameworkEverySimulation flag
+found nochargeflag
+Using Max Steps for a cycle!
+Box Pointer Pressure = 0.00000
+========================================
+==== Working on Simulation box 0 ======
+========================================
+Reading Framework 0, FrameworkName: MFI-2x2x2-P1
+Reading Framework 0, UnitCells: 1.00 1.00 1.00
+CIF FILE IS: MFI-2x2x2-P1.cif
+Number of Unit Cells: 1.00000 1.00000 1.00000
+Box size: 
+40.0440000000 0.00000 0.00000
+0.0000000000 39.7980000000 0.00000
+0.0000000000 0.0000000000 26.7660000000
+atom_site starts at line 30, and ends at 35
+label location: 0, xyz location: 2 3 4, charge: 5
+Done reading Atoms in CIF file, there are 2304 Atoms
+The Simulation Box is Cubic
+tol: 3.36610, tol1: 3.18942, ALpha is 0.26506, Prefactor: 138935.48350, kmax: 11 11 7, ReciprocalCutOff: 133.40250
+Component 0 starts at 39
+Adsorbate Component is rigid
+Bonds not implemented. Break
+AxAyAz: 0.00000 0.00000 -1.16000; Molxyz: 0.00000 0.00000 -1.16000
+idealrosen: 1.0000000000
+Translation Prob: 0.2500000000, Rotation Prob: 0.5000000000, Widom Prob: 0.5000000000, CBCFProb: 0.7500000000, Swap Prob
+reference size: 2
+CreateMolecule size: 2
+DEVICE_BOX Pressure: 0.0006022137
+Sim 0, Pressure (Managed): 0.00060, Pressure (CPU): 0.00060, Box[0]: 0.00060
+Box[0] Volume: 42656.20098
+All Copy DONE
+System allocate_sizes are: 2304, 10240
+Component allocate_sizes are: 2304, 10240
+Allocated 16001 doubles for Blocksums
+Preparing device widom
+DONE device_system[0], size = 2304, allocate_size = 2304
+DONE device_system[1], size = 0, allocate_size = 10240
+CPU (one Thread) Total Energy: 0.00000, VDW Energy: 0.00000, Coulomb Energy: 0.00000
+GPU (one Thread) Total Energy: 0.00000, VDW Energy: 0.00000, Coulomb Energy: 0.00000
+Total ewaldE Fourier: 409293.4653298093, Framework Fourier: 409293.4653298093
+Component: 0, SelfAtomE: 100586536.82690
+Component: 1, SelfAtomE: 0.00000
+Component: 0, Intra-Molecular ExclusionE: 115033008.45444
+Component: 1, Intra-Molecular ExclusionE: 0.00000
+Framework Ewald: 14855765.0928648934
+HostEwald took 0.36248 sec
+Component 0, Intra Exclusion Energy: -115033008.45444
+Component 0, Atom Self Exclusion Energy: 100586536.82690
+DEBUG: comp: 0, IntraE: -115033008.45444, SelfE: 100586536.82690
+Component 1, Intra Exclusion Energy: -13173.67573
+Component 1, Atom Self Exclusion Energy: 13215.98988
+DEBUG: comp: 1, IntraE: -13173.67573, SelfE: 13215.98988
+Allocated 110592 110592 73728 space for eikxyz
+Wave Vector 0 is 0.00000 0.00000
+Wave Vector 1 is 0.00000 0.00000
+Wave Vector 2 is 0.00000 0.00000
+Wave Vector 3 is 0.00000 0.00000
+Wave Vector 4 is 0.00000 0.00000
+Wave Vector 5 is -0.00000 0.00000
+Wave Vector 6 is 0.00000 0.00000
+Wave Vector 7 is -0.00000 -0.00000
+Wave Vector 8 is 0.00000 0.00000
+Wave Vector 9 is 0.00000 -0.00000
+INITIAL STATE of sim 0: 
+VDW + Real (CPU): 0.00000 (0.00105 secs)
+VDW + Real (1 thread GPU): 0.00000 (0.00936 secs)
+VDW + Real (Parallel GPU): 0.00000 (0.00000 secs)
+Ewald (CPU): -0.00000 (0.36249 secs), Ewald (Parallel GPU): 0.00001 (0.00057 secs)
+Component 1, Need to create 0 full molecule
+CPU (one Thread) Total Energy: 0.00000, VDW Energy: 0.00000, Coulomb Energy: 0.00000
+GPU (one Thread) Total Energy: 0.00000, VDW Energy: 0.00000, Coulomb Energy: 0.00000
+Total ewaldE Fourier: 409293.4653298093, Framework Fourier: 409293.4653298093
+Component: 0, SelfAtomE: 100586536.82690
+Component: 1, SelfAtomE: 0.00000
+Component: 0, Intra-Molecular ExclusionE: 115033008.45444
+Component: 1, Intra-Molecular ExclusionE: 0.00000
+Framework Ewald: 14855765.0928648934
+HostEwald took 0.35637 sec
+AFTER CREATING MOLECULES of sim 0: 
+VDW + Real (CPU): 0.00000 (0.00051 secs)
+VDW + Real (1 thread GPU): 0.00000 (0.00064 secs)
+VDW + Real (Parallel GPU): 0.00000 (0.00000 secs)
+Ewald (CPU): -0.00000 (0.35637 secs), Ewald (Parallel GPU): 0.00001 (0.00060 secs)
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00060, temp: 298.00000
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00060, temp: 298.00000
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00060, temp: 298.00000
+Cycle: 0, 1 Adsorbate Molecules, Total Energy: -1798.95849
+Cycle: 50, 3 Adsorbate Molecules, Total Energy: -7153.74294
+Cycle: 100, 7 Adsorbate Molecules, Total Energy: -15342.59483
+Cycle: 150, 9 Adsorbate Molecules, Total Energy: -21744.06326
+Cycle: 200, 10 Adsorbate Molecules, Total Energy: -24338.70042
+Cycle: 250, 12 Adsorbate Molecules, Total Energy: -28783.03606
+Cycle: 300, 14 Adsorbate Molecules, Total Energy: -35732.62407
+Cycle: 350, 14 Adsorbate Molecules, Total Energy: -35823.90399
+Cycle: 400, 15 Adsorbate Molecules, Total Energy: -37972.51092
+Cycle: 450, 16 Adsorbate Molecules, Total Energy: -40104.58654
+Cycle: 500, 17 Adsorbate Molecules, Total Energy: -43080.40926
+Cycle: 550, 15 Adsorbate Molecules, Total Energy: -39322.00693
+Cycle: 600, 14 Adsorbate Molecules, Total Energy: -36426.01321
+Cycle: 650, 10 Adsorbate Molecules, Total Energy: -27013.97242
+Cycle: 700, 15 Adsorbate Molecules, Total Energy: -40591.81619
+Cycle: 750, 15 Adsorbate Molecules, Total Energy: -40626.92874
+Cycle: 800, 15 Adsorbate Molecules, Total Energy: -40442.13101
+Cycle: 850, 21 Adsorbate Molecules, Total Energy: -56630.32295
+Cycle: 900, 24 Adsorbate Molecules, Total Energy: -63309.92695
+Cycle: 950, 25 Adsorbate Molecules, Total Energy: -65631.71489
+Cycle: 1000, 26 Adsorbate Molecules, Total Energy: -66269.39728
+Cycle: 1050, 25 Adsorbate Molecules, Total Energy: -63939.64000
+Cycle: 1100, 23 Adsorbate Molecules, Total Energy: -58790.12663
+Cycle: 1150, 21 Adsorbate Molecules, Total Energy: -53374.90804
+Cycle: 1200, 21 Adsorbate Molecules, Total Energy: -54947.70877
+Cycle: 1250, 18 Adsorbate Molecules, Total Energy: -48193.77402
+Cycle: 1300, 21 Adsorbate Molecules, Total Energy: -55558.23124
+Cycle: 1350, 19 Adsorbate Molecules, Total Energy: -49834.71373
+Cycle: 1400, 18 Adsorbate Molecules, Total Energy: -47408.42315
+Cycle: 1450, 15 Adsorbate Molecules, Total Energy: -39240.13987
+Cycle: 1500, 18 Adsorbate Molecules, Total Energy: -47134.32932
+Cycle: 1550, 21 Adsorbate Molecules, Total Energy: -51159.00868
+Cycle: 1600, 20 Adsorbate Molecules, Total Energy: -50706.10893
+Cycle: 1650, 20 Adsorbate Molecules, Total Energy: -52534.67059
+Cycle: 1700, 19 Adsorbate Molecules, Total Energy: -49551.97063
+Cycle: 1750, 19 Adsorbate Molecules, Total Energy: -49072.54565
+Cycle: 1800, 16 Adsorbate Molecules, Total Energy: -43033.44118
+Cycle: 1850, 18 Adsorbate Molecules, Total Energy: -46795.28394
+Cycle: 1900, 16 Adsorbate Molecules, Total Energy: -41602.00969
+Cycle: 1950, 14 Adsorbate Molecules, Total Energy: -37198.75940
+Cycle: 2000, 15 Adsorbate Molecules, Total Energy: -39076.47189
+Cycle: 2050, 17 Adsorbate Molecules, Total Energy: -41256.61761
+Cycle: 2100, 21 Adsorbate Molecules, Total Energy: -51615.76328
+Cycle: 2150, 20 Adsorbate Molecules, Total Energy: -46945.12171
+Cycle: 2200, 20 Adsorbate Molecules, Total Energy: -49111.73448
+Cycle: 2250, 22 Adsorbate Molecules, Total Energy: -54789.25875
+Cycle: 2300, 22 Adsorbate Molecules, Total Energy: -55055.33319
+Cycle: 2350, 21 Adsorbate Molecules, Total Energy: -54174.02801
+Cycle: 2400, 22 Adsorbate Molecules, Total Energy: -55990.99858
+Cycle: 2450, 25 Adsorbate Molecules, Total Energy: -61278.66781
+Cycle: 2500, 23 Adsorbate Molecules, Total Energy: -55461.69960
+Cycle: 2550, 23 Adsorbate Molecules, Total Energy: -56111.47833
+Cycle: 2600, 23 Adsorbate Molecules, Total Energy: -56702.59309
+Cycle: 2650, 26 Adsorbate Molecules, Total Energy: -63752.09589
+Cycle: 2700, 28 Adsorbate Molecules, Total Energy: -68977.05220
+Cycle: 2750, 32 Adsorbate Molecules, Total Energy: -79505.07907
+Cycle: 2800, 26 Adsorbate Molecules, Total Energy: -65674.76609
+Cycle: 2850, 23 Adsorbate Molecules, Total Energy: -57571.61746
+Cycle: 2900, 24 Adsorbate Molecules, Total Energy: -60123.51592
+Cycle: 2950, 24 Adsorbate Molecules, Total Energy: -60060.77057
+Cycle: 3000, 25 Adsorbate Molecules, Total Energy: -62760.41862
+Cycle: 3050, 26 Adsorbate Molecules, Total Energy: -65770.97562
+Cycle: 3100, 24 Adsorbate Molecules, Total Energy: -60670.50034
+Cycle: 3150, 20 Adsorbate Molecules, Total Energy: -52346.94413
+Cycle: 3200, 19 Adsorbate Molecules, Total Energy: -49277.80075
+Cycle: 3250, 19 Adsorbate Molecules, Total Energy: -49349.95657
+Cycle: 3300, 17 Adsorbate Molecules, Total Energy: -41998.80087
+Cycle: 3350, 19 Adsorbate Molecules, Total Energy: -47929.12076
+Cycle: 3400, 18 Adsorbate Molecules, Total Energy: -46046.94557
+Cycle: 3450, 16 Adsorbate Molecules, Total Energy: -40104.84738
+Cycle: 3500, 16 Adsorbate Molecules, Total Energy: -38278.24758
+Cycle: 3550, 16 Adsorbate Molecules, Total Energy: -38036.82200
+Cycle: 3600, 17 Adsorbate Molecules, Total Energy: -39697.54915
+Cycle: 3650, 17 Adsorbate Molecules, Total Energy: -41467.41670
+Cycle: 3700, 18 Adsorbate Molecules, Total Energy: -43038.44697
+Cycle: 3750, 16 Adsorbate Molecules, Total Energy: -40381.77513
+Cycle: 3800, 18 Adsorbate Molecules, Total Energy: -44818.75807
+Cycle: 3850, 17 Adsorbate Molecules, Total Energy: -43723.55616
+Cycle: 3900, 16 Adsorbate Molecules, Total Energy: -41035.24380
+Cycle: 3950, 16 Adsorbate Molecules, Total Energy: -40060.58634
+Cycle: 4000, 14 Adsorbate Molecules, Total Energy: -35879.49254
+Cycle: 4050, 16 Adsorbate Molecules, Total Energy: -40954.09091
+Cycle: 4100, 16 Adsorbate Molecules, Total Energy: -41088.41892
+Cycle: 4150, 15 Adsorbate Molecules, Total Energy: -38836.16831
+Cycle: 4200, 17 Adsorbate Molecules, Total Energy: -44731.56534
+Cycle: 4250, 17 Adsorbate Molecules, Total Energy: -44418.27267
+Cycle: 4300, 19 Adsorbate Molecules, Total Energy: -46622.62102
+Cycle: 4350, 14 Adsorbate Molecules, Total Energy: -36061.26074
+Cycle: 4400, 14 Adsorbate Molecules, Total Energy: -35551.77528
+Cycle: 4450, 13 Adsorbate Molecules, Total Energy: -33590.54414
+Cycle: 4500, 15 Adsorbate Molecules, Total Energy: -37461.70876
+Cycle: 4550, 15 Adsorbate Molecules, Total Energy: -37414.14322
+Cycle: 4600, 15 Adsorbate Molecules, Total Energy: -37282.78404
+Cycle: 4650, 18 Adsorbate Molecules, Total Energy: -45125.54419
+Cycle: 4700, 19 Adsorbate Molecules, Total Energy: -47127.21379
+Cycle: 4750, 17 Adsorbate Molecules, Total Energy: -44245.17638
+Cycle: 4800, 16 Adsorbate Molecules, Total Energy: -41144.22825
+Cycle: 4850, 13 Adsorbate Molecules, Total Energy: -31121.87466
+Cycle: 4900, 13 Adsorbate Molecules, Total Energy: -31122.78127
+Cycle: 4950, 14 Adsorbate Molecules, Total Energy: -32922.72398
+Cycle: 5000, 18 Adsorbate Molecules, Total Energy: -43313.28792
+Cycle: 5050, 20 Adsorbate Molecules, Total Energy: -49764.89443
+Cycle: 5100, 20 Adsorbate Molecules, Total Energy: -49697.54894
+Cycle: 5150, 20 Adsorbate Molecules, Total Energy: -49239.92070
+Cycle: 5200, 19 Adsorbate Molecules, Total Energy: -47533.65971
+Cycle: 5250, 18 Adsorbate Molecules, Total Energy: -45300.47641
+Cycle: 5300, 17 Adsorbate Molecules, Total Energy: -43993.25759
+Cycle: 5350, 15 Adsorbate Molecules, Total Energy: -38202.62221
+Cycle: 5400, 16 Adsorbate Molecules, Total Energy: -40788.80076
+Cycle: 5450, 14 Adsorbate Molecules, Total Energy: -34831.44048
+Cycle: 5500, 14 Adsorbate Molecules, Total Energy: -36406.15533
+Cycle: 5550, 16 Adsorbate Molecules, Total Energy: -39563.70341
+Cycle: 5600, 15 Adsorbate Molecules, Total Energy: -35863.62520
+Cycle: 5650, 17 Adsorbate Molecules, Total Energy: -40629.32317
+Cycle: 5700, 18 Adsorbate Molecules, Total Energy: -44141.87340
+Cycle: 5750, 18 Adsorbate Molecules, Total Energy: -44304.48123
+Cycle: 5800, 16 Adsorbate Molecules, Total Energy: -38947.19119
+Cycle: 5850, 18 Adsorbate Molecules, Total Energy: -43174.12405
+Cycle: 5900, 19 Adsorbate Molecules, Total Energy: -46430.08009
+Cycle: 5950, 15 Adsorbate Molecules, Total Energy: -36851.72775
+Cycle: 6000, 10 Adsorbate Molecules, Total Energy: -24442.74655
+Cycle: 6050, 13 Adsorbate Molecules, Total Energy: -31853.53315
+Cycle: 6100, 13 Adsorbate Molecules, Total Energy: -32300.04029
+Cycle: 6150, 15 Adsorbate Molecules, Total Energy: -36679.76839
+Cycle: 6200, 18 Adsorbate Molecules, Total Energy: -44263.93985
+Cycle: 6250, 19 Adsorbate Molecules, Total Energy: -46457.88162
+Cycle: 6300, 19 Adsorbate Molecules, Total Energy: -44756.08080
+Cycle: 6350, 20 Adsorbate Molecules, Total Energy: -47633.75828
+Cycle: 6400, 20 Adsorbate Molecules, Total Energy: -47699.39426
+Cycle: 6450, 23 Adsorbate Molecules, Total Energy: -54604.03448
+Cycle: 6500, 22 Adsorbate Molecules, Total Energy: -52080.71081
+Cycle: 6550, 19 Adsorbate Molecules, Total Energy: -44821.37522
+Cycle: 6600, 19 Adsorbate Molecules, Total Energy: -45866.09585
+Cycle: 6650, 19 Adsorbate Molecules, Total Energy: -47681.74821
+Cycle: 6700, 18 Adsorbate Molecules, Total Energy: -45730.52775
+Cycle: 6750, 20 Adsorbate Molecules, Total Energy: -51593.77060
+Cycle: 6800, 22 Adsorbate Molecules, Total Energy: -57121.50025
+Cycle: 6850, 24 Adsorbate Molecules, Total Energy: -62391.84612
+Cycle: 6900, 24 Adsorbate Molecules, Total Energy: -60030.27365
+Cycle: 6950, 22 Adsorbate Molecules, Total Energy: -56296.35742
+Cycle: 7000, 22 Adsorbate Molecules, Total Energy: -56266.43410
+Cycle: 7050, 22 Adsorbate Molecules, Total Energy: -58296.45245
+Cycle: 7100, 24 Adsorbate Molecules, Total Energy: -62135.73746
+Cycle: 7150, 25 Adsorbate Molecules, Total Energy: -63043.84442
+Cycle: 7200, 27 Adsorbate Molecules, Total Energy: -66947.92950
+Cycle: 7250, 23 Adsorbate Molecules, Total Energy: -57991.63415
+Cycle: 7300, 23 Adsorbate Molecules, Total Energy: -58812.76946
+Cycle: 7350, 23 Adsorbate Molecules, Total Energy: -56898.10644
+Cycle: 7400, 22 Adsorbate Molecules, Total Energy: -53918.62521
+Cycle: 7450, 24 Adsorbate Molecules, Total Energy: -59019.28233
+Cycle: 7500, 24 Adsorbate Molecules, Total Energy: -59710.21658
+Cycle: 7550, 24 Adsorbate Molecules, Total Energy: -60873.49316
+Cycle: 7600, 26 Adsorbate Molecules, Total Energy: -65170.63229
+Cycle: 7650, 29 Adsorbate Molecules, Total Energy: -69550.70897
+Cycle: 7700, 29 Adsorbate Molecules, Total Energy: -72262.46995
+Cycle: 7750, 27 Adsorbate Molecules, Total Energy: -66437.61397
+Cycle: 7800, 27 Adsorbate Molecules, Total Energy: -65801.61456
+Cycle: 7850, 24 Adsorbate Molecules, Total Energy: -59757.01074
+Cycle: 7900, 22 Adsorbate Molecules, Total Energy: -55938.62018
+Cycle: 7950, 24 Adsorbate Molecules, Total Energy: -61827.72915
+Cycle: 8000, 24 Adsorbate Molecules, Total Energy: -62546.39793
+Cycle: 8050, 27 Adsorbate Molecules, Total Energy: -68224.15850
+Cycle: 8100, 23 Adsorbate Molecules, Total Energy: -58425.03522
+Cycle: 8150, 25 Adsorbate Molecules, Total Energy: -64157.04826
+Cycle: 8200, 25 Adsorbate Molecules, Total Energy: -63312.49647
+Cycle: 8250, 24 Adsorbate Molecules, Total Energy: -61686.60067
+Cycle: 8300, 23 Adsorbate Molecules, Total Energy: -57878.68251
+Cycle: 8350, 23 Adsorbate Molecules, Total Energy: -59754.45272
+Cycle: 8400, 24 Adsorbate Molecules, Total Energy: -61762.06793
+Cycle: 8450, 27 Adsorbate Molecules, Total Energy: -69136.40971
+Cycle: 8500, 28 Adsorbate Molecules, Total Energy: -71166.64382
+Cycle: 8550, 25 Adsorbate Molecules, Total Energy: -62560.40913
+Cycle: 8600, 23 Adsorbate Molecules, Total Energy: -58024.39563
+Cycle: 8650, 23 Adsorbate Molecules, Total Energy: -58624.89685
+Cycle: 8700, 23 Adsorbate Molecules, Total Energy: -59124.32834
+Cycle: 8750, 21 Adsorbate Molecules, Total Energy: -53186.92759
+Cycle: 8800, 21 Adsorbate Molecules, Total Energy: -54494.04917
+Cycle: 8850, 20 Adsorbate Molecules, Total Energy: -51611.62516
+Cycle: 8900, 18 Adsorbate Molecules, Total Energy: -46512.26739
+Cycle: 8950, 15 Adsorbate Molecules, Total Energy: -38000.67900
+Cycle: 9000, 17 Adsorbate Molecules, Total Energy: -42011.70179
+Cycle: 9050, 19 Adsorbate Molecules, Total Energy: -48013.17300
+Cycle: 9100, 18 Adsorbate Molecules, Total Energy: -47447.97721
+Cycle: 9150, 19 Adsorbate Molecules, Total Energy: -50091.76656
+Cycle: 9200, 17 Adsorbate Molecules, Total Energy: -45059.27667
+Cycle: 9250, 20 Adsorbate Molecules, Total Energy: -52708.46638
+Cycle: 9300, 22 Adsorbate Molecules, Total Energy: -58554.03123
+Cycle: 9350, 19 Adsorbate Molecules, Total Energy: -49576.72472
+Cycle: 9400, 19 Adsorbate Molecules, Total Energy: -49756.77485
+Cycle: 9450, 18 Adsorbate Molecules, Total Energy: -47605.41916
+Cycle: 9500, 19 Adsorbate Molecules, Total Energy: -50850.45329
+Cycle: 9550, 19 Adsorbate Molecules, Total Energy: -49342.29741
+Cycle: 9600, 20 Adsorbate Molecules, Total Energy: -51025.82796
+Cycle: 9650, 21 Adsorbate Molecules, Total Energy: -52575.17784
+Cycle: 9700, 21 Adsorbate Molecules, Total Energy: -52491.03778
+Cycle: 9750, 21 Adsorbate Molecules, Total Energy: -53111.47526
+Cycle: 9800, 20 Adsorbate Molecules, Total Energy: -51358.40314
+Cycle: 9850, 21 Adsorbate Molecules, Total Energy: -54110.58920
+Cycle: 9900, 21 Adsorbate Molecules, Total Energy: -54315.90000
+Cycle: 9950, 20 Adsorbate Molecules, Total Energy: -49342.21243
+Cycle: 10000, 19 Adsorbate Molecules, Total Energy: -47354.64647
+Cycle: 10050, 20 Adsorbate Molecules, Total Energy: -50144.09781
+Cycle: 10100, 18 Adsorbate Molecules, Total Energy: -43123.13241
+Cycle: 10150, 17 Adsorbate Molecules, Total Energy: -40726.62336
+Cycle: 10200, 17 Adsorbate Molecules, Total Energy: -43416.89605
+Cycle: 10250, 18 Adsorbate Molecules, Total Energy: -46189.93057
+Cycle: 10300, 19 Adsorbate Molecules, Total Energy: -48089.89347
+Cycle: 10350, 21 Adsorbate Molecules, Total Energy: -51830.26704
+Cycle: 10400, 19 Adsorbate Molecules, Total Energy: -47370.44525
+Cycle: 10450, 22 Adsorbate Molecules, Total Energy: -54302.33074
+Cycle: 10500, 23 Adsorbate Molecules, Total Energy: -56651.07586
+Cycle: 10550, 22 Adsorbate Molecules, Total Energy: -55200.22544
+Cycle: 10600, 23 Adsorbate Molecules, Total Energy: -58512.06754
+Cycle: 10650, 23 Adsorbate Molecules, Total Energy: -56789.28637
+Cycle: 10700, 20 Adsorbate Molecules, Total Energy: -49439.05947
+Cycle: 10750, 23 Adsorbate Molecules, Total Energy: -56513.16390
+Cycle: 10800, 23 Adsorbate Molecules, Total Energy: -57002.41553
+Cycle: 10850, 22 Adsorbate Molecules, Total Energy: -54483.26478
+Cycle: 10900, 22 Adsorbate Molecules, Total Energy: -55149.42507
+Cycle: 10950, 23 Adsorbate Molecules, Total Energy: -59163.15501
+Cycle: 11000, 25 Adsorbate Molecules, Total Energy: -63444.99377
+Cycle: 11050, 26 Adsorbate Molecules, Total Energy: -65373.67715
+Cycle: 11100, 26 Adsorbate Molecules, Total Energy: -63924.62285
+Cycle: 11150, 25 Adsorbate Molecules, Total Energy: -60813.44302
+Cycle: 11200, 26 Adsorbate Molecules, Total Energy: -62778.41023
+Cycle: 11250, 23 Adsorbate Molecules, Total Energy: -57168.08374
+Cycle: 11300, 22 Adsorbate Molecules, Total Energy: -53783.70523
+Cycle: 11350, 18 Adsorbate Molecules, Total Energy: -45248.10658
+Cycle: 11400, 17 Adsorbate Molecules, Total Energy: -42875.04430
+Cycle: 11450, 20 Adsorbate Molecules, Total Energy: -49221.42386
+Cycle: 11500, 17 Adsorbate Molecules, Total Energy: -41159.56726
+Cycle: 11550, 19 Adsorbate Molecules, Total Energy: -44893.44962
+Cycle: 11600, 17 Adsorbate Molecules, Total Energy: -40843.77323
+Cycle: 11650, 18 Adsorbate Molecules, Total Energy: -42585.75137
+Cycle: 11700, 19 Adsorbate Molecules, Total Energy: -43858.05768
+Cycle: 11750, 19 Adsorbate Molecules, Total Energy: -44684.14525
+Cycle: 11800, 17 Adsorbate Molecules, Total Energy: -41689.12422
+Cycle: 11850, 18 Adsorbate Molecules, Total Energy: -43798.41289
+Cycle: 11900, 20 Adsorbate Molecules, Total Energy: -47154.92107
+Cycle: 11950, 20 Adsorbate Molecules, Total Energy: -48697.48341
+Cycle: 12000, 21 Adsorbate Molecules, Total Energy: -51712.99507
+Cycle: 12050, 21 Adsorbate Molecules, Total Energy: -52808.70117
+Cycle: 12100, 22 Adsorbate Molecules, Total Energy: -54291.25014
+Cycle: 12150, 23 Adsorbate Molecules, Total Energy: -54850.36069
+Cycle: 12200, 22 Adsorbate Molecules, Total Energy: -52844.03929
+Cycle: 12250, 21 Adsorbate Molecules, Total Energy: -51025.70396
+Cycle: 12300, 20 Adsorbate Molecules, Total Energy: -50723.18952
+Cycle: 12350, 17 Adsorbate Molecules, Total Energy: -43014.14946
+Cycle: 12400, 17 Adsorbate Molecules, Total Energy: -43032.56487
+Cycle: 12450, 19 Adsorbate Molecules, Total Energy: -48517.06929
+Cycle: 12500, 18 Adsorbate Molecules, Total Energy: -46322.09530
+Cycle: 12550, 14 Adsorbate Molecules, Total Energy: -34916.27792
+Cycle: 12600, 12 Adsorbate Molecules, Total Energy: -32022.65672
+Cycle: 12650, 15 Adsorbate Molecules, Total Energy: -40125.29829
+Cycle: 12700, 16 Adsorbate Molecules, Total Energy: -41169.49483
+Cycle: 12750, 15 Adsorbate Molecules, Total Energy: -39270.85715
+Cycle: 12800, 15 Adsorbate Molecules, Total Energy: -39092.06632
+Cycle: 12850, 18 Adsorbate Molecules, Total Energy: -45867.80922
+Cycle: 12900, 22 Adsorbate Molecules, Total Energy: -54591.93442
+Cycle: 12950, 23 Adsorbate Molecules, Total Energy: -58299.81651
+Cycle: 13000, 21 Adsorbate Molecules, Total Energy: -53669.76784
+Cycle: 13050, 18 Adsorbate Molecules, Total Energy: -45303.57538
+Cycle: 13100, 18 Adsorbate Molecules, Total Energy: -46557.21599
+Cycle: 13150, 19 Adsorbate Molecules, Total Energy: -49275.95474
+Cycle: 13200, 15 Adsorbate Molecules, Total Energy: -38310.35286
+Cycle: 13250, 16 Adsorbate Molecules, Total Energy: -41384.17986
+Cycle: 13300, 16 Adsorbate Molecules, Total Energy: -40995.83491
+Cycle: 13350, 19 Adsorbate Molecules, Total Energy: -49072.37913
+Cycle: 13400, 20 Adsorbate Molecules, Total Energy: -51363.06359
+Cycle: 13450, 21 Adsorbate Molecules, Total Energy: -54940.82193
+Cycle: 13500, 26 Adsorbate Molecules, Total Energy: -65767.73582
+Cycle: 13550, 27 Adsorbate Molecules, Total Energy: -67308.22906
+Cycle: 13600, 27 Adsorbate Molecules, Total Energy: -65999.42898
+Cycle: 13650, 25 Adsorbate Molecules, Total Energy: -64290.15975
+Cycle: 13700, 23 Adsorbate Molecules, Total Energy: -58560.36682
+Cycle: 13750, 25 Adsorbate Molecules, Total Energy: -63317.55584
+Cycle: 13800, 26 Adsorbate Molecules, Total Energy: -65528.10073
+Cycle: 13850, 26 Adsorbate Molecules, Total Energy: -63856.80602
+Cycle: 13900, 28 Adsorbate Molecules, Total Energy: -70082.80362
+Cycle: 13950, 23 Adsorbate Molecules, Total Energy: -60302.66087
+Cycle: 14000, 24 Adsorbate Molecules, Total Energy: -61223.20977
+Cycle: 14050, 23 Adsorbate Molecules, Total Energy: -57173.88126
+Cycle: 14100, 24 Adsorbate Molecules, Total Energy: -62739.65146
+Cycle: 14150, 24 Adsorbate Molecules, Total Energy: -60907.96759
+Cycle: 14200, 23 Adsorbate Molecules, Total Energy: -58280.95541
+Cycle: 14250, 18 Adsorbate Molecules, Total Energy: -47118.16315
+Cycle: 14300, 17 Adsorbate Molecules, Total Energy: -43212.48758
+Cycle: 14350, 16 Adsorbate Molecules, Total Energy: -42135.20884
+Cycle: 14400, 17 Adsorbate Molecules, Total Energy: -43088.42502
+Cycle: 14450, 15 Adsorbate Molecules, Total Energy: -38636.49236
+Cycle: 14500, 13 Adsorbate Molecules, Total Energy: -33777.82127
+Cycle: 14550, 13 Adsorbate Molecules, Total Energy: -33500.83703
+Cycle: 14600, 14 Adsorbate Molecules, Total Energy: -35862.70081
+Cycle: 14650, 15 Adsorbate Molecules, Total Energy: -37006.02766
+Cycle: 14700, 16 Adsorbate Molecules, Total Energy: -39944.13352
+Cycle: 14750, 17 Adsorbate Molecules, Total Energy: -41295.01566
+Cycle: 14800, 19 Adsorbate Molecules, Total Energy: -44212.59923
+Cycle: 14850, 20 Adsorbate Molecules, Total Energy: -45815.15583
+Cycle: 14900, 17 Adsorbate Molecules, Total Energy: -40301.30735
+Cycle: 14950, 15 Adsorbate Molecules, Total Energy: -37051.18858
+Cycle: 15000, 15 Adsorbate Molecules, Total Energy: -36611.25925
+Cycle: 15050, 14 Adsorbate Molecules, Total Energy: -34252.03969
+Cycle: 15100, 14 Adsorbate Molecules, Total Energy: -34729.09219
+Cycle: 15150, 15 Adsorbate Molecules, Total Energy: -37418.68720
+Cycle: 15200, 16 Adsorbate Molecules, Total Energy: -40935.03337
+Cycle: 15250, 16 Adsorbate Molecules, Total Energy: -40888.04623
+Cycle: 15300, 16 Adsorbate Molecules, Total Energy: -41785.77215
+Cycle: 15350, 14 Adsorbate Molecules, Total Energy: -36269.05047
+Cycle: 15400, 15 Adsorbate Molecules, Total Energy: -38940.48155
+Cycle: 15450, 20 Adsorbate Molecules, Total Energy: -50643.12059
+Cycle: 15500, 20 Adsorbate Molecules, Total Energy: -49249.79535
+Cycle: 15550, 21 Adsorbate Molecules, Total Energy: -51344.42387
+Cycle: 15600, 20 Adsorbate Molecules, Total Energy: -49721.81041
+Cycle: 15650, 18 Adsorbate Molecules, Total Energy: -45169.50668
+Cycle: 15700, 20 Adsorbate Molecules, Total Energy: -49772.78792
+Cycle: 15750, 20 Adsorbate Molecules, Total Energy: -50626.62390
+Cycle: 15800, 19 Adsorbate Molecules, Total Energy: -48558.24755
+Cycle: 15850, 19 Adsorbate Molecules, Total Energy: -49190.75584
+Cycle: 15900, 20 Adsorbate Molecules, Total Energy: -51020.92447
+Cycle: 15950, 18 Adsorbate Molecules, Total Energy: -45645.22526
+Cycle: 16000, 19 Adsorbate Molecules, Total Energy: -48638.63751
+Cycle: 16050, 20 Adsorbate Molecules, Total Energy: -51063.29310
+Cycle: 16100, 17 Adsorbate Molecules, Total Energy: -43373.84600
+Cycle: 16150, 20 Adsorbate Molecules, Total Energy: -50687.36668
+Cycle: 16200, 18 Adsorbate Molecules, Total Energy: -45779.78271
+Cycle: 16250, 19 Adsorbate Molecules, Total Energy: -48525.37455
+Cycle: 16300, 19 Adsorbate Molecules, Total Energy: -49109.13151
+Cycle: 16350, 19 Adsorbate Molecules, Total Energy: -48562.91808
+Cycle: 16400, 22 Adsorbate Molecules, Total Energy: -55262.43154
+Cycle: 16450, 22 Adsorbate Molecules, Total Energy: -56113.08755
+Cycle: 16500, 21 Adsorbate Molecules, Total Energy: -53110.23096
+Cycle: 16550, 21 Adsorbate Molecules, Total Energy: -52948.07297
+Cycle: 16600, 19 Adsorbate Molecules, Total Energy: -48818.04228
+Cycle: 16650, 19 Adsorbate Molecules, Total Energy: -48113.12481
+Cycle: 16700, 20 Adsorbate Molecules, Total Energy: -51982.02568
+Cycle: 16750, 20 Adsorbate Molecules, Total Energy: -50712.11569
+Cycle: 16800, 19 Adsorbate Molecules, Total Energy: -48471.66173
+Cycle: 16850, 22 Adsorbate Molecules, Total Energy: -53833.37184
+Cycle: 16900, 23 Adsorbate Molecules, Total Energy: -57454.02157
+Cycle: 16950, 23 Adsorbate Molecules, Total Energy: -58247.90860
+Cycle: 17000, 22 Adsorbate Molecules, Total Energy: -56686.17842
+Cycle: 17050, 22 Adsorbate Molecules, Total Energy: -57325.96251
+Cycle: 17100, 20 Adsorbate Molecules, Total Energy: -52025.21879
+Cycle: 17150, 20 Adsorbate Molecules, Total Energy: -50485.26377
+Cycle: 17200, 20 Adsorbate Molecules, Total Energy: -50908.63532
+Cycle: 17250, 21 Adsorbate Molecules, Total Energy: -53792.67327
+Cycle: 17300, 21 Adsorbate Molecules, Total Energy: -54256.41526
+Cycle: 17350, 17 Adsorbate Molecules, Total Energy: -45287.29328
+Cycle: 17400, 16 Adsorbate Molecules, Total Energy: -41073.48226
+Cycle: 17450, 16 Adsorbate Molecules, Total Energy: -40534.00838
+Cycle: 17500, 16 Adsorbate Molecules, Total Energy: -40226.09892
+Cycle: 17550, 13 Adsorbate Molecules, Total Energy: -32965.51207
+Cycle: 17600, 15 Adsorbate Molecules, Total Energy: -37029.07591
+Cycle: 17650, 15 Adsorbate Molecules, Total Energy: -36797.42201
+Cycle: 17700, 14 Adsorbate Molecules, Total Energy: -34625.56840
+Cycle: 17750, 15 Adsorbate Molecules, Total Energy: -37416.21820
+Cycle: 17800, 17 Adsorbate Molecules, Total Energy: -41864.24323
+Cycle: 17850, 19 Adsorbate Molecules, Total Energy: -46176.08855
+Cycle: 17900, 22 Adsorbate Molecules, Total Energy: -54426.61859
+Cycle: 17950, 21 Adsorbate Molecules, Total Energy: -51768.38748
+Cycle: 18000, 21 Adsorbate Molecules, Total Energy: -52238.21043
+Cycle: 18050, 21 Adsorbate Molecules, Total Energy: -53073.93622
+Cycle: 18100, 21 Adsorbate Molecules, Total Energy: -52965.61217
+Cycle: 18150, 19 Adsorbate Molecules, Total Energy: -48507.17422
+Cycle: 18200, 17 Adsorbate Molecules, Total Energy: -42888.00301
+Cycle: 18250, 19 Adsorbate Molecules, Total Energy: -48119.22951
+Cycle: 18300, 19 Adsorbate Molecules, Total Energy: -49118.74615
+Cycle: 18350, 17 Adsorbate Molecules, Total Energy: -45175.80321
+Cycle: 18400, 18 Adsorbate Molecules, Total Energy: -45917.85900
+Cycle: 18450, 20 Adsorbate Molecules, Total Energy: -48975.82068
+Cycle: 18500, 18 Adsorbate Molecules, Total Energy: -47756.79259
+Cycle: 18550, 19 Adsorbate Molecules, Total Energy: -48956.48075
+Cycle: 18600, 23 Adsorbate Molecules, Total Energy: -57432.37198
+Cycle: 18650, 24 Adsorbate Molecules, Total Energy: -60564.23794
+Cycle: 18700, 22 Adsorbate Molecules, Total Energy: -57804.98067
+Cycle: 18750, 24 Adsorbate Molecules, Total Energy: -63273.05724
+Cycle: 18800, 22 Adsorbate Molecules, Total Energy: -59060.99945
+Cycle: 18850, 21 Adsorbate Molecules, Total Energy: -54567.32590
+Cycle: 18900, 21 Adsorbate Molecules, Total Energy: -53860.46437
+Cycle: 18950, 22 Adsorbate Molecules, Total Energy: -54601.44209
+Cycle: 19000, 20 Adsorbate Molecules, Total Energy: -50063.93831
+Cycle: 19050, 22 Adsorbate Molecules, Total Energy: -53605.30038
+Cycle: 19100, 23 Adsorbate Molecules, Total Energy: -56619.59015
+Cycle: 19150, 26 Adsorbate Molecules, Total Energy: -63598.80413
+Cycle: 19200, 24 Adsorbate Molecules, Total Energy: -58021.94454
+Cycle: 19250, 23 Adsorbate Molecules, Total Energy: -56264.76227
+Cycle: 19300, 23 Adsorbate Molecules, Total Energy: -57956.98814
+Cycle: 19350, 19 Adsorbate Molecules, Total Energy: -48088.23242
+Cycle: 19400, 18 Adsorbate Molecules, Total Energy: -45665.25908
+Cycle: 19450, 19 Adsorbate Molecules, Total Energy: -47175.86863
+Cycle: 19500, 19 Adsorbate Molecules, Total Energy: -47456.64248
+Cycle: 19550, 17 Adsorbate Molecules, Total Energy: -43494.37987
+Cycle: 19600, 18 Adsorbate Molecules, Total Energy: -46028.49621
+Cycle: 19650, 17 Adsorbate Molecules, Total Energy: -42929.25597
+Cycle: 19700, 17 Adsorbate Molecules, Total Energy: -42461.25926
+Cycle: 19750, 19 Adsorbate Molecules, Total Energy: -47830.72380
+Cycle: 19800, 20 Adsorbate Molecules, Total Energy: -48771.75278
+Cycle: 19850, 17 Adsorbate Molecules, Total Energy: -40989.78662
+Cycle: 19900, 14 Adsorbate Molecules, Total Energy: -35768.87166
+Cycle: 19950, 14 Adsorbate Molecules, Total Energy: -36916.01490
+Cycle: 20000, 15 Adsorbate Molecules, Total Energy: -39069.66568
+Cycle: 20050, 17 Adsorbate Molecules, Total Energy: -42731.70538
+Cycle: 20100, 17 Adsorbate Molecules, Total Energy: -43851.84736
+Cycle: 20150, 18 Adsorbate Molecules, Total Energy: -45294.93210
+Cycle: 20200, 17 Adsorbate Molecules, Total Energy: -42032.66767
+Cycle: 20250, 18 Adsorbate Molecules, Total Energy: -44100.64276
+Cycle: 20300, 18 Adsorbate Molecules, Total Energy: -44627.48257
+Cycle: 20350, 19 Adsorbate Molecules, Total Energy: -46648.96193
+Cycle: 20400, 20 Adsorbate Molecules, Total Energy: -48851.34523
+Cycle: 20450, 18 Adsorbate Molecules, Total Energy: -44416.26719
+Cycle: 20500, 18 Adsorbate Molecules, Total Energy: -45628.08662
+Cycle: 20550, 15 Adsorbate Molecules, Total Energy: -37943.47241
+Cycle: 20600, 18 Adsorbate Molecules, Total Energy: -44819.24329
+Cycle: 20650, 20 Adsorbate Molecules, Total Energy: -50556.01815
+Cycle: 20700, 20 Adsorbate Molecules, Total Energy: -50580.65302
+Cycle: 20750, 18 Adsorbate Molecules, Total Energy: -45096.86522
+Cycle: 20800, 19 Adsorbate Molecules, Total Energy: -47820.04036
+Cycle: 20850, 18 Adsorbate Molecules, Total Energy: -45741.62400
+Cycle: 20900, 18 Adsorbate Molecules, Total Energy: -46789.62382
+Cycle: 20950, 17 Adsorbate Molecules, Total Energy: -45621.66222
+Cycle: 21000, 18 Adsorbate Molecules, Total Energy: -46194.52514
+Cycle: 21050, 18 Adsorbate Molecules, Total Energy: -46255.85239
+Cycle: 21100, 20 Adsorbate Molecules, Total Energy: -51220.00499
+Cycle: 21150, 19 Adsorbate Molecules, Total Energy: -48459.44782
+Cycle: 21200, 20 Adsorbate Molecules, Total Energy: -50130.35641
+Cycle: 21250, 22 Adsorbate Molecules, Total Energy: -54983.17330
+Cycle: 21300, 21 Adsorbate Molecules, Total Energy: -51213.05119
+Cycle: 21350, 18 Adsorbate Molecules, Total Energy: -42705.39839
+Cycle: 21400, 20 Adsorbate Molecules, Total Energy: -47797.33034
+Cycle: 21450, 20 Adsorbate Molecules, Total Energy: -45942.87976
+Cycle: 21500, 18 Adsorbate Molecules, Total Energy: -42856.15403
+Cycle: 21550, 18 Adsorbate Molecules, Total Energy: -43740.08652
+Cycle: 21600, 16 Adsorbate Molecules, Total Energy: -38821.07369
+Cycle: 21650, 19 Adsorbate Molecules, Total Energy: -46519.18040
+Cycle: 21700, 23 Adsorbate Molecules, Total Energy: -55419.39775
+Cycle: 21750, 15 Adsorbate Molecules, Total Energy: -37127.79150
+Cycle: 21800, 12 Adsorbate Molecules, Total Energy: -30387.05785
+Cycle: 21850, 14 Adsorbate Molecules, Total Energy: -34882.48604
+Cycle: 21900, 15 Adsorbate Molecules, Total Energy: -38186.39470
+Cycle: 21950, 16 Adsorbate Molecules, Total Energy: -40652.83138
+Cycle: 22000, 21 Adsorbate Molecules, Total Energy: -52506.51901
+Cycle: 22050, 18 Adsorbate Molecules, Total Energy: -45946.17842
+Cycle: 22100, 17 Adsorbate Molecules, Total Energy: -43094.83814
+Cycle: 22150, 17 Adsorbate Molecules, Total Energy: -42833.75805
+Cycle: 22200, 20 Adsorbate Molecules, Total Energy: -49639.89717
+Cycle: 22250, 22 Adsorbate Molecules, Total Energy: -53451.71116
+Cycle: 22300, 21 Adsorbate Molecules, Total Energy: -51916.58391
+Cycle: 22350, 17 Adsorbate Molecules, Total Energy: -42922.23652
+Cycle: 22400, 19 Adsorbate Molecules, Total Energy: -47154.99245
+Cycle: 22450, 19 Adsorbate Molecules, Total Energy: -46551.71125
+Cycle: 22500, 21 Adsorbate Molecules, Total Energy: -51374.50994
+Cycle: 22550, 20 Adsorbate Molecules, Total Energy: -49692.59139
+Cycle: 22600, 24 Adsorbate Molecules, Total Energy: -59270.93405
+Cycle: 22650, 24 Adsorbate Molecules, Total Energy: -60972.61832
+Cycle: 22700, 23 Adsorbate Molecules, Total Energy: -58660.92997
+Cycle: 22750, 24 Adsorbate Molecules, Total Energy: -60604.68447
+Cycle: 22800, 27 Adsorbate Molecules, Total Energy: -67644.80904
+Cycle: 22850, 26 Adsorbate Molecules, Total Energy: -65730.10322
+Cycle: 22900, 29 Adsorbate Molecules, Total Energy: -73208.16627
+Cycle: 22950, 28 Adsorbate Molecules, Total Energy: -71304.65787
+Cycle: 23000, 29 Adsorbate Molecules, Total Energy: -73685.95187
+Cycle: 23050, 26 Adsorbate Molecules, Total Energy: -66260.78026
+Cycle: 23100, 29 Adsorbate Molecules, Total Energy: -75007.53626
+Cycle: 23150, 26 Adsorbate Molecules, Total Energy: -68245.70226
+Cycle: 23200, 26 Adsorbate Molecules, Total Energy: -69661.12570
+Cycle: 23250, 24 Adsorbate Molecules, Total Energy: -64606.79373
+Cycle: 23300, 26 Adsorbate Molecules, Total Energy: -68617.23886
+Cycle: 23350, 25 Adsorbate Molecules, Total Energy: -64684.94985
+Cycle: 23400, 25 Adsorbate Molecules, Total Energy: -63585.30827
+Cycle: 23450, 24 Adsorbate Molecules, Total Energy: -61803.94139
+Cycle: 23500, 22 Adsorbate Molecules, Total Energy: -57855.80852
+Cycle: 23550, 22 Adsorbate Molecules, Total Energy: -59015.99211
+Cycle: 23600, 21 Adsorbate Molecules, Total Energy: -56050.32900
+Cycle: 23650, 21 Adsorbate Molecules, Total Energy: -55847.13303
+Cycle: 23700, 26 Adsorbate Molecules, Total Energy: -62778.39842
+Cycle: 23750, 26 Adsorbate Molecules, Total Energy: -62873.81223
+Cycle: 23800, 22 Adsorbate Molecules, Total Energy: -54700.75387
+Cycle: 23850, 23 Adsorbate Molecules, Total Energy: -58366.84920
+Cycle: 23900, 19 Adsorbate Molecules, Total Energy: -48690.27918
+Cycle: 23950, 20 Adsorbate Molecules, Total Energy: -51528.86388
+Cycle: 24000, 19 Adsorbate Molecules, Total Energy: -48707.27717
+Cycle: 24050, 19 Adsorbate Molecules, Total Energy: -48355.27708
+Cycle: 24100, 22 Adsorbate Molecules, Total Energy: -55143.84803
+Cycle: 24150, 22 Adsorbate Molecules, Total Energy: -57706.36131
+Cycle: 24200, 23 Adsorbate Molecules, Total Energy: -59683.80374
+Cycle: 24250, 20 Adsorbate Molecules, Total Energy: -52501.06260
+Cycle: 24300, 20 Adsorbate Molecules, Total Energy: -53631.43636
+Cycle: 24350, 22 Adsorbate Molecules, Total Energy: -56464.54639
+Cycle: 24400, 19 Adsorbate Molecules, Total Energy: -50175.77208
+Cycle: 24450, 16 Adsorbate Molecules, Total Energy: -42062.27833
+Cycle: 24500, 16 Adsorbate Molecules, Total Energy: -43021.67896
+Cycle: 24550, 17 Adsorbate Molecules, Total Energy: -44917.86438
+Cycle: 24600, 19 Adsorbate Molecules, Total Energy: -47554.97155
+Cycle: 24650, 21 Adsorbate Molecules, Total Energy: -50940.69651
+Cycle: 24700, 19 Adsorbate Molecules, Total Energy: -47978.00211
+Cycle: 24750, 17 Adsorbate Molecules, Total Energy: -43014.11697
+Cycle: 24800, 17 Adsorbate Molecules, Total Energy: -44833.01048
+Cycle: 24850, 16 Adsorbate Molecules, Total Energy: -42076.56620
+Cycle: 24900, 18 Adsorbate Molecules, Total Energy: -46644.93403
+Cycle: 24950, 18 Adsorbate Molecules, Total Energy: -45387.30471
+Cycle: 25000, 19 Adsorbate Molecules, Total Energy: -44726.66009
+Cycle: 25050, 18 Adsorbate Molecules, Total Energy: -43586.98086
+Cycle: 25100, 20 Adsorbate Molecules, Total Energy: -45550.69446
+Cycle: 25150, 22 Adsorbate Molecules, Total Energy: -51735.23025
+Cycle: 25200, 21 Adsorbate Molecules, Total Energy: -51860.42233
+Cycle: 25250, 19 Adsorbate Molecules, Total Energy: -45412.22749
+Cycle: 25300, 14 Adsorbate Molecules, Total Energy: -34627.98446
+Cycle: 25350, 16 Adsorbate Molecules, Total Energy: -38991.06960
+Cycle: 25400, 15 Adsorbate Molecules, Total Energy: -35772.02000
+Cycle: 25450, 16 Adsorbate Molecules, Total Energy: -36973.47610
+Cycle: 25500, 15 Adsorbate Molecules, Total Energy: -36390.62224
+Cycle: 25550, 18 Adsorbate Molecules, Total Energy: -43163.49017
+Cycle: 25600, 16 Adsorbate Molecules, Total Energy: -38835.63643
+Cycle: 25650, 18 Adsorbate Molecules, Total Energy: -43056.86275
+Cycle: 25700, 16 Adsorbate Molecules, Total Energy: -38372.53505
+Cycle: 25750, 19 Adsorbate Molecules, Total Energy: -43457.08453
+Cycle: 25800, 17 Adsorbate Molecules, Total Energy: -39608.72756
+Cycle: 25850, 15 Adsorbate Molecules, Total Energy: -36249.64009
+Cycle: 25900, 13 Adsorbate Molecules, Total Energy: -32022.93737
+Cycle: 25950, 13 Adsorbate Molecules, Total Energy: -31717.77180
+Cycle: 26000, 12 Adsorbate Molecules, Total Energy: -31133.30041
+Cycle: 26050, 12 Adsorbate Molecules, Total Energy: -31169.26445
+Cycle: 26100, 14 Adsorbate Molecules, Total Energy: -36616.08431
+Cycle: 26150, 15 Adsorbate Molecules, Total Energy: -37522.56198
+Cycle: 26200, 19 Adsorbate Molecules, Total Energy: -45304.94672
+Cycle: 26250, 20 Adsorbate Molecules, Total Energy: -48216.46592
+Cycle: 26300, 20 Adsorbate Molecules, Total Energy: -48696.51807
+Cycle: 26350, 16 Adsorbate Molecules, Total Energy: -39855.06983
+Cycle: 26400, 18 Adsorbate Molecules, Total Energy: -44052.70564
+Cycle: 26450, 18 Adsorbate Molecules, Total Energy: -42064.58934
+Cycle: 26500, 19 Adsorbate Molecules, Total Energy: -47502.37780
+Cycle: 26550, 17 Adsorbate Molecules, Total Energy: -43108.72258
+Cycle: 26600, 14 Adsorbate Molecules, Total Energy: -35820.88808
+Cycle: 26650, 15 Adsorbate Molecules, Total Energy: -38268.69814
+Cycle: 26700, 16 Adsorbate Molecules, Total Energy: -40340.33700
+Cycle: 26750, 17 Adsorbate Molecules, Total Energy: -41304.15558
+Cycle: 26800, 16 Adsorbate Molecules, Total Energy: -39578.23375
+Cycle: 26850, 16 Adsorbate Molecules, Total Energy: -38767.12591
+Cycle: 26900, 15 Adsorbate Molecules, Total Energy: -35400.52757
+Cycle: 26950, 17 Adsorbate Molecules, Total Energy: -39615.11712
+Cycle: 27000, 16 Adsorbate Molecules, Total Energy: -40969.98333
+Cycle: 27050, 16 Adsorbate Molecules, Total Energy: -38894.57400
+Cycle: 27100, 14 Adsorbate Molecules, Total Energy: -34800.48379
+Cycle: 27150, 16 Adsorbate Molecules, Total Energy: -40804.61186
+Cycle: 27200, 17 Adsorbate Molecules, Total Energy: -41930.62208
+Cycle: 27250, 17 Adsorbate Molecules, Total Energy: -41360.73016
+Cycle: 27300, 17 Adsorbate Molecules, Total Energy: -42644.15808
+Cycle: 27350, 15 Adsorbate Molecules, Total Energy: -39042.78568
+Cycle: 27400, 18 Adsorbate Molecules, Total Energy: -45256.85021
+Cycle: 27450, 16 Adsorbate Molecules, Total Energy: -42177.35991
+Cycle: 27500, 19 Adsorbate Molecules, Total Energy: -50486.96890
+Cycle: 27550, 17 Adsorbate Molecules, Total Energy: -44067.06255
+Cycle: 27600, 17 Adsorbate Molecules, Total Energy: -45839.84872
+Cycle: 27650, 18 Adsorbate Molecules, Total Energy: -48949.87846
+Cycle: 27700, 17 Adsorbate Molecules, Total Energy: -46415.73046
+Cycle: 27750, 16 Adsorbate Molecules, Total Energy: -42172.12582
+Cycle: 27800, 19 Adsorbate Molecules, Total Energy: -47889.54570
+Cycle: 27850, 18 Adsorbate Molecules, Total Energy: -46308.91800
+Cycle: 27900, 17 Adsorbate Molecules, Total Energy: -43551.99656
+Cycle: 27950, 17 Adsorbate Molecules, Total Energy: -44228.86564
+Cycle: 28000, 17 Adsorbate Molecules, Total Energy: -43508.69220
+Cycle: 28050, 21 Adsorbate Molecules, Total Energy: -52498.11324
+Cycle: 28100, 20 Adsorbate Molecules, Total Energy: -50684.01707
+Cycle: 28150, 20 Adsorbate Molecules, Total Energy: -49633.17743
+Cycle: 28200, 18 Adsorbate Molecules, Total Energy: -46197.08927
+Cycle: 28250, 21 Adsorbate Molecules, Total Energy: -52532.30688
+Cycle: 28300, 21 Adsorbate Molecules, Total Energy: -53951.53854
+Cycle: 28350, 19 Adsorbate Molecules, Total Energy: -49614.69012
+Cycle: 28400, 22 Adsorbate Molecules, Total Energy: -54704.30331
+Cycle: 28450, 20 Adsorbate Molecules, Total Energy: -50280.03185
+Cycle: 28500, 21 Adsorbate Molecules, Total Energy: -52772.03569
+Cycle: 28550, 22 Adsorbate Molecules, Total Energy: -56611.80220
+Cycle: 28600, 21 Adsorbate Molecules, Total Energy: -53397.57090
+Cycle: 28650, 20 Adsorbate Molecules, Total Energy: -51668.40100
+Cycle: 28700, 21 Adsorbate Molecules, Total Energy: -54501.45455
+Cycle: 28750, 22 Adsorbate Molecules, Total Energy: -59034.88420
+Cycle: 28800, 21 Adsorbate Molecules, Total Energy: -58204.18144
+Cycle: 28850, 19 Adsorbate Molecules, Total Energy: -51871.08621
+Cycle: 28900, 22 Adsorbate Molecules, Total Energy: -60160.00377
+Cycle: 28950, 21 Adsorbate Molecules, Total Energy: -56960.09770
+Cycle: 29000, 23 Adsorbate Molecules, Total Energy: -60300.39350
+Cycle: 29050, 28 Adsorbate Molecules, Total Energy: -68922.69494
+Cycle: 29100, 24 Adsorbate Molecules, Total Energy: -61688.40208
+Cycle: 29150, 26 Adsorbate Molecules, Total Energy: -66622.56937
+Cycle: 29200, 24 Adsorbate Molecules, Total Energy: -61242.45668
+Cycle: 29250, 24 Adsorbate Molecules, Total Energy: -60368.55779
+Cycle: 29300, 25 Adsorbate Molecules, Total Energy: -61790.15752
+Cycle: 29350, 25 Adsorbate Molecules, Total Energy: -63504.20324
+Cycle: 29400, 23 Adsorbate Molecules, Total Energy: -57219.63212
+Cycle: 29450, 21 Adsorbate Molecules, Total Energy: -51845.46203
+Cycle: 29500, 21 Adsorbate Molecules, Total Energy: -52499.80105
+Cycle: 29550, 19 Adsorbate Molecules, Total Energy: -47551.57512
+Cycle: 29600, 18 Adsorbate Molecules, Total Energy: -45201.75683
+Cycle: 29650, 21 Adsorbate Molecules, Total Energy: -49960.36022
+Cycle: 29700, 18 Adsorbate Molecules, Total Energy: -43933.06756
+Cycle: 29750, 20 Adsorbate Molecules, Total Energy: -49263.18438
+Cycle: 29800, 19 Adsorbate Molecules, Total Energy: -47189.38764
+Cycle: 29850, 19 Adsorbate Molecules, Total Energy: -47235.20024
+Cycle: 29900, 22 Adsorbate Molecules, Total Energy: -53276.57521
+Cycle: 29950, 21 Adsorbate Molecules, Total Energy: -48605.30405
+Cycle: 30000, 20 Adsorbate Molecules, Total Energy: -46715.37797
+Cycle: 30050, 19 Adsorbate Molecules, Total Energy: -46685.38736
+Cycle: 30100, 19 Adsorbate Molecules, Total Energy: -46472.21921
+Cycle: 30150, 18 Adsorbate Molecules, Total Energy: -44164.35223
+Cycle: 30200, 23 Adsorbate Molecules, Total Energy: -54104.49481
+Cycle: 30250, 19 Adsorbate Molecules, Total Energy: -46315.42585
+Cycle: 30300, 16 Adsorbate Molecules, Total Energy: -38053.33834
+Cycle: 30350, 19 Adsorbate Molecules, Total Energy: -44612.90893
+Cycle: 30400, 18 Adsorbate Molecules, Total Energy: -44007.92938
+Cycle: 30450, 18 Adsorbate Molecules, Total Energy: -43801.35883
+Cycle: 30500, 17 Adsorbate Molecules, Total Energy: -43364.85554
+Cycle: 30550, 17 Adsorbate Molecules, Total Energy: -44337.65363
+Cycle: 30600, 16 Adsorbate Molecules, Total Energy: -41703.01135
+Cycle: 30650, 16 Adsorbate Molecules, Total Energy: -40541.87381
+Cycle: 30700, 15 Adsorbate Molecules, Total Energy: -39452.62269
+Cycle: 30750, 16 Adsorbate Molecules, Total Energy: -38364.78272
+Cycle: 30800, 21 Adsorbate Molecules, Total Energy: -51036.75186
+Cycle: 30850, 24 Adsorbate Molecules, Total Energy: -59125.10772
+Cycle: 30900, 25 Adsorbate Molecules, Total Energy: -60684.78458
+Cycle: 30950, 25 Adsorbate Molecules, Total Energy: -59998.31292
+Cycle: 31000, 26 Adsorbate Molecules, Total Energy: -62939.49902
+Cycle: 31050, 26 Adsorbate Molecules, Total Energy: -63188.53533
+Cycle: 31100, 24 Adsorbate Molecules, Total Energy: -59476.73648
+Cycle: 31150, 26 Adsorbate Molecules, Total Energy: -63223.66930
+Cycle: 31200, 24 Adsorbate Molecules, Total Energy: -59600.73789
+Cycle: 31250, 25 Adsorbate Molecules, Total Energy: -63436.97519
+Cycle: 31300, 23 Adsorbate Molecules, Total Energy: -58034.77106
+Cycle: 31350, 22 Adsorbate Molecules, Total Energy: -54919.36822
+Cycle: 31400, 25 Adsorbate Molecules, Total Energy: -60959.69021
+Cycle: 31450, 19 Adsorbate Molecules, Total Energy: -47471.52758
+Cycle: 31500, 22 Adsorbate Molecules, Total Energy: -56160.92870
+Cycle: 31550, 25 Adsorbate Molecules, Total Energy: -64083.91768
+Cycle: 31600, 25 Adsorbate Molecules, Total Energy: -62478.11759
+Cycle: 31650, 27 Adsorbate Molecules, Total Energy: -68586.37220
+Cycle: 31700, 27 Adsorbate Molecules, Total Energy: -69231.07061
+Cycle: 31750, 28 Adsorbate Molecules, Total Energy: -71977.06923
+Cycle: 31800, 28 Adsorbate Molecules, Total Energy: -71634.03314
+Cycle: 31850, 26 Adsorbate Molecules, Total Energy: -66435.63183
+Cycle: 31900, 30 Adsorbate Molecules, Total Energy: -75997.20348
+Cycle: 31950, 30 Adsorbate Molecules, Total Energy: -75533.75486
+Cycle: 32000, 28 Adsorbate Molecules, Total Energy: -71686.00498
+Cycle: 32050, 28 Adsorbate Molecules, Total Energy: -70795.31353
+Cycle: 32100, 28 Adsorbate Molecules, Total Energy: -73059.89430
+Cycle: 32150, 29 Adsorbate Molecules, Total Energy: -75607.81483
+Cycle: 32200, 29 Adsorbate Molecules, Total Energy: -75878.58631
+Cycle: 32250, 28 Adsorbate Molecules, Total Energy: -72259.74730
+Cycle: 32300, 27 Adsorbate Molecules, Total Energy: -69430.68368
+Cycle: 32350, 27 Adsorbate Molecules, Total Energy: -71278.05016
+Cycle: 32400, 26 Adsorbate Molecules, Total Energy: -67907.57218
+Cycle: 32450, 21 Adsorbate Molecules, Total Energy: -56768.71103
+Cycle: 32500, 22 Adsorbate Molecules, Total Energy: -59580.21939
+Cycle: 32550, 21 Adsorbate Molecules, Total Energy: -56198.05737
+Cycle: 32600, 22 Adsorbate Molecules, Total Energy: -58590.39499
+Cycle: 32650, 24 Adsorbate Molecules, Total Energy: -62019.09098
+Cycle: 32700, 24 Adsorbate Molecules, Total Energy: -63394.19746
+Cycle: 32750, 24 Adsorbate Molecules, Total Energy: -65117.44563
+Cycle: 32800, 24 Adsorbate Molecules, Total Energy: -64312.25182
+Cycle: 32850, 28 Adsorbate Molecules, Total Energy: -73314.92455
+Cycle: 32900, 25 Adsorbate Molecules, Total Energy: -66200.42296
+Cycle: 32950, 23 Adsorbate Molecules, Total Energy: -59733.35849
+Cycle: 33000, 24 Adsorbate Molecules, Total Energy: -60772.30351
+Cycle: 33050, 24 Adsorbate Molecules, Total Energy: -60630.49266
+Cycle: 33100, 22 Adsorbate Molecules, Total Energy: -56015.04133
+Cycle: 33150, 23 Adsorbate Molecules, Total Energy: -56707.27315
+Cycle: 33200, 24 Adsorbate Molecules, Total Energy: -58808.15834
+Cycle: 33250, 25 Adsorbate Molecules, Total Energy: -61148.24658
+Cycle: 33300, 22 Adsorbate Molecules, Total Energy: -53938.16900
+Cycle: 33350, 20 Adsorbate Molecules, Total Energy: -50255.46966
+Cycle: 33400, 19 Adsorbate Molecules, Total Energy: -48959.30280
+Cycle: 33450, 22 Adsorbate Molecules, Total Energy: -55286.14487
+Cycle: 33500, 24 Adsorbate Molecules, Total Energy: -60108.57550
+Cycle: 33550, 24 Adsorbate Molecules, Total Energy: -60256.40586
+Cycle: 33600, 23 Adsorbate Molecules, Total Energy: -58395.09626
+Cycle: 33650, 24 Adsorbate Molecules, Total Energy: -60499.30100
+Cycle: 33700, 23 Adsorbate Molecules, Total Energy: -59279.94108
+Cycle: 33750, 24 Adsorbate Molecules, Total Energy: -60323.17638
+Cycle: 33800, 27 Adsorbate Molecules, Total Energy: -66093.34010
+Cycle: 33850, 29 Adsorbate Molecules, Total Energy: -70987.70689
+Cycle: 33900, 27 Adsorbate Molecules, Total Energy: -64888.69860
+Cycle: 33950, 22 Adsorbate Molecules, Total Energy: -54442.15173
+Cycle: 34000, 19 Adsorbate Molecules, Total Energy: -46629.71997
+Cycle: 34050, 19 Adsorbate Molecules, Total Energy: -47125.38834
+Cycle: 34100, 19 Adsorbate Molecules, Total Energy: -47316.03850
+Cycle: 34150, 20 Adsorbate Molecules, Total Energy: -47146.48444
+Cycle: 34200, 15 Adsorbate Molecules, Total Energy: -36242.57630
+Cycle: 34250, 15 Adsorbate Molecules, Total Energy: -35178.46151
+Cycle: 34300, 19 Adsorbate Molecules, Total Energy: -45142.44643
+Cycle: 34350, 18 Adsorbate Molecules, Total Energy: -39624.81756
+Cycle: 34400, 19 Adsorbate Molecules, Total Energy: -43511.57947
+Cycle: 34450, 21 Adsorbate Molecules, Total Energy: -47197.53905
+Cycle: 34500, 21 Adsorbate Molecules, Total Energy: -48060.67802
+Cycle: 34550, 19 Adsorbate Molecules, Total Energy: -45211.89747
+Cycle: 34600, 21 Adsorbate Molecules, Total Energy: -51761.49214
+Cycle: 34650, 20 Adsorbate Molecules, Total Energy: -48579.89115
+Cycle: 34700, 19 Adsorbate Molecules, Total Energy: -45714.41277
+Cycle: 34750, 18 Adsorbate Molecules, Total Energy: -42986.57657
+Cycle: 34800, 19 Adsorbate Molecules, Total Energy: -43941.56953
+Cycle: 34850, 20 Adsorbate Molecules, Total Energy: -45427.15982
+Cycle: 34900, 20 Adsorbate Molecules, Total Energy: -47563.75183
+Cycle: 34950, 21 Adsorbate Molecules, Total Energy: -49948.48216
+Cycle: 35000, 22 Adsorbate Molecules, Total Energy: -53118.39055
+Cycle: 35050, 20 Adsorbate Molecules, Total Energy: -48528.80692
+Cycle: 35100, 20 Adsorbate Molecules, Total Energy: -48453.83623
+Cycle: 35150, 17 Adsorbate Molecules, Total Energy: -41203.08319
+Cycle: 35200, 19 Adsorbate Molecules, Total Energy: -43790.03961
+Cycle: 35250, 17 Adsorbate Molecules, Total Energy: -40245.82063
+Cycle: 35300, 14 Adsorbate Molecules, Total Energy: -33310.89157
+Cycle: 35350, 10 Adsorbate Molecules, Total Energy: -25849.67938
+Cycle: 35400, 13 Adsorbate Molecules, Total Energy: -30358.70992
+Cycle: 35450, 12 Adsorbate Molecules, Total Energy: -28872.78993
+Cycle: 35500, 11 Adsorbate Molecules, Total Energy: -26861.61137
+Cycle: 35550, 8 Adsorbate Molecules, Total Energy: -19252.04709
+Cycle: 35600, 12 Adsorbate Molecules, Total Energy: -27583.88862
+Cycle: 35650, 14 Adsorbate Molecules, Total Energy: -31647.04876
+Cycle: 35700, 13 Adsorbate Molecules, Total Energy: -29084.22591
+Cycle: 35750, 16 Adsorbate Molecules, Total Energy: -36008.99627
+Cycle: 35800, 15 Adsorbate Molecules, Total Energy: -34993.08112
+Cycle: 35850, 17 Adsorbate Molecules, Total Energy: -39861.56618
+Cycle: 35900, 17 Adsorbate Molecules, Total Energy: -40675.36470
+Cycle: 35950, 16 Adsorbate Molecules, Total Energy: -38982.22833
+Cycle: 36000, 16 Adsorbate Molecules, Total Energy: -40901.08872
+Cycle: 36050, 16 Adsorbate Molecules, Total Energy: -41206.57920
+Cycle: 36100, 16 Adsorbate Molecules, Total Energy: -42449.25621
+Cycle: 36150, 16 Adsorbate Molecules, Total Energy: -42311.62246
+Cycle: 36200, 17 Adsorbate Molecules, Total Energy: -46101.84178
+Cycle: 36250, 21 Adsorbate Molecules, Total Energy: -53969.50029
+Cycle: 36300, 20 Adsorbate Molecules, Total Energy: -52129.51907
+Cycle: 36350, 19 Adsorbate Molecules, Total Energy: -50019.07615
+Cycle: 36400, 21 Adsorbate Molecules, Total Energy: -53909.50601
+Cycle: 36450, 17 Adsorbate Molecules, Total Energy: -44903.09290
+Cycle: 36500, 16 Adsorbate Molecules, Total Energy: -42695.93497
+Cycle: 36550, 19 Adsorbate Molecules, Total Energy: -49554.31873
+Cycle: 36600, 18 Adsorbate Molecules, Total Energy: -47000.23705
+Cycle: 36650, 19 Adsorbate Molecules, Total Energy: -49726.76778
+Cycle: 36700, 21 Adsorbate Molecules, Total Energy: -55825.84271
+Cycle: 36750, 21 Adsorbate Molecules, Total Energy: -55553.50227
+Cycle: 36800, 20 Adsorbate Molecules, Total Energy: -51523.87354
+Cycle: 36850, 22 Adsorbate Molecules, Total Energy: -56246.93886
+Cycle: 36900, 22 Adsorbate Molecules, Total Energy: -57356.66692
+Cycle: 36950, 22 Adsorbate Molecules, Total Energy: -56326.99588
+Cycle: 37000, 22 Adsorbate Molecules, Total Energy: -56613.52543
+Cycle: 37050, 21 Adsorbate Molecules, Total Energy: -55183.49555
+Cycle: 37100, 22 Adsorbate Molecules, Total Energy: -58516.51967
+Cycle: 37150, 22 Adsorbate Molecules, Total Energy: -59026.20528
+Cycle: 37200, 22 Adsorbate Molecules, Total Energy: -58734.93047
+Cycle: 37250, 25 Adsorbate Molecules, Total Energy: -67025.77523
+Cycle: 37300, 22 Adsorbate Molecules, Total Energy: -57857.21101
+Cycle: 37350, 21 Adsorbate Molecules, Total Energy: -54992.37067
+Cycle: 37400, 23 Adsorbate Molecules, Total Energy: -60256.60389
+Cycle: 37450, 21 Adsorbate Molecules, Total Energy: -56168.65722
+Cycle: 37500, 23 Adsorbate Molecules, Total Energy: -61327.56710
+Cycle: 37550, 26 Adsorbate Molecules, Total Energy: -67691.47931
+Cycle: 37600, 25 Adsorbate Molecules, Total Energy: -65292.27445
+Cycle: 37650, 25 Adsorbate Molecules, Total Energy: -65564.51461
+Cycle: 37700, 26 Adsorbate Molecules, Total Energy: -67517.06741
+Cycle: 37750, 28 Adsorbate Molecules, Total Energy: -71446.43290
+Cycle: 37800, 27 Adsorbate Molecules, Total Energy: -67608.27338
+Cycle: 37850, 29 Adsorbate Molecules, Total Energy: -72304.25239
+Cycle: 37900, 30 Adsorbate Molecules, Total Energy: -74551.10825
+Cycle: 37950, 31 Adsorbate Molecules, Total Energy: -76185.32269
+Cycle: 38000, 29 Adsorbate Molecules, Total Energy: -72720.65324
+Cycle: 38050, 31 Adsorbate Molecules, Total Energy: -77063.62159
+Cycle: 38100, 30 Adsorbate Molecules, Total Energy: -75111.63664
+Cycle: 38150, 29 Adsorbate Molecules, Total Energy: -71886.95281
+Cycle: 38200, 29 Adsorbate Molecules, Total Energy: -72895.90564
+Cycle: 38250, 29 Adsorbate Molecules, Total Energy: -71943.59144
+Cycle: 38300, 28 Adsorbate Molecules, Total Energy: -69810.28865
+Cycle: 38350, 25 Adsorbate Molecules, Total Energy: -63535.01137
+Cycle: 38400, 25 Adsorbate Molecules, Total Energy: -65383.82036
+Cycle: 38450, 23 Adsorbate Molecules, Total Energy: -59080.20659
+Cycle: 38500, 27 Adsorbate Molecules, Total Energy: -68545.11856
+Cycle: 38550, 21 Adsorbate Molecules, Total Energy: -55017.84594
+Cycle: 38600, 20 Adsorbate Molecules, Total Energy: -53221.84746
+Cycle: 38650, 18 Adsorbate Molecules, Total Energy: -48987.63130
+Cycle: 38700, 19 Adsorbate Molecules, Total Energy: -51369.41096
+Cycle: 38750, 19 Adsorbate Molecules, Total Energy: -49856.93865
+Cycle: 38800, 19 Adsorbate Molecules, Total Energy: -49901.76190
+Cycle: 38850, 18 Adsorbate Molecules, Total Energy: -46554.10848
+Cycle: 38900, 17 Adsorbate Molecules, Total Energy: -43741.05611
+Cycle: 38950, 15 Adsorbate Molecules, Total Energy: -38577.76698
+Cycle: 39000, 16 Adsorbate Molecules, Total Energy: -40383.10607
+Cycle: 39050, 19 Adsorbate Molecules, Total Energy: -46335.70140
+Cycle: 39100, 21 Adsorbate Molecules, Total Energy: -51258.86114
+Cycle: 39150, 22 Adsorbate Molecules, Total Energy: -54445.55672
+Cycle: 39200, 22 Adsorbate Molecules, Total Energy: -56959.01286
+Cycle: 39250, 23 Adsorbate Molecules, Total Energy: -59874.59189
+Cycle: 39300, 25 Adsorbate Molecules, Total Energy: -64321.94683
+Cycle: 39350, 20 Adsorbate Molecules, Total Energy: -52414.41945
+Cycle: 39400, 19 Adsorbate Molecules, Total Energy: -49695.80126
+Cycle: 39450, 19 Adsorbate Molecules, Total Energy: -48968.54554
+Cycle: 39500, 21 Adsorbate Molecules, Total Energy: -53168.58873
+Cycle: 39550, 22 Adsorbate Molecules, Total Energy: -55470.16224
+Cycle: 39600, 25 Adsorbate Molecules, Total Energy: -62946.51820
+Cycle: 39650, 25 Adsorbate Molecules, Total Energy: -64609.03692
+Cycle: 39700, 27 Adsorbate Molecules, Total Energy: -68378.08314
+Cycle: 39750, 25 Adsorbate Molecules, Total Energy: -64529.93474
+Cycle: 39800, 23 Adsorbate Molecules, Total Energy: -57984.68206
+Cycle: 39850, 21 Adsorbate Molecules, Total Energy: -53259.05555
+Cycle: 39900, 19 Adsorbate Molecules, Total Energy: -48768.13049
+Cycle: 39950, 20 Adsorbate Molecules, Total Energy: -52037.85940
+Cycle: 40000, 19 Adsorbate Molecules, Total Energy: -49972.05499
+Cycle: 40050, 21 Adsorbate Molecules, Total Energy: -55134.74646
+Cycle: 40100, 23 Adsorbate Molecules, Total Energy: -59576.10311
+Cycle: 40150, 22 Adsorbate Molecules, Total Energy: -56379.14166
+Cycle: 40200, 23 Adsorbate Molecules, Total Energy: -58166.00489
+Cycle: 40250, 21 Adsorbate Molecules, Total Energy: -54130.86458
+Cycle: 40300, 23 Adsorbate Molecules, Total Energy: -60994.42818
+Cycle: 40350, 23 Adsorbate Molecules, Total Energy: -61108.38036
+Cycle: 40400, 23 Adsorbate Molecules, Total Energy: -62368.90392
+Cycle: 40450, 25 Adsorbate Molecules, Total Energy: -67382.58231
+Cycle: 40500, 24 Adsorbate Molecules, Total Energy: -64376.99917
+Cycle: 40550, 25 Adsorbate Molecules, Total Energy: -66748.13958
+Cycle: 40600, 23 Adsorbate Molecules, Total Energy: -61097.50796
+Cycle: 40650, 22 Adsorbate Molecules, Total Energy: -58826.77605
+Cycle: 40700, 23 Adsorbate Molecules, Total Energy: -61249.49801
+Cycle: 40750, 22 Adsorbate Molecules, Total Energy: -58744.80015
+Cycle: 40800, 25 Adsorbate Molecules, Total Energy: -65069.76144
+Cycle: 40850, 25 Adsorbate Molecules, Total Energy: -65276.27367
+Cycle: 40900, 26 Adsorbate Molecules, Total Energy: -68085.13473
+Cycle: 40950, 26 Adsorbate Molecules, Total Energy: -66940.18587
+Cycle: 41000, 28 Adsorbate Molecules, Total Energy: -70755.38369
+Cycle: 41050, 28 Adsorbate Molecules, Total Energy: -71315.39414
+Cycle: 41100, 29 Adsorbate Molecules, Total Energy: -73525.25984
+Cycle: 41150, 30 Adsorbate Molecules, Total Energy: -76681.57653
+Cycle: 41200, 31 Adsorbate Molecules, Total Energy: -79089.84897
+Cycle: 41250, 26 Adsorbate Molecules, Total Energy: -67820.09789
+Cycle: 41300, 25 Adsorbate Molecules, Total Energy: -65065.50227
+Cycle: 41350, 23 Adsorbate Molecules, Total Energy: -61647.65278
+Cycle: 41400, 22 Adsorbate Molecules, Total Energy: -55025.06098
+Cycle: 41450, 22 Adsorbate Molecules, Total Energy: -54591.39339
+Cycle: 41500, 18 Adsorbate Molecules, Total Energy: -46741.06413
+Cycle: 41550, 18 Adsorbate Molecules, Total Energy: -46271.64879
+Cycle: 41600, 23 Adsorbate Molecules, Total Energy: -57208.03549
+Cycle: 41650, 22 Adsorbate Molecules, Total Energy: -54385.66178
+Cycle: 41700, 19 Adsorbate Molecules, Total Energy: -47805.17064
+Cycle: 41750, 18 Adsorbate Molecules, Total Energy: -47186.55321
+Cycle: 41800, 19 Adsorbate Molecules, Total Energy: -49509.64833
+Cycle: 41850, 17 Adsorbate Molecules, Total Energy: -43894.32993
+Cycle: 41900, 17 Adsorbate Molecules, Total Energy: -43110.43773
+Cycle: 41950, 20 Adsorbate Molecules, Total Energy: -51453.57097
+Cycle: 42000, 21 Adsorbate Molecules, Total Energy: -53040.83224
+Cycle: 42050, 24 Adsorbate Molecules, Total Energy: -60556.15145
+Cycle: 42100, 19 Adsorbate Molecules, Total Energy: -50320.81542
+Cycle: 42150, 20 Adsorbate Molecules, Total Energy: -51873.61343
+Cycle: 42200, 19 Adsorbate Molecules, Total Energy: -48081.35128
+Cycle: 42250, 20 Adsorbate Molecules, Total Energy: -49850.12714
+Cycle: 42300, 19 Adsorbate Molecules, Total Energy: -47346.01299
+Cycle: 42350, 17 Adsorbate Molecules, Total Energy: -42713.10330
+Cycle: 42400, 15 Adsorbate Molecules, Total Energy: -38536.25735
+Cycle: 42450, 12 Adsorbate Molecules, Total Energy: -32421.89637
+Cycle: 42500, 13 Adsorbate Molecules, Total Energy: -34811.32670
+Cycle: 42550, 12 Adsorbate Molecules, Total Energy: -32937.48499
+Cycle: 42600, 14 Adsorbate Molecules, Total Energy: -37356.95328
+Cycle: 42650, 14 Adsorbate Molecules, Total Energy: -37500.55187
+Cycle: 42700, 16 Adsorbate Molecules, Total Energy: -40397.86045
+Cycle: 42750, 18 Adsorbate Molecules, Total Energy: -43998.13223
+Cycle: 42800, 19 Adsorbate Molecules, Total Energy: -47408.99587
+Cycle: 42850, 20 Adsorbate Molecules, Total Energy: -49073.51477
+Cycle: 42900, 17 Adsorbate Molecules, Total Energy: -40982.96129
+Cycle: 42950, 21 Adsorbate Molecules, Total Energy: -51373.96685
+Cycle: 43000, 21 Adsorbate Molecules, Total Energy: -52077.76537
+Cycle: 43050, 20 Adsorbate Molecules, Total Energy: -49598.76857
+Cycle: 43100, 22 Adsorbate Molecules, Total Energy: -52690.35236
+Cycle: 43150, 21 Adsorbate Molecules, Total Energy: -51215.37577
+Cycle: 43200, 21 Adsorbate Molecules, Total Energy: -51567.92817
+Cycle: 43250, 19 Adsorbate Molecules, Total Energy: -48222.17080
+Cycle: 43300, 21 Adsorbate Molecules, Total Energy: -54703.95681
+Cycle: 43350, 21 Adsorbate Molecules, Total Energy: -52362.28176
+Cycle: 43400, 20 Adsorbate Molecules, Total Energy: -51120.62171
+Cycle: 43450, 15 Adsorbate Molecules, Total Energy: -39655.83920
+Cycle: 43500, 16 Adsorbate Molecules, Total Energy: -42188.49678
+Cycle: 43550, 18 Adsorbate Molecules, Total Energy: -46693.55510
+Cycle: 43600, 20 Adsorbate Molecules, Total Energy: -50988.49854
+Cycle: 43650, 19 Adsorbate Molecules, Total Energy: -48670.28600
+Cycle: 43700, 17 Adsorbate Molecules, Total Energy: -44236.84251
+Cycle: 43750, 16 Adsorbate Molecules, Total Energy: -40736.40702
+Cycle: 43800, 18 Adsorbate Molecules, Total Energy: -45620.00553
+Cycle: 43850, 17 Adsorbate Molecules, Total Energy: -42430.23217
+Cycle: 43900, 14 Adsorbate Molecules, Total Energy: -35431.97145
+Cycle: 43950, 13 Adsorbate Molecules, Total Energy: -34836.43492
+Cycle: 44000, 15 Adsorbate Molecules, Total Energy: -39512.99983
+Cycle: 44050, 13 Adsorbate Molecules, Total Energy: -35516.00631
+Cycle: 44100, 17 Adsorbate Molecules, Total Energy: -43856.73410
+Cycle: 44150, 20 Adsorbate Molecules, Total Energy: -49330.00356
+Cycle: 44200, 22 Adsorbate Molecules, Total Energy: -55678.80692
+Cycle: 44250, 23 Adsorbate Molecules, Total Energy: -56816.77582
+Cycle: 44300, 23 Adsorbate Molecules, Total Energy: -57572.42703
+Cycle: 44350, 26 Adsorbate Molecules, Total Energy: -65427.40459
+Cycle: 44400, 26 Adsorbate Molecules, Total Energy: -64859.20220
+Cycle: 44450, 24 Adsorbate Molecules, Total Energy: -59821.68115
+Cycle: 44500, 23 Adsorbate Molecules, Total Energy: -58216.69915
+Cycle: 44550, 22 Adsorbate Molecules, Total Energy: -57200.38359
+Cycle: 44600, 21 Adsorbate Molecules, Total Energy: -54509.43323
+Cycle: 44650, 21 Adsorbate Molecules, Total Energy: -53979.53752
+Cycle: 44700, 21 Adsorbate Molecules, Total Energy: -53052.24679
+Cycle: 44750, 20 Adsorbate Molecules, Total Energy: -52239.42508
+Cycle: 44800, 21 Adsorbate Molecules, Total Energy: -53089.48512
+Cycle: 44850, 19 Adsorbate Molecules, Total Energy: -49984.46753
+Cycle: 44900, 18 Adsorbate Molecules, Total Energy: -46840.04885
+Cycle: 44950, 17 Adsorbate Molecules, Total Energy: -44519.29932
+Cycle: 45000, 19 Adsorbate Molecules, Total Energy: -49172.35021
+Cycle: 45050, 20 Adsorbate Molecules, Total Energy: -50344.38196
+Cycle: 45100, 21 Adsorbate Molecules, Total Energy: -52262.25856
+Cycle: 45150, 22 Adsorbate Molecules, Total Energy: -54054.36637
+Cycle: 45200, 22 Adsorbate Molecules, Total Energy: -54145.72355
+Cycle: 45250, 20 Adsorbate Molecules, Total Energy: -49964.10977
+Cycle: 45300, 17 Adsorbate Molecules, Total Energy: -42906.17929
+Cycle: 45350, 15 Adsorbate Molecules, Total Energy: -39423.38311
+Cycle: 45400, 17 Adsorbate Molecules, Total Energy: -42663.74806
+Cycle: 45450, 16 Adsorbate Molecules, Total Energy: -41014.88352
+Cycle: 45500, 18 Adsorbate Molecules, Total Energy: -45581.97778
+Cycle: 45550, 18 Adsorbate Molecules, Total Energy: -46619.65408
+Cycle: 45600, 20 Adsorbate Molecules, Total Energy: -50580.14648
+Cycle: 45650, 22 Adsorbate Molecules, Total Energy: -54457.22961
+Cycle: 45700, 19 Adsorbate Molecules, Total Energy: -47711.13968
+Cycle: 45750, 16 Adsorbate Molecules, Total Energy: -41630.95131
+Cycle: 45800, 17 Adsorbate Molecules, Total Energy: -42630.82181
+Cycle: 45850, 14 Adsorbate Molecules, Total Energy: -35139.39852
+Cycle: 45900, 13 Adsorbate Molecules, Total Energy: -33288.08288
+Cycle: 45950, 13 Adsorbate Molecules, Total Energy: -33863.44924
+Cycle: 46000, 12 Adsorbate Molecules, Total Energy: -31466.71923
+Cycle: 46050, 12 Adsorbate Molecules, Total Energy: -30734.94708
+Cycle: 46100, 13 Adsorbate Molecules, Total Energy: -32359.04397
+Cycle: 46150, 13 Adsorbate Molecules, Total Energy: -32954.84182
+Cycle: 46200, 12 Adsorbate Molecules, Total Energy: -29412.85525
+Cycle: 46250, 12 Adsorbate Molecules, Total Energy: -29476.58629
+Cycle: 46300, 15 Adsorbate Molecules, Total Energy: -35232.13149
+Cycle: 46350, 16 Adsorbate Molecules, Total Energy: -37479.00203
+Cycle: 46400, 18 Adsorbate Molecules, Total Energy: -43241.72072
+Cycle: 46450, 19 Adsorbate Molecules, Total Energy: -46309.06058
+Cycle: 46500, 18 Adsorbate Molecules, Total Energy: -44360.54543
+Cycle: 46550, 17 Adsorbate Molecules, Total Energy: -40964.14620
+Cycle: 46600, 20 Adsorbate Molecules, Total Energy: -49172.17397
+Cycle: 46650, 22 Adsorbate Molecules, Total Energy: -54967.52122
+Cycle: 46700, 22 Adsorbate Molecules, Total Energy: -54833.26620
+Cycle: 46750, 22 Adsorbate Molecules, Total Energy: -54511.82345
+Cycle: 46800, 20 Adsorbate Molecules, Total Energy: -50469.60311
+Cycle: 46850, 20 Adsorbate Molecules, Total Energy: -51714.56993
+Cycle: 46900, 21 Adsorbate Molecules, Total Energy: -53450.23918
+Cycle: 46950, 18 Adsorbate Molecules, Total Energy: -46975.45138
+Cycle: 47000, 20 Adsorbate Molecules, Total Energy: -53016.73156
+Cycle: 47050, 19 Adsorbate Molecules, Total Energy: -50620.65062
+Cycle: 47100, 19 Adsorbate Molecules, Total Energy: -51110.15306
+Cycle: 47150, 19 Adsorbate Molecules, Total Energy: -50377.83803
+Cycle: 47200, 21 Adsorbate Molecules, Total Energy: -55115.59211
+Cycle: 47250, 22 Adsorbate Molecules, Total Energy: -56829.83231
+Cycle: 47300, 21 Adsorbate Molecules, Total Energy: -54616.38954
+Cycle: 47350, 21 Adsorbate Molecules, Total Energy: -55222.60493
+Cycle: 47400, 18 Adsorbate Molecules, Total Energy: -47046.08071
+Cycle: 47450, 16 Adsorbate Molecules, Total Energy: -40988.58436
+Cycle: 47500, 15 Adsorbate Molecules, Total Energy: -38619.67010
+Cycle: 47550, 15 Adsorbate Molecules, Total Energy: -39324.26947
+Cycle: 47600, 18 Adsorbate Molecules, Total Energy: -45686.08296
+Cycle: 47650, 19 Adsorbate Molecules, Total Energy: -46731.99997
+Cycle: 47700, 17 Adsorbate Molecules, Total Energy: -43068.75027
+Cycle: 47750, 18 Adsorbate Molecules, Total Energy: -47512.27425
+Cycle: 47800, 19 Adsorbate Molecules, Total Energy: -49863.50293
+Cycle: 47850, 16 Adsorbate Molecules, Total Energy: -42394.82393
+Cycle: 47900, 18 Adsorbate Molecules, Total Energy: -47247.47595
+Cycle: 47950, 17 Adsorbate Molecules, Total Energy: -44285.95213
+Cycle: 48000, 15 Adsorbate Molecules, Total Energy: -41189.26838
+Cycle: 48050, 16 Adsorbate Molecules, Total Energy: -43509.50365
+Cycle: 48100, 18 Adsorbate Molecules, Total Energy: -48884.32839
+Cycle: 48150, 19 Adsorbate Molecules, Total Energy: -52385.84458
+Cycle: 48200, 21 Adsorbate Molecules, Total Energy: -56916.86070
+Cycle: 48250, 23 Adsorbate Molecules, Total Energy: -61245.27839
+Cycle: 48300, 24 Adsorbate Molecules, Total Energy: -63589.05746
+Cycle: 48350, 24 Adsorbate Molecules, Total Energy: -63684.65839
+Cycle: 48400, 24 Adsorbate Molecules, Total Energy: -64910.63661
+Cycle: 48450, 26 Adsorbate Molecules, Total Energy: -69248.26325
+Cycle: 48500, 24 Adsorbate Molecules, Total Energy: -64266.82414
+Cycle: 48550, 27 Adsorbate Molecules, Total Energy: -71933.48861
+Cycle: 48600, 26 Adsorbate Molecules, Total Energy: -68558.57802
+Cycle: 48650, 24 Adsorbate Molecules, Total Energy: -65437.09894
+Cycle: 48700, 25 Adsorbate Molecules, Total Energy: -65852.79613
+Cycle: 48750, 25 Adsorbate Molecules, Total Energy: -64401.91837
+Cycle: 48800, 27 Adsorbate Molecules, Total Energy: -68980.88992
+Cycle: 48850, 29 Adsorbate Molecules, Total Energy: -72972.56436
+Cycle: 48900, 26 Adsorbate Molecules, Total Energy: -66074.13963
+Cycle: 48950, 26 Adsorbate Molecules, Total Energy: -65568.30969
+Cycle: 49000, 25 Adsorbate Molecules, Total Energy: -64214.92924
+Cycle: 49050, 23 Adsorbate Molecules, Total Energy: -59862.64678
+Cycle: 49100, 22 Adsorbate Molecules, Total Energy: -58382.60450
+Cycle: 49150, 25 Adsorbate Molecules, Total Energy: -66177.03237
+Cycle: 49200, 23 Adsorbate Molecules, Total Energy: -61378.32970
+Cycle: 49250, 25 Adsorbate Molecules, Total Energy: -66586.12330
+Cycle: 49300, 23 Adsorbate Molecules, Total Energy: -61673.21801
+Cycle: 49350, 23 Adsorbate Molecules, Total Energy: -60805.34829
+Cycle: 49400, 23 Adsorbate Molecules, Total Energy: -59939.24176
+Cycle: 49450, 25 Adsorbate Molecules, Total Energy: -66182.93557
+Cycle: 49500, 23 Adsorbate Molecules, Total Energy: -60526.73971
+Cycle: 49550, 22 Adsorbate Molecules, Total Energy: -59755.31065
+Cycle: 49600, 24 Adsorbate Molecules, Total Energy: -64529.67374
+Cycle: 49650, 24 Adsorbate Molecules, Total Energy: -64311.24933
+Cycle: 49700, 26 Adsorbate Molecules, Total Energy: -68614.74445
+Cycle: 49750, 28 Adsorbate Molecules, Total Energy: -75278.23120
+Cycle: 49800, 26 Adsorbate Molecules, Total Energy: -69900.16651
+Cycle: 49850, 26 Adsorbate Molecules, Total Energy: -70481.40290
+Cycle: 49900, 25 Adsorbate Molecules, Total Energy: -69386.35216
+Cycle: 49950, 25 Adsorbate Molecules, Total Energy: -68078.25726
+Cycle: 50000, 27 Adsorbate Molecules, Total Energy: -72292.45427
+Cycle: 50050, 29 Adsorbate Molecules, Total Energy: -77208.26339
+Cycle: 50100, 28 Adsorbate Molecules, Total Energy: -75402.83332
+Cycle: 50150, 26 Adsorbate Molecules, Total Energy: -69836.21485
+Cycle: 50200, 24 Adsorbate Molecules, Total Energy: -65635.48900
+Cycle: 50250, 26 Adsorbate Molecules, Total Energy: -68611.49081
+Cycle: 50300, 26 Adsorbate Molecules, Total Energy: -69724.68358
+Cycle: 50350, 28 Adsorbate Molecules, Total Energy: -73416.65064
+Cycle: 50400, 28 Adsorbate Molecules, Total Energy: -72075.77707
+Cycle: 50450, 24 Adsorbate Molecules, Total Energy: -63561.38806
+Cycle: 50500, 25 Adsorbate Molecules, Total Energy: -67015.85134
+Cycle: 50550, 27 Adsorbate Molecules, Total Energy: -71871.09802
+Cycle: 50600, 25 Adsorbate Molecules, Total Energy: -66912.92889
+Cycle: 50650, 23 Adsorbate Molecules, Total Energy: -62571.50674
+Cycle: 50700, 22 Adsorbate Molecules, Total Energy: -57622.22746
+Cycle: 50750, 20 Adsorbate Molecules, Total Energy: -53648.51318
+Cycle: 50800, 20 Adsorbate Molecules, Total Energy: -55388.91266
+Cycle: 50850, 21 Adsorbate Molecules, Total Energy: -57136.65389
+Cycle: 50900, 24 Adsorbate Molecules, Total Energy: -63978.43998
+Cycle: 50950, 24 Adsorbate Molecules, Total Energy: -62691.72904
+Cycle: 51000, 23 Adsorbate Molecules, Total Energy: -60826.62180
+Cycle: 51050, 25 Adsorbate Molecules, Total Energy: -64478.65110
+Cycle: 51100, 25 Adsorbate Molecules, Total Energy: -66631.99855
+Cycle: 51150, 24 Adsorbate Molecules, Total Energy: -64237.35839
+Cycle: 51200, 22 Adsorbate Molecules, Total Energy: -57705.37033
+Cycle: 51250, 21 Adsorbate Molecules, Total Energy: -56337.58252
+Cycle: 51300, 22 Adsorbate Molecules, Total Energy: -56694.65785
+Cycle: 51350, 23 Adsorbate Molecules, Total Energy: -58740.97040
+Cycle: 51400, 25 Adsorbate Molecules, Total Energy: -62832.72329
+Cycle: 51450, 22 Adsorbate Molecules, Total Energy: -56159.30032
+Cycle: 51500, 22 Adsorbate Molecules, Total Energy: -56224.88433
+Cycle: 51550, 22 Adsorbate Molecules, Total Energy: -55566.36025
+Cycle: 51600, 22 Adsorbate Molecules, Total Energy: -55903.91426
+Cycle: 51650, 22 Adsorbate Molecules, Total Energy: -55847.23274
+Cycle: 51700, 25 Adsorbate Molecules, Total Energy: -62650.08455
+Cycle: 51750, 26 Adsorbate Molecules, Total Energy: -66072.49734
+Cycle: 51800, 26 Adsorbate Molecules, Total Energy: -66197.33392
+Cycle: 51850, 29 Adsorbate Molecules, Total Energy: -74475.07924
+Cycle: 51900, 29 Adsorbate Molecules, Total Energy: -75110.82389
+Cycle: 51950, 28 Adsorbate Molecules, Total Energy: -74116.11798
+Cycle: 52000, 27 Adsorbate Molecules, Total Energy: -70529.87845
+Cycle: 52050, 25 Adsorbate Molecules, Total Energy: -65931.28518
+Cycle: 52100, 25 Adsorbate Molecules, Total Energy: -64995.01041
+Cycle: 52150, 25 Adsorbate Molecules, Total Energy: -65496.25365
+Cycle: 52200, 27 Adsorbate Molecules, Total Energy: -69909.37977
+Cycle: 52250, 25 Adsorbate Molecules, Total Energy: -64612.82121
+Cycle: 52300, 27 Adsorbate Molecules, Total Energy: -68429.57521
+Cycle: 52350, 27 Adsorbate Molecules, Total Energy: -69086.27063
+Cycle: 52400, 27 Adsorbate Molecules, Total Energy: -67684.87279
+Cycle: 52450, 26 Adsorbate Molecules, Total Energy: -65499.11442
+Cycle: 52500, 26 Adsorbate Molecules, Total Energy: -63819.72172
+Cycle: 52550, 24 Adsorbate Molecules, Total Energy: -61038.25904
+Cycle: 52600, 22 Adsorbate Molecules, Total Energy: -55370.57835
+Cycle: 52650, 20 Adsorbate Molecules, Total Energy: -50735.66005
+Cycle: 52700, 23 Adsorbate Molecules, Total Energy: -58061.93034
+Cycle: 52750, 23 Adsorbate Molecules, Total Energy: -58399.21324
+Cycle: 52800, 24 Adsorbate Molecules, Total Energy: -61658.85253
+Cycle: 52850, 21 Adsorbate Molecules, Total Energy: -54061.09966
+Cycle: 52900, 19 Adsorbate Molecules, Total Energy: -47922.19807
+Cycle: 52950, 17 Adsorbate Molecules, Total Energy: -43645.57499
+Cycle: 53000, 20 Adsorbate Molecules, Total Energy: -49664.19593
+Cycle: 53050, 19 Adsorbate Molecules, Total Energy: -46451.80903
+Cycle: 53100, 20 Adsorbate Molecules, Total Energy: -50103.08290
+Cycle: 53150, 19 Adsorbate Molecules, Total Energy: -47904.37607
+Cycle: 53200, 16 Adsorbate Molecules, Total Energy: -40671.89637
+Cycle: 53250, 16 Adsorbate Molecules, Total Energy: -41067.33310
+Cycle: 53300, 16 Adsorbate Molecules, Total Energy: -41424.31637
+Cycle: 53350, 15 Adsorbate Molecules, Total Energy: -39058.01211
+Cycle: 53400, 17 Adsorbate Molecules, Total Energy: -43264.93256
+Cycle: 53450, 20 Adsorbate Molecules, Total Energy: -52305.24543
+Cycle: 53500, 18 Adsorbate Molecules, Total Energy: -49308.80339
+Cycle: 53550, 16 Adsorbate Molecules, Total Energy: -43943.61985
+Cycle: 53600, 18 Adsorbate Molecules, Total Energy: -47840.19378
+Cycle: 53650, 16 Adsorbate Molecules, Total Energy: -43823.38131
+Cycle: 53700, 19 Adsorbate Molecules, Total Energy: -48948.92512
+Cycle: 53750, 18 Adsorbate Molecules, Total Energy: -46178.80252
+Cycle: 53800, 18 Adsorbate Molecules, Total Energy: -46908.07394
+Cycle: 53850, 20 Adsorbate Molecules, Total Energy: -51130.88126
+Cycle: 53900, 18 Adsorbate Molecules, Total Energy: -44967.87974
+Cycle: 53950, 16 Adsorbate Molecules, Total Energy: -41252.81036
+Cycle: 54000, 15 Adsorbate Molecules, Total Energy: -38851.11452
+Cycle: 54050, 17 Adsorbate Molecules, Total Energy: -41973.71669
+Cycle: 54100, 20 Adsorbate Molecules, Total Energy: -50501.72789
+Cycle: 54150, 19 Adsorbate Molecules, Total Energy: -47437.72878
+Cycle: 54200, 19 Adsorbate Molecules, Total Energy: -48649.53553
+Cycle: 54250, 19 Adsorbate Molecules, Total Energy: -49332.49886
+Cycle: 54300, 20 Adsorbate Molecules, Total Energy: -53484.64199
+Cycle: 54350, 19 Adsorbate Molecules, Total Energy: -50726.07409
+Cycle: 54400, 21 Adsorbate Molecules, Total Energy: -55348.22792
+Cycle: 54450, 21 Adsorbate Molecules, Total Energy: -55920.26619
+Cycle: 54500, 22 Adsorbate Molecules, Total Energy: -58122.67448
+Cycle: 54550, 24 Adsorbate Molecules, Total Energy: -62085.76353
+Cycle: 54600, 21 Adsorbate Molecules, Total Energy: -55436.96571
+Cycle: 54650, 20 Adsorbate Molecules, Total Energy: -53026.32326
+Cycle: 54700, 18 Adsorbate Molecules, Total Energy: -46995.23249
+Cycle: 54750, 17 Adsorbate Molecules, Total Energy: -45788.21423
+Cycle: 54800, 20 Adsorbate Molecules, Total Energy: -51384.06759
+Cycle: 54850, 23 Adsorbate Molecules, Total Energy: -61926.21148
+Cycle: 54900, 23 Adsorbate Molecules, Total Energy: -61894.38812
+Cycle: 54950, 25 Adsorbate Molecules, Total Energy: -66790.95099
+Cycle: 55000, 24 Adsorbate Molecules, Total Energy: -64929.81522
+Cycle: 55050, 28 Adsorbate Molecules, Total Energy: -73824.26263
+Cycle: 55100, 28 Adsorbate Molecules, Total Energy: -72179.93373
+Cycle: 55150, 27 Adsorbate Molecules, Total Energy: -69847.77320
+Cycle: 55200, 26 Adsorbate Molecules, Total Energy: -66777.90465
+Cycle: 55250, 25 Adsorbate Molecules, Total Energy: -63837.46798
+Cycle: 55300, 23 Adsorbate Molecules, Total Energy: -59891.61668
+Cycle: 55350, 24 Adsorbate Molecules, Total Energy: -59937.40553
+Cycle: 55400, 24 Adsorbate Molecules, Total Energy: -59144.47021
+Cycle: 55450, 25 Adsorbate Molecules, Total Energy: -61590.60942
+Cycle: 55500, 24 Adsorbate Molecules, Total Energy: -59082.77040
+Cycle: 55550, 21 Adsorbate Molecules, Total Energy: -53800.42166
+Cycle: 55600, 20 Adsorbate Molecules, Total Energy: -51573.61567
+Cycle: 55650, 20 Adsorbate Molecules, Total Energy: -52369.10080
+Cycle: 55700, 21 Adsorbate Molecules, Total Energy: -54327.84650
+Cycle: 55750, 21 Adsorbate Molecules, Total Energy: -54758.30359
+Cycle: 55800, 22 Adsorbate Molecules, Total Energy: -56459.95009
+Cycle: 55850, 21 Adsorbate Molecules, Total Energy: -53782.05712
+Cycle: 55900, 22 Adsorbate Molecules, Total Energy: -54868.64022
+Cycle: 55950, 22 Adsorbate Molecules, Total Energy: -52167.33499
+Cycle: 56000, 21 Adsorbate Molecules, Total Energy: -50638.54222
+Cycle: 56050, 20 Adsorbate Molecules, Total Energy: -50080.56725
+Cycle: 56100, 19 Adsorbate Molecules, Total Energy: -47625.94621
+Cycle: 56150, 19 Adsorbate Molecules, Total Energy: -47284.13493
+Cycle: 56200, 19 Adsorbate Molecules, Total Energy: -46823.53523
+Cycle: 56250, 19 Adsorbate Molecules, Total Energy: -47547.00109
+Cycle: 56300, 20 Adsorbate Molecules, Total Energy: -49554.28032
+Cycle: 56350, 15 Adsorbate Molecules, Total Energy: -39737.07419
+Cycle: 56400, 20 Adsorbate Molecules, Total Energy: -50229.44353
+Cycle: 56450, 21 Adsorbate Molecules, Total Energy: -52029.43377
+Cycle: 56500, 19 Adsorbate Molecules, Total Energy: -47920.12969
+Cycle: 56550, 17 Adsorbate Molecules, Total Energy: -43543.38596
+Cycle: 56600, 14 Adsorbate Molecules, Total Energy: -37547.56152
+Cycle: 56650, 14 Adsorbate Molecules, Total Energy: -37262.97985
+Cycle: 56700, 16 Adsorbate Molecules, Total Energy: -41957.19522
+Cycle: 56750, 17 Adsorbate Molecules, Total Energy: -44906.97395
+Cycle: 56800, 17 Adsorbate Molecules, Total Energy: -44155.80025
+Cycle: 56850, 16 Adsorbate Molecules, Total Energy: -40978.52142
+Cycle: 56900, 15 Adsorbate Molecules, Total Energy: -38218.87983
+Cycle: 56950, 17 Adsorbate Molecules, Total Energy: -41518.86311
+Cycle: 57000, 17 Adsorbate Molecules, Total Energy: -42589.09151
+Cycle: 57050, 15 Adsorbate Molecules, Total Energy: -38800.86260
+Cycle: 57100, 15 Adsorbate Molecules, Total Energy: -38823.32155
+Cycle: 57150, 16 Adsorbate Molecules, Total Energy: -40684.46543
+Cycle: 57200, 16 Adsorbate Molecules, Total Energy: -39603.10858
+Cycle: 57250, 18 Adsorbate Molecules, Total Energy: -47342.70631
+Cycle: 57300, 17 Adsorbate Molecules, Total Energy: -44237.86111
+Cycle: 57350, 17 Adsorbate Molecules, Total Energy: -43363.70069
+Cycle: 57400, 15 Adsorbate Molecules, Total Energy: -38248.56439
+Cycle: 57450, 14 Adsorbate Molecules, Total Energy: -35559.71660
+Cycle: 57500, 15 Adsorbate Molecules, Total Energy: -38188.38350
+Cycle: 57550, 16 Adsorbate Molecules, Total Energy: -41248.70104
+Cycle: 57600, 18 Adsorbate Molecules, Total Energy: -45599.49579
+Cycle: 57650, 19 Adsorbate Molecules, Total Energy: -47671.77080
+Cycle: 57700, 18 Adsorbate Molecules, Total Energy: -45823.62202
+Cycle: 57750, 20 Adsorbate Molecules, Total Energy: -49165.94759
+Cycle: 57800, 21 Adsorbate Molecules, Total Energy: -51181.15454
+Cycle: 57850, 21 Adsorbate Molecules, Total Energy: -50441.87692
+Cycle: 57900, 21 Adsorbate Molecules, Total Energy: -49748.37731
+Cycle: 57950, 20 Adsorbate Molecules, Total Energy: -50595.28911
+Cycle: 58000, 19 Adsorbate Molecules, Total Energy: -48445.82268
+Cycle: 58050, 19 Adsorbate Molecules, Total Energy: -49710.57521
+Cycle: 58100, 20 Adsorbate Molecules, Total Energy: -50684.42423
+Cycle: 58150, 22 Adsorbate Molecules, Total Energy: -55448.61195
+Cycle: 58200, 22 Adsorbate Molecules, Total Energy: -55671.01257
+Cycle: 58250, 21 Adsorbate Molecules, Total Energy: -52146.42088
+Cycle: 58300, 22 Adsorbate Molecules, Total Energy: -53763.06171
+Cycle: 58350, 20 Adsorbate Molecules, Total Energy: -49008.61001
+Cycle: 58400, 18 Adsorbate Molecules, Total Energy: -45945.77651
+Cycle: 58450, 17 Adsorbate Molecules, Total Energy: -41965.92198
+Cycle: 58500, 17 Adsorbate Molecules, Total Energy: -43329.53930
+Cycle: 58550, 15 Adsorbate Molecules, Total Energy: -38573.34749
+Cycle: 58600, 15 Adsorbate Molecules, Total Energy: -39006.05823
+Cycle: 58650, 15 Adsorbate Molecules, Total Energy: -38431.54231
+Cycle: 58700, 14 Adsorbate Molecules, Total Energy: -35395.92226
+Cycle: 58750, 15 Adsorbate Molecules, Total Energy: -38453.20824
+Cycle: 58800, 15 Adsorbate Molecules, Total Energy: -36766.16395
+Cycle: 58850, 14 Adsorbate Molecules, Total Energy: -35734.11973
+Cycle: 58900, 13 Adsorbate Molecules, Total Energy: -30831.07744
+Cycle: 58950, 11 Adsorbate Molecules, Total Energy: -27713.88844
+Cycle: 59000, 15 Adsorbate Molecules, Total Energy: -37460.67422
+Cycle: 59050, 14 Adsorbate Molecules, Total Energy: -34341.95719
+Cycle: 59100, 16 Adsorbate Molecules, Total Energy: -40547.36590
+Cycle: 59150, 15 Adsorbate Molecules, Total Energy: -38585.33629
+Cycle: 59200, 16 Adsorbate Molecules, Total Energy: -39115.20461
+Cycle: 59250, 15 Adsorbate Molecules, Total Energy: -37302.77164
+Cycle: 59300, 16 Adsorbate Molecules, Total Energy: -40192.62175
+Cycle: 59350, 19 Adsorbate Molecules, Total Energy: -46463.82983
+Cycle: 59400, 22 Adsorbate Molecules, Total Energy: -52668.30969
+Cycle: 59450, 22 Adsorbate Molecules, Total Energy: -52107.67247
+Cycle: 59500, 21 Adsorbate Molecules, Total Energy: -52221.44106
+Cycle: 59550, 21 Adsorbate Molecules, Total Energy: -52659.76007
+Cycle: 59600, 21 Adsorbate Molecules, Total Energy: -53209.78028
+Cycle: 59650, 21 Adsorbate Molecules, Total Energy: -52992.73260
+Cycle: 59700, 21 Adsorbate Molecules, Total Energy: -53847.68047
+Cycle: 59750, 20 Adsorbate Molecules, Total Energy: -51960.31473
+Cycle: 59800, 18 Adsorbate Molecules, Total Energy: -47129.97140
+Cycle: 59850, 16 Adsorbate Molecules, Total Energy: -40443.01560
+Cycle: 59900, 17 Adsorbate Molecules, Total Energy: -41761.38310
+Cycle: 59950, 16 Adsorbate Molecules, Total Energy: -40024.31154
+Cycle: 60000, 15 Adsorbate Molecules, Total Energy: -36567.18036
+Cycle: 60050, 17 Adsorbate Molecules, Total Energy: -41686.17097
+Cycle: 60100, 19 Adsorbate Molecules, Total Energy: -49521.86863
+Cycle: 60150, 18 Adsorbate Molecules, Total Energy: -44860.04184
+Cycle: 60200, 17 Adsorbate Molecules, Total Energy: -43312.95610
+Cycle: 60250, 19 Adsorbate Molecules, Total Energy: -48722.66689
+Cycle: 60300, 19 Adsorbate Molecules, Total Energy: -50347.45447
+Cycle: 60350, 19 Adsorbate Molecules, Total Energy: -48425.51719
+Cycle: 60400, 20 Adsorbate Molecules, Total Energy: -50116.21189
+Cycle: 60450, 21 Adsorbate Molecules, Total Energy: -52433.57526
+Cycle: 60500, 19 Adsorbate Molecules, Total Energy: -48548.81338
+Cycle: 60550, 20 Adsorbate Molecules, Total Energy: -50751.20121
+Cycle: 60600, 19 Adsorbate Molecules, Total Energy: -49775.57865
+Cycle: 60650, 20 Adsorbate Molecules, Total Energy: -51480.61322
+Cycle: 60700, 18 Adsorbate Molecules, Total Energy: -45575.06936
+Cycle: 60750, 17 Adsorbate Molecules, Total Energy: -44894.54079
+Cycle: 60800, 18 Adsorbate Molecules, Total Energy: -46977.36770
+Cycle: 60850, 14 Adsorbate Molecules, Total Energy: -37562.00783
+Cycle: 60900, 15 Adsorbate Molecules, Total Energy: -39848.72569
+Cycle: 60950, 20 Adsorbate Molecules, Total Energy: -49911.29193
+Cycle: 61000, 20 Adsorbate Molecules, Total Energy: -50654.09729
+Cycle: 61050, 19 Adsorbate Molecules, Total Energy: -49430.65434
+Cycle: 61100, 18 Adsorbate Molecules, Total Energy: -47907.31530
+Cycle: 61150, 20 Adsorbate Molecules, Total Energy: -52142.36892
+Cycle: 61200, 19 Adsorbate Molecules, Total Energy: -49711.70244
+Cycle: 61250, 17 Adsorbate Molecules, Total Energy: -44933.36016
+Cycle: 61300, 18 Adsorbate Molecules, Total Energy: -46828.42672
+Cycle: 61350, 17 Adsorbate Molecules, Total Energy: -44375.51775
+Cycle: 61400, 17 Adsorbate Molecules, Total Energy: -45446.97726
+Cycle: 61450, 20 Adsorbate Molecules, Total Energy: -50536.38292
+Cycle: 61500, 20 Adsorbate Molecules, Total Energy: -50089.35931
+Cycle: 61550, 23 Adsorbate Molecules, Total Energy: -56096.34257
+Cycle: 61600, 21 Adsorbate Molecules, Total Energy: -51847.49164
+Cycle: 61650, 20 Adsorbate Molecules, Total Energy: -50058.30340
+Cycle: 61700, 19 Adsorbate Molecules, Total Energy: -47510.71187
+Cycle: 61750, 18 Adsorbate Molecules, Total Energy: -46063.62414
+Cycle: 61800, 21 Adsorbate Molecules, Total Energy: -53742.62049
+Cycle: 61850, 20 Adsorbate Molecules, Total Energy: -51007.70265
+Cycle: 61900, 25 Adsorbate Molecules, Total Energy: -63717.08627
+Cycle: 61950, 25 Adsorbate Molecules, Total Energy: -61851.40088
+Cycle: 62000, 28 Adsorbate Molecules, Total Energy: -69426.32719
+Cycle: 62050, 26 Adsorbate Molecules, Total Energy: -64248.76180
+Cycle: 62100, 26 Adsorbate Molecules, Total Energy: -66027.54482
+Cycle: 62150, 23 Adsorbate Molecules, Total Energy: -58800.54238
+Cycle: 62200, 25 Adsorbate Molecules, Total Energy: -64492.36745
+Cycle: 62250, 28 Adsorbate Molecules, Total Energy: -70607.84118
+Cycle: 62300, 28 Adsorbate Molecules, Total Energy: -71725.50049
+Cycle: 62350, 27 Adsorbate Molecules, Total Energy: -70552.90777
+Cycle: 62400, 27 Adsorbate Molecules, Total Energy: -72051.18407
+Cycle: 62450, 25 Adsorbate Molecules, Total Energy: -66503.64733
+Cycle: 62500, 24 Adsorbate Molecules, Total Energy: -63706.89449
+Cycle: 62550, 24 Adsorbate Molecules, Total Energy: -62129.71477
+Cycle: 62600, 20 Adsorbate Molecules, Total Energy: -52757.92309
+Cycle: 62650, 17 Adsorbate Molecules, Total Energy: -44777.85843
+Cycle: 62700, 18 Adsorbate Molecules, Total Energy: -45336.87394
+Cycle: 62750, 22 Adsorbate Molecules, Total Energy: -54899.63837
+Cycle: 62800, 22 Adsorbate Molecules, Total Energy: -54659.39147
+Cycle: 62850, 22 Adsorbate Molecules, Total Energy: -54494.32366
+Cycle: 62900, 19 Adsorbate Molecules, Total Energy: -47502.67091
+Cycle: 62950, 20 Adsorbate Molecules, Total Energy: -50687.13380
+Cycle: 63000, 16 Adsorbate Molecules, Total Energy: -42092.15395
+Cycle: 63050, 15 Adsorbate Molecules, Total Energy: -38977.25229
+Cycle: 63100, 15 Adsorbate Molecules, Total Energy: -37601.06295
+Cycle: 63150, 13 Adsorbate Molecules, Total Energy: -32760.33870
+Cycle: 63200, 11 Adsorbate Molecules, Total Energy: -27490.85550
+Cycle: 63250, 11 Adsorbate Molecules, Total Energy: -27917.46687
+Cycle: 63300, 13 Adsorbate Molecules, Total Energy: -35125.76929
+Cycle: 63350, 15 Adsorbate Molecules, Total Energy: -39861.53445
+Cycle: 63400, 17 Adsorbate Molecules, Total Energy: -44184.70476
+Cycle: 63450, 18 Adsorbate Molecules, Total Energy: -46519.71911
+Cycle: 63500, 19 Adsorbate Molecules, Total Energy: -48117.43750
+Cycle: 63550, 18 Adsorbate Molecules, Total Energy: -46920.90683
+Cycle: 63600, 18 Adsorbate Molecules, Total Energy: -46083.18551
+Cycle: 63650, 19 Adsorbate Molecules, Total Energy: -47768.88205
+Cycle: 63700, 16 Adsorbate Molecules, Total Energy: -41326.10444
+Cycle: 63750, 18 Adsorbate Molecules, Total Energy: -46744.52108
+Cycle: 63800, 24 Adsorbate Molecules, Total Energy: -59016.17364
+Cycle: 63850, 25 Adsorbate Molecules, Total Energy: -61064.55097
+Cycle: 63900, 20 Adsorbate Molecules, Total Energy: -50242.29412
+Cycle: 63950, 20 Adsorbate Molecules, Total Energy: -50239.39491
+Cycle: 64000, 21 Adsorbate Molecules, Total Energy: -53245.04957
+Cycle: 64050, 17 Adsorbate Molecules, Total Energy: -45588.32804
+Cycle: 64100, 16 Adsorbate Molecules, Total Energy: -43152.43499
+Cycle: 64150, 19 Adsorbate Molecules, Total Energy: -49587.68783
+Cycle: 64200, 21 Adsorbate Molecules, Total Energy: -54761.64462
+Cycle: 64250, 21 Adsorbate Molecules, Total Energy: -54743.02788
+Cycle: 64300, 20 Adsorbate Molecules, Total Energy: -52619.83434
+Cycle: 64350, 19 Adsorbate Molecules, Total Energy: -49441.50572
+Cycle: 64400, 23 Adsorbate Molecules, Total Energy: -59453.12454
+Cycle: 64450, 22 Adsorbate Molecules, Total Energy: -56272.47402
+Cycle: 64500, 26 Adsorbate Molecules, Total Energy: -64493.57524
+Cycle: 64550, 25 Adsorbate Molecules, Total Energy: -62745.03286
+Cycle: 64600, 25 Adsorbate Molecules, Total Energy: -62850.67031
+Cycle: 64650, 26 Adsorbate Molecules, Total Energy: -65832.32866
+Cycle: 64700, 28 Adsorbate Molecules, Total Energy: -69861.60392
+Cycle: 64750, 29 Adsorbate Molecules, Total Energy: -70993.16187
+Cycle: 64800, 26 Adsorbate Molecules, Total Energy: -64804.91149
+Cycle: 64850, 26 Adsorbate Molecules, Total Energy: -64317.29004
+Cycle: 64900, 22 Adsorbate Molecules, Total Energy: -56313.14623
+Cycle: 64950, 19 Adsorbate Molecules, Total Energy: -48132.23851
+Cycle: 65000, 21 Adsorbate Molecules, Total Energy: -54843.30444
+Cycle: 65050, 23 Adsorbate Molecules, Total Energy: -59875.28678
+Cycle: 65100, 20 Adsorbate Molecules, Total Energy: -53599.10036
+Cycle: 65150, 20 Adsorbate Molecules, Total Energy: -54019.12465
+Cycle: 65200, 18 Adsorbate Molecules, Total Energy: -48030.65153
+Cycle: 65250, 23 Adsorbate Molecules, Total Energy: -60192.28738
+Cycle: 65300, 23 Adsorbate Molecules, Total Energy: -59313.19841
+Cycle: 65350, 22 Adsorbate Molecules, Total Energy: -55985.00833
+Cycle: 65400, 19 Adsorbate Molecules, Total Energy: -50636.66249
+Cycle: 65450, 22 Adsorbate Molecules, Total Energy: -56077.37120
+Cycle: 65500, 24 Adsorbate Molecules, Total Energy: -60820.71060
+Cycle: 65550, 22 Adsorbate Molecules, Total Energy: -55695.49873
+Cycle: 65600, 21 Adsorbate Molecules, Total Energy: -53526.31059
+Cycle: 65650, 21 Adsorbate Molecules, Total Energy: -53529.15491
+Cycle: 65700, 23 Adsorbate Molecules, Total Energy: -58145.70605
+Cycle: 65750, 22 Adsorbate Molecules, Total Energy: -55340.16723
+Cycle: 65800, 21 Adsorbate Molecules, Total Energy: -53384.14840
+Cycle: 65850, 25 Adsorbate Molecules, Total Energy: -60801.19364
+Cycle: 65900, 27 Adsorbate Molecules, Total Energy: -65220.21065
+Cycle: 65950, 31 Adsorbate Molecules, Total Energy: -73744.23519
+Cycle: 66000, 30 Adsorbate Molecules, Total Energy: -73996.59417
+Cycle: 66050, 27 Adsorbate Molecules, Total Energy: -67740.33012
+Cycle: 66100, 26 Adsorbate Molecules, Total Energy: -65567.92468
+Cycle: 66150, 24 Adsorbate Molecules, Total Energy: -60283.53809
+Cycle: 66200, 25 Adsorbate Molecules, Total Energy: -61846.47296
+Cycle: 66250, 24 Adsorbate Molecules, Total Energy: -58624.61218
+Cycle: 66300, 22 Adsorbate Molecules, Total Energy: -54284.69755
+Cycle: 66350, 20 Adsorbate Molecules, Total Energy: -50087.34489
+Cycle: 66400, 19 Adsorbate Molecules, Total Energy: -47071.38480
+Cycle: 66450, 16 Adsorbate Molecules, Total Energy: -41474.22575
+Cycle: 66500, 18 Adsorbate Molecules, Total Energy: -45672.90694
+Cycle: 66550, 16 Adsorbate Molecules, Total Energy: -42221.70921
+Cycle: 66600, 20 Adsorbate Molecules, Total Energy: -49811.98773
+Cycle: 66650, 19 Adsorbate Molecules, Total Energy: -47116.94104
+Cycle: 66700, 18 Adsorbate Molecules, Total Energy: -45277.52499
+Cycle: 66750, 18 Adsorbate Molecules, Total Energy: -45040.05195
+Cycle: 66800, 19 Adsorbate Molecules, Total Energy: -47035.99264
+Cycle: 66850, 18 Adsorbate Molecules, Total Energy: -44551.52452
+Cycle: 66900, 20 Adsorbate Molecules, Total Energy: -49163.94807
+Cycle: 66950, 23 Adsorbate Molecules, Total Energy: -56757.00751
+Cycle: 67000, 21 Adsorbate Molecules, Total Energy: -53604.26764
+Cycle: 67050, 23 Adsorbate Molecules, Total Energy: -56934.89824
+Cycle: 67100, 22 Adsorbate Molecules, Total Energy: -53333.50776
+Cycle: 67150, 23 Adsorbate Molecules, Total Energy: -57068.44132
+Cycle: 67200, 22 Adsorbate Molecules, Total Energy: -54353.45040
+Cycle: 67250, 21 Adsorbate Molecules, Total Energy: -52329.76948
+Cycle: 67300, 18 Adsorbate Molecules, Total Energy: -45450.88264
+Cycle: 67350, 19 Adsorbate Molecules, Total Energy: -46875.11611
+Cycle: 67400, 17 Adsorbate Molecules, Total Energy: -42601.11096
+Cycle: 67450, 16 Adsorbate Molecules, Total Energy: -40311.14557
+Cycle: 67500, 19 Adsorbate Molecules, Total Energy: -47473.55177
+Cycle: 67550, 19 Adsorbate Molecules, Total Energy: -48440.85153
+Cycle: 67600, 19 Adsorbate Molecules, Total Energy: -46926.88819
+Cycle: 67650, 14 Adsorbate Molecules, Total Energy: -35398.72490
+Cycle: 67700, 16 Adsorbate Molecules, Total Energy: -38699.37476
+Cycle: 67750, 14 Adsorbate Molecules, Total Energy: -34772.42790
+Cycle: 67800, 14 Adsorbate Molecules, Total Energy: -35957.84331
+Cycle: 67850, 14 Adsorbate Molecules, Total Energy: -37283.16695
+Cycle: 67900, 15 Adsorbate Molecules, Total Energy: -40138.60753
+Cycle: 67950, 16 Adsorbate Molecules, Total Energy: -41211.01516
+Cycle: 68000, 15 Adsorbate Molecules, Total Energy: -39359.24770
+Cycle: 68050, 15 Adsorbate Molecules, Total Energy: -39511.15710
+Cycle: 68100, 16 Adsorbate Molecules, Total Energy: -40374.51203
+Cycle: 68150, 16 Adsorbate Molecules, Total Energy: -40107.97358
+Cycle: 68200, 15 Adsorbate Molecules, Total Energy: -36478.79910
+Cycle: 68250, 17 Adsorbate Molecules, Total Energy: -44071.88846
+Cycle: 68300, 15 Adsorbate Molecules, Total Energy: -39290.08010
+Cycle: 68350, 17 Adsorbate Molecules, Total Energy: -43369.71261
+Cycle: 68400, 20 Adsorbate Molecules, Total Energy: -50051.46116
+Cycle: 68450, 21 Adsorbate Molecules, Total Energy: -54697.69332
+Cycle: 68500, 23 Adsorbate Molecules, Total Energy: -59493.52665
+Cycle: 68550, 25 Adsorbate Molecules, Total Energy: -65969.14563
+Cycle: 68600, 25 Adsorbate Molecules, Total Energy: -65680.56848
+Cycle: 68650, 27 Adsorbate Molecules, Total Energy: -68611.02833
+Cycle: 68700, 25 Adsorbate Molecules, Total Energy: -62843.52357
+Cycle: 68750, 24 Adsorbate Molecules, Total Energy: -61809.97002
+Cycle: 68800, 23 Adsorbate Molecules, Total Energy: -58151.78563
+Cycle: 68850, 24 Adsorbate Molecules, Total Energy: -59935.50425
+Cycle: 68900, 22 Adsorbate Molecules, Total Energy: -55717.16189
+Cycle: 68950, 22 Adsorbate Molecules, Total Energy: -56854.53721
+Cycle: 69000, 21 Adsorbate Molecules, Total Energy: -53976.91904
+Cycle: 69050, 23 Adsorbate Molecules, Total Energy: -58846.87155
+Cycle: 69100, 24 Adsorbate Molecules, Total Energy: -62385.79599
+Cycle: 69150, 22 Adsorbate Molecules, Total Energy: -58691.97422
+Cycle: 69200, 24 Adsorbate Molecules, Total Energy: -64697.22485
+Cycle: 69250, 24 Adsorbate Molecules, Total Energy: -63879.95135
+Cycle: 69300, 22 Adsorbate Molecules, Total Energy: -59550.40669
+Cycle: 69350, 23 Adsorbate Molecules, Total Energy: -60842.55176
+Cycle: 69400, 27 Adsorbate Molecules, Total Energy: -69402.23679
+Cycle: 69450, 25 Adsorbate Molecules, Total Energy: -65394.02539
+Cycle: 69500, 27 Adsorbate Molecules, Total Energy: -68432.35982
+Cycle: 69550, 25 Adsorbate Molecules, Total Energy: -65728.20564
+Cycle: 69600, 25 Adsorbate Molecules, Total Energy: -65294.00490
+Cycle: 69650, 21 Adsorbate Molecules, Total Energy: -57062.84079
+Cycle: 69700, 25 Adsorbate Molecules, Total Energy: -67313.02734
+Cycle: 69750, 21 Adsorbate Molecules, Total Energy: -58571.83952
+Cycle: 69800, 21 Adsorbate Molecules, Total Energy: -58650.04374
+Cycle: 69850, 22 Adsorbate Molecules, Total Energy: -61315.05734
+Cycle: 69900, 24 Adsorbate Molecules, Total Energy: -65445.78780
+Cycle: 69950, 25 Adsorbate Molecules, Total Energy: -65774.76642
+Cycle: 70000, 24 Adsorbate Molecules, Total Energy: -64474.60915
+Cycle: 70050, 24 Adsorbate Molecules, Total Energy: -63447.24258
+Cycle: 70100, 25 Adsorbate Molecules, Total Energy: -66743.76483
+Cycle: 70150, 25 Adsorbate Molecules, Total Energy: -65223.34795
+Cycle: 70200, 25 Adsorbate Molecules, Total Energy: -64611.62852
+Cycle: 70250, 22 Adsorbate Molecules, Total Energy: -56314.55263
+Cycle: 70300, 23 Adsorbate Molecules, Total Energy: -59840.06370
+Cycle: 70350, 24 Adsorbate Molecules, Total Energy: -61173.30500
+Cycle: 70400, 22 Adsorbate Molecules, Total Energy: -54478.07097
+Cycle: 70450, 24 Adsorbate Molecules, Total Energy: -58769.77502
+Cycle: 70500, 23 Adsorbate Molecules, Total Energy: -57255.52729
+Cycle: 70550, 24 Adsorbate Molecules, Total Energy: -61907.01577
+Cycle: 70600, 25 Adsorbate Molecules, Total Energy: -64753.73506
+Cycle: 70650, 26 Adsorbate Molecules, Total Energy: -68213.90078
+Cycle: 70700, 26 Adsorbate Molecules, Total Energy: -67884.40113
+Cycle: 70750, 25 Adsorbate Molecules, Total Energy: -65666.73843
+Cycle: 70800, 29 Adsorbate Molecules, Total Energy: -75360.69139
+Cycle: 70850, 27 Adsorbate Molecules, Total Energy: -70425.24017
+Cycle: 70900, 27 Adsorbate Molecules, Total Energy: -69967.50215
+Cycle: 70950, 25 Adsorbate Molecules, Total Energy: -65056.12553
+Cycle: 71000, 22 Adsorbate Molecules, Total Energy: -57731.93924
+Cycle: 71050, 22 Adsorbate Molecules, Total Energy: -58238.50757
+Cycle: 71100, 24 Adsorbate Molecules, Total Energy: -63055.60234
+Cycle: 71150, 26 Adsorbate Molecules, Total Energy: -68570.68888
+Cycle: 71200, 26 Adsorbate Molecules, Total Energy: -68052.96529
+Cycle: 71250, 25 Adsorbate Molecules, Total Energy: -65772.38066
+Cycle: 71300, 24 Adsorbate Molecules, Total Energy: -61288.64113
+Cycle: 71350, 23 Adsorbate Molecules, Total Energy: -59284.55833
+Cycle: 71400, 26 Adsorbate Molecules, Total Energy: -65886.73871
+Cycle: 71450, 19 Adsorbate Molecules, Total Energy: -48003.11754
+Cycle: 71500, 17 Adsorbate Molecules, Total Energy: -43790.21671
+Cycle: 71550, 17 Adsorbate Molecules, Total Energy: -42837.00873
+Cycle: 71600, 20 Adsorbate Molecules, Total Energy: -48291.51980
+Cycle: 71650, 18 Adsorbate Molecules, Total Energy: -44059.92890
+Cycle: 71700, 20 Adsorbate Molecules, Total Energy: -50250.72326
+Cycle: 71750, 20 Adsorbate Molecules, Total Energy: -50399.70483
+Cycle: 71800, 21 Adsorbate Molecules, Total Energy: -52874.03798
+Cycle: 71850, 19 Adsorbate Molecules, Total Energy: -48061.07814
+Cycle: 71900, 19 Adsorbate Molecules, Total Energy: -49230.37424
+Cycle: 71950, 19 Adsorbate Molecules, Total Energy: -49514.42735
+Cycle: 72000, 18 Adsorbate Molecules, Total Energy: -47482.43140
+Cycle: 72050, 17 Adsorbate Molecules, Total Energy: -45252.98263
+Cycle: 72100, 15 Adsorbate Molecules, Total Energy: -38493.76461
+Cycle: 72150, 15 Adsorbate Molecules, Total Energy: -38582.25698
+Cycle: 72200, 15 Adsorbate Molecules, Total Energy: -37099.66126
+Cycle: 72250, 16 Adsorbate Molecules, Total Energy: -38849.83340
+Cycle: 72300, 16 Adsorbate Molecules, Total Energy: -40212.83851
+Cycle: 72350, 18 Adsorbate Molecules, Total Energy: -44933.02725
+Cycle: 72400, 16 Adsorbate Molecules, Total Energy: -40715.35233
+Cycle: 72450, 17 Adsorbate Molecules, Total Energy: -42620.51780
+Cycle: 72500, 16 Adsorbate Molecules, Total Energy: -41316.40556
+Cycle: 72550, 15 Adsorbate Molecules, Total Energy: -39954.98933
+Cycle: 72600, 17 Adsorbate Molecules, Total Energy: -43656.75198
+Cycle: 72650, 18 Adsorbate Molecules, Total Energy: -45743.52946
+Cycle: 72700, 20 Adsorbate Molecules, Total Energy: -49666.57659
+Cycle: 72750, 19 Adsorbate Molecules, Total Energy: -46619.41609
+Cycle: 72800, 19 Adsorbate Molecules, Total Energy: -47707.57463
+Cycle: 72850, 18 Adsorbate Molecules, Total Energy: -43567.96101
+Cycle: 72900, 16 Adsorbate Molecules, Total Energy: -39074.23774
+Cycle: 72950, 16 Adsorbate Molecules, Total Energy: -40314.16734
+Cycle: 73000, 19 Adsorbate Molecules, Total Energy: -47820.18604
+Cycle: 73050, 18 Adsorbate Molecules, Total Energy: -44145.67483
+Cycle: 73100, 14 Adsorbate Molecules, Total Energy: -33976.42297
+Cycle: 73150, 17 Adsorbate Molecules, Total Energy: -42041.68705
+Cycle: 73200, 17 Adsorbate Molecules, Total Energy: -41451.90541
+Cycle: 73250, 18 Adsorbate Molecules, Total Energy: -44944.37126
+Cycle: 73300, 20 Adsorbate Molecules, Total Energy: -49666.02141
+Cycle: 73350, 19 Adsorbate Molecules, Total Energy: -45735.08140
+Cycle: 73400, 21 Adsorbate Molecules, Total Energy: -50532.98558
+Cycle: 73450, 19 Adsorbate Molecules, Total Energy: -47057.46816
+Cycle: 73500, 17 Adsorbate Molecules, Total Energy: -41719.56317
+Cycle: 73550, 19 Adsorbate Molecules, Total Energy: -45644.21182
+Cycle: 73600, 20 Adsorbate Molecules, Total Energy: -48097.07684
+Cycle: 73650, 21 Adsorbate Molecules, Total Energy: -50858.79765
+Cycle: 73700, 19 Adsorbate Molecules, Total Energy: -47769.26597
+Cycle: 73750, 16 Adsorbate Molecules, Total Energy: -41991.40693
+Cycle: 73800, 19 Adsorbate Molecules, Total Energy: -44596.72220
+Cycle: 73850, 17 Adsorbate Molecules, Total Energy: -41667.28550
+Cycle: 73900, 20 Adsorbate Molecules, Total Energy: -49490.48330
+Cycle: 73950, 18 Adsorbate Molecules, Total Energy: -44740.08187
+Cycle: 74000, 15 Adsorbate Molecules, Total Energy: -37397.24734
+Cycle: 74050, 20 Adsorbate Molecules, Total Energy: -50125.16155
+Cycle: 74100, 21 Adsorbate Molecules, Total Energy: -53620.23205
+Cycle: 74150, 21 Adsorbate Molecules, Total Energy: -52973.71064
+Cycle: 74200, 20 Adsorbate Molecules, Total Energy: -50783.46760
+Cycle: 74250, 20 Adsorbate Molecules, Total Energy: -49461.99145
+Cycle: 74300, 23 Adsorbate Molecules, Total Energy: -57222.89715
+Cycle: 74350, 22 Adsorbate Molecules, Total Energy: -55782.03596
+Cycle: 74400, 23 Adsorbate Molecules, Total Energy: -58870.67003
+Cycle: 74450, 22 Adsorbate Molecules, Total Energy: -56292.41163
+Cycle: 74500, 22 Adsorbate Molecules, Total Energy: -56636.89985
+Cycle: 74550, 21 Adsorbate Molecules, Total Energy: -55423.92116
+Cycle: 74600, 21 Adsorbate Molecules, Total Energy: -53169.93245
+Cycle: 74650, 23 Adsorbate Molecules, Total Energy: -57132.90004
+Cycle: 74700, 26 Adsorbate Molecules, Total Energy: -63966.23259
+Cycle: 74750, 25 Adsorbate Molecules, Total Energy: -60763.99795
+Cycle: 74800, 27 Adsorbate Molecules, Total Energy: -66467.57322
+Cycle: 74850, 26 Adsorbate Molecules, Total Energy: -62572.18399
+Cycle: 74900, 25 Adsorbate Molecules, Total Energy: -59694.85930
+Cycle: 74950, 23 Adsorbate Molecules, Total Energy: -57124.01239
+Cycle: 75000, 21 Adsorbate Molecules, Total Energy: -51661.56788
+Cycle: 75050, 18 Adsorbate Molecules, Total Energy: -45342.93106
+Cycle: 75100, 21 Adsorbate Molecules, Total Energy: -53126.32948
+Cycle: 75150, 21 Adsorbate Molecules, Total Energy: -53195.97297
+Cycle: 75200, 22 Adsorbate Molecules, Total Energy: -55357.28842
+Cycle: 75250, 24 Adsorbate Molecules, Total Energy: -61352.45843
+Cycle: 75300, 24 Adsorbate Molecules, Total Energy: -61794.96336
+Cycle: 75350, 25 Adsorbate Molecules, Total Energy: -63067.47047
+Cycle: 75400, 28 Adsorbate Molecules, Total Energy: -70456.91110
+Cycle: 75450, 30 Adsorbate Molecules, Total Energy: -75769.79439
+Cycle: 75500, 27 Adsorbate Molecules, Total Energy: -70187.64229
+Cycle: 75550, 29 Adsorbate Molecules, Total Energy: -75026.30075
+Cycle: 75600, 23 Adsorbate Molecules, Total Energy: -60427.62766
+Cycle: 75650, 24 Adsorbate Molecules, Total Energy: -61983.11164
+Cycle: 75700, 23 Adsorbate Molecules, Total Energy: -59238.23907
+Cycle: 75750, 22 Adsorbate Molecules, Total Energy: -57930.03458
+Cycle: 75800, 24 Adsorbate Molecules, Total Energy: -63539.40249
+Cycle: 75850, 28 Adsorbate Molecules, Total Energy: -70340.54593
+Cycle: 75900, 26 Adsorbate Molecules, Total Energy: -67808.34305
+Cycle: 75950, 24 Adsorbate Molecules, Total Energy: -62183.78216
+Cycle: 76000, 24 Adsorbate Molecules, Total Energy: -62565.52488
+Cycle: 76050, 22 Adsorbate Molecules, Total Energy: -57497.51739
+Cycle: 76100, 23 Adsorbate Molecules, Total Energy: -59501.37961
+Cycle: 76150, 22 Adsorbate Molecules, Total Energy: -57239.55829
+Cycle: 76200, 21 Adsorbate Molecules, Total Energy: -54617.75477
+Cycle: 76250, 21 Adsorbate Molecules, Total Energy: -54418.03840
+Cycle: 76300, 21 Adsorbate Molecules, Total Energy: -54484.47704
+Cycle: 76350, 22 Adsorbate Molecules, Total Energy: -56408.00335
+Cycle: 76400, 23 Adsorbate Molecules, Total Energy: -58900.05839
+Cycle: 76450, 23 Adsorbate Molecules, Total Energy: -60286.06286
+Cycle: 76500, 24 Adsorbate Molecules, Total Energy: -62620.02073
+Cycle: 76550, 24 Adsorbate Molecules, Total Energy: -63163.57682
+Cycle: 76600, 22 Adsorbate Molecules, Total Energy: -58135.95321
+Cycle: 76650, 23 Adsorbate Molecules, Total Energy: -59728.38938
+Cycle: 76700, 24 Adsorbate Molecules, Total Energy: -61795.52511
+Cycle: 76750, 23 Adsorbate Molecules, Total Energy: -59821.62625
+Cycle: 76800, 23 Adsorbate Molecules, Total Energy: -59173.43186
+Cycle: 76850, 24 Adsorbate Molecules, Total Energy: -62186.80221
+Cycle: 76900, 25 Adsorbate Molecules, Total Energy: -65267.46858
+Cycle: 76950, 26 Adsorbate Molecules, Total Energy: -67333.44955
+Cycle: 77000, 28 Adsorbate Molecules, Total Energy: -72592.96704
+Cycle: 77050, 30 Adsorbate Molecules, Total Energy: -77317.01048
+Cycle: 77100, 27 Adsorbate Molecules, Total Energy: -69223.10671
+Cycle: 77150, 27 Adsorbate Molecules, Total Energy: -69947.01820
+Cycle: 77200, 27 Adsorbate Molecules, Total Energy: -70096.52592
+Cycle: 77250, 29 Adsorbate Molecules, Total Energy: -75255.65166
+Cycle: 77300, 28 Adsorbate Molecules, Total Energy: -73665.45696
+Cycle: 77350, 26 Adsorbate Molecules, Total Energy: -69851.12781
+Cycle: 77400, 24 Adsorbate Molecules, Total Energy: -64521.61583
+Cycle: 77450, 24 Adsorbate Molecules, Total Energy: -64290.29028
+Cycle: 77500, 26 Adsorbate Molecules, Total Energy: -69245.93489
+Cycle: 77550, 24 Adsorbate Molecules, Total Energy: -63996.62389
+Cycle: 77600, 23 Adsorbate Molecules, Total Energy: -60787.03907
+Cycle: 77650, 21 Adsorbate Molecules, Total Energy: -56724.80797
+Cycle: 77700, 20 Adsorbate Molecules, Total Energy: -52985.30866
+Cycle: 77750, 18 Adsorbate Molecules, Total Energy: -48747.49924
+Cycle: 77800, 17 Adsorbate Molecules, Total Energy: -46924.67373
+Cycle: 77850, 18 Adsorbate Molecules, Total Energy: -48360.00635
+Cycle: 77900, 19 Adsorbate Molecules, Total Energy: -50418.77871
+Cycle: 77950, 20 Adsorbate Molecules, Total Energy: -51822.39905
+Cycle: 78000, 22 Adsorbate Molecules, Total Energy: -55940.27068
+Cycle: 78050, 22 Adsorbate Molecules, Total Energy: -56955.27332
+Cycle: 78100, 22 Adsorbate Molecules, Total Energy: -56000.08617
+Cycle: 78150, 20 Adsorbate Molecules, Total Energy: -51670.09762
+Cycle: 78200, 20 Adsorbate Molecules, Total Energy: -51811.52546
+Cycle: 78250, 21 Adsorbate Molecules, Total Energy: -54661.54923
+Cycle: 78300, 20 Adsorbate Molecules, Total Energy: -52710.38760
+Cycle: 78350, 17 Adsorbate Molecules, Total Energy: -45959.09406
+Cycle: 78400, 20 Adsorbate Molecules, Total Energy: -51683.33591
+Cycle: 78450, 20 Adsorbate Molecules, Total Energy: -52330.59797
+Cycle: 78500, 21 Adsorbate Molecules, Total Energy: -53979.45219
+Cycle: 78550, 22 Adsorbate Molecules, Total Energy: -56051.24214
+Cycle: 78600, 24 Adsorbate Molecules, Total Energy: -60941.56300
+Cycle: 78650, 24 Adsorbate Molecules, Total Energy: -61076.61973
+Cycle: 78700, 24 Adsorbate Molecules, Total Energy: -60870.86761
+Cycle: 78750, 23 Adsorbate Molecules, Total Energy: -58524.27880
+Cycle: 78800, 23 Adsorbate Molecules, Total Energy: -58355.64156
+Cycle: 78850, 22 Adsorbate Molecules, Total Energy: -55147.80453
+Cycle: 78900, 21 Adsorbate Molecules, Total Energy: -52181.74549
+Cycle: 78950, 22 Adsorbate Molecules, Total Energy: -55195.66435
+Cycle: 79000, 22 Adsorbate Molecules, Total Energy: -54758.69005
+Cycle: 79050, 22 Adsorbate Molecules, Total Energy: -54116.88461
+Cycle: 79100, 20 Adsorbate Molecules, Total Energy: -49801.26953
+Cycle: 79150, 20 Adsorbate Molecules, Total Energy: -50225.01733
+Cycle: 79200, 21 Adsorbate Molecules, Total Energy: -52318.21605
+Cycle: 79250, 21 Adsorbate Molecules, Total Energy: -51897.33148
+Cycle: 79300, 18 Adsorbate Molecules, Total Energy: -44167.70870
+Cycle: 79350, 17 Adsorbate Molecules, Total Energy: -41917.99613
+Cycle: 79400, 18 Adsorbate Molecules, Total Energy: -42055.84676
+Cycle: 79450, 17 Adsorbate Molecules, Total Energy: -40918.10314
+Cycle: 79500, 16 Adsorbate Molecules, Total Energy: -39430.43156
+Cycle: 79550, 15 Adsorbate Molecules, Total Energy: -37506.59521
+Cycle: 79600, 10 Adsorbate Molecules, Total Energy: -24759.20384
+Cycle: 79650, 12 Adsorbate Molecules, Total Energy: -29704.07269
+Cycle: 79700, 14 Adsorbate Molecules, Total Energy: -34890.86797
+Cycle: 79750, 13 Adsorbate Molecules, Total Energy: -32239.59583
+Cycle: 79800, 16 Adsorbate Molecules, Total Energy: -37547.44796
+Cycle: 79850, 15 Adsorbate Molecules, Total Energy: -37384.49767
+Cycle: 79900, 15 Adsorbate Molecules, Total Energy: -36833.37999
+Cycle: 79950, 18 Adsorbate Molecules, Total Energy: -43589.41665
+Cycle: 80000, 17 Adsorbate Molecules, Total Energy: -42127.78054
+Cycle: 80050, 20 Adsorbate Molecules, Total Energy: -50420.12434
+Cycle: 80100, 19 Adsorbate Molecules, Total Energy: -49074.14122
+Cycle: 80150, 19 Adsorbate Molecules, Total Energy: -49365.51523
+Cycle: 80200, 19 Adsorbate Molecules, Total Energy: -49543.86936
+Cycle: 80250, 24 Adsorbate Molecules, Total Energy: -63166.02349
+Cycle: 80300, 23 Adsorbate Molecules, Total Energy: -60444.61172
+Cycle: 80350, 22 Adsorbate Molecules, Total Energy: -57418.07895
+Cycle: 80400, 23 Adsorbate Molecules, Total Energy: -60010.63425
+Cycle: 80450, 21 Adsorbate Molecules, Total Energy: -56383.85998
+Cycle: 80500, 20 Adsorbate Molecules, Total Energy: -53766.76051
+Cycle: 80550, 17 Adsorbate Molecules, Total Energy: -47610.35899
+Cycle: 80600, 19 Adsorbate Molecules, Total Energy: -50932.13554
+Cycle: 80650, 19 Adsorbate Molecules, Total Energy: -51239.83019
+Cycle: 80700, 20 Adsorbate Molecules, Total Energy: -52103.19152
+Cycle: 80750, 20 Adsorbate Molecules, Total Energy: -51056.67911
+Cycle: 80800, 22 Adsorbate Molecules, Total Energy: -56350.24501
+Cycle: 80850, 22 Adsorbate Molecules, Total Energy: -57324.38497
+Cycle: 80900, 24 Adsorbate Molecules, Total Energy: -61833.15637
+Cycle: 80950, 24 Adsorbate Molecules, Total Energy: -61284.71625
+Cycle: 81000, 22 Adsorbate Molecules, Total Energy: -58820.47036
+Cycle: 81050, 21 Adsorbate Molecules, Total Energy: -56432.21099
+Cycle: 81100, 20 Adsorbate Molecules, Total Energy: -54815.59103
+Cycle: 81150, 23 Adsorbate Molecules, Total Energy: -60903.24342
+Cycle: 81200, 22 Adsorbate Molecules, Total Energy: -59091.53635
+Cycle: 81250, 26 Adsorbate Molecules, Total Energy: -68405.14504
+Cycle: 81300, 26 Adsorbate Molecules, Total Energy: -68729.24577
+Cycle: 81350, 26 Adsorbate Molecules, Total Energy: -69892.87097
+Cycle: 81400, 31 Adsorbate Molecules, Total Energy: -81177.15954
+Cycle: 81450, 31 Adsorbate Molecules, Total Energy: -81877.42210
+Cycle: 81500, 31 Adsorbate Molecules, Total Energy: -82383.33688
+Cycle: 81550, 31 Adsorbate Molecules, Total Energy: -81983.65440
+Cycle: 81600, 30 Adsorbate Molecules, Total Energy: -79674.82173
+Cycle: 81650, 28 Adsorbate Molecules, Total Energy: -73864.89856
+Cycle: 81700, 25 Adsorbate Molecules, Total Energy: -65583.92341
+Cycle: 81750, 27 Adsorbate Molecules, Total Energy: -70756.94873
+Cycle: 81800, 29 Adsorbate Molecules, Total Energy: -74986.89291
+Cycle: 81850, 29 Adsorbate Molecules, Total Energy: -74759.50058
+Cycle: 81900, 28 Adsorbate Molecules, Total Energy: -72670.36511
+Cycle: 81950, 28 Adsorbate Molecules, Total Energy: -72774.97498
+Cycle: 82000, 26 Adsorbate Molecules, Total Energy: -67526.99504
+Cycle: 82050, 27 Adsorbate Molecules, Total Energy: -70736.46619
+Cycle: 82100, 26 Adsorbate Molecules, Total Energy: -68127.83286
+Cycle: 82150, 28 Adsorbate Molecules, Total Energy: -72800.50066
+Cycle: 82200, 26 Adsorbate Molecules, Total Energy: -67265.58001
+Cycle: 82250, 31 Adsorbate Molecules, Total Energy: -78815.83294
+Cycle: 82300, 30 Adsorbate Molecules, Total Energy: -78161.97503
+Cycle: 82350, 30 Adsorbate Molecules, Total Energy: -78217.10591
+Cycle: 82400, 30 Adsorbate Molecules, Total Energy: -77085.02524
+Cycle: 82450, 30 Adsorbate Molecules, Total Energy: -77025.90334
+Cycle: 82500, 27 Adsorbate Molecules, Total Energy: -71236.32331
+Cycle: 82550, 27 Adsorbate Molecules, Total Energy: -72235.47778
+Cycle: 82600, 26 Adsorbate Molecules, Total Energy: -69694.09425
+Cycle: 82650, 25 Adsorbate Molecules, Total Energy: -65985.88503
+Cycle: 82700, 25 Adsorbate Molecules, Total Energy: -66409.19557
+Cycle: 82750, 25 Adsorbate Molecules, Total Energy: -66345.68324
+Cycle: 82800, 27 Adsorbate Molecules, Total Energy: -68928.78263
+Cycle: 82850, 27 Adsorbate Molecules, Total Energy: -69931.00760
+Cycle: 82900, 29 Adsorbate Molecules, Total Energy: -75440.20129
+Cycle: 82950, 29 Adsorbate Molecules, Total Energy: -75756.90149
+Cycle: 83000, 29 Adsorbate Molecules, Total Energy: -76034.79706
+Cycle: 83050, 24 Adsorbate Molecules, Total Energy: -62485.51575
+Cycle: 83100, 19 Adsorbate Molecules, Total Energy: -49793.96316
+Cycle: 83150, 19 Adsorbate Molecules, Total Energy: -50758.41121
+Cycle: 83200, 21 Adsorbate Molecules, Total Energy: -54656.77344
+Cycle: 83250, 22 Adsorbate Molecules, Total Energy: -57777.71886
+Cycle: 83300, 24 Adsorbate Molecules, Total Energy: -61483.00945
+Cycle: 83350, 25 Adsorbate Molecules, Total Energy: -63620.89434
+Cycle: 83400, 22 Adsorbate Molecules, Total Energy: -55844.22474
+Cycle: 83450, 20 Adsorbate Molecules, Total Energy: -50723.14638
+Cycle: 83500, 23 Adsorbate Molecules, Total Energy: -57905.10468
+Cycle: 83550, 23 Adsorbate Molecules, Total Energy: -59082.15684
+Cycle: 83600, 22 Adsorbate Molecules, Total Energy: -56712.88474
+Cycle: 83650, 22 Adsorbate Molecules, Total Energy: -56951.40061
+Cycle: 83700, 23 Adsorbate Molecules, Total Energy: -59326.73228
+Cycle: 83750, 23 Adsorbate Molecules, Total Energy: -59581.31133
+Cycle: 83800, 24 Adsorbate Molecules, Total Energy: -61487.27385
+Cycle: 83850, 25 Adsorbate Molecules, Total Energy: -63376.17800
+Cycle: 83900, 27 Adsorbate Molecules, Total Energy: -67952.24862
+Cycle: 83950, 26 Adsorbate Molecules, Total Energy: -66907.60146
+Cycle: 84000, 26 Adsorbate Molecules, Total Energy: -68287.11760
+Cycle: 84050, 27 Adsorbate Molecules, Total Energy: -70638.99104
+Cycle: 84100, 26 Adsorbate Molecules, Total Energy: -68185.77510
+Cycle: 84150, 25 Adsorbate Molecules, Total Energy: -64221.60920
+Cycle: 84200, 22 Adsorbate Molecules, Total Energy: -56739.71462
+Cycle: 84250, 24 Adsorbate Molecules, Total Energy: -60588.99892
+Cycle: 84300, 25 Adsorbate Molecules, Total Energy: -63391.18117
+Cycle: 84350, 25 Adsorbate Molecules, Total Energy: -63323.68104
+Cycle: 84400, 24 Adsorbate Molecules, Total Energy: -60064.41720
+Cycle: 84450, 25 Adsorbate Molecules, Total Energy: -59107.47491
+Cycle: 84500, 19 Adsorbate Molecules, Total Energy: -47682.85568
+Cycle: 84550, 22 Adsorbate Molecules, Total Energy: -56256.23767
+Cycle: 84600, 19 Adsorbate Molecules, Total Energy: -48855.40653
+Cycle: 84650, 21 Adsorbate Molecules, Total Energy: -53318.45683
+Cycle: 84700, 20 Adsorbate Molecules, Total Energy: -51449.88309
+Cycle: 84750, 21 Adsorbate Molecules, Total Energy: -53700.16720
+Cycle: 84800, 21 Adsorbate Molecules, Total Energy: -53970.86528
+Cycle: 84850, 21 Adsorbate Molecules, Total Energy: -54522.66453
+Cycle: 84900, 20 Adsorbate Molecules, Total Energy: -52700.48968
+Cycle: 84950, 19 Adsorbate Molecules, Total Energy: -48033.16149
+Cycle: 85000, 21 Adsorbate Molecules, Total Energy: -52905.50021
+Cycle: 85050, 19 Adsorbate Molecules, Total Energy: -48439.31316
+Cycle: 85100, 18 Adsorbate Molecules, Total Energy: -47504.56681
+Cycle: 85150, 20 Adsorbate Molecules, Total Energy: -53040.13089
+Cycle: 85200, 20 Adsorbate Molecules, Total Energy: -52861.05515
+Cycle: 85250, 19 Adsorbate Molecules, Total Energy: -49455.39820
+Cycle: 85300, 19 Adsorbate Molecules, Total Energy: -47582.31939
+Cycle: 85350, 19 Adsorbate Molecules, Total Energy: -43996.35778
+Cycle: 85400, 16 Adsorbate Molecules, Total Energy: -39327.94000
+Cycle: 85450, 15 Adsorbate Molecules, Total Energy: -36975.23665
+Cycle: 85500, 17 Adsorbate Molecules, Total Energy: -41541.94218
+Cycle: 85550, 16 Adsorbate Molecules, Total Energy: -37388.72656
+Cycle: 85600, 16 Adsorbate Molecules, Total Energy: -36869.48142
+Cycle: 85650, 16 Adsorbate Molecules, Total Energy: -38743.23633
+Cycle: 85700, 16 Adsorbate Molecules, Total Energy: -39301.33748
+Cycle: 85750, 19 Adsorbate Molecules, Total Energy: -47138.99613
+Cycle: 85800, 20 Adsorbate Molecules, Total Energy: -47583.34329
+Cycle: 85850, 18 Adsorbate Molecules, Total Energy: -43715.78973
+Cycle: 85900, 22 Adsorbate Molecules, Total Energy: -53732.65999
+Cycle: 85950, 21 Adsorbate Molecules, Total Energy: -50353.88378
+Cycle: 86000, 22 Adsorbate Molecules, Total Energy: -53092.57833
+Cycle: 86050, 21 Adsorbate Molecules, Total Energy: -51483.77427
+Cycle: 86100, 22 Adsorbate Molecules, Total Energy: -53209.65096
+Cycle: 86150, 20 Adsorbate Molecules, Total Energy: -49938.00665
+Cycle: 86200, 19 Adsorbate Molecules, Total Energy: -47870.21365
+Cycle: 86250, 19 Adsorbate Molecules, Total Energy: -48104.71566
+Cycle: 86300, 19 Adsorbate Molecules, Total Energy: -46308.80312
+Cycle: 86350, 19 Adsorbate Molecules, Total Energy: -44794.08411
+Cycle: 86400, 18 Adsorbate Molecules, Total Energy: -43065.07964
+Cycle: 86450, 21 Adsorbate Molecules, Total Energy: -49526.50172
+Cycle: 86500, 16 Adsorbate Molecules, Total Energy: -38180.72584
+Cycle: 86550, 15 Adsorbate Molecules, Total Energy: -36210.13226
+Cycle: 86600, 14 Adsorbate Molecules, Total Energy: -36365.76757
+Cycle: 86650, 13 Adsorbate Molecules, Total Energy: -32924.43559
+Cycle: 86700, 15 Adsorbate Molecules, Total Energy: -36618.36284
+Cycle: 86750, 17 Adsorbate Molecules, Total Energy: -41008.42483
+Cycle: 86800, 14 Adsorbate Molecules, Total Energy: -35643.66679
+Cycle: 86850, 16 Adsorbate Molecules, Total Energy: -39686.38197
+Cycle: 86900, 16 Adsorbate Molecules, Total Energy: -39466.41844
+Cycle: 86950, 14 Adsorbate Molecules, Total Energy: -34878.08356
+Cycle: 87000, 15 Adsorbate Molecules, Total Energy: -38039.66170
+Cycle: 87050, 14 Adsorbate Molecules, Total Energy: -36144.23248
+Cycle: 87100, 14 Adsorbate Molecules, Total Energy: -35882.78673
+Cycle: 87150, 15 Adsorbate Molecules, Total Energy: -36857.84143
+Cycle: 87200, 15 Adsorbate Molecules, Total Energy: -37699.27031
+Cycle: 87250, 14 Adsorbate Molecules, Total Energy: -35989.80091
+Cycle: 87300, 14 Adsorbate Molecules, Total Energy: -34572.02294
+Cycle: 87350, 14 Adsorbate Molecules, Total Energy: -34727.31268
+Cycle: 87400, 12 Adsorbate Molecules, Total Energy: -32267.55672
+Cycle: 87450, 15 Adsorbate Molecules, Total Energy: -39342.34913
+Cycle: 87500, 13 Adsorbate Molecules, Total Energy: -35033.26579
+Cycle: 87550, 13 Adsorbate Molecules, Total Energy: -34773.52703
+Cycle: 87600, 11 Adsorbate Molecules, Total Energy: -27554.61752
+Cycle: 87650, 16 Adsorbate Molecules, Total Energy: -37331.85219
+Cycle: 87700, 16 Adsorbate Molecules, Total Energy: -40239.81531
+Cycle: 87750, 20 Adsorbate Molecules, Total Energy: -50033.30308
+Cycle: 87800, 17 Adsorbate Molecules, Total Energy: -41383.97721
+Cycle: 87850, 20 Adsorbate Molecules, Total Energy: -46744.11207
+Cycle: 87900, 19 Adsorbate Molecules, Total Energy: -45204.46022
+Cycle: 87950, 19 Adsorbate Molecules, Total Energy: -45243.71308
+Cycle: 88000, 23 Adsorbate Molecules, Total Energy: -54121.54216
+Cycle: 88050, 18 Adsorbate Molecules, Total Energy: -45626.42043
+Cycle: 88100, 19 Adsorbate Molecules, Total Energy: -48473.20672
+Cycle: 88150, 19 Adsorbate Molecules, Total Energy: -47226.10026
+Cycle: 88200, 18 Adsorbate Molecules, Total Energy: -45546.49515
+Cycle: 88250, 15 Adsorbate Molecules, Total Energy: -37864.52852
+Cycle: 88300, 12 Adsorbate Molecules, Total Energy: -31572.98905
+Cycle: 88350, 15 Adsorbate Molecules, Total Energy: -38526.25620
+Cycle: 88400, 14 Adsorbate Molecules, Total Energy: -36518.21329
+Cycle: 88450, 13 Adsorbate Molecules, Total Energy: -34050.63883
+Cycle: 88500, 17 Adsorbate Molecules, Total Energy: -41998.07911
+Cycle: 88550, 18 Adsorbate Molecules, Total Energy: -44057.79255
+Cycle: 88600, 17 Adsorbate Molecules, Total Energy: -42605.00591
+Cycle: 88650, 21 Adsorbate Molecules, Total Energy: -53777.88100
+Cycle: 88700, 21 Adsorbate Molecules, Total Energy: -52281.57640
+Cycle: 88750, 19 Adsorbate Molecules, Total Energy: -49449.72091
+Cycle: 88800, 20 Adsorbate Molecules, Total Energy: -50934.23118
+Cycle: 88850, 20 Adsorbate Molecules, Total Energy: -51190.39879
+Cycle: 88900, 20 Adsorbate Molecules, Total Energy: -51249.93185
+Cycle: 88950, 21 Adsorbate Molecules, Total Energy: -54416.55761
+Cycle: 89000, 22 Adsorbate Molecules, Total Energy: -56813.20585
+Cycle: 89050, 21 Adsorbate Molecules, Total Energy: -55111.79860
+Cycle: 89100, 21 Adsorbate Molecules, Total Energy: -55033.08777
+Cycle: 89150, 23 Adsorbate Molecules, Total Energy: -59051.99333
+Cycle: 89200, 24 Adsorbate Molecules, Total Energy: -60738.66633
+Cycle: 89250, 23 Adsorbate Molecules, Total Energy: -57208.21284
+Cycle: 89300, 24 Adsorbate Molecules, Total Energy: -59859.23508
+Cycle: 89350, 27 Adsorbate Molecules, Total Energy: -67523.77629
+Cycle: 89400, 25 Adsorbate Molecules, Total Energy: -64201.65492
+Cycle: 89450, 24 Adsorbate Molecules, Total Energy: -62758.25263
+Cycle: 89500, 26 Adsorbate Molecules, Total Energy: -66687.59790
+Cycle: 89550, 26 Adsorbate Molecules, Total Energy: -66606.55996
+Cycle: 89600, 25 Adsorbate Molecules, Total Energy: -62043.93135
+Cycle: 89650, 25 Adsorbate Molecules, Total Energy: -61695.47320
+Cycle: 89700, 26 Adsorbate Molecules, Total Energy: -64775.50494
+Cycle: 89750, 24 Adsorbate Molecules, Total Energy: -59091.13854
+Cycle: 89800, 23 Adsorbate Molecules, Total Energy: -56997.77419
+Cycle: 89850, 22 Adsorbate Molecules, Total Energy: -55439.95288
+Cycle: 89900, 18 Adsorbate Molecules, Total Energy: -47590.87389
+Cycle: 89950, 18 Adsorbate Molecules, Total Energy: -47339.65194
+Cycle: 90000, 18 Adsorbate Molecules, Total Energy: -47760.71266
+Cycle: 90050, 18 Adsorbate Molecules, Total Energy: -48724.20372
+Cycle: 90100, 16 Adsorbate Molecules, Total Energy: -42911.49239
+Cycle: 90150, 18 Adsorbate Molecules, Total Energy: -46056.10808
+Cycle: 90200, 19 Adsorbate Molecules, Total Energy: -48067.81088
+Cycle: 90250, 25 Adsorbate Molecules, Total Energy: -60970.73725
+Cycle: 90300, 25 Adsorbate Molecules, Total Energy: -61053.20178
+Cycle: 90350, 26 Adsorbate Molecules, Total Energy: -65180.98459
+Cycle: 90400, 23 Adsorbate Molecules, Total Energy: -59797.61568
+Cycle: 90450, 21 Adsorbate Molecules, Total Energy: -53546.39691
+Cycle: 90500, 20 Adsorbate Molecules, Total Energy: -51528.46875
+Cycle: 90550, 17 Adsorbate Molecules, Total Energy: -44322.32719
+Cycle: 90600, 16 Adsorbate Molecules, Total Energy: -41652.86481
+Cycle: 90650, 15 Adsorbate Molecules, Total Energy: -39851.11800
+Cycle: 90700, 14 Adsorbate Molecules, Total Energy: -36348.70795
+Cycle: 90750, 17 Adsorbate Molecules, Total Energy: -43421.61055
+Cycle: 90800, 17 Adsorbate Molecules, Total Energy: -44399.92405
+Cycle: 90850, 18 Adsorbate Molecules, Total Energy: -47115.16155
+Cycle: 90900, 19 Adsorbate Molecules, Total Energy: -48261.21958
+Cycle: 90950, 17 Adsorbate Molecules, Total Energy: -43782.98856
+Cycle: 91000, 16 Adsorbate Molecules, Total Energy: -43303.15858
+Cycle: 91050, 18 Adsorbate Molecules, Total Energy: -47290.77314
+Cycle: 91100, 19 Adsorbate Molecules, Total Energy: -48915.41264
+Cycle: 91150, 17 Adsorbate Molecules, Total Energy: -41525.80235
+Cycle: 91200, 16 Adsorbate Molecules, Total Energy: -39144.98554
+Cycle: 91250, 16 Adsorbate Molecules, Total Energy: -38440.76473
+Cycle: 91300, 14 Adsorbate Molecules, Total Energy: -34771.70117
+Cycle: 91350, 15 Adsorbate Molecules, Total Energy: -37951.21687
+Cycle: 91400, 17 Adsorbate Molecules, Total Energy: -40886.33260
+Cycle: 91450, 15 Adsorbate Molecules, Total Energy: -35985.72294
+Cycle: 91500, 14 Adsorbate Molecules, Total Energy: -35559.26167
+Cycle: 91550, 17 Adsorbate Molecules, Total Energy: -43441.12817
+Cycle: 91600, 17 Adsorbate Molecules, Total Energy: -43861.71722
+Cycle: 91650, 21 Adsorbate Molecules, Total Energy: -51237.46002
+Cycle: 91700, 22 Adsorbate Molecules, Total Energy: -51920.39280
+Cycle: 91750, 22 Adsorbate Molecules, Total Energy: -53334.10254
+Cycle: 91800, 22 Adsorbate Molecules, Total Energy: -54002.38212
+Cycle: 91850, 23 Adsorbate Molecules, Total Energy: -56230.65330
+Cycle: 91900, 27 Adsorbate Molecules, Total Energy: -65730.83375
+Cycle: 91950, 24 Adsorbate Molecules, Total Energy: -60866.88177
+Cycle: 92000, 26 Adsorbate Molecules, Total Energy: -66536.65959
+Cycle: 92050, 30 Adsorbate Molecules, Total Energy: -75508.60637
+Cycle: 92100, 26 Adsorbate Molecules, Total Energy: -66373.73308
+Cycle: 92150, 25 Adsorbate Molecules, Total Energy: -64830.37006
+Cycle: 92200, 27 Adsorbate Molecules, Total Energy: -69384.93219
+Cycle: 92250, 26 Adsorbate Molecules, Total Energy: -66702.62821
+Cycle: 92300, 24 Adsorbate Molecules, Total Energy: -61101.36536
+Cycle: 92350, 23 Adsorbate Molecules, Total Energy: -58423.74788
+Cycle: 92400, 24 Adsorbate Molecules, Total Energy: -60823.79438
+Cycle: 92450, 22 Adsorbate Molecules, Total Energy: -55331.02077
+Cycle: 92500, 22 Adsorbate Molecules, Total Energy: -54340.52559
+Cycle: 92550, 22 Adsorbate Molecules, Total Energy: -54338.41398
+Cycle: 92600, 18 Adsorbate Molecules, Total Energy: -45328.51470
+Cycle: 92650, 18 Adsorbate Molecules, Total Energy: -45021.09143
+Cycle: 92700, 19 Adsorbate Molecules, Total Energy: -46401.16158
+Cycle: 92750, 16 Adsorbate Molecules, Total Energy: -39066.09672
+Cycle: 92800, 15 Adsorbate Molecules, Total Energy: -37528.53917
+Cycle: 92850, 17 Adsorbate Molecules, Total Energy: -43076.98353
+Cycle: 92900, 18 Adsorbate Molecules, Total Energy: -44791.01702
+Cycle: 92950, 19 Adsorbate Molecules, Total Energy: -46078.88459
+Cycle: 93000, 19 Adsorbate Molecules, Total Energy: -45983.70703
+Cycle: 93050, 19 Adsorbate Molecules, Total Energy: -44883.53625
+Cycle: 93100, 20 Adsorbate Molecules, Total Energy: -49123.99903
+Cycle: 93150, 21 Adsorbate Molecules, Total Energy: -50540.57909
+Cycle: 93200, 20 Adsorbate Molecules, Total Energy: -48690.60157
+Cycle: 93250, 22 Adsorbate Molecules, Total Energy: -54156.79292
+Cycle: 93300, 19 Adsorbate Molecules, Total Energy: -46146.09161
+Cycle: 93350, 17 Adsorbate Molecules, Total Energy: -42311.62886
+Cycle: 93400, 18 Adsorbate Molecules, Total Energy: -45644.76835
+Cycle: 93450, 17 Adsorbate Molecules, Total Energy: -42820.31908
+Cycle: 93500, 19 Adsorbate Molecules, Total Energy: -45305.85180
+Cycle: 93550, 19 Adsorbate Molecules, Total Energy: -46571.30099
+Cycle: 93600, 16 Adsorbate Molecules, Total Energy: -40836.41277
+Cycle: 93650, 15 Adsorbate Molecules, Total Energy: -36447.44107
+Cycle: 93700, 16 Adsorbate Molecules, Total Energy: -37874.61435
+Cycle: 93750, 15 Adsorbate Molecules, Total Energy: -37250.86661
+Cycle: 93800, 16 Adsorbate Molecules, Total Energy: -38985.20117
+Cycle: 93850, 17 Adsorbate Molecules, Total Energy: -42209.74459
+Cycle: 93900, 15 Adsorbate Molecules, Total Energy: -36677.26855
+Cycle: 93950, 17 Adsorbate Molecules, Total Energy: -42667.69323
+Cycle: 94000, 18 Adsorbate Molecules, Total Energy: -45620.48788
+Cycle: 94050, 21 Adsorbate Molecules, Total Energy: -53367.26709
+Cycle: 94100, 25 Adsorbate Molecules, Total Energy: -60807.48175
+Cycle: 94150, 22 Adsorbate Molecules, Total Energy: -52972.59811
+Cycle: 94200, 22 Adsorbate Molecules, Total Energy: -53873.91823
+Cycle: 94250, 24 Adsorbate Molecules, Total Energy: -58589.86640
+Cycle: 94300, 24 Adsorbate Molecules, Total Energy: -59142.36641
+Cycle: 94350, 22 Adsorbate Molecules, Total Energy: -56022.44164
+Cycle: 94400, 20 Adsorbate Molecules, Total Energy: -51070.48997
+Cycle: 94450, 21 Adsorbate Molecules, Total Energy: -53589.89497
+Cycle: 94500, 21 Adsorbate Molecules, Total Energy: -53688.58155
+Cycle: 94550, 20 Adsorbate Molecules, Total Energy: -51301.20210
+Cycle: 94600, 21 Adsorbate Molecules, Total Energy: -54560.13287
+Cycle: 94650, 22 Adsorbate Molecules, Total Energy: -55965.90304
+Cycle: 94700, 22 Adsorbate Molecules, Total Energy: -56013.30034
+Cycle: 94750, 20 Adsorbate Molecules, Total Energy: -51527.33629
+Cycle: 94800, 18 Adsorbate Molecules, Total Energy: -46789.50811
+Cycle: 94850, 20 Adsorbate Molecules, Total Energy: -51038.27478
+Cycle: 94900, 21 Adsorbate Molecules, Total Energy: -54456.63697
+Cycle: 94950, 22 Adsorbate Molecules, Total Energy: -55872.67863
+Cycle: 95000, 22 Adsorbate Molecules, Total Energy: -57354.12591
+Cycle: 95050, 23 Adsorbate Molecules, Total Energy: -58686.46669
+Cycle: 95100, 23 Adsorbate Molecules, Total Energy: -57957.46716
+Cycle: 95150, 21 Adsorbate Molecules, Total Energy: -53180.68491
+Cycle: 95200, 23 Adsorbate Molecules, Total Energy: -58227.94491
+Cycle: 95250, 22 Adsorbate Molecules, Total Energy: -56033.44177
+Cycle: 95300, 21 Adsorbate Molecules, Total Energy: -53068.39507
+Cycle: 95350, 22 Adsorbate Molecules, Total Energy: -54478.43683
+Cycle: 95400, 24 Adsorbate Molecules, Total Energy: -60267.68824
+Cycle: 95450, 23 Adsorbate Molecules, Total Energy: -58237.20782
+Cycle: 95500, 22 Adsorbate Molecules, Total Energy: -56487.50468
+Cycle: 95550, 21 Adsorbate Molecules, Total Energy: -54429.93564
+Cycle: 95600, 21 Adsorbate Molecules, Total Energy: -53911.33565
+Cycle: 95650, 25 Adsorbate Molecules, Total Energy: -62952.58494
+Cycle: 95700, 27 Adsorbate Molecules, Total Energy: -68458.93094
+Cycle: 95750, 25 Adsorbate Molecules, Total Energy: -60991.66416
+Cycle: 95800, 25 Adsorbate Molecules, Total Energy: -62842.69956
+Cycle: 95850, 25 Adsorbate Molecules, Total Energy: -62787.24614
+Cycle: 95900, 26 Adsorbate Molecules, Total Energy: -66616.30472
+Cycle: 95950, 25 Adsorbate Molecules, Total Energy: -64600.16046
+Cycle: 96000, 27 Adsorbate Molecules, Total Energy: -68984.06942
+Cycle: 96050, 30 Adsorbate Molecules, Total Energy: -74323.18582
+Cycle: 96100, 29 Adsorbate Molecules, Total Energy: -71731.97011
+Cycle: 96150, 29 Adsorbate Molecules, Total Energy: -71480.14576
+Cycle: 96200, 30 Adsorbate Molecules, Total Energy: -73841.88409
+Cycle: 96250, 27 Adsorbate Molecules, Total Energy: -66838.87561
+Cycle: 96300, 26 Adsorbate Molecules, Total Energy: -65984.76448
+Cycle: 96350, 29 Adsorbate Molecules, Total Energy: -72667.11901
+Cycle: 96400, 26 Adsorbate Molecules, Total Energy: -67164.65176
+Cycle: 96450, 23 Adsorbate Molecules, Total Energy: -58955.78471
+Cycle: 96500, 23 Adsorbate Molecules, Total Energy: -57348.93672
+Cycle: 96550, 21 Adsorbate Molecules, Total Energy: -53385.11543
+Cycle: 96600, 19 Adsorbate Molecules, Total Energy: -48723.93301
+Cycle: 96650, 20 Adsorbate Molecules, Total Energy: -50886.08836
+Cycle: 96700, 18 Adsorbate Molecules, Total Energy: -45460.06537
+Cycle: 96750, 19 Adsorbate Molecules, Total Energy: -47874.54370
+Cycle: 96800, 22 Adsorbate Molecules, Total Energy: -55963.22501
+Cycle: 96850, 24 Adsorbate Molecules, Total Energy: -60932.97902
+Cycle: 96900, 22 Adsorbate Molecules, Total Energy: -55571.92388
+Cycle: 96950, 23 Adsorbate Molecules, Total Energy: -57583.46208
+Cycle: 97000, 23 Adsorbate Molecules, Total Energy: -57827.63209
+Cycle: 97050, 24 Adsorbate Molecules, Total Energy: -59730.13687
+Cycle: 97100, 24 Adsorbate Molecules, Total Energy: -59892.44077
+Cycle: 97150, 23 Adsorbate Molecules, Total Energy: -58120.43826
+Cycle: 97200, 22 Adsorbate Molecules, Total Energy: -56285.90027
+Cycle: 97250, 25 Adsorbate Molecules, Total Energy: -64298.42187
+Cycle: 97300, 26 Adsorbate Molecules, Total Energy: -65843.99863
+Cycle: 97350, 27 Adsorbate Molecules, Total Energy: -67890.01537
+Cycle: 97400, 22 Adsorbate Molecules, Total Energy: -56007.57340
+Cycle: 97450, 23 Adsorbate Molecules, Total Energy: -58137.88287
+Cycle: 97500, 23 Adsorbate Molecules, Total Energy: -59319.49990
+Cycle: 97550, 23 Adsorbate Molecules, Total Energy: -58488.29419
+Cycle: 97600, 21 Adsorbate Molecules, Total Energy: -53256.61611
+Cycle: 97650, 17 Adsorbate Molecules, Total Energy: -45044.28048
+Cycle: 97700, 18 Adsorbate Molecules, Total Energy: -46067.97449
+Cycle: 97750, 21 Adsorbate Molecules, Total Energy: -53158.23973
+Cycle: 97800, 20 Adsorbate Molecules, Total Energy: -50124.39250
+Cycle: 97850, 19 Adsorbate Molecules, Total Energy: -47719.34876
+Cycle: 97900, 19 Adsorbate Molecules, Total Energy: -46882.97154
+Cycle: 97950, 20 Adsorbate Molecules, Total Energy: -50504.94475
+Cycle: 98000, 21 Adsorbate Molecules, Total Energy: -52243.89105
+Cycle: 98050, 19 Adsorbate Molecules, Total Energy: -48667.68806
+Cycle: 98100, 18 Adsorbate Molecules, Total Energy: -43852.59212
+Cycle: 98150, 20 Adsorbate Molecules, Total Energy: -48456.42647
+Cycle: 98200, 19 Adsorbate Molecules, Total Energy: -47719.77528
+Cycle: 98250, 17 Adsorbate Molecules, Total Energy: -43966.11646
+Cycle: 98300, 16 Adsorbate Molecules, Total Energy: -41039.23170
+Cycle: 98350, 16 Adsorbate Molecules, Total Energy: -41236.77280
+Cycle: 98400, 17 Adsorbate Molecules, Total Energy: -42835.41885
+Cycle: 98450, 19 Adsorbate Molecules, Total Energy: -47289.54700
+Cycle: 98500, 15 Adsorbate Molecules, Total Energy: -37553.46697
+Cycle: 98550, 19 Adsorbate Molecules, Total Energy: -45662.43462
+Cycle: 98600, 19 Adsorbate Molecules, Total Energy: -46647.36750
+Cycle: 98650, 21 Adsorbate Molecules, Total Energy: -52554.02961
+Cycle: 98700, 21 Adsorbate Molecules, Total Energy: -52572.06629
+Cycle: 98750, 22 Adsorbate Molecules, Total Energy: -54586.04026
+Cycle: 98800, 23 Adsorbate Molecules, Total Energy: -57271.88528
+Cycle: 98850, 25 Adsorbate Molecules, Total Energy: -61514.40523
+Cycle: 98900, 25 Adsorbate Molecules, Total Energy: -62985.77827
+Cycle: 98950, 25 Adsorbate Molecules, Total Energy: -62593.83370
+Cycle: 99000, 22 Adsorbate Molecules, Total Energy: -56960.48790
+Cycle: 99050, 24 Adsorbate Molecules, Total Energy: -61136.33370
+Cycle: 99100, 25 Adsorbate Molecules, Total Energy: -61884.63655
+Cycle: 99150, 22 Adsorbate Molecules, Total Energy: -54453.28360
+Cycle: 99200, 21 Adsorbate Molecules, Total Energy: -52785.26125
+Cycle: 99250, 20 Adsorbate Molecules, Total Energy: -50244.44490
+Cycle: 99300, 19 Adsorbate Molecules, Total Energy: -47444.69861
+Cycle: 99350, 18 Adsorbate Molecules, Total Energy: -45683.49252
+Cycle: 99400, 15 Adsorbate Molecules, Total Energy: -37883.26078
+Cycle: 99450, 15 Adsorbate Molecules, Total Energy: -38377.12287
+Cycle: 99500, 19 Adsorbate Molecules, Total Energy: -45754.14749
+Cycle: 99550, 17 Adsorbate Molecules, Total Energy: -39840.16080
+Cycle: 99600, 17 Adsorbate Molecules, Total Energy: -41206.13803
+Cycle: 99650, 20 Adsorbate Molecules, Total Energy: -47999.47783
+Cycle: 99700, 17 Adsorbate Molecules, Total Energy: -43380.10302
+Cycle: 99750, 17 Adsorbate Molecules, Total Energy: -44194.40815
+Cycle: 99800, 16 Adsorbate Molecules, Total Energy: -40777.55643
+Cycle: 99850, 19 Adsorbate Molecules, Total Energy: -48322.50918
+Cycle: 99900, 19 Adsorbate Molecules, Total Energy: -47442.12792
+Cycle: 99950, 19 Adsorbate Molecules, Total Energy: -46930.57737
+=====================TRANSLATION MOVES=====================
+Translation Performed: 24993
+Translation Accepted: 10995
+Max Translation: 0.7313392408, 0.7268464465, 0.4888379312
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 24882
+Rotation Accepted: 12388
+Max Rotation: 0.7077520128, 0.7077520128, 0.7077520128
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   12551
+Insertion Accepted:    3900
+Deletion Performed:    12419
+Deletion Accepted:     3881
+Reinsertion Performed: 25155
+Reinsertion Accepted:  4220
+==============================================================
+running total: -47062.2028510800, DeltaVDW+Real: -37386.22610, DeltaEwald: -9675.97675
+=====================BLOCK AVERAGES (ENERGIES)================
+BLOCK [0], Blocksize: 20000, Average: -48854.47347, ErrorBar: 19497.83127
+BLOCK [1], Blocksize: 20000, Average: -51593.87655, ErrorBar: 21843.31302
+BLOCK [2], Blocksize: 20000, Average: -52589.28762, ErrorBar: 21530.03203
+BLOCK [3], Blocksize: 20000, Average: -53524.78126, ErrorBar: 19797.62009
+BLOCK [4], Blocksize: 20000, Average: -53265.91424, ErrorBar: 21980.40598
+Overall: Average: -51965.66663, ErrorBar: 3385.63272
+==============================================================
+=====================BLOCK AVERAGES (# MOLECULES)=============
+COMPONENT [0] (MOF)
+BLOCK [0], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+Overall: Average: 1.00000, ErrorBar: 0.00000
+----------------------------------------------------------
+COMPONENT [1] (CO2)
+BLOCK [0], Blocksize: 20000, Average: 19.38405, ErrorBar: 7.75708
+BLOCK [1], Blocksize: 20000, Average: 20.46605, ErrorBar: 8.25335
+BLOCK [2], Blocksize: 20000, Average: 20.43125, ErrorBar: 8.03706
+BLOCK [3], Blocksize: 20000, Average: 20.95840, ErrorBar: 7.57276
+BLOCK [4], Blocksize: 20000, Average: 21.01120, ErrorBar: 8.27731
+Overall: Average: 20.45019, ErrorBar: 1.16971
+----------------------------------------------------------
+==============================================================
+=====================Rosenbluth Summary=====================
+There are 5 blocks
+=====BLOCK 0=====
+Widom Performed: 5037.0
+(Total) Averaged Rosenbluth Weight: 2031.6590284646
+(Total) Averaged Excess Mu: -2268.6820812145
+(Total) Converted to Fugacity: 901.6042598041 [Pascal], Temp: 298.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 212.9284227628
+(Insertion) Averaged Excess Mu: -1596.8138277465
+(Insertion) Converted to Fugacity: 8602.6675573224 [Pascal], Temp: 298.00000 [K]
+(Deletion) Averaged Rosenbluth Weight: 3936.8902361449
+(Deletion) Averaged Excess Mu: -2465.7278466667
+(Deletion) Converted to Fugacity: 465.2790209175 [Pascal], Temp: 298.00000 [K]
+=====BLOCK 1=====
+Widom Performed: 5002.0
+(Total) Averaged Rosenbluth Weight: 2776.9444739873
+(Total) Averaged Excess Mu: -2361.7628521420
+(Total) Converted to Fugacity: 659.6287580439 [Pascal], Temp: 298.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 209.8072221740
+(Insertion) Averaged Excess Mu: -1592.4153465937
+(Insertion) Converted to Fugacity: 8730.6452826189 [Pascal], Temp: 298.00000 [K]
+(Deletion) Averaged Rosenbluth Weight: 5335.8832834794
+(Deletion) Averaged Excess Mu: -2556.2961112669
+(Deletion) Converted to Fugacity: 343.2894494159 [Pascal], Temp: 298.00000 [K]
+=====BLOCK 2=====
+Widom Performed: 4936.0
+(Total) Averaged Rosenbluth Weight: 2670.0926496041
+(Total) Averaged Excess Mu: -2350.0754132090
+(Total) Converted to Fugacity: 686.0257956984 [Pascal], Temp: 298.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 195.8176191557
+(Insertion) Averaged Excess Mu: -1571.8614028137
+(Insertion) Converted to Fugacity: 9354.3800728004 [Pascal], Temp: 298.00000 [K]
+(Deletion) Averaged Rosenbluth Weight: 5168.5462634120
+(Deletion) Averaged Excess Mu: -2546.8054093911
+(Deletion) Converted to Fugacity: 354.4037996719 [Pascal], Temp: 298.00000 [K]
+=====BLOCK 3=====
+Widom Performed: 5025.0
+(Total) Averaged Rosenbluth Weight: 2404.8265644374
+(Total) Averaged Excess Mu: -2318.9087278944
+(Total) Converted to Fugacity: 761.6983534785 [Pascal], Temp: 298.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 200.0599454754
+(Insertion) Averaged Excess Mu: -1578.2455345367
+(Insertion) Converted to Fugacity: 9156.0178634467 [Pascal], Temp: 298.00000 [K]
+(Deletion) Averaged Rosenbluth Weight: 4580.8239867107
+(Deletion) Averaged Excess Mu: -2510.8499754928
+(Deletion) Converted to Fugacity: 399.8740051675 [Pascal], Temp: 298.00000 [K]
+=====BLOCK 4=====
+Widom Performed: 4970.0
+(Total) Averaged Rosenbluth Weight: 2878.4219374697
+(Total) Averaged Excess Mu: -2372.4533394930
+(Total) Converted to Fugacity: 636.3738445321 [Pascal], Temp: 298.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 189.7545118844
+(Insertion) Averaged Excess Mu: -1562.4929591603
+(Insertion) Converted to Fugacity: 9653.2747302930 [Pascal], Temp: 298.00000 [K]
+(Deletion) Averaged Rosenbluth Weight: 5601.9364094781
+(Deletion) Averaged Excess Mu: -2570.7893455497
+(Deletion) Converted to Fugacity: 326.9855815275 [Pascal], Temp: 298.00000 [K]
+=========================AVERAGE========================
+Averaged Rosenbluth Weight: 2552.38893 +/- 608.94083
+Averaged Excess Chemical Potential: -2334.37648 +/- 74.84022
+Averaged Fugacity: 729.06620 +/- 192.04197
+Work took 52.359962 seconds
+======================================
+CHECKING FINAL ENERGY FOR SYSTEM [0]
+======================================
+CPU (one Thread) Total Energy: -37386.22610, VDW Energy: -36641.82093, Coulomb Energy: -744.40517
+GPU (one Thread) Total Energy: -37386.22610, VDW Energy: -36641.82093, Coulomb Energy: -744.40517
+Total ewaldE Fourier: 400421.4574129226, Framework Fourier: 409293.4653298093
+Component: 0, SelfAtomE: 100586536.82690
+Component: 1, SelfAtomE: 251103.80768
+Component: 0, Intra-Molecular ExclusionE: 115033008.45444
+Component: 1, Intra-Molecular ExclusionE: 250299.83885
+Framework Ewald: 14855765.0928648934
+HostEwald took 0.36594 sec
+FINAL STATE of sim 0: 
+VDW + Real (CPU): -37386.22610 (0.00757 secs)
+VDW + Real (1 thread GPU): -37386.22610 (0.46377 secs)
+VDW + Real (Parallel GPU): -37386.22610 (0.00015 secs)
+Ewald (CPU): -9675.97675 (0.36594 secs), Ewald (Parallel GPU): -9675.97674 (0.00159 secs)
+======================================
+======================== ENERGY SUMMARY (Simulation 0) =========================
+Initial VDW + Real (Before Creating Molecule): 0.00000
+Initial VDW + Real (After Creating Molecule): 0.00000
+Initial Ewald (Before Creating Molecule): -0.00000
+Initial Ewald (After Creating Molecule): -0.00000
+Running Energy (VDW + Real): -37386.22610
+Running Ewald: -9675.97675
+Running Energy (VDW + Real + Ewald): -47062.20285
+Final VDW + Real Energy (GPU): -37386.22610
+Final Ewald Energy      (GPU): -9675.97675
+CPU VDW + Real Difference: -37386.22610
+CPU Ewald Difference: -9675.97675
+Final Total Energy (Running Energy from Simulation, GPU): -47062.20285 (-56602.85426 [K])
+Final Total Energy (Recalculated by Energy Check  , CPU): -47062.20285 (-56602.85426 [K])
+Drift in Energy: 0.00000
+================================================================================
+Random Numbers Regenerated 4 times, offset: 202287, randomsize: 1000000
+System 0
+Printing: Component: 0 (MOF), NumMol: 1, Molsize: 2304
+Printing: Component: 1 (CO2), NumMol: 19, Molsize: 3
