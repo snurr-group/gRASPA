@@ -20,6 +20,9 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
   if(SystemComponents.TotalNumberOfMolecules < SystemComponents.NumberOfFrameworks)
     throw std::runtime_error("There is negative number of adsorbates. Break program!");
   size_t SelectedMolecule = (size_t) (get_random_from_zero_to_one()*(SystemComponents.TotalNumberOfMolecules-SystemComponents.NumberOfFrameworks));
+  //Zhao's note add a protection so that the selected Molecule do not exceed (or equal to) the total number of molecules//
+  if(SelectedMolecule > 0 && SelectedMolecule == (SystemComponents.TotalNumberOfMolecules-SystemComponents.NumberOfFrameworks))
+    SelectedMolecule --;
   size_t comp = SystemComponents.NumberOfFrameworks; // When selecting components, skip the component 0 (because it is the framework)
   size_t SelectedMolInComponent = SelectedMolecule; size_t totalsize= 0;
   for(size_t ijk = SystemComponents.NumberOfFrameworks; ijk < SystemComponents.Total_Components; ijk++) //Assuming Framework atoms are the top in the Atoms array
