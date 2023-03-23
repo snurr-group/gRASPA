@@ -1317,7 +1317,7 @@ void RestartFileParser(Simulations& Sims, Atoms* Host_System, Components& System
   std::string scannedLine; std::string str;
   std::vector<std::string> termsScannedLined{};
   //Determine framework name (file name)//
-  std::string Filename = "RestartInitial/restartfile";
+  std::string Filename = "RestartInitial/System_0/restartfile";
   std::ifstream file(Filename);
   std::filesystem::path pathfile = std::filesystem::path(Filename);
   if (!std::filesystem::exists(pathfile))
