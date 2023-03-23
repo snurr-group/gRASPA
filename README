@@ -16,3 +16,6 @@
 5. Multiple Instance GPU?
 6. Documentation with reference/comparison to RASPA-2 and RASPA-3
 7. cuda-Stream for Gibbs Monte Carlo?
+
+Combining 2 and 3?
+Skip the preparation part using shared mem?
