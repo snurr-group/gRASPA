@@ -7,5 +7,5 @@ It reads what framework/adsorbates you are going to use, and remove every unused
 This can reduce the time to process the force field parameters and MAY give you a little speed up. It reduces memory required as well. 
 
 ** NOTE **
-1. The example starts from force_field file using the UFF.
-2. for overwritting terms (force_field.def), you need to manually add them, the python script does not do it for you. 
+1. The example starts with the force_field_mixing_rules file using the UFF.
+2. For overwritting terms (force_field.def, like tail corrections), you need to manually add them, the python script does not do it for you. 
