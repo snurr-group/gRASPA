@@ -1,5 +1,5 @@
 Cleaning up (simplify) the force field files using python scripts. 
-It reads what framework/adsorbates you are going to use, and remove every used element from the files below. 
+It reads what framework/adsorbates you are going to use, and remove every unused element from the files below. 
 
 -- force_field_mixing_rules.def
 -- pseudo_atoms.def
