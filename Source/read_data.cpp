@@ -1549,6 +1549,11 @@ void RestartFileParser(Simulations& Sims, Atoms* Host_System, Components& System
       }
       counter++;
     }
+    
+    //Update The Number of pseudoAtoms//
+    for(size_t Nmol = 0; Nmol < SystemComponents.NumberOfMolecule_for_Component[i]; Nmol++)
+      SystemComponents.UpdatePseudoAtoms(INSERTION, i);
+    
     counter  = 0;
     size_t interval = SystemComponents.NumberOfMolecule_for_Component[i]* SystemComponents.Moleculesize[i];
     double x[SystemComponents.NumberOfMolecule_for_Component[i]         * SystemComponents.Moleculesize[i]];
