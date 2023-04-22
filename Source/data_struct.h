@@ -13,7 +13,7 @@ void VDW_CPU(const double* FFarg, const double rr_dot, const double scaling, dou
 
 void PBC_CPU(double* posvec, double* Cell, double* InverseCell, bool& Cubic);
 
-enum MoveTypes {TRANSLATION_ROTATION = 0, INSERTION, DELETION, REINSERTION, CBCF_LAMBDACHANGE, CBCF_INSERTION, CBCF_DELETION};
+enum MoveTypes {TRANSLATION = 0, ROTATION, SINGLE_INSERTION, SINGLE_DELETION, INSERTION, DELETION, REINSERTION, CBCF_LAMBDACHANGE, CBCF_INSERTION, CBCF_DELETION};
 
 enum CBMC_Types {CBMC_INSERTION = 0, CBMC_DELETION, REINSERTION_INSERTION, REINSERTION_RETRACE};
 
@@ -123,7 +123,7 @@ struct TMMC
     if (Pacc > 1.0) Pacc = 1.0; //If Pacc is too big, reduce to 1.0//
     switch(MoveType)
     {
-      case TRANSLATION_ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
+      case TRANSLATION: case ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
       {
         if(RejectOutofBound && ((N > MaxMacrostate) || (N < MinMacrostate))) return;
         N -= MinMacrostate;
@@ -133,7 +133,7 @@ struct TMMC
         Histogram[N] ++;
         break;
       }
-      case INSERTION: case CBCF_INSERTION:
+      case INSERTION: case SINGLE_INSERTION: case CBCF_INSERTION:
       {
         size_t OldN = N;
         N -= MinMacrostate;
@@ -147,7 +147,7 @@ struct TMMC
         WLBias[NewN]  = -ln_g[N]; //WL Bias//
         break;
       }
-      case DELETION: case CBCF_DELETION:
+      case DELETION: case SINGLE_DELETION: case CBCF_DELETION:
       {
         size_t OldN = N;
         N -= MinMacrostate;
@@ -173,12 +173,12 @@ struct TMMC
     if(N < MinMacrostate || N > MaxMacrostate) return; //No bias for macrostate out of the bound
     switch(MoveType)
     {
-      case TRANSLATION_ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
+      case TRANSLATION: case ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
       {
         //Do not need the bias for moves that does not change the macrostate//
         break;
       }
-      case INSERTION: case CBCF_INSERTION:
+      case INSERTION: case SINGLE_INSERTION: case CBCF_INSERTION:
       { 
         if(RejectOutofBound && (N + 1) > MaxMacrostate) return;
         N -= MinMacrostate;
@@ -187,7 +187,7 @@ struct TMMC
         preFactor *= TMMCBias;
         break;
       }
-      case DELETION: case CBCF_DELETION:
+      case DELETION: case SINGLE_DELETION: case CBCF_DELETION:
       {
         if(RejectOutofBound && (N - 1) < MinMacrostate) return;
         N -= MinMacrostate;
@@ -208,12 +208,12 @@ struct TMMC
     if(N < MinMacrostate || N > MaxMacrostate) return; //No bias for macrostate out of the bound
     switch(MoveType)
     {
-      case TRANSLATION_ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
+      case TRANSLATION: case ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
       {
         //Do not need the bias for moves that does not change the macrostate//
         break;
       }
-      case INSERTION: case CBCF_INSERTION:
+      case INSERTION: case SINGLE_INSERTION: case CBCF_INSERTION:
       {
         if(RejectOutofBound && (N + 1) > MaxMacrostate) return;
         N -= MinMacrostate;
@@ -222,7 +222,7 @@ struct TMMC
         preFactor *= TMMCBias;
         break;
       }
-      case DELETION: case CBCF_DELETION:
+      case DELETION: case SINGLE_DELETION: case CBCF_DELETION:
       {
         if(RejectOutofBound && (N - 1) < MinMacrostate) return;
         N -= MinMacrostate;
@@ -290,17 +290,17 @@ struct TMMC
     if(!Accept || !RejectOutofBound) return; //if the move is already rejected, no need to reject again//
     switch(MoveType)
     {
-      case TRANSLATION_ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
+      case TRANSLATION: case ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
       {
         //Do not need to determine accept/reject for moves that does not change the macrostate//
         break;
       }
-      case INSERTION: case CBCF_INSERTION:
+      case INSERTION: case SINGLE_INSERTION: case CBCF_INSERTION:
       {
         if(RejectOutofBound && (N + 1) > MaxMacrostate) Accept = false;
         break;
       }
-      case DELETION: case CBCF_DELETION:
+      case DELETION: case SINGLE_DELETION: case CBCF_DELETION:
       {
         if(RejectOutofBound && (N - 1) < MinMacrostate) Accept = false;
         break;
@@ -485,6 +485,21 @@ struct MoveEnergy
   };
 };
 
+struct Atoms
+{
+  double* x;
+  double* y;
+  double* z;
+  double* scale;
+  double* charge;
+  double* scaleCoul;
+  size_t* Type;
+  size_t* MolID;
+  size_t  Molsize;
+  size_t  size;
+  size_t  Allocate_size;
+};
+
 struct Components
 {
   size_t  Total_Components;                           // Number of Components in the system (including framework)
@@ -504,7 +519,24 @@ struct Components
   double  deltaEwald   = {0.0};
   double  deltaTailE   = {0.0};
   double  deltaDNN     = {0.0};
+  MoveEnergy Initial_Energy;
+  MoveEnergy CreateMol_Energy;
+  MoveEnergy Final_Energy;
+  Atoms*  HostSystem;                                 //CPU pointers for storing Atoms (d_a in Simulations is the GPU Counterpart)//
+  Atoms   TempSystem;                                 //For temporary data storage//
+  void Copy_GPU_Data_To_Temp(Atoms GPU_System, size_t start, size_t size)
+  {
+    cudaMemcpy(TempSystem.x,         &GPU_System.x[start],         size * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(TempSystem.y,         &GPU_System.y[start],         size * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(TempSystem.z,         &GPU_System.z[start],         size * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(TempSystem.scale,     &GPU_System.scale[start],     size * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(TempSystem.charge,    &GPU_System.charge[start],    size * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(TempSystem.scaleCoul, &GPU_System.scaleCoul[start], size * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(TempSystem.Type,      &GPU_System.Type[start],      size * sizeof(size_t), cudaMemcpyDeviceToHost);
+    cudaMemcpy(TempSystem.MolID,     &GPU_System.MolID[start],     size * sizeof(size_t), cudaMemcpyDeviceToHost);
+  }
   MoveEnergy tempdeltaE;
+  MoveEnergy CreateMoldeltaE;
   MoveEnergy deltaE;
   void SumDeltaE(MoveEnergy& A, MoveEnergy& B, int ADD_MINUS)
   {
@@ -558,6 +590,7 @@ struct Components
   double  FrameworkEwald={0.0};
   bool    HasTailCorrection = {false};                // An overall flag for tail correction 
   bool    ReadRestart = {false};                      // Whether to use restart files (RestartInitial)
+  bool    SingleSwap={false};
   //DNN Related Variables//
   std::vector<cppflow::model> DNNModel;
   std::vector<int3>DNNInteractionList;                // List of DNN Interactions: TypeA, TypeB, NumberOfthisInteraction to consider (equal to N_TypeB)
@@ -568,11 +601,19 @@ struct Components
   size_t* device_InverseIndexList;                    // device_pointer for knowing which pair of interaction is stored in where
   bool*   ConsiderThisAdsorbateAtom;                  // device pointer
   double* device_Distances;                           // device_pointer for storing pair-wise distances//
-  bool UseDNNforHostGuest = {true};
+  bool UseDNNforHostGuest = {false};
   size_t TranslationRotationDNNReject={0};
   size_t ReinsertionDNNReject={0};
   size_t InsertionDNNReject={0};
   size_t DeletionDNNReject={0};
+  size_t SingleSwapDNNReject={0};
+  //DNN and Host-Guest Drift//
+  double SingleMoveDNNDrift={0.0};
+  double ReinsertionDNNDrift={0.0};
+  double InsertionDNNDrift={0.0};
+  double DeletionDNNDrift={0.0};
+  double SingleSwapDNNDrift={0.0};
+  double DNNDrift = {200.0};
 
   std::vector<double2>EnergyAverage;                  // Booking-keeping Sums and Sums of squared values for energy
   std::vector<bool>   hasfractionalMolecule;          // Whether this component has fractional molecules
@@ -607,7 +648,7 @@ struct Components
   {
     switch(MoveType)
     {
-      case INSERTION: case CBCF_INSERTION:
+      case INSERTION: case SINGLE_INSERTION: case CBCF_INSERTION:
       {
         for(size_t i = 0; i < NumberOfPseudoAtomsForSpecies[component].size(); i++)
         {
@@ -616,7 +657,7 @@ struct Components
         }
         break;
       }
-      case DELETION: case CBCF_DELETION:
+      case DELETION: case SINGLE_DELETION: case CBCF_DELETION:
       {
         for(size_t i = 0; i < NumberOfPseudoAtomsForSpecies[component].size(); i++)
         {
@@ -625,25 +666,10 @@ struct Components
         }
         break;
       }
-      case TRANSLATION_ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
+      case TRANSLATION: case ROTATION: case REINSERTION: case CBCF_LAMBDACHANGE:
         break;
     }
   }
-};
-
-struct Atoms
-{
-  double* x;
-  double* y;
-  double* z;
-  double* scale;
-  double* charge;
-  double* scaleCoul;
-  size_t* Type;
-  size_t* MolID;
-  size_t  Molsize;
-  size_t  size;
-  size_t  Allocate_size;
 };
 
 struct Boxsize

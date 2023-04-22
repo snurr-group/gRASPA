@@ -27,33 +27,6 @@ inline void Ewald_PBC_CPU(double* posvec, double* Cell, double* InverseCell, boo
   }
 }
 
-/*
-__device__ void Ewald_PBC(double* posvec, double* Cell, double* InverseCell, bool Cubic)
-{
-  if(Cubic)//cubic/cuboid
-  {
-    posvec[0] = posvec[0] - static_cast<int>(posvec[0] * InverseCell[0*3+0] + ((posvec[0] >= 0.0) ? 0.5 : -0.5)) * Cell[0*3+0];
-    posvec[1] = posvec[1] - static_cast<int>(posvec[1] * InverseCell[1*3+1] + ((posvec[1] >= 0.0) ? 0.5 : -0.5)) * Cell[1*3+1];
-    posvec[2] = posvec[2] - static_cast<int>(posvec[2] * InverseCell[2*3+2] + ((posvec[2] >= 0.0) ? 0.5 : -0.5)) * Cell[2*3+2];
-  }
-  else
-  {
-    double s[3] = {0.0, 0.0, 0.0};
-    s[0]=InverseCell[0*3+0]*posvec[0]+InverseCell[1*3+0]*posvec[1]+InverseCell[2*3+0]*posvec[2];
-    s[1]=InverseCell[0*3+1]*posvec[0]+InverseCell[1*3+1]*posvec[1]+InverseCell[2*3+1]*posvec[2];
-    s[2]=InverseCell[0*3+2]*posvec[0]+InverseCell[1*3+2]*posvec[1]+InverseCell[2*3+2]*posvec[2];
-
-    s[0] -= static_cast<int>(s[0] + ((s[0] >= 0.0) ? 0.5 : -0.5));
-    s[1] -= static_cast<int>(s[1] + ((s[1] >= 0.0) ? 0.5 : -0.5));
-    s[2] -= static_cast<int>(s[2] + ((s[2] >= 0.0) ? 0.5 : -0.5));
-    // convert from abc to xyz
-    posvec[0]=Cell[0*3+0]*s[0]+Cell[1*3+0]*s[1]+Cell[2*3+0]*s[2];
-    posvec[1]=Cell[0*3+1]*s[0]+Cell[1*3+1]*s[1]+Cell[2*3+1]*s[2];
-    posvec[2]=Cell[0*3+2]*s[0]+Cell[1*3+2]*s[1]+Cell[2*3+2]*s[2];
-  }
-}
-
-*/
 void matrix_multiply_by_vector(double* a, double* b, double* c) //3x3(9*1) matrix (a) times 3x1(3*1) vector (b), a*b=c//
 {
   c[0]=a[0*3+0]*b[0]+a[1*3+0]*b[1]+a[2*3+0]*b[2];
@@ -61,18 +34,19 @@ void matrix_multiply_by_vector(double* a, double* b, double* c) //3x3(9*1) matri
   c[2]=a[0*3+2]*b[0]+a[1*3+2]*b[1]+a[2*3+2]*b[2];
 }
 
-double Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& SystemComponents)
+void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& SystemComponents, MoveEnergy& E)
 {
+  printf("****** Calculating Ewald Energy (CPU) ******\n");
   double recip_cutoff = Box.ReciprocalCutOff;
   int kx_max = Box.kmax.x;
   int ky_max = Box.kmax.y;
   int kz_max = Box.kmax.z;
-  if(FF.noCharges) return 0.0;
+  if(FF.noCharges) return;
   double alpha = Box.Alpha; double alpha_squared = alpha * alpha;
   double prefactor = Box.Prefactor * (2.0 * M_PI / Box.Volume);
 
  
-  double ewaldE = 0.0;
+  MoveEnergy ewaldE;
  
   double ax[3] = {Box.InverseCell[0], Box.InverseCell[3], Box.InverseCell[6]}; //printf("ax: %.10f, %.10f, %.10f\n", Box.InverseCell[0], Box.InverseCell[3], Box.InverseCell[6]);
   double ay[3] = {Box.InverseCell[1], Box.InverseCell[4], Box.InverseCell[7]}; //printf("ay: %.10f, %.10f, %.10f\n", Box.InverseCell[1], Box.InverseCell[4], Box.InverseCell[7]);
@@ -138,7 +112,7 @@ double Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components
   }
   size_t nvec = 0;
   //for debugging
-  double FrameworkEwald = 0.0;
+  double FrameworkEwald = 0.0; //Framework-Framework interaction//
   size_t kxcount = 0; size_t kycount = 0; size_t kzcount = 0; size_t kzinactive = 0;
   for(std::make_signed_t<std::size_t> kx = 0; kx <= kx_max; ++kx)
   {
@@ -188,9 +162,13 @@ double Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components
           if(SystemComponents.NumberOfFrameworks > 0 && Box.ExcludeHostGuestEwald)
             cksum -= Frameworkck;
           double tempsum = temp * (cksum.real() * cksum.real() + cksum.imag() * cksum.imag());
-          double tempFramework = temp * (Frameworkck.real() * Frameworkck.real() + Frameworkck.imag() * Frameworkck.imag());
-          ewaldE += tempsum;
-          FrameworkEwald += tempFramework;
+          double tempFramework = 0.0; double tempFrameworkGuest = 0.0;
+
+          tempFramework = temp * (Frameworkck.real()      * Frameworkck.real() + Frameworkck.imag() * Frameworkck.imag());
+          tempFrameworkGuest = temp * (Frameworkck.real() * cksum.real()       + Frameworkck.imag() * cksum.imag()) * 2.0;
+          E.EwaldE   += tempsum;
+          FrameworkEwald  += tempFramework;
+          E.HGEwaldE += tempFrameworkGuest;
           //storedEik[nvec] = cksum;
           //++nvec;
           kzcount++;
@@ -211,9 +189,8 @@ double Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components
     kxcount++;
   }
 
-  printf("Total ewaldE Fourier: %.10f, Framework Fourier: %.10f\n", ewaldE, FrameworkEwald);
-  if(Box.ExcludeHostGuestEwald) ewaldE += FrameworkEwald;
-  
+  printf("Total ewaldE Fourier: %.10f, Framework Fourier: %.10f, Framework-Guest Fourier: %.10f\n", E.EwaldE, FrameworkEwald, E.HGEwaldE);
+  if(Box.ExcludeHostGuestEwald) E.EwaldE += FrameworkEwald;
 
   // Subtract self-energy
   double prefactor_self = Box.Prefactor * alpha / std::sqrt(M_PI);
@@ -223,16 +200,14 @@ double Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components
     double SelfE = 0.0;
     for(size_t posi=0; posi<SystemComponents.NumberOfMolecule_for_Component[comp]*SystemComponents.Moleculesize[comp]; posi++)
     {
-      double charge = Host_System[comp].charge[posi];
+      double charge  = Host_System[comp].charge[posi];
       double scaling = Host_System[comp].scaleCoul[posi];
-      ewaldE -= prefactor_self * scaling * charge * scaling * charge;
-      SelfE  += prefactor_self * scaling * charge * scaling * charge;
+      E.EwaldE -= prefactor_self * scaling * charge * scaling * charge;
+      SelfE         += prefactor_self * scaling * charge * scaling * charge;
       if(comp == 0 && SystemComponents.NumberOfFrameworks > 0) FrameworkEwald -= prefactor_self * scaling * charge * scaling * charge;
     }
     printf("Component: %zu, SelfAtomE: %.5f\n", comp, SelfE);
   }
-  //printf("After Self ewaldE: %.10f\n", ewaldE);
-
 
   // Subtract exclusion-energy, Zhao's note: taking out the pairs of energies that belong to the same molecule
   size_t j_count = 0;
@@ -259,8 +234,8 @@ double Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components
             double rr_dot = posvec[0]*posvec[0] + posvec[1]*posvec[1] + posvec[2]*posvec[2];
             double r = std::sqrt(rr_dot);
 
-            ewaldE     -= Box.Prefactor * factorA * factorB * std::erf(alpha * r) / r;
-            exclusionE -= Box.Prefactor * factorA * factorB * std::erf(alpha * r) / r;
+            E.EwaldE -= Box.Prefactor * factorA * factorB * std::erf(alpha * r) / r;
+            exclusionE    -= Box.Prefactor * factorA * factorB * std::erf(alpha * r) / r;
             if(l == 0 && SystemComponents.NumberOfFrameworks > 0) FrameworkEwald -= Box.Prefactor * factorA * factorB * std::erf(alpha * r) / r;
             j_count++;
           }
@@ -274,7 +249,7 @@ double Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components
 
   /*
   if(Box.ExcludeHostGuestEwald)
-    ewaldE -= FrameworkEwald;
+    E -= FrameworkEwald;
   */
   //Record the values for the Ewald Vectors//
 //  for(size_t i = 0; i < eik_xy.size(); i++)
@@ -302,7 +277,6 @@ double Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components
       }
     }
     */
-  return ewaldE;
 }
 
 double Calculate_Intra_Molecule_Exclusion(Boxsize& Box, Atoms* System, double alpha, double Prefactor, Components& SystemComponents, size_t SelectedComponent)
@@ -346,6 +320,7 @@ double Calculate_Self_Exclusion(Boxsize& Box, Atoms* System, double alpha, doubl
 
 void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents)
 {
+  printf(" ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** \n");
   size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
   Complex GPUWV[numberOfWaveVectors];
   cudaMemcpy(GPUWV, Box.storedEik, numberOfWaveVectors * sizeof(Complex), cudaMemcpyDeviceToHost);
@@ -366,6 +341,7 @@ void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents)
   }
   if(counter >= 10) printf("More than 10 WaveVectors mismatch.\n");
   //Also check Framework Eik vectors//
+  printf(" ****** CHECKING Framework WaveVectors Stored on CPU ****** \n");
   for(size_t i = 0; i < numberOfWaveVectors; i++)
   {
     if(i < 10) printf("Framework Wave Vector %zu, real: %.5f imag: %.5f\n", i, SystemComponents.FrameworkEik[i].real(), SystemComponents.FrameworkEik[i].imag());

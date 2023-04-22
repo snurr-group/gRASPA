@@ -94,7 +94,14 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
     ////////////////////////////
     if(get_random_from_zero_to_one() < 0.5)
     {
-      DeltaE = Insertion(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp);
+      if(!SystemComponents.SingleSwap)
+      {  
+        DeltaE = Insertion(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp);
+      }
+      else
+      {
+        DeltaE = SingleSwapMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, SINGLE_INSERTION);
+      }
     }
     else
     {
@@ -104,7 +111,14 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
       //Zhao's note: Do not do a deletion if the chosen molecule is a fractional molecule, fractional molecules should go to CBCFSwap moves//
       if(!((SystemComponents.hasfractionalMolecule[comp]) && SelectedMolInComponent == SystemComponents.Lambda[comp].FractionalMoleculeID))
       {
-        DeltaE = Deletion(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp);
+        if(!SystemComponents.SingleSwap)
+        {
+          DeltaE = Deletion(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp);
+        }
+        else
+        {
+          DeltaE = SingleSwapMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, SINGLE_DELETION);
+        }
       }
     }
   }
@@ -114,6 +128,7 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
     //printf("Cycle [%d], Printing DeltaE\n", Cycle);
     //DeltaE.print();
   //}
+  //printf("Cycle [%zu], DeltaE: "); DeltaE.print();
   running_energy += DeltaE.total();
   SystemComponents.SumDeltaE(SystemComponents.deltaE, DeltaE, ADD);
   SystemComponents.AddToDeltaE(DeltaE);
@@ -147,6 +162,7 @@ double CreateMolecule_InOneBox(Components& SystemComponents, Simulations& Sims, 
         MoveEnergy DeltaE;
         DeltaE = CreateMolecule(SystemComponents, Sims, FF, Random, Widom, SelectedMol, comp, newScale);
         running_energy += DeltaE.total();
+        SystemComponents.SumDeltaE(SystemComponents.CreateMoldeltaE, DeltaE, ADD);
         if(SystemComponents.NumberOfMolecule_for_Component[comp] == OldVal)
         {
           CreateFailCount ++;
@@ -171,6 +187,7 @@ double CreateMolecule_InOneBox(Components& SystemComponents, Simulations& Sims, 
       //DeltaE.print();
       SystemComponents.AddToCreateMolDeltaE(DeltaE);
       running_energy += DeltaE.total();
+      SystemComponents.SumDeltaE(SystemComponents.CreateMoldeltaE, DeltaE, ADD);
       printf("Delta E in creating molecules:\n"); DeltaE.print();
       if(SystemComponents.NumberOfMolecule_for_Component[comp] == OldVal)
       {CreateFailCount ++;} else {SystemComponents.NumberOfCreateMolecules[comp] --; Created ++;}

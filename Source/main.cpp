@@ -36,8 +36,7 @@ int main(void)
   // DECLARE BASIC VARIABLES, READ FORCEFIELD and FRAMEWORK //
   ////////////////////////////////////////////////////////////
   size_t NumberOfComponents = 2; //0: Framework; 1: adsorbate
-  std::vector<Atoms*> HostSystem(NumberOfSimulations);
-  Atoms System[NumberOfComponents];
+  //std::vector<Atoms*> HostSystem(NumberOfSimulations);
   std::vector<Boxsize> Box(NumberOfSimulations); //(Boxsize*) malloc(NumberOfSimulations * sizeof(Boxsize)); //Boxsize device_Box;
   PseudoAtomDefinitions PseudoAtom;
   ForceField FF; ForceField device_FF;
@@ -52,7 +51,7 @@ int main(void)
   int NumberOfInitializationCycles;
   int NumberOfEquilibrationCycles;
   int NumberOfProductionCycles;
-  double RANDOMSEED;
+  int RANDOMSEED;
   Move_Statistics MoveStats; 
   Initialize_Move_Statistics(MoveStats);
   
@@ -60,16 +59,16 @@ int main(void)
 
   double PRESSURE = 0.0; double TEMPERATURE = 0.0; 
 
+  printf("------------------GENERAL SIMULATION SETUP-------------\n");
   read_simulation_input(&Widom.UseGPUReduction, &Widom.Useflag, &FF.noCharges, &NumberOfInitializationCycles, &NumberOfEquilibrationCycles, &NumberOfProductionCycles, &Widom.NumberWidomTrials, &Widom.NumberWidomTrialsOrientations, &MoveStats.NumberOfBlocks, &PRESSURE, &TEMPERATURE, &Allocate_space_Adsorbate, &ReadRestart, &RANDOMSEED, &SameFrameworkEverySimulation);
-
+  
   Gibbs  GibbsStatistics;
   bool   SetMaxStep = false;
   size_t MaxStepPerCycle = 1;
   read_Gibbs_Stats(GibbsStatistics, SetMaxStep, MaxStepPerCycle);
-
+  printf("-------------------------------------------------------\n");
   // PREPARE VALUES FOR THE FORCEFIELD STRUCT //
   Prepare_ForceField(FF, device_FF, PseudoAtom);
-  printf("Box Pointer Pressure = %.5f\n", Box[0].Pressure);
 
   ////////////////////////
   // SETUP RANDOM SEEDS //
@@ -95,17 +94,17 @@ int main(void)
   {
     //Zhao's note: Hard-coded flag, put it in read_data.cpp later//
     Box[a].ExcludeHostGuestEwald = true;
-    if(samePressure)    Box[a].Pressure = PRESSURE; 
+    if(samePressure)    Box[a].Pressure = PRESSURE;
     //if(sameTemperature) 
     if(!samePressure || !sameTemperature) throw std::runtime_error("Currently not allowing the different Pressure/Temperature!");
-    printf("========================================\n");
-    printf("==== Working on Simulation box %zu ======\n", a);
-    printf("========================================\n");
+    printf("==========================================\n");
+    printf("====== Preparing Simulation box %zu ======\n", a);
+    printf("==========================================\n");
     //Allocate data on the host for each simulation//
-    HostSystem[a] = (Atoms*) malloc(NumberOfComponents * sizeof(Atoms));
     Components TempComponents; //Temporary component variable//
+    TempComponents.HostSystem  = (Atoms*) malloc(NumberOfComponents * sizeof(Atoms));
     TempComponents.ReadRestart = ReadRestart;
-    TempComponents.Temperature = TEMPERATURE; printf("Temperature: %.5f\n", TempComponents.Temperature);
+    TempComponents.Temperature = TEMPERATURE; 
     /////////////////////////////////////
     // Read and process framework data //
     /////////////////////////////////////
@@ -116,9 +115,9 @@ int main(void)
       OverWriteFFTerms(TempComponents, FF, PseudoAtom);
       if(a > 0 && !SameFrameworkEverySimulation) printf("Processing %zu, new framework\n", a);
       //Read framework data from cif/poscar file//
-      ReadFramework(Box[a], HostSystem[a][0], PseudoAtom, a, TempComponents);
+      ReadFramework(Box[a], TempComponents.HostSystem[0], PseudoAtom, a, TempComponents);
       read_Ewald_Parameters_from_input(sqrt(FF.CutOffCoul), Box[a], EwaldPrecision);
-      Update_Components_for_framework(NumberOfComponents, TempComponents, HostSystem[a]);
+      Update_Components_for_framework(NumberOfComponents, TempComponents, TempComponents.HostSystem);
 
       //Initialize Energy Averages//
       double2 tempdou ={0.0, 0.0};
@@ -141,14 +140,14 @@ int main(void)
         if(comp > 0) //0: framework//
         {
           //skip reading the first component, which is the framework
-          read_component_values_from_simulation_input(TempComponents, MoveStats, comp-1, HostSystem[a][comp], PseudoAtom, Allocate_space_Adsorbate);
+          read_component_values_from_simulation_input(TempComponents, MoveStats, comp-1, TempComponents.HostSystem[comp], PseudoAtom, Allocate_space_Adsorbate);
         }
         TempComponents.Moves.push_back(MoveStats);
       }
       SystemComponents.push_back(TempComponents);
     //}
     Setup_Box_Temperature_Pressure(Constants, SystemComponents[a], Box[a]);
-    Sims[a].Box.Pressure = Box[a].Pressure; Sims[a].Box.Volume = Box[a].Volume; 
+    Sims[a].Box.Pressure = Box[a].Pressure; Sims[a].Box.Volume = Box[a].Volume;
     Sims[a].Box.Cubic    = Box[a].Cubic;    Sims[a].Box.ReciprocalCutOff = Box[a].ReciprocalCutOff;
     Sims[a].Box.Alpha    = Box[a].Alpha;    Sims[a].Box.Prefactor        = Box[a].Prefactor;
     Sims[a].Box.tol1     = Box[a].tol1;     Sims[a].Box.ExcludeHostGuestEwald = Box[a].ExcludeHostGuestEwald;
@@ -156,12 +155,9 @@ int main(void)
     cudaMemcpy(Sims[a].Box.Cell, Box[a].Cell, 9 * sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(Sims[a].Box.InverseCell, Box[a].InverseCell, 9 * sizeof(double), cudaMemcpyHostToDevice);
     Sims[a].Box.kmax = Box[a].kmax;
-    printf("Sim %zu, Pressure (Managed): %.5f, Pressure (CPU): %.5f, Box[0]: %.5f\n", a, Sims[a].Box.Pressure, Box[a].Pressure, Box[0].Pressure);
-    printf("Box[%zu] Volume: %.5f\n", a, Sims[a].Box.Volume);
-    printf("All Copy DONE\n");
     // PREPARE VALUES FOR THE WIDOM STRUCT, DECLARE THE RESULT POINTERS IN WIDOM //
     WidomArray.push_back(Widom);
-    Prepare_Widom(WidomArray[a], Box[a], Sims[a], SystemComponents[a], HostSystem[a], MoveStats.NumberOfBlocks);
+    Prepare_Widom(WidomArray[a], Box[a], Sims[a], SystemComponents[a], SystemComponents[a].HostSystem, MoveStats.NumberOfBlocks);
     ///////////////////////////////////
     // Read Restart file for Systems //
     ///////////////////////////////////
@@ -171,42 +167,34 @@ int main(void)
     cudaMalloc(&Sims[a].d_a, sizeof(Atoms)*NumberOfComponents);
     if(RunSingleSim)
     {
-      if(a == SelectedSim && ReadRestart) {RestartFileParser(Sims[a], HostSystem[a], SystemComponents[a]); AlreadyHasFractionalMolecule = true;}
+      if(a == SelectedSim && ReadRestart) {RestartFileParser(Sims[a], SystemComponents[a].HostSystem, SystemComponents[a]); AlreadyHasFractionalMolecule = true;}
     }
-    Copy_Atom_data_to_device(NumberOfComponents, device_System, HostSystem[a]);
+    Copy_Atom_data_to_device(NumberOfComponents, device_System, SystemComponents[a].HostSystem);
+    Prepare_TempSystem_On_Host(SystemComponents[a].TempSystem);
     cudaMemcpy(Sims[a].d_a, device_System, sizeof(Atoms)*NumberOfComponents, cudaMemcpyHostToDevice);
     // SET UP TEMPORARY ARRAYS //
-    Setup_Temporary_Atoms_Structure(Sims[a].Old, HostSystem[a]);
-    Setup_Temporary_Atoms_Structure(Sims[a].New, HostSystem[a]);
+    Setup_Temporary_Atoms_Structure(Sims[a].Old, SystemComponents[a].HostSystem);
+    Setup_Temporary_Atoms_Structure(Sims[a].New, SystemComponents[a].HostSystem);
 
     //Test reading Tensorflow model//
-    Read_DNN_Model(SystemComponents[a]);
-
-    Prepare_FeatureMatrix(Sims[a], SystemComponents[a], HostSystem[a], Box[a]);
-
+    ReadDNNModelSetup(SystemComponents[a]);
+    if(SystemComponents[a].UseDNNforHostGuest)
+    {
+      Read_DNN_Model(SystemComponents[a]);
+      Prepare_FeatureMatrix(Sims[a], SystemComponents[a], SystemComponents[a].HostSystem, Box[a]);
+    }
     ///////////////////////////////////////////////////////////////////
     // Calculate & Initialize Ewald for the Initial state of the box //
     ///////////////////////////////////////////////////////////////////
-    Check_Simulation_Energy(Box[a], HostSystem[a], FF, device_FF, SystemComponents[a], INITIAL, a, Sims[a], Energy[a]);
+    Check_Simulation_Energy(Box[a], SystemComponents[a].HostSystem, FF, device_FF, SystemComponents[a], INITIAL, a, Sims[a], Energy[a]);
     //////////////////////////////////////////////////////////
     // CREATE MOLECULES IN THE BOX BEFORE SIMULAITON STARTS //
     //////////////////////////////////////////////////////////
     Energy[a].running_energy = CreateMolecule_InOneBox(SystemComponents[a], Sims[a], device_FF, Random, Widom, AlreadyHasFractionalMolecule);
 
-    Check_Simulation_Energy(Box[a], HostSystem[a], FF, device_FF, SystemComponents[a], CREATEMOL, a, Sims[a], Energy[a]);
+    Check_Simulation_Energy(Box[a], SystemComponents[a].HostSystem, FF, device_FF, SystemComponents[a], CREATEMOL, a, Sims[a], Energy[a]);
   }
 
-/*  //Test reading Tensorflow model//
-  Read_DNN_Model(SystemComponents[0]);
-  std::vector<double>FeatureVector(432, 3.0);
-
-  for(size_t qwe = 0; qwe < 5; qwe++)
-  DNN_Evaluate(SystemComponents[0], FeatureVector);
-
-  Prepare_FeatureMatrix(Sims[0], SystemComponents[0], HostSystem[0], Box[0]);
-
-  double DNN_Total_Init = Predict_From_FeatureMatrix_Total(Sims[0], SystemComponents[0]);
-*/
   ////////////////
   // RUN CYCLES //
   ////////////////
@@ -276,7 +264,7 @@ int main(void)
     printf("======================================\n");
     printf("CHECKING FINAL ENERGY FOR SYSTEM [%zu]\n", i);
     printf("======================================\n");
-    Check_Simulation_Energy(Box[i], HostSystem[i], FF, device_FF, SystemComponents[i], FINAL, i, Sims[i], Energy[i]);
+    Check_Simulation_Energy(Box[i], SystemComponents[i].HostSystem, FF, device_FF, SystemComponents[i], FINAL, i, Sims[i], Energy[i]);
     printf("======================================\n");
   }
   /////////////////////////////////////////////////////////
@@ -287,6 +275,6 @@ int main(void)
   //////////////////////
   // PRINT MOVIE FILE //
   //////////////////////
-  GenerateRestartMovies(0, SystemComponents, Sims, FF, HostSystem, Box, PseudoAtom);
+  GenerateRestartMovies(0, SystemComponents, Sims, FF, Box, PseudoAtom);
   return 0;
 }

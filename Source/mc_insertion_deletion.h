@@ -6,8 +6,6 @@ MoveEnergy Insertion(Components& SystemComponents, Simulations& Sims, ForceField
 
 MoveEnergy Reinsertion(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent);
 
-void Update_NumberOfMolecules(Components& SystemComponents, Atoms*& d_a, size_t SelectedComponent, bool Insertion);
-
 MoveEnergy CreateMolecule(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent, double2 newScale);
 
 __global__ void StoreNewLocation_Reinsertion(Atoms Mol, Atoms NewMol, double* tempx, double* tempy, double* tempz, size_t SelectedTrial, size_t Moleculesize)
@@ -133,13 +131,16 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
     //printf("DNN Delta Reinsertion: %.5f\n", energy.DNN_E);
     //Correction of DNN - HostGuest energy to the Rosenbluth weight//
     double correction = energy.DNN_Correction();
-    if(fabs(correction) > 1000.0) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
+    if(fabs(correction) > SystemComponents.DNNDrift) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
     {
         //printf("REINSERTION: Bad Prediction, reject the move!!!\n"); 
         SystemComponents.ReinsertionDNNReject++;
+        //WriteOutliers(SystemComponents, Sims, REINSERTION_NEW, energy, correction);
+        //WriteOutliers(SystemComponents, Sims, REINSERTION_OLD, energy, correction);
         energy.zero();
         return energy;
     }
+    SystemComponents.ReinsertionDNNDrift += fabs(correction);
     Rosenbluth *= std::exp(-SystemComponents.Beta * correction);
   }
 
@@ -165,7 +166,7 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
   }
 }
 
-__global__ void Update_deletion_data(Atoms* d_a, Atoms NewMol, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize, size_t LastLocation)
+__global__ void Update_deletion_data(Atoms* d_a, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize, size_t LastLocation)
 {
   size_t i = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -222,7 +223,7 @@ static inline MoveEnergy CreateMolecule(Components& SystemComponents, Simulation
     {
       Update_Ewald_Vector(Sims.Box, false, SystemComponents);
     }
-    Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, Insertion);
+    Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, INSERTION);
     return energy;
   }
   energy.zero();
@@ -272,7 +273,7 @@ static inline MoveEnergy Insertion(Components& SystemComponents, Simulations& Si
     size_t UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
     //Zhao's note: here needs more consideration: need to update after implementing polyatomic molecule
     Update_insertion_data<<<1,1>>>(Sims.d_a, Sims.Old, Sims.New, SelectedTrial, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent]);
-    Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, Insertion);
+    Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, INSERTION);
     if(!FF.noCharges)
     {
       Update_Ewald_Vector(Sims.Box, false, SystemComponents);
@@ -334,14 +335,14 @@ static inline MoveEnergy Deletion(Components& SystemComponents, Simulations& Sim
     // Get the starting position of the last molecule in the array
     size_t LastMolecule = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]-1;
     size_t LastLocation = LastMolecule*SystemComponents.Moleculesize[SelectedComponent];
-    Update_deletion_data<<<1,1>>>(Sims.d_a, Sims.New, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent], LastLocation);
+    Update_deletion_data<<<1,1>>>(Sims.d_a, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent], LastLocation);
     //Zhao's note: the last molecule can be the fractional molecule, (fractional molecule ID is stored on the host), we need to update it as well (at least check it)//
     if((SystemComponents.hasfractionalMolecule[SelectedComponent])&&(LastMolecule == SystemComponents.Lambda[SelectedComponent].FractionalMoleculeID))
     {
       //Since the fractional molecule is moved to the place of the selected deleted molecule, update fractional molecule ID on host
       SystemComponents.Lambda[SelectedComponent].FractionalMoleculeID = SelectedMolInComponent;
     }
-    Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, Insertion);
+    Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, DELETION);
     if(!FF.noCharges) Update_Ewald_Vector(Sims.Box, false, SystemComponents);
     //If unsuccessful move (Overlap), Pacc = 0//
     SystemComponents.Tmmc[SelectedComponent].Update(TMMCPacc, NMol, DELETION);
@@ -359,8 +360,15 @@ static inline void AcceptInsertion(Components& SystemComponents, Simulations& Si
   size_t UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
   //printf("AccInsertion, SelectedTrial: %zu, UpdateLocation: %zu\n", SelectedTrial, UpdateLocation);
   //Zhao's note: here needs more consideration: need to update after implementing polyatomic molecule
-  Update_insertion_data<<<1,1>>>(Sims.d_a, Sims.Old, Sims.New, SelectedTrial, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent]);
-  Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, true); //true = Insertion//
+  if(!SystemComponents.SingleSwap) 
+  {  
+    Update_insertion_data<<<1,1>>>(Sims.d_a, Sims.Old, Sims.New, SelectedTrial, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent]);
+  }
+  else
+  {
+    Update_SINGLE_INSERTION_data<<<1,1>>>(Sims.d_a, Sims.New, SelectedComponent);
+  }
+  Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, INSERTION); //true = Insertion//
   if(!noCharges)
   {
     Update_Ewald_Vector(Sims.Box, false, SystemComponents);
@@ -371,9 +379,9 @@ static inline void AcceptDeletion(Components& SystemComponents, Simulations& Sim
 {
   size_t LastMolecule = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]-1;
   size_t LastLocation = LastMolecule*SystemComponents.Moleculesize[SelectedComponent];
-  Update_deletion_data<<<1,1>>>(Sims.d_a, Sims.New, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent], LastLocation);
+  Update_deletion_data<<<1,1>>>(Sims.d_a, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent], LastLocation);
 
-  Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, false); //false = Deletion//
+  Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, DELETION); //false = Deletion//
   if(!noCharges)
   {
     Update_Ewald_Vector(Sims.Box, false, SystemComponents);
@@ -496,4 +504,116 @@ static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponen
     Energy[OtherBox].running_energy -= DeletionEnergy.total();
     //printf("Delete Box: %zu, Insertion Energy: %.5f\n", OtherBox, DeletionEnergy);
   }
+}
+
+static inline MoveEnergy SingleSwapMove(Components& SystemComponents, Simulations& Sims, WidomStruct& Widom, ForceField& FF, RandomNumber& Random, size_t SelectedMolInComponent, size_t SelectedComponent, int MoveType)
+{
+  //Get Number of Molecules for this component (For updating TMMC)//
+  double NMol = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
+  if(SystemComponents.hasfractionalMolecule[SelectedComponent]) NMol--;
+
+  bool Do_New = false; 
+  bool Do_Old = false;
+
+  if(MoveType == SINGLE_INSERTION)
+  {
+    Do_New = true;
+    SystemComponents.Moves[SelectedComponent].InsertionTotal++;
+  }
+  else if(MoveType == SINGLE_DELETION)
+  {
+    Do_Old = true;
+    SystemComponents.Moves[SelectedComponent].DeletionTotal++;
+  }
+  if(!Do_New && !Do_Old) throw std::runtime_error("Doing Nothing For Single Particle Move?\n");
+
+  size_t Atomsize = 0;
+  for(size_t ijk = 0; ijk < SystemComponents.Total_Components; ijk++)
+    Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
+  size_t chainsize;
+  //Set up Old position and New position arrays
+  chainsize = SystemComponents.Moleculesize[SelectedComponent]; //Get the size of the selected Molecule
+  if(chainsize >= 1024)
+  {
+    throw std::runtime_error("Molecule size is greater than allocated size, Why so big?\n");
+  }
+  size_t start_position = SelectedMolInComponent*SystemComponents.Moleculesize[SelectedComponent];
+  Random.Check(3 * chainsize);
+  get_new_position<<<1, chainsize>>>(Sims, FF, start_position, SelectedComponent, Random.device_random, Random.offset, MoveType);
+  Random.Update(3 * chainsize);
+
+  // Setup for the pairwise calculation //
+  // New Features: divide the Blocks into two parts: Host-Guest + Guest-Guest //
+  size_t NHostAtom = SystemComponents.Moleculesize[0] * SystemComponents.NumberOfMolecule_for_Component[0];
+  size_t NGuestAtom= SystemComponents.Moleculesize[1] * SystemComponents.NumberOfMolecule_for_Component[1];
+  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NHostAtom *  chainsize, &HG_Nblock, &HG_Nthread);
+  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * chainsize, &GG_Nblock, &GG_Nthread);
+  size_t HGGG_Nthread = std::max(HG_Nthread, GG_Nthread);
+  size_t HGGG_Nblock  = HG_Nblock + GG_Nblock;
+  Energy_difference_PARTIAL_FLAG_HGGG<<<HGGG_Nblock, HGGG_Nthread, HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, chainsize, Sims.device_flag, HG_Nblock, GG_Nblock, Do_New, Do_Old);
+  cudaMemcpy(Sims.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
+
+  MoveEnergy tot;
+  if(!Sims.flag[0])
+  {
+    double HGGG_BlockResult[HGGG_Nblock];
+    cudaMemcpy(HGGG_BlockResult, Sims.Blocksum, HGGG_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+    for(size_t i = 0; i < HG_Nblock; i++) tot.HGVDWReal += HGGG_BlockResult[i];
+    for(size_t i = HG_Nblock; i < HGGG_Nblock; i++) tot.GGVDWReal += HGGG_BlockResult[i];
+    // Calculate Ewald //
+    if(!FF.noCharges)
+    {
+      double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0);
+      tot.EwaldE = GPU_EwaldDifference_General(Sims.Box, Sims.d_a, Sims.New, Sims.Old, FF, Sims.Blocksum, SystemComponents, SelectedComponent, MoveType, 0, newScale);
+    }
+    tot.HGEwaldE=SystemComponents.tempdeltaHGEwald;
+    if(SystemComponents.UseDNNforHostGuest)
+    {
+      //Calculate DNN//
+      double DNN = 0.0;
+      if(MoveType == SINGLE_INSERTION) DNN = Predict_From_FeatureMatrix_Move(Sims, SystemComponents, NEW);
+      if(MoveType == SINGLE_DELETION)  DNN = Predict_From_FeatureMatrix_Move(Sims, SystemComponents, OLD) * -1.0;
+      tot.DNN_E = DNN;
+      /*
+      if(MoveType == SINGLE_INSERTION)
+      { printf("SINGLE INSERTION: "); tot.print();}
+      if(MoveType == SINGLE_DELETION)
+      { printf("SINGLE DELETION: "); tot.print();}
+      */
+      double correction = tot.DNN_Correction(); //If use DNN, HGVDWReal and HGEwaldE are zeroed//
+      SystemComponents.SingleSwapDNNDrift += fabs(correction);
+      if(fabs(correction) > SystemComponents.DNNDrift) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
+      {
+        //printf("TRANSLATION/ROTATION: Bad Prediction, reject the move!!!\n");
+        SystemComponents.SingleSwapDNNReject ++;
+        tot.zero();
+        return tot;
+      }
+    }
+  }
+  else
+  {
+   tot.zero();
+   return tot;
+  }
+
+  double prefactor = GetPrefactor(SystemComponents, Sims, SelectedComponent, MoveType);
+  double Pacc = prefactor * std::exp(-SystemComponents.Beta * tot.total());
+  if (get_random_from_zero_to_one() < Pacc)
+  {
+    if(MoveType == SINGLE_INSERTION)
+    {
+      SystemComponents.Moves[SelectedComponent].InsertionAccepted ++;
+      AcceptInsertion(SystemComponents, Sims, SelectedComponent, 0, FF.noCharges); //0: selectedTrial//
+    }
+    else if(MoveType == SINGLE_DELETION)
+    {
+      SystemComponents.Moves[SelectedComponent].DeletionAccepted ++;
+      size_t UpdateLocation = SelectedMolInComponent * SystemComponents.Moleculesize[SelectedComponent];
+      AcceptDeletion(SystemComponents, Sims, SelectedComponent, UpdateLocation, SelectedMolInComponent, FF.noCharges);
+    }
+    return tot;
+  }
+  tot.zero();
+  return tot;
 }

@@ -73,48 +73,22 @@ static inline MoveEnergy Insertion_Body(Components& SystemComponents, Simulation
     double DNN_New = Predict_From_FeatureMatrix_Move(Sims, SystemComponents, DNN_INSERTION);
     energy.DNN_E   = DNN_New;
     double correction = energy.DNN_Correction();
-    if(fabs(correction) > 1000.0) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
+    if(fabs(correction) > SystemComponents.DNNDrift) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
     {
       //printf("INSERTION: Bad Prediction, reject the move!!!\n"); 
       SystemComponents.InsertionDNNReject ++;
       SuccessConstruction = false;
+      WriteOutliers(SystemComponents, Sims, DNN_INSERTION, energy, correction);
       energy.zero();
       return energy;
     }
+    SystemComponents.InsertionDNNDrift += fabs(correction);
     Rosenbluth *= std::exp(-SystemComponents.Beta * correction);
   }
+  //printf("Insertion energy summary: "); energy.print();
   return energy;
 }
-/*
-static inline void AcceptInsertion(Components& SystemComponents, Simulations& Sims, size_t SelectedComponent, size_t SelectedTrial, bool noCharges)
-{
-  size_t UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
-  //Zhao's note: here needs more consideration: need to update after implementing polyatomic molecule
-  Update_insertion_data<<<1,1>>>(Sims.d_a, Sims.Old, Sims.New, SelectedTrial, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent]);
-  Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, true); //true = Insertion//
-  if(noCharges)
-  {
-    Update_Ewald_Vector(Sims.Box, false, SystemComponents);
-  }
-  SystemComponents.deltaVDWReal += SystemComponents.tempdeltaVDWReal;
-  SystemComponents.deltaEwald   += SystemComponents.tempdeltaEwald;
-}
 
-static inline void AcceptDeletion(Components& SystemComponents, Simulations& Sims, size_t SelectedComponent, size_t UpdateLocation, bool noCharges)
-{
-  size_t LastMolecule = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]-1;
-  size_t LastLocation = LastMolecule*SystemComponents.Moleculesize[SelectedComponent];
-  Update_deletion_data<<<1,1>>>(Sims.d_a, Sims.New, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent], LastLocation);
-
-  Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, false); //false = Deletion//
-  if(noCharges) 
-  {
-    Update_Ewald_Vector(Sims.Box, false, SystemComponents);
-  }
-  SystemComponents.deltaVDWReal += SystemComponents.tempdeltaVDWReal;
-  SystemComponents.deltaEwald   += SystemComponents.tempdeltaEwald;
-}
-*/
 static inline MoveEnergy Deletion_Body(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent, size_t& UpdateLocation, double& Rosenbluth, bool& SuccessConstruction, double& preFactor, double2 newScale)
 {
   size_t SelectedTrial = 0;
@@ -170,14 +144,16 @@ static inline MoveEnergy Deletion_Body(Components& SystemComponents, Simulations
     double DNN_New = Predict_From_FeatureMatrix_Move(Sims, SystemComponents, DNN_DELETION);
     energy.DNN_E   = DNN_New;
     double correction = energy.DNN_Correction();
-    if(fabs(correction) > 1000.0) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
+    if(fabs(correction) > SystemComponents.DNNDrift) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
     {
       //printf("DELETION: Bad Prediction, reject the move!!!\n"); 
       SystemComponents.DeletionDNNReject ++;
       SuccessConstruction = false;
+      WriteOutliers(SystemComponents, Sims, DNN_DELETION, energy, correction);
       energy.zero();
       return energy;
     }
+    SystemComponents.DeletionDNNDrift += fabs(correction);
     Rosenbluth *= std::exp(-SystemComponents.Beta * correction);
   }
   return energy;
@@ -265,19 +241,31 @@ void AllocateMoreSpace(Atoms*& d_a, size_t SelectedComponent, Components& System
   //System[SelectedComponent].Allocate_size = Newspace;
 }
 
-static inline void Update_NumberOfMolecules(Components& SystemComponents, Atoms*& d_a, size_t SelectedComponent, bool Insertion)
+static inline void Update_NumberOfMolecules(Components& SystemComponents, Atoms*& d_a, size_t SelectedComponent, int MoveType)
 {
   size_t Molsize = SystemComponents.Moleculesize[SelectedComponent]; //change in atom number counts
   int NumMol = -1; //default: deletion; Insertion: +1, Deletion: -1, size_t is never negative
-  if(Insertion) NumMol = 1;
+
+  switch(MoveType)
+  {
+    case INSERTION: case SINGLE_INSERTION: case CBCF_INSERTION: 
+    {
+      NumMol = 1;  break;
+    }
+    case DELETION: case SINGLE_DELETION: case CBCF_DELETION:
+    {
+      NumMol = -1; break;
+    }
+  }
   //Update Components
   SystemComponents.NumberOfMolecule_for_Component[SelectedComponent] += NumMol;
   SystemComponents.TotalNumberOfMolecules += NumMol;
   
   // check System size //
   size_t size = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
-  if(Insertion)  SystemComponents.UpdatePseudoAtoms(INSERTION, SelectedComponent);
-  if(!Insertion) SystemComponents.UpdatePseudoAtoms(DELETION,  SelectedComponent);
+
+  SystemComponents.UpdatePseudoAtoms(MoveType,  SelectedComponent);
+
   if(size > SystemComponents.Allocate_size[SelectedComponent])
   {
     AllocateMoreSpace(d_a, SelectedComponent, SystemComponents);
@@ -313,7 +301,7 @@ __global__ void Update_insertion_data(Atoms* d_a, Atoms Mol, Atoms NewMol, size_
     d_a[SelectedComponent].Type[UpdateLocation]      = Mol.Type[0];
     d_a[SelectedComponent].MolID[UpdateLocation]     = Mol.MolID[0];
 
-    size_t chainsize = Moleculesize - 1; // FOr trial orientations //
+    size_t chainsize = Moleculesize - 1; // For trial orientations //
     for(size_t j = 0; j < chainsize; j++) //Update the selected orientations//
     {
       size_t selectsize = SelectedTrial*chainsize+j;
@@ -338,4 +326,23 @@ __global__ void Update_insertion_data(Atoms* d_a, Atoms Mol, Atoms NewMol, size_
       printf("xyz: %.5f %.5f %.5f, scale/charge/scaleCoul: %.5f %.5f %.5f, Type: %lu, MolID: %lu\n", d_a[SelectedComponent].x[UpdateLocation+j], d_a[SelectedComponent].y[UpdateLocation+j], d_a[SelectedComponent].z[UpdateLocation+j], d_a[SelectedComponent].scale[UpdateLocation+j], d_a[SelectedComponent].charge[UpdateLocation+j], d_a[SelectedComponent].scaleCoul[UpdateLocation+j], d_a[SelectedComponent].Type[UpdateLocation+j], d_a[SelectedComponent].MolID[UpdateLocation+j]);
     */
   }
+}
+
+__global__ void Update_SINGLE_INSERTION_data(Atoms* d_a, Atoms New, size_t SelectedComponent)
+{
+  //Assuming single thread//
+  size_t Molsize = d_a[SelectedComponent].Molsize;
+  size_t UpdateLocation = d_a[SelectedComponent].size;
+  for(size_t j = 0; j < Molsize; j++)
+  {
+    d_a[SelectedComponent].x[UpdateLocation+j]         = New.x[j];
+    d_a[SelectedComponent].y[UpdateLocation+j]         = New.y[j];
+    d_a[SelectedComponent].z[UpdateLocation+j]         = New.z[j];
+    d_a[SelectedComponent].scale[UpdateLocation+j]     = New.scale[j];
+    d_a[SelectedComponent].charge[UpdateLocation+j]    = New.charge[j];
+    d_a[SelectedComponent].scaleCoul[UpdateLocation+j] = New.scaleCoul[j];
+    d_a[SelectedComponent].Type[UpdateLocation+j]      = New.Type[j];
+    d_a[SelectedComponent].MolID[UpdateLocation+j]     = New.MolID[j];
+  }
+  d_a[SelectedComponent].size  += Molsize;
 }

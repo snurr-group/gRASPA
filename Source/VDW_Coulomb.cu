@@ -60,8 +60,9 @@ inline void matrix_multiply_by_vector(double* a, double* b, double* c) //3x3(9*1
   c[2]=a[0*3+2]*b[0]+a[1*3+2]*b[1]+a[2*3+2]*b[2];
 }
 
-double Framework_energy_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceField FF, Components SystemComponents)
+void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceField FF, Components SystemComponents, MoveEnergy& E)
 {
+  printf("****** Calculating VDW + Real Energy (CPU) ******\n");
   ///////////////////////////////////////////////////////
   //All variables passed here should be device pointers//
   ///////////////////////////////////////////////////////
@@ -110,7 +111,9 @@ double Framework_energy_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, Forc
   textrestartFile = std::ofstream(fileName, std::ios::out);
   textrestartFile << "PosA PosB TypeA TypeB E" <<"\n";
 
-  double Total_energy = 0.0; size_t count = 0; size_t cutoff_count=0;
+  double Total_energy_GG = 0.0; 
+  double Total_energy_HG = 0.0; 
+  size_t count = 0; size_t cutoff_count=0;
   double VDW_energy   = 0.0; double Coul_energy = 0.0;
   //FOR DEBUGGING ENERGY//
   double FirstBeadE = 0.0; double ChainE = 0.0; size_t FBPairs=0; size_t CPairs=0;
@@ -130,7 +133,7 @@ double Framework_energy_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, Forc
       const size_t MoleculeID = Component.MolID[i];
       for(size_t compj=0; compj < SystemComponents.Total_Components; compj++)
       {
-        if(SystemComponents.UseDNNforHostGuest && (compi == 0 || compj == 0)) continue; //Ignore host-guest if DNN is used for host-guest//
+        //if(SystemComponents.UseDNNforHostGuest && (compi == 0 || compj == 0)) continue; //Ignore host-guest if DNN is used for host-guest//
         if(!((compi == 0) && (compj == 0))) //ignore fraemwrok-framework interaction
         {
           const Atoms Componentj=Host_System[compj];
@@ -156,7 +159,14 @@ double Framework_energy_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, Forc
                 const size_t row = typeA*FF.size+typeB;
                 const double FFarg[4] = {FF.epsilon[row], FF.sigma[row], FF.z[row], FF.shift[row]};
                 VDW_CPU(FFarg, rr_dot, scaling, result);
-                Total_energy += 0.5*result[0];
+                if((compi == 0) || (compj == 0)) 
+                {
+                  Total_energy_HG += 0.5*result[0];
+                }
+                else
+                {
+                  Total_energy_GG += 0.5*result[0];
+                }
                 VDW_energy   += 0.5*result[0];
                 if(std::abs(result[0]) > 10000) printf("Very High Energy (VDW), comps: %zu, %zu, MolID: %zu %zu, Atom: %zu %zu, E: %.5f\n", compi, compj, MoleculeID, MoleculeIDB, i, j, result[0]);
                 //DEBUG//
@@ -177,7 +187,14 @@ double Framework_energy_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, Forc
                 const double scalingCoul = scalingCoulombA * scalingCoulombB;
                 double resultCoul[2] = {0.0, 0.0};
                 CoulombReal_CPU(FF, chargeA, chargeB, r, scalingCoul, resultCoul, Box.Prefactor, Box.Alpha);
-                Total_energy += 0.5*resultCoul[0]; //prefactor merged in the CoulombReal function
+                if((compi == 0) || (compj == 0))
+                {
+                  Total_energy_HG += 0.5*resultCoul[0];
+                }
+                else
+                {
+                  Total_energy_GG += 0.5*resultCoul[0];
+                }
                 Coul_energy  += 0.5*resultCoul[0];
                 if(std::abs(result[0]) > 10000) printf("Very High Energy (Coul), comps: %zu, %zu, MolID: %zu %zu, Atom: %zu %zu, E: %.5f\n", compi, compj, MoleculeID, MoleculeIDB, i, j, resultCoul[0]);
                 //DEBUG//
@@ -199,9 +216,9 @@ double Framework_energy_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, Forc
     }  
   }
   //printf("%zu interactions, within cutoff: %zu, energy: %.10f\n", count, Total_energy, cutoff_count);
-  printf("CPU (one Thread) Total Energy: %.5f, VDW Energy: %.5f, Coulomb Energy: %.5f\n", Total_energy, VDW_energy, Coul_energy);
+  printf("CPU (one Thread) Total Energy: %.5f, VDW Energy: %.5f, Coulomb Energy: %.5f\n", Total_energy_HG + Total_energy_GG, VDW_energy, Coul_energy);
   printf("(Last) Selected Molecule [%zu], VDW + Real (FirstBead = %.5f [%zu pairs], Chain = %.5f [%zu pairs])\n", selectedMol, FirstBeadE, FBPairs, ChainE, CPairs);
-  return Total_energy;
+  E.HGVDWReal = Total_energy_HG; E.GGVDWReal = Total_energy_GG;
 }
 
 __device__ void setScaleGPU(double lambda, double& scalingVDW, double& scalingCoulomb)
@@ -1192,7 +1209,7 @@ static inline void Prepare_Old_New_sizes_CoulombCorrection(int MoveType, size_t 
 {
   switch(MoveType)
   {
-    case TRANSLATION_ROTATION: case CBCF_LAMBDACHANGE: // Translation/Rotation/CBCF Lambda Change Move //
+    case TRANSLATION: case ROTATION: case CBCF_LAMBDACHANGE: // Translation/Rotation/CBCF Lambda Change Move //
     {
       throw std::runtime_error("No Need for Ewald Correction for TRANSLATION/ROTATION/CBCF Lambda Change moves. They don't have CBMC!");
     }

@@ -123,7 +123,7 @@ __device__ void Initialize_Vectors(Boxsize Box, size_t Oldsize, size_t Newsize, 
 __global__ void Initialize_EwaldVector_General(Boxsize Box, int3 kmax, Atoms* d_a, Atoms New, Atoms Old, size_t Oldsize, size_t Newsize, size_t SelectedComponent, size_t Location, size_t chainsize, size_t numberOfAtoms, int MoveType)
 {
   //Zhao's note: need to think about changing this boolean to switch//
-  if(MoveType == 0) // Translation/Rotation //
+  if(MoveType == TRANSLATION || MoveType == ROTATION || MoveType == SINGLE_INSERTION || MoveType == SINGLE_DELETION) // Translation/Rotation/single_insertion/single_deletion //
   {
     //For Translation/Rotation, the Old positions are already in the Old struct, just need to put the New positions into Old, after the Old positions//
     for(size_t i = Oldsize; i < Oldsize + Newsize; i++) //chainsize here is the total size of the molecule for translation/rotation
@@ -334,7 +334,6 @@ void Update_Ewald_Vector(Boxsize& Box, bool CPU, Components& SystemComponents)
 ////////////////////////////////////////////////
 // Main Ewald Functions (Fourier + Exclusion) //
 ////////////////////////////////////////////////
-//Zhao's note: Currently this only works for INSERTION, not even tested with Deletion//
 double GPU_EwaldDifference_General(Boxsize& Box, Atoms*& d_a, Atoms& New, Atoms& Old, ForceField& FF, double* Blocksum, Components& SystemComponents, size_t SelectedComponent, int MoveType, size_t Location, double2 newScale)
 {
   if(FF.noCharges) return 0.0;
@@ -347,10 +346,24 @@ double GPU_EwaldDifference_General(Boxsize& Box, Atoms*& d_a, Atoms& New, Atoms&
   bool UseTempVector = false; //Zhao's note: Whether or not to use the temporary Vectors (Only used for CBCF Insertion in this function)//
   switch(MoveType)
   {
-    case TRANSLATION_ROTATION: // Translation/Rotation Move //
+    case TRANSLATION: case ROTATION: // Translation/Rotation Move //
     {
       Oldsize   = SystemComponents.Moleculesize[SelectedComponent];
       Newsize   = SystemComponents.Moleculesize[SelectedComponent];
+      chainsize = SystemComponents.Moleculesize[SelectedComponent];
+      break;
+    }
+    case SINGLE_INSERTION:
+    {
+      Oldsize   = 0;
+      Newsize   = SystemComponents.Moleculesize[SelectedComponent];
+      chainsize = SystemComponents.Moleculesize[SelectedComponent];
+      break;
+    }
+    case SINGLE_DELETION: 
+    {
+      Oldsize   = SystemComponents.Moleculesize[SelectedComponent];
+      Newsize   = 0;
       chainsize = SystemComponents.Moleculesize[SelectedComponent];
       break;
     }
@@ -418,7 +431,7 @@ double GPU_EwaldDifference_General(Boxsize& Box, Atoms*& d_a, Atoms& New, Atoms&
   //printf("GPU Fourier Energy: %.5f\n", tot);
   if(SystemComponents.rigid[SelectedComponent])
   {
-    if(MoveType == INSERTION) // Insertion //
+    if(MoveType == INSERTION || MoveType == SINGLE_INSERTION) // Insertion //
     {
       //Zhao's note: This is a bit messy, because when creating the molecules at the beginning of the simulation, we need to create a fractional molecule//
       //MoveType is 2, not 4. 4 is for the insertion after making the old fractional molecule full.//
@@ -426,7 +439,7 @@ double GPU_EwaldDifference_General(Boxsize& Box, Atoms*& d_a, Atoms& New, Atoms&
       deltaExclusion = (SystemComponents.ExclusionIntra[SelectedComponent] + SystemComponents.ExclusionAtom[SelectedComponent]) * delta_scale;
       tot -= deltaExclusion;
     }
-    else if(MoveType == DELETION) // Deletion //
+    else if(MoveType == DELETION || MoveType == SINGLE_DELETION) // Deletion //
     {
       double delta_scale = 0.0 - 1.0;
       deltaExclusion = (SystemComponents.ExclusionIntra[SelectedComponent] + SystemComponents.ExclusionAtom[SelectedComponent]) * delta_scale;

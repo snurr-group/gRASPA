@@ -1,15 +1,14 @@
 #include "ewald_kernel.h"
 
-double CPU_GPU_EwaldTotalEnergy(Boxsize& Box, Boxsize& device_Box, Atoms* System, Atoms* d_a, ForceField FF, ForceField device_FF, Components& SystemComponents)
+void CPU_GPU_EwaldTotalEnergy(Boxsize& Box, Boxsize& device_Box, Atoms* System, Atoms* d_a, ForceField FF, ForceField device_FF, Components& SystemComponents, MoveEnergy& E)
 {
   ///////////////////
   // Run CPU Ewald //
   ///////////////////
   double start = omp_get_wtime();
-  double ewaldEnergy = Ewald_Total(Box, System, FF, SystemComponents);
+  Ewald_Total(Box, System, FF, SystemComponents, E);
   double end = omp_get_wtime(); double CPU_ewald_time = end-start;
   printf("HostEwald took %.5f sec\n", CPU_ewald_time);
-  return ewaldEnergy;
 }
 
 void Calculate_Exclusion_Energy_Rigid(Boxsize& Box, Atoms* System, ForceField FF, Components& SystemComponents)
@@ -26,4 +25,5 @@ void Calculate_Exclusion_Energy_Rigid(Boxsize& Box, Atoms* System, ForceField FF
     SystemComponents.ExclusionAtom.push_back(SelfE);
     printf("DEBUG: comp: %zu, IntraE: %.5f, SelfE: %.5f\n", i, SystemComponents.ExclusionIntra[i], SystemComponents.ExclusionAtom[i]);
   }
+  
 }

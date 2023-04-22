@@ -74,7 +74,7 @@ __global__ void Revert_CBCF_Insertion(Atoms* d_a, size_t SelectedComponent, size
 
 /////////////////////////////////////
 
-__global__ void Update_deletion_data_fractional(Atoms* d_a, Atoms NewMol, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize, size_t LastLocation)
+__global__ void Update_deletion_data_fractional(Atoms* d_a, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize, size_t LastLocation)
 {
   size_t i = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -260,7 +260,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
         size_t UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
         //Zhao's note: here needs more consideration: need to update after implementing polyatomic molecule
         Update_insertion_data<<<1,1>>>(Sims.d_a, Sims.Old, Sims.New, SelectedTrial, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent]);
-        Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, true);
+        Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, CBCF_INSERTION);
         //Update the ID of the fractional molecule on the host//
         SystemComponents.Lambda[SelectedComponent].FractionalMoleculeID = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent] - 1;
         SystemComponents.Lambda[SelectedComponent].currentBin = newBin;
@@ -342,10 +342,10 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
     //Pretend the deletion move is accepted//
     size_t LastMolecule = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]-1;
     size_t LastLocation = LastMolecule*SystemComponents.Moleculesize[SelectedComponent];
-    Update_deletion_data_fractional<<<1,1>>>(Sims.d_a, Sims.New, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent], LastLocation);
+    Update_deletion_data_fractional<<<1,1>>>(Sims.d_a, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent], LastLocation);
     //Record the old fractionalmolecule ID//
     size_t OldFracMolID = SystemComponents.Lambda[SelectedComponent].FractionalMoleculeID;
-    Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, false);
+    Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, CBCF_DELETION);
     ///////////////////////////////////////////////////////////////////////////////////
     //Second step: randomly choose a new fractional molecule, perform the lambda move//
     ///////////////////////////////////////////////////////////////////////////////////

@@ -76,6 +76,34 @@ std::vector<std::vector<double>> CalculatePairDistances_CPU(Atoms* System, Boxsi
   return CPU_Distances;
 }
 
+void PrepareOutliersFiles()
+{
+  std::ofstream textrestartFile{};
+  std::string dirname="DNN/";
+  std::string Ifname   = dirname + "/" + "Outliers_INSERTION.data";
+  std::string Dfname   = dirname + "/" + "Outliers_DELETION.data";
+  std::string TRname  = dirname + "/" + "Outliers_SINGLE_PARTICLE.data";
+   std::filesystem::path cwd = std::filesystem::current_path();
+
+  std::filesystem::path directoryName = cwd /dirname;
+  std::filesystem::path IfileName   = cwd /Ifname;
+  std::filesystem::path DfileName   = cwd /Dfname;
+  std::filesystem::path TRfileName = cwd /TRname;
+  std::filesystem::create_directories(directoryName);
+
+  textrestartFile = std::ofstream(TRfileName, std::ios::out);
+  textrestartFile << "THIS FILE IS RECORDING THE DELTA ENERGIES BETWEEN THE NEW AND OLD STATES (New - Old)" << "\n";
+  textrestartFile << "x y z Type Move HostGuest_DNN Host_Guest_Classical_MINUS_Host_Guest_Classical" <<"\n";
+
+  textrestartFile = std::ofstream(IfileName, std::ios::out);
+  textrestartFile << "THIS FILE IS RECORDING THE ENERGIES RELATED TO EITHER THE NEW/INSERTION" << "\n";
+  textrestartFile << "x y z Type Move HostGuest_DNN Host_Guest_Classical_MINUS_Host_Guest_Classical" <<"\n";
+
+  textrestartFile = std::ofstream(DfileName, std::ios::out);
+  textrestartFile << "THIS FILE IS RECORDING THE ENERGIES RELATED TO OLD/DELETION (TAKE THE OPPOSITE)" << "\n";
+  textrestartFile << "x y z Type Move HostGuest_DNN Host_Guest_Classical_MINUS_Host_Guest_Classical" <<"\n";
+}
+
 void Read_DNN_Model(Components& SystemComponents)
 {
   // Try not to let tensorflow occupy the whole GPU//
@@ -91,8 +119,6 @@ void Read_DNN_Model(Components& SystemComponents)
   // Replace the global context with your options
   cppflow::get_global_context() = cppflow::context(options);
   
-  ReadDNNModelNames(SystemComponents);
-
   size_t ModelID = 0;
 
   cppflow::model DNNModel(SystemComponents.ModelName[ModelID]); //= std::make_optional(model);
@@ -111,6 +137,9 @@ void Read_DNN_Model(Components& SystemComponents)
   SystemComponents.DNNMinMax = ReadMinMax();
   printf("MinMax size: %zu\n", SystemComponents.DNNMinMax.size());
   printf("Prediction = %.5f; %.5f\n", asd, asdasd);
+
+  //Prepare for the outlier files//
+  PrepareOutliersFiles();
 }
 
 double DNN_Evaluate(Components& SystemComponents, std::vector<double>& Feature)
@@ -315,6 +344,79 @@ double Prepare_FeatureMatrix(Simulations& Sim, Components& SystemComponents, Ato
   //cudaMalloc(&SystemComponents.device_Distances, Listsize * sizeof(double));
   printf("Size of the device Distance list: %zu\n", Listsize);
 }
+
+void WriteOutliers(Components& SystemComponents, Simulations& Sim, int MoveType, MoveEnergy E, double Correction)
+{
+  //Write to a file for checking//
+  std::ofstream textrestartFile{};
+  std::string dirname="DNN/";
+  std::string TRname  = dirname + "/" + "Outliers_SINGLE_PARTICLE.data";
+  std::string Ifname   = dirname + "/" + "Outliers_INSERTION.data";
+  std::string Dfname   = dirname + "/" + "Outliers_DELETION.data";
+
+  
+  std::filesystem::path cwd = std::filesystem::current_path();
+
+  std::filesystem::path directoryName = cwd /dirname;
+  std::filesystem::path IfileName   = cwd /Ifname;
+  std::filesystem::path DfileName = cwd /Dfname;
+  std::filesystem::path TRfileName = cwd /TRname;
+  std::filesystem::create_directories(directoryName);
+
+  size_t size = SystemComponents.HostSystem[1].Molsize;
+  size_t ads_comp = 1;
+  size_t start= 0;
+  std::string Move;
+  switch(MoveType)
+  {
+  case OLD: //Positions are stored in Sim.Old
+  {
+    SystemComponents.Copy_GPU_Data_To_Temp(Sim.Old, start, size);
+    Move = "TRANSLATION_ROTATION_NEW_NON_CBMC_INSERTION";
+    textrestartFile = std::ofstream(TRfileName, std::ios::app);
+    break;
+  }
+  case NEW:
+  {
+    SystemComponents.Copy_GPU_Data_To_Temp(Sim.New, start, size);
+    Move = "TRANSLATION_ROTATION_OLD_NON_CBMC_DELETION";
+    textrestartFile = std::ofstream(TRfileName, std::ios::app);
+    break;
+  }
+  case REINSERTION_OLD:
+  {
+    SystemComponents.Copy_GPU_Data_To_Temp(Sim.Old, start, size);
+    Move = "REINSERTION_OLD";
+    textrestartFile = std::ofstream(TRfileName, std::ios::app);
+    break;
+  }
+  case REINSERTION_NEW:
+  {
+    start = SystemComponents.Moleculesize[ads_comp];
+    SystemComponents.Copy_GPU_Data_To_Temp(Sim.Old, start, size);
+    Move = "REINSERTION_NEW";
+    textrestartFile = std::ofstream(TRfileName, std::ios::app);
+    break;
+  }
+  case DNN_INSERTION:
+  {
+    SystemComponents.Copy_GPU_Data_To_Temp(Sim.Old, start, size);
+    Move = "SWAP_INSERTION";
+    textrestartFile = std::ofstream(IfileName, std::ios::app);
+    break;
+  }
+  case DNN_DELETION:
+  {
+    SystemComponents.Copy_GPU_Data_To_Temp(Sim.Old, start, size);
+    Move = "SWAP_DELETION";
+    textrestartFile = std::ofstream(DfileName, std::ios::app);
+    break;
+  }
+  }
+  for(size_t i = 0; i < size; i++)
+    textrestartFile << SystemComponents.TempSystem.x[i] << " " << SystemComponents.TempSystem.y[i] << " " << SystemComponents.TempSystem.z[i] << " " << SystemComponents.TempSystem.Type[i] << " " << Move << " " << E.DNN_E << " " << Correction << '\n';
+}
+
 
 static inline void WriteDistances(Components& SystemComponents, std::vector<std::vector<double>> Distances)
 {

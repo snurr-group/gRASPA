@@ -1,6 +1,6 @@
 #include "data_struct.h"
 #include <cuda_fp16.h> 
-double Framework_energy_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceField FF, Components SystemComponents);
+void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceField FF, Components SystemComponents, MoveEnergy& E);
 
 double2 setScale(double lambda);
 
@@ -67,3 +67,5 @@ double Prepare_FeatureMatrix(Simulations& Sim, Components& SystemComponents, Ato
 //void Predict_From_FeatureMatrix(Simulations& Sim, Components& SystemComponents);
 double Predict_From_FeatureMatrix_Total(Simulations& Sim, Components& SystemComponents);
 double Predict_From_FeatureMatrix_Move(Simulations& Sim, Components& SystemComponents, int DNN_CalcType);
+
+void WriteOutliers(Components& SystemComponents, Simulations& Sim, int MoveType, MoveEnergy E, double Correction);

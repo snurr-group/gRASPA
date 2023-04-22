@@ -6,7 +6,7 @@ void read_FFParams_from_input(ForceField& FF, double& precision);
 
 void read_Gibbs_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepPerCycle);
 
-void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges, int *InitializationCycles, int *EquilibrationCycles, int *ProductionCycles, size_t *Widom_Trial, size_t *Widom_Orientation, size_t *NumberOfBlocks, double *Pressure, double *Temperature, size_t *AllocateSize, bool *ReadRestart, double *RANDOMSEED, bool *SameFrameworkEverySimulation);
+void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges, int *InitializationCycles, int *EquilibrationCycles, int *ProductionCycles, size_t *Widom_Trial, size_t *Widom_Orientation, size_t *NumberOfBlocks, double *Pressure, double *Temperature, size_t *AllocateSize, bool *ReadRestart, int *RANDOMSEED, bool *SameFrameworkEverySimulation);
 
 void ReadFramework(Boxsize& Box, Atoms& Framework, PseudoAtomDefinitions& PseudoAtom, size_t FrameworkIndex, Components& SystemComponents);
 
@@ -27,4 +27,4 @@ void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double pr
 void OverWriteFFTerms(Components& SystemComponents, ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
 
 std::vector<double2> ReadMinMax();
-void ReadDNNModelNames(Components& SystemComponents);
+void ReadDNNModelSetup(Components& SystemComponents);
