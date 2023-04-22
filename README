@@ -1,2 +1,6 @@
 Deep Potential Implementation of the CUDA-RASPA code. 
 Code will be updated here, so that it does not interfere with the main repo.
+
+04/21/23 Update:
+1. Detailed Comments about the initialization of the program
+2. Flag for turning off the DNN potential
