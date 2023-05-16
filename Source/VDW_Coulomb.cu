@@ -647,8 +647,8 @@ __global__ void Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal(Boxsize 
     if((comp >= NHostComp) && (comp < NTotalComp)) CompCheck = true;
   }
 
-
-  if(posi < System[comp].size && CompCheck)
+  if(CompCheck)
+  if(posi < System[comp].size)
   {
   const Atoms Component=System[comp];
   const double scaleA = Component.scale[posi];
@@ -814,8 +814,8 @@ __global__ void Energy_difference_LambdaChange(Boxsize Box, Atoms* System, Atoms
     if((comp >= NHostComp) && (comp < NTotalComp)) CompCheck = true;
   }
 
-
-  if(posi < System[comp].size && CompCheck)
+  if(CompCheck)
+  if(posi < System[comp].size)
   {
     const Atoms Component=System[comp];
     const double scaleA = Component.scale[posi];
