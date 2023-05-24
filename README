@@ -22,3 +22,8 @@ Future:
 4. Better speed for using deep-learning potentials in the code. 
 5. (Maybe) Pressure/virial calculation
 6. (Maybe) Molecular Dynamics
+
+05/23/23 Update:
+1. tensorflow model prediction on the CPU
+2. user defined pseudo atom types for the model
+3. openmp parallel for loops for preparing the features (sorting)
