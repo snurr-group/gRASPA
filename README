@@ -1,29 +1,3 @@
 Deep Potential Implementation of the CUDA-MC code. 
 Code will be updated here, so that it does not interfere with the main repo.
-Need Tensorflow-c++ api, cppflow package.
-
-04/21/23 Update:
-1. Detailed Comments about the initialization of the program
-2. Flag for turning off the DNN potential
-
-05/12/23 Update:
-New Features:
-1. mixture simulations
-2. Separated VDW, Separated Real part Coulomb, and Separated Ewald Summation, and Separated host-guest/guest-guest for different types of energies.
-3. Rewrote the code:
-    1. using built-in vector types for positions and overloaded math operators
-    2. Renamed functions to use meaningful names
-    3. merged, deleted un-used functions and files. Simplified compilation.
-    4. Simplified/merged MC moves functions, merged translation/rotation/(non-CBMC) swap moves, make cbmc moves more readable. 
-Future:
-1. make framework modular (separate into node/linker/cation/...)
-2. Linker rotation, cation moves
-3. turning on/off linker moves
-4. Better speed for using deep-learning potentials in the code. 
-5. (Maybe) Pressure/virial calculation
-6. (Maybe) Molecular Dynamics
-
-05/23/23 Update:
-1. tensorflow model prediction on the CPU
-2. user defined pseudo atom types for the model
-3. openmp parallel for loops for preparing the features (sorting)
+Need Tensorflow-c++ api, cppflow package, and libtorch.
