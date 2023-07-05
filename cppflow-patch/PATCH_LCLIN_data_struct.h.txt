@@ -1,0 +1,10 @@
+PATCH_LCLIN_DATA_STRUCT_H
+#include "cppflow/cppflow.h"
+
+PATCH_LCLIN_VARIABLES
+  //Li-Chiang Lin Model//
+  size_t Nfeatures;
+  std::vector<cppflow::model> DNNModel;
+  std::vector<int3>DNNInteractionList;                // List of DNN Interactions: TypeA, TypeB, NumberOfthisInteraction to consider (equal to N_TypeB)
+  std::vector<double2> DNNMinMax;
+  std::vector<std::vector<size_t>>IndexList;          // 2D Array, storing pairwise interaction list in 2D format, x: interactiontype, y: index
