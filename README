@@ -1,3 +1,0 @@
-Deep Potential Implementation of the CUDA-MC code. 
-Code will be updated here, so that it does not interfere with the main repo.
-Need Tensorflow-c++ api, cppflow package, and libtorch.
