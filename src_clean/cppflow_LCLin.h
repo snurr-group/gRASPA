@@ -423,8 +423,15 @@ static inline void WriteFeatures(Components& SystemComponents, std::vector<doubl
 
 }
 
-
-
+std::vector<float> Convert_Precision(std::vector<double>& Features)
+{
+  std::vector<float> a; float temp = 0.0;
+  for(size_t i = 0; i < Features.size(); i++)
+  {
+    temp = static_cast<float>(Features[i]); a.push_back(temp);
+  }
+  return a;
+}
 
 double Predict_From_FeatureMatrix_Move(Simulations& Sim, Components& SystemComponents, int DNN_CalcType)
 {
@@ -435,8 +442,8 @@ double Predict_From_FeatureMatrix_Move(Simulations& Sim, Components& SystemCompo
 
   std::vector<double>Features(SystemComponents.Nfeatures); //feature elements//
   std::vector<std::vector<double>> Distances = CalculatePairDistances_GPU(Sim, SystemComponents, Features, DNN_CalcType, 1);
+  std::vector<float> Float_Features = Convert_Precision(Features);
   SystemComponents.DNNFeatureTime += omp_get_wtime() - time; 
-
 
   time = omp_get_wtime();
   size_t ModelID = 0;
@@ -444,7 +451,7 @@ double Predict_From_FeatureMatrix_Move(Simulations& Sim, Components& SystemCompo
   //Use the DNN Model to predict//
   auto real_input = cppflow::tensor(Features, {1, SystemComponents.Nfeatures});
   auto output = SystemComponents.DNNModel[ModelID]({{SystemComponents.InputLayer[ModelID], real_input}},{"StatefulPartitionedCall:0"});
-  double prediction = static_cast<double>(output[0].get_data<double>()[0]);
+  double prediction = static_cast<double>(output[0].get_data<float>()[0]);
 
   SystemComponents.DNNPredictTime += omp_get_wtime() - time;
   //printf("DNN Prediction: %.5f [kJ/mol], %.5f [internal unit]\n", prediction, prediction * SystemComponents.DNNEnergyConversion);
@@ -475,16 +482,17 @@ double Predict_From_FeatureMatrix_Total(Simulations& Sim, Components& SystemComp
       WriteFeatures(SystemComponents, Features);
     }
   }
+  std::vector<float> AllFloatFeatures = Convert_Precision(AllFeatures);
   size_t ModelID = 0;
  
   //Use the DNN Model to predict//
-  auto real_input = cppflow::tensor(AllFeatures, {NMol, SystemComponents.Nfeatures});
+  auto real_input = cppflow::tensor(AllFloatFeatures, {NMol, SystemComponents.Nfeatures});
   auto output = SystemComponents.DNNModel[ModelID]({{SystemComponents.InputLayer[ModelID], real_input}},{"StatefulPartitionedCall:0"});
 
   double tot = 0.0;
   for(size_t i = 0; i < NMol; i++)
   {
-    double prediction = static_cast<double>(output[0].get_data<double>()[i]);
+    double prediction = static_cast<double>(output[0].get_data<float>()[i]);
     tot += prediction;
     //printf("Molecule %zu, DNN Prediction: %.5f [kJ/mol], %.5f [internal unit]\n", i, prediction, prediction * SystemComponents.DNNEnergyConversion);
   }
