@@ -449,7 +449,7 @@ double Predict_From_FeatureMatrix_Move(Simulations& Sim, Components& SystemCompo
   size_t ModelID = 0;
 
   //Use the DNN Model to predict//
-  auto real_input = cppflow::tensor(Features, {1, SystemComponents.Nfeatures});
+  auto real_input = cppflow::tensor(Float_Features, {1, SystemComponents.Nfeatures});
   auto output = SystemComponents.DNNModel[ModelID]({{SystemComponents.InputLayer[ModelID], real_input}},{"StatefulPartitionedCall:0"});
   double prediction = static_cast<double>(output[0].get_data<float>()[0]);
 
