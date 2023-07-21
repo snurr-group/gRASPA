@@ -3,8 +3,8 @@ Follow this instruction to install gRASPA-DP on the NERSC Perlmutter cluster. Fi
 ```shellscript
 mkdir ctensorflow
 cd ctensorflow
-wget https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-linux-x86_64-2.6.0.tar.gz
-tar -xvf libtensorflow-gpu-linux-x86_64-2.6.0.tar.gz
+wget https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-linux-x86_64-2.11.0.tar.gz
+tar -xvf libtensorflow-gpu-linux-x86_64-2.11.0.tar.gz
 cd ..
 vi .bashrc
 ```
