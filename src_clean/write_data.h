@@ -79,32 +79,30 @@ static inline void WriteAtoms_Restart(Atoms* System, Components SystemComponents
 {
   textrestartFile << "Reactions: 0" << "\n";
   //size_t Atomcount=0; 
-  size_t Molcount=0;
-  for(size_t i = SystemComponents.NumberOfFrameworks; i < SystemComponents.NComponents.x; i++)
+  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
   {
     Atoms Data = System[i];
-    textrestartFile << '\n' << "Component: " <<  i - SystemComponents.NumberOfFrameworks << "   Adsorbate " << SystemComponents.NumberOfMolecule_for_Component[i] << " molecules of " << SystemComponents.MoleculeName[i] << '\n';
+    textrestartFile << '\n' << "Component: " <<  i - SystemComponents.NComponents.y << "   Adsorbate " << SystemComponents.NumberOfMolecule_for_Component[i] << " molecules of " << SystemComponents.MoleculeName[i] << '\n';
     textrestartFile << "------------------------------------------------------------------------" << "\n";
     size_t molsize = SystemComponents.Moleculesize[i];
     //First write positions//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-position:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << std::setprecision (15) << Data.pos[j].x << "  " << std::setprecision (15) << Data.pos[j].y << "  " << std::setprecision (15) << Data.pos[j].z << '\n';
+      textrestartFile << "Adsorbate-atom-position:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << std::setprecision (15) << Data.pos[j].x << "  " << std::setprecision (15) << Data.pos[j].y << "  " << std::setprecision (15) << Data.pos[j].z << '\n';
     //Then write velocities (Zhao's note: Not implemented yet)//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-velocity:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
+      textrestartFile << "Adsorbate-atom-velocity:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
     //Then write force (Zhao's note: Not implemented yet)//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-force:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
+      textrestartFile << "Adsorbate-atom-force:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
     //Then write charge//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-charge:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.charge[j] << '\n';
+      textrestartFile << "Adsorbate-atom-charge:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.charge[j] << '\n';
     //Then write scale//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-scaling:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.scale[j] << '\n';
+      textrestartFile << "Adsorbate-atom-scaling:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.scale[j] << '\n';
     //Finally write fixed (Zhao's note: Not implemented yet)//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-fixed:" << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << "0 0 0" << '\n';
-    Molcount+=SystemComponents.NumberOfMolecule_for_Component[i];
+      textrestartFile << "Adsorbate-atom-fixed:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << "0 0 0" << '\n';
   }
 }
 
@@ -209,13 +207,13 @@ static inline void create_Restart_file(size_t Cycle, Atoms* System, Components S
 static inline void WriteAllData(Atoms* System, Components SystemComponents, std::ofstream& textrestartFile, std::vector<std::string> AtomNames, size_t i)
 {
   //size_t Atomcount=0;
-  size_t Molcount=0;
   Atoms Data = System[i];
   size_t molsize = SystemComponents.Moleculesize[i];
   //First write positions//
+  printf("Writing AllData for Component %zu, There are %zu atoms, molsize: %zu\n", i, Data.size, molsize);
   textrestartFile << "x y z charge scale scaleCoul Type" << '\n';
   for(size_t j = 0; j < Data.size; j++)
-    textrestartFile << " " << Molcount+Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.pos[j].x << "  " << Data.pos[j].y << "  " << Data.pos[j].z << " " << Data.charge[j] << " " << Data.scale[j] << " " << Data.scaleCoul[j] << " " << Data.Type[j] << '\n';
+    textrestartFile << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.pos[j].x << "  " << Data.pos[j].y << "  " << Data.pos[j].z << " " << Data.charge[j] << " " << Data.scale[j] << " " << Data.scaleCoul[j] << " " << Data.Type[j] << '\n';
 }
 
 static inline void Write_All_Adsorbate_data(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames, size_t SystemIndex)
@@ -223,7 +221,7 @@ static inline void Write_All_Adsorbate_data(size_t Cycle, Atoms* System, Compone
   std::ofstream textrestartFile{};
   std::filesystem::path cwd = std::filesystem::current_path();
 
-  for(size_t i = 0; i < SystemComponents.NComponents.y; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     std::string dirname="AllData/System_" + std::to_string(SystemIndex) + "/";
     std::string fname  = dirname + "/" + "Component_" + std::to_string(i) + ".data";
