@@ -1754,15 +1754,20 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
     throw std::runtime_error("RestartInitial file not found\n");
   }
   size_t counter = 0;
-  for(size_t i = SystemComponents.NumberOfFrameworks; i < SystemComponents.Total_Components; i++)
+  
+  //Zhao's note: MolID in our Atoms struct are relative IDs, for one component, they start with zero.
+  //Yet, in Restart file, it start with an arbitrary number (equal to number of previous component molecules)
+  //Need to substract it off//
+  size_t PreviousCompNMol = 0;
+  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
   {
     size_t start = 0; size_t end = 0;
     while (std::getline(file, str))
     {
       //find range of the part we need to read// 
-      if (str.find("Components " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos) 
+      if (str.find("Components " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos) 
         start = counter;
-      if (str.find("Maximum-rotation-change component " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos)
+      if (str.find("Maximum-rotation-change component " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
       {  end = counter; break; }
     }
     file.clear();
@@ -1770,7 +1775,7 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
     //Start reading//
     while (std::getline(file, str))
     {
-      if (str.find("Fractional-molecule-id component " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos)
+      if (str.find("Fractional-molecule-id component " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
       {
         termsScannedLined = split(str, ' ');
         if(std::stoi(termsScannedLined[3]) == -1) SystemComponents.hasfractionalMolecule[i] = false;
@@ -1782,26 +1787,26 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
       }
       if(SystemComponents.hasfractionalMolecule[i])
       {
-        if (str.find("Lambda-factors component " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos)
+        if (str.find("Lambda-factors component " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
         {
           termsScannedLined = split(str, ' ');
           SystemComponents.Lambda[i].WangLandauScalingFactor = std::stod(termsScannedLined[3]);
           printf("WL Factor: %.5f\n", SystemComponents.Lambda[i].WangLandauScalingFactor);
         }
-        if (str.find("Number-of-biasing-factors component " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos)
+        if (str.find("Number-of-biasing-factors component " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
         {
           termsScannedLined = split(str, ' ');
           sscanf(termsScannedLined[3].c_str(), "%zu", &SystemComponents.Lambda[i].binsize);
           printf("binsize: %zu\n", SystemComponents.Lambda[i].binsize);
           if(SystemComponents.Lambda[i].binsize != SystemComponents.Lambda[i].Histogram.size()) throw std::runtime_error("CFC Bin size don't match!");
         }
-        if (str.find("Biasing-factors component " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos)
+        if (str.find("Biasing-factors component " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
         {
           for(size_t j = 0; j < SystemComponents.Lambda[i].binsize; j++)
           {
             termsScannedLined = split(str, ' ');
             SystemComponents.Lambda[i].biasFactor[j] = std::stod(termsScannedLined[3 + j]); 
-            printf("Biasing Factor %zu: %.5f\n", j, SystemComponents.Lambda[i].biasFactor[j]); 
+            printf("Biasing Factor %zu: %.5f\n", j, SystemComponents.Lambda[i].biasFactor[j]);
           }
         }
       }
@@ -1809,16 +1814,16 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
       if (str.find("Maximum-translation-change component " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos)
       {
         termsScannedLined = split(str, ' ');
-        SystemComponents.MaxTranslation[i - SystemComponents.NumberOfFrameworks].x = std::stod(termsScannedLined[3]);
-        SystemComponents.MaxTranslation[i - SystemComponents.NumberOfFrameworks].y = std::stod(termsScannedLined[4]);
-        SystemComponents.MaxTranslation[i - SystemComponents.NumberOfFrameworks].z = std::stod(termsScannedLined[5]);
+        SystemComponents.MaxTranslation[i - SystemComponents.NComponents.y].x = std::stod(termsScannedLined[3]);
+        SystemComponents.MaxTranslation[i - SystemComponents.NComponents.y].y = std::stod(termsScannedLined[4]);
+        SystemComponents.MaxTranslation[i - SystemComponents.NComponents.y].z = std::stod(termsScannedLined[5]);
       }
-      if (str.find("Maximum-rotation-change component " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos)
+      if (str.find("Maximum-rotation-change component " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
       {
         termsScannedLined = split(str, ' ');
-        SystemComponents.MaxRotation[i - SystemComponents.NumberOfFrameworks].x = std::stod(termsScannedLined[3]);
-        SystemComponents.MaxRotation[i - SystemComponents.NumberOfFrameworks].y = std::stod(termsScannedLined[4]);
-        SystemComponents.MaxRotation[i - SystemComponents.NumberOfFrameworks].z = std::stod(termsScannedLined[5]);
+        SystemComponents.MaxRotation[i - SystemComponents.NComponents.y].x = std::stod(termsScannedLined[3]);
+        SystemComponents.MaxRotation[i - SystemComponents.NComponents.y].y = std::stod(termsScannedLined[4]);
+        SystemComponents.MaxRotation[i - SystemComponents.NComponents.y].z = std::stod(termsScannedLined[5]);
         break;
       }
     }
@@ -1828,12 +1833,13 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
     start = 0; end = 0; counter = 0;
     while (std::getline(file, str))
     {
-      if (str.find("Component: " + std::to_string(i - SystemComponents.NumberOfFrameworks), 0) != std::string::npos)
+      if (str.find("Component: " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
       {
         termsScannedLined = split(str, ' ');
         start = counter + 2;
         size_t temp; 
         sscanf(termsScannedLined[3].c_str(), "%zu", &temp);
+        printf("Adsorbate Component %zu, #: %zu\n", i, temp);
         SystemComponents.NumberOfMolecule_for_Component[i] = temp;
         SystemComponents.TotalNumberOfMolecules += SystemComponents.NumberOfMolecule_for_Component[i];
         //printf("There are %zu Molecules, molsize = %zu, line is %zu\n", SystemComponents.NumberOfMolecule_for_Component[i], SystemComponents.Moleculesize[i], counter);
@@ -1851,6 +1857,9 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
         throw std::runtime_error("Number of molecule fall out of the TMMC Macrostate range!");
 
     counter  = 0;
+    file.clear();
+    file.seekg(0);
+    if(SystemComponents.NumberOfMolecule_for_Component[i] == 0) continue;
     size_t interval = SystemComponents.NumberOfMolecule_for_Component[i]* SystemComponents.Moleculesize[i];
     double3 pos[SystemComponents.NumberOfMolecule_for_Component[i]       * SystemComponents.Moleculesize[i]];
     double  scale[SystemComponents.NumberOfMolecule_for_Component[i]     * SystemComponents.Moleculesize[i]];
@@ -1859,8 +1868,6 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
     size_t  Type[SystemComponents.NumberOfMolecule_for_Component[i]      * SystemComponents.Moleculesize[i]];
     size_t  MolID[SystemComponents.NumberOfMolecule_for_Component[i]     * SystemComponents.Moleculesize[i]];
 
-    file.clear();
-    file.seekg(0);
     size_t atom=0;
     while (std::getline(file, str))
     {
@@ -1876,6 +1883,8 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
         size_t atomid; sscanf(termsScannedLined[2].c_str(), "%zu", &atomid);
         Type[atom] = SystemComponents.HostSystem[i].Type[atomid]; //for every component, the types of atoms for the first molecule is always there, just copy it//
         //printf("Reading Positions, atom: %zu, xyz: %.5f %.5f %.5f, Type: %zu, MolID: %zu\n", atom, pos[atom].x, pos[atom].y, pos[atom].z, Type[atom], MolID[atom]);
+        //Zhao's note: adjust the MolID from absolute to relative to component//
+        MolID[atom] -= PreviousCompNMol;
       }
       //Read charge//
       if((counter >= start + interval * 3) && (counter < start + interval * 4))
@@ -1931,6 +1940,8 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
     }
     SystemComponents.HostSystem[i].size = interval;
     SystemComponents.HostSystem[i].Molsize = SystemComponents.Moleculesize[i];
+
+    PreviousCompNMol += SystemComponents.NumberOfMolecule_for_Component[i];
   }
 }
 
