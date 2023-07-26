@@ -775,7 +775,6 @@ struct Components
   size_t  NumberOfFrameworks;                         // Total Number of framework species, usually 1.
   double  Temperature={0.0};
   double  Beta;                                       // Inverse Temperature 
-  double  tempdeltaHGEwald={0.0};
 
   std::vector<FRAMEWORK_COMPONENT_LISTS>FrameworkComponentDef;
 
