@@ -1594,7 +1594,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
           printf("TMMC: Running TMMC simulation\n");
         }
       }
-      if (str.find("NO_CBMC_SWAP", 0) != std::string::npos)
+      if (str.find("TURN_OFF_CBMC_SWAP", 0) != std::string::npos)
       {
         termsScannedLined = split(str, ' ');
         if(caseInSensStringCompare(termsScannedLined[1], "yes"))
