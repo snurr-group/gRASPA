@@ -225,8 +225,7 @@ int main(void)
       cudaMallocManaged(&SystemComponents[a].ConsiderThisAdsorbateAtom, sizeof(bool) * SystemComponents[a].Moleculesize[1]);
       for(size_t y = 0; y < SystemComponents[a].Moleculesize[1]; y++)
       {
-        SystemComponents[a].ConsiderThisAdsorbateAtom[y] = TempComponents.ConsiderThisAdsorbateAtom_HOST[y];
-        printf("Atom %zu, Consider? %s, Temp: %s\n", y, SystemComponents[a].ConsiderThisAdsorbateAtom[y] ? "true" : "false", TempComponents.ConsiderThisAdsorbateAtom_HOST[y] ? "true" : "false");
+        printf("Atom %zu, Consider? %s\n", y, SystemComponents[a].ConsiderThisAdsorbateAtom[y] ? "true" : "false");
       }
       //Test reading Tensorflow model//
       //###PATCH_LCLIN_MAIN_PREP###//
