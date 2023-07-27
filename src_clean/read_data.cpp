@@ -231,13 +231,13 @@ void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges
       sscanf(termsScannedLined[1].c_str(), "%d", &productioncycles);
       //printf("line is %u, there are %zu Framework Atoms\n", counter, NumberFrameworkAtom);
     }
-    if (str.find("Widom_Trial", 0) != std::string::npos)
+    if (str.find("NumberOfTrialPositions", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
       sscanf(termsScannedLined[1].c_str(), "%zu", &widom);
       //printf("line is %u, there are %zu Framework Atoms\n", counter, NumberFrameworkAtom);
     }
-    if (str.find("Widom_Orientation", 0) != std::string::npos)
+    if (str.find("NumberOfTrialOrientations", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
       sscanf(termsScannedLined[1].c_str(), "%zu", &widom_orientation);
