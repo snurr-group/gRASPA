@@ -10,8 +10,20 @@
 #include "read_data.h"
 #include "write_data.h"
 #include "fxn_main.h"
+
+#include <unistd.h>
+#include <limits.h>
 int main(void)
 {
+  //Zhao's note: Before everything starts, see if all the lines in Input file can be found in read_data.cpp//
+  //An easy way to check if the input file is up-to-date//
+  //https://stackoverflow.com/questions/143174/how-do-i-get-the-directory-that-a-program-is-running-from
+  char result[ 256 ];
+  ssize_t count = readlink( "/proc/self/exe", result, 256 );
+  std::string exepath = std::string( result, (count > 0) ? count : 0 );
+  std::cout << exepath;
+  Check_Inputs_In_read_data_cpp(exepath);
+  
   size_t  Allocate_space_Adsorbate = 0; //Variable for recording allocate_space on the device for adsorbates //
 
   bool RunOneByOne = false;
