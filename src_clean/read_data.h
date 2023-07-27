@@ -1,5 +1,7 @@
 //#include "VDW_Coulomb.cuh"
 
+void Check_Inputs_In_read_data_cpp(std::string& exepath);
+
 void read_number_of_sims_from_input(size_t *NumSims, bool *SingleSim);
 
 void read_FFParams_from_input(ForceField& FF, double& precision);
