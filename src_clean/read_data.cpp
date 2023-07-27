@@ -156,7 +156,7 @@ void read_number_of_sims_from_input(size_t *NumSims, bool *SingleSim)
   *NumSims = tempnum; *SingleSim = tempsingle;
 }
 
-void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges, int *InitializationCycles, int *EquilibrationCycles, int *ProductionCycles, size_t *Widom_Trial, size_t *Widom_Orientation, double *Pressure, double *Temperature, size_t *AllocateSize, bool *ReadRestart, int *RANDOMSEED, bool *SameFrameworkEverySimulation, int3& NumberOfComponents)
+void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges, int *InitializationCycles, int *EquilibrationCycles, int *ProductionCycles, size_t *NumberOfTrialPositions, size_t *NumberOfTrialOrientations, double *Pressure, double *Temperature, size_t *AllocateSize, bool *ReadRestart, int *RANDOMSEED, bool *SameFrameworkEverySimulation, int3& NumberOfComponents)
 {
   bool tempGPU = false; bool tempflag = false; bool nochargeflag = true;  //Ignore the changes if the chargemethod is not specified
   //bool tempDualPrecision = false;
@@ -318,7 +318,7 @@ void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges
   }
   *UseGPUReduction=tempGPU; *Useflag=tempflag; *noCharges = nochargeflag;
   *InitializationCycles=initializationcycles; *EquilibrationCycles=equilibrationcycles; *ProductionCycles=productioncycles;
-  *Widom_Trial=widom; *Widom_Orientation=widom_orientation;
+  *NumberOfTrialPositions=widom; *NumberOfTrialOrientations=widom_orientation;
   *Pressure = pres; *Temperature = temp;
   *AllocateSize  = tempallocspace;
   *ReadRestart   = tempRestart;
