@@ -68,7 +68,7 @@ static inline MoveEnergy Insertion_Body(Components& SystemComponents, Simulation
     SystemComponents.InsertionDNNDrift += fabs(correction);
     Rosenbluth *= std::exp(-SystemComponents.Beta * correction);
   }
-  printf("Insertion energy summary: "); energy.print();
+  //printf("Insertion energy summary: "); energy.print();
   return energy;
 }
 
