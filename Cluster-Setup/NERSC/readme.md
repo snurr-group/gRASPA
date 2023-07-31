@@ -1,5 +1,5 @@
 ## Installation instructions on [NERSC](https://www.nersc.gov/)
-## NOTE: If you don't need the DeepPotential, download the code and start from [step 6](# step 6).
+## NOTE: If you don't need the DeepPotential, download the code and start from [step 6](#step 6).
 Follow this instruction to install gRASPA-DP on the NERSC Perlmutter cluster. 
 1. We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
 ```shellscript
@@ -29,11 +29,12 @@ NERSC has its own PyTorch/LibTorch module, so now we can start patching gRASPA c
 ```shellscript
 mkdir patch_Allegro
 ```
-5. Modify line 64 in `patch.py` file to `patch_model=['Allegro']`. Then,
+#step 5
+Modify line 64 in `patch.py` file to `patch_model=['Allegro']`. Then,
 ```shellscript
 python patch.py
 ```
-# step 6
+#step 6
 Finally, we need to modify the source code due to NERSC configuration:
 ```shellscript
 sed -i "s/std::filesystem/std::experimental::filesystem/g" *
