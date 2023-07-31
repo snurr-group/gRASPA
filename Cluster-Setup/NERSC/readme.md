@@ -1,5 +1,5 @@
 ## Installation instructions on [NERSC](https://www.nersc.gov/)
-## NOTE: If you don't need the DeepPotential, download the code and start from [step 6](#Step-6).
+## NOTE: If you don't need the DeepPotential, download the code, `cd src_clean/`, and start from [step 6](#Step-6).
 Follow this instruction to install gRASPA-DP on the NERSC Perlmutter cluster. 
 # Step 1
 We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
@@ -46,8 +46,9 @@ sed -i "s/<filesystem>/<experimental\/filesystem>/g" *
 ```
 # Step 7
 Then, copy `NVC_COMPILE_NERSC` to the source code folder, and compile the code in the folder as follows:
+-NOTE: If you use the vanilla version, simply replace [`NVC_COMPILE_NERSC`](NVC_COMPILE_NERSC) with [`NVC_COMPILE_NERSC_VANILLA`](NVC_COMPILE_NERSC_VANILLA) and proceed.
 ```shellscript
 chmod +x NVC_COMPILE_NERSC
 ./NVC_COMPILE_NERSC
 ```
-Remeber to change `cppflowDir` and `tfDir` directories in `NVC_COMPILE_NERSC` if you install CppFlow and TensorFlow API in different directories. You might see some warning messages during compilation, just ignore them. Once ready, you will see a binary excutable `nvc_main.x` in the folder.
+Remeber to change `cppflowDir` and `tfDir` directories in [`NVC_COMPILE_NERSC`](NVC_COMPILE_NERSC) if you install CppFlow and TensorFlow API in different directories. You might see some warning messages during compilation, just ignore them. Once ready, you will see a binary excutable `nvc_main.x` in the folder.
