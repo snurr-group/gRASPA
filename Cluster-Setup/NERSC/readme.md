@@ -1,5 +1,7 @@
 ## Installation instructions on [NERSC](https://www.nersc.gov/)
-Follow this instruction to install gRASPA-DP on the NERSC Perlmutter cluster. First, we download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
+## NOTE: If you don't need the DeepPotential, start from step 6 (line 36).
+Follow this instruction to install gRASPA-DP on the NERSC Perlmutter cluster. 
+1. We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
 ```shellscript
 mkdir ctensorflow
 cd ctensorflow
@@ -8,12 +10,12 @@ tar -xvf libtensorflow-gpu-linux-x86_64-2.11.0.tar.gz
 cd ..
 vi .bashrc
 ```
-Add the following directories to environment variables in the `.bashrc` file:
+2. Add the following directories to environment variables in the `.bashrc` file:
 ```shellscript
 export LIBRARY_PATH=$LIBRARY_PATH:~/ctensorflow/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/ctensorflow/lib
 ```
-Then, we install [CppFlow](https://github.com/serizba/cppflow):
+3. Then, we install [CppFlow](https://github.com/serizba/cppflow):
 ```shellscript
 git clone https://github.com/serizba/cppflow
 cd cppflow
@@ -22,20 +24,21 @@ cd build
 cmake -DCMAKE_PREFIX_PATH=~/ctensorflow/ ..
 make install DESTDIR=~/ctensorflow/
 ```
-NERSC has its own PyTorch/LibTorch module, so now we can start patching gRASPA code with ML potential functionality. For example, if we want to use Allegro model which uses LibTorch:
+NERSC has its own PyTorch/LibTorch module, so now we can start patching gRASPA code with ML potential functionality. 
+4. For example, if we want to use Allegro model which uses LibTorch:
 ```shellscript
 mkdir patch_Allegro
 ```
-Modify line 64 in `patch.py` file to `patch_model=['Allegro']`. Then,
+5. Modify line 64 in `patch.py` file to `patch_model=['Allegro']`. Then,
 ```shellscript
 python patch.py
 ```
-Once the gRASPA code gets patched, we need to modify the source code due to NERSC configuration:
+6. Finally, we need to modify the source code due to NERSC configuration:
 ```shellscript
 sed -i "s/std::filesystem/std::experimental::filesystem/g" *
 sed -i "s/<filesystem>/<experimental\/filesystem>/g" *
 ```
-Then, copy `NVC_COMPILE_NERSC` to the source code folder `patch_Allegro`, and compile the code `patch_Allegro` folder as follows:
+7. Then, copy `NVC_COMPILE_NERSC` to the source code folder, and compile the code in the folder as follows:
 ```shellscript
 chmod +x NVC_COMPILE_NERSC
 ./NVC_COMPILE_NERSC
