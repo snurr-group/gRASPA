@@ -1,7 +1,8 @@
 ## Installation instructions on [NERSC](https://www.nersc.gov/)
-## NOTE: If you don't need the DeepPotential, download the code and start from [step 6](#step 6).
+## NOTE: If you don't need the DeepPotential, download the code and start from [step 6](#Step-6).
 Follow this instruction to install gRASPA-DP on the NERSC Perlmutter cluster. 
-1. We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
+# Step 1
+We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
 ```shellscript
 mkdir ctensorflow
 cd ctensorflow
@@ -10,12 +11,14 @@ tar -xvf libtensorflow-gpu-linux-x86_64-2.11.0.tar.gz
 cd ..
 vi .bashrc
 ```
-2. Add the following directories to environment variables in the `.bashrc` file:
+# Step 2
+Add the following directories to environment variables in the `.bashrc` file:
 ```shellscript
 export LIBRARY_PATH=$LIBRARY_PATH:~/ctensorflow/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/ctensorflow/lib
 ```
-3. Then, we install [CppFlow](https://github.com/serizba/cppflow):
+# Step 3
+Then, we install [CppFlow](https://github.com/serizba/cppflow):
 ```shellscript
 git clone https://github.com/serizba/cppflow
 cd cppflow
@@ -24,23 +27,25 @@ cd build
 cmake -DCMAKE_PREFIX_PATH=~/ctensorflow/ ..
 make install DESTDIR=~/ctensorflow/
 ```
+# Step 4
 NERSC has its own PyTorch/LibTorch module, so now we can start patching gRASPA code with ML potential functionality. 
-<br>4. For example, if we want to use Allegro model which uses LibTorch:
+For example, if we want to use Allegro model which uses LibTorch:
 ```shellscript
 mkdir patch_Allegro
 ```
-#step 5
+# Step 5
 Modify line 64 in `patch.py` file to `patch_model=['Allegro']`. Then,
 ```shellscript
 python patch.py
 ```
-#step 6
+# Step 6
 Finally, we need to modify the source code due to NERSC configuration:
 ```shellscript
 sed -i "s/std::filesystem/std::experimental::filesystem/g" *
 sed -i "s/<filesystem>/<experimental\/filesystem>/g" *
 ```
-7. Then, copy `NVC_COMPILE_NERSC` to the source code folder, and compile the code in the folder as follows:
+# Step 7
+Then, copy `NVC_COMPILE_NERSC` to the source code folder, and compile the code in the folder as follows:
 ```shellscript
 chmod +x NVC_COMPILE_NERSC
 ./NVC_COMPILE_NERSC
