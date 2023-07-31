@@ -38,6 +38,10 @@ Modify line 64 in `patch.py` file to `patch_model=['Allegro']`. Then,
 ```shellscript
 python patch.py
 ```
+Now the patched source code is in `patch_Allegro/`. Go into the patched folder, and we have some final work to do.
+```shellscript
+cd patch_Allegro/
+```
 # Step 6
 Finally, we need to modify the source code due to NERSC configuration:
 ```shellscript
