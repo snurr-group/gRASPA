@@ -1,0 +1,23 @@
+#!/bin/bash
+
+module load PrgEnv-nvhpc
+
+rm *.o nvc_main.x
+
+CXX="nvc++"
+
+LINKFLAG="-lstdc++fs -L/opt/nvidia/hpc_sdk/Linux_x86_64/22.7/cuda/lib64 -L/usr/lib64/"
+
+NVCFLAG="-O3 -std=c++20 -Minline -mp -target=gpu -cuda"
+
+$CXX $NVCFLAG -c axpy.cu $LINKFLAG
+
+$CXX $NVCFLAG -c main.cpp $LINKFLAG
+
+$CXX $NVCFLAG -c read_data.cpp $LINKFLAG
+
+$CXX $NVCFLAG -c data_struct.cpp $LINKFLAG
+
+$CXX $NVCFLAG -c VDW_Coulomb.cu $LINKFLAG
+
+$CXX $NVCFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x $LINKFLAG
