@@ -46,7 +46,7 @@ sed -i "s/<filesystem>/<experimental\/filesystem>/g" *
 ```
 # Step 7
 Then, copy `NVC_COMPILE_NERSC` to the source code folder, and compile the code in the folder as follows:
--NOTE: If you use the vanilla version, simply replace [`NVC_COMPILE_NERSC`](NVC_COMPILE_NERSC) with [`NVC_COMPILE_NERSC_VANILLA`](NVC_COMPILE_NERSC_VANILLA) and proceed.
+* NOTE: If you use the vanilla version, simply replace [`NVC_COMPILE_NERSC`](NVC_COMPILE_NERSC) with [`NVC_COMPILE_NERSC_VANILLA`](NVC_COMPILE_NERSC_VANILLA) and proceed.
 ```shellscript
 chmod +x NVC_COMPILE_NERSC
 ./NVC_COMPILE_NERSC
