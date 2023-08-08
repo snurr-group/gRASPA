@@ -79,6 +79,7 @@ static inline void WriteAtoms_Restart(Atoms* System, Components SystemComponents
 {
   textrestartFile << "Reactions: 0" << "\n";
   //size_t Atomcount=0; 
+  size_t prevMol = 0;
   for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
   {
     Atoms Data = System[i];
@@ -87,22 +88,23 @@ static inline void WriteAtoms_Restart(Atoms* System, Components SystemComponents
     size_t molsize = SystemComponents.Moleculesize[i];
     //First write positions//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-position:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << std::setprecision (15) << Data.pos[j].x << "  " << std::setprecision (15) << Data.pos[j].y << "  " << std::setprecision (15) << Data.pos[j].z << '\n';
+      textrestartFile << "Adsorbate-atom-position:" << " " << prevMol + Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << std::setprecision (15) << Data.pos[j].x << "  " << std::setprecision (15) << Data.pos[j].y << "  " << std::setprecision (15) << Data.pos[j].z << '\n';
     //Then write velocities (Zhao's note: Not implemented yet)//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-velocity:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
+      textrestartFile << "Adsorbate-atom-velocity:" << " " << prevMol + Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
     //Then write force (Zhao's note: Not implemented yet)//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-force:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
+      textrestartFile << "Adsorbate-atom-force:" << " " << prevMol + Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << 0.0 << "  " << 0.0 << "  " << 0.0 << '\n';
     //Then write charge//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-charge:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.charge[j] << '\n';
+      textrestartFile << "Adsorbate-atom-charge:" << " " << prevMol + Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.charge[j] << '\n';
     //Then write scale//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-scaling:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.scale[j] << '\n';
+      textrestartFile << "Adsorbate-atom-scaling:" << " " << prevMol + Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.scale[j] << '\n';
     //Finally write fixed (Zhao's note: Not implemented yet)//
     for(size_t j = 0; j < Data.size; j++)
-      textrestartFile << "Adsorbate-atom-fixed:" << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << "0 0 0" << '\n';
+      textrestartFile << "Adsorbate-atom-fixed:" << " " << prevMol + Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << "0 0 0" << '\n';
+    prevMol += SystemComponents.NumberOfMolecule_for_Component[i];
   }
 }
 
