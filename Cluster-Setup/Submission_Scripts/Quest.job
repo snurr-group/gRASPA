@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --job-name="NAME"
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gres=gpu:a100:1
+#SBATCH -t 20:00:00
+#SBATCH -p gengpu
+#SBATCH -A <ALLOCATION>
+#SBATCH --mem=4GB
+
+module purge all
+
+echo START: `date`
+
+currentdir=$(pwd)
+exedir=/projects/<ALLOCATION>/CUDA-RASPA/
+
+$exedir/nvc_main.x > result
+echo FINISH: `date`
