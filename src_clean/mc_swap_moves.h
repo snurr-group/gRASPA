@@ -458,23 +458,50 @@ __global__ void Update_IdentitySwap_Insertion_data(Atoms* d_a, double3* temp, si
   d_a[NEWComponent].size += Molsize;
 }
 
-static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulations& Sims, WidomStruct& Widom, ForceField& FF, RandomNumber& Random, size_t OLDMolInComponent, size_t OLDComponent)
+static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulations& Sims, WidomStruct& Widom, ForceField& FF, RandomNumber& Random)
 {
   //Identity Swap is sort-of Reinsertion//
   //The difference is that the component of the molecule are different//
   //Selected Molecule is the molecule that is being identity-swapped//
-  
-  size_t NEWComponent = OLDComponent;
-  while(NEWComponent == OLDComponent || NEWComponent == 0 || NEWComponent >= SystemComponents.Total_Components)
+
+   //Zhao's note: If CO2/CH4 mixture, since CH4 doesn't have rotation moves, identity swap will be performed more times for CH4 than for CO2. Add this switch of Old/NewComponent to avoid this issue.
+  size_t NEWComponent = 0;
+  size_t OLDComponent = 0;
+  size_t NOld = 0; 
+  //It seems that identity swap can swap back to its own species, so need to relax the current criterion//
+  //while(NEWComponent == OLDComponent || NEWComponent == 0 || NEWComponent >= SystemComponents.NComponents.x)
+  //Must select adsorbate species, cannot exceed number of species in sim, oldcomponent number of mol > 0//
+  while(OLDComponent == 0 || OLDComponent >= SystemComponents.NComponents.x ||
+        NEWComponent == 0 || NEWComponent >= SystemComponents.NComponents.x || 
+        NOld == 0)
   {
-    NEWComponent = (size_t) (Get_Uniform_Random()*(SystemComponents.Total_Components - 1)) + 1;
+    OLDComponent = (size_t) (Get_Uniform_Random()*(SystemComponents.NComponents.x - SystemComponents.NComponents.y)) + SystemComponents.NComponents.y;
+    NEWComponent = (size_t) (Get_Uniform_Random()*(SystemComponents.NComponents.x - SystemComponents.NComponents.y)) + SystemComponents.NComponents.y;
+    NOld = SystemComponents.NumberOfMolecule_for_Component[OLDComponent];
+    /*
+    if(Get_Uniform_Random() < 0.5)
+    {
+      size_t tempComponent = OLDComponent;
+      OLDComponent = NEWComponent;
+      NEWComponent = tempComponent;
+    } 
+    */
   }
-  //printf("OLDComp: %zu, NEWComp: %zu\n", OLDComponent, NEWComponent);
+
+  size_t OLDMolInComponent = (size_t) (Get_Uniform_Random() * SystemComponents.NumberOfMolecule_for_Component[OLDComponent]);
+
+  //printf("Cycle: %zu, OLDComp: %zu, NEWComp: %zu\n", SystemComponents.CURRENTCYCLE, OLDComponent, NEWComponent);
+  //JUST FOR DEBUG//
+  //NEWComponent = 1; OLDComponent = 1;
+  //
 
   double NNEWMol = static_cast<double>(SystemComponents.NumberOfMolecule_for_Component[NEWComponent]);
   double NOLDMol = static_cast<double>(SystemComponents.NumberOfMolecule_for_Component[OLDComponent]);
-  if(SystemComponents.hasfractionalMolecule[NEWComponent]) NNEWMol--;
-  if(SystemComponents.hasfractionalMolecule[OLDComponent]) NOLDMol--;
+  if(SystemComponents.hasfractionalMolecule[NEWComponent]) NNEWMol -= 1.0;
+  if(SystemComponents.hasfractionalMolecule[OLDComponent]) NOLDMol -= 1.0;
+
+  //FOR DEBUG//
+  //OLDMolInComponent = 52;
 
   size_t NEWMolInComponent = SystemComponents.NumberOfMolecule_for_Component[NEWComponent];
 
@@ -505,8 +532,6 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
     return energy;
   }
 
-  //printf("NEW First-Bead ENERGY:"); energy.print();
-
   if(SystemComponents.Moleculesize[NEWComponent] > 1 && Rosenbluth > 1e-150)
   {
     size_t SelectedFirstBeadTrial = SelectedTrial;
@@ -533,7 +558,7 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
   
   Sims.ExcludeList[0] = {-1, -1}; //Set to negative so that excludelist is ignored
 
-  CBMCType = REINSERTION_RETRACE; //Identity_Swap for the new configuration//
+  CBMCType = IDENTITY_SWAP_OLD; //Identity_Swap for the old configuration//
   double Old_Rosen=Widom_Move_FirstBead_PARTIAL(SystemComponents, Sims, FF, Random, Widom, OLDMolInComponent, OLDComponent, CBMCType, StoredR, &SelectedTrial, &SuccessConstruction, &old_energy, newScale);
   if(SystemComponents.Moleculesize[OLDComponent] > 1)
   {
@@ -554,6 +579,7 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
     energy.GGEwaldE = EwaldE.x;
     energy.HGEwaldE = EwaldE.y;
     Rosenbluth *= std::exp(-SystemComponents.Beta * (EwaldE.x + EwaldE.y));
+    //printf("Ewald PreFactor: %.5f\n", ::exp(-SystemComponents.Beta * (EwaldE.x + EwaldE.y)));
   }
 
   energy.TailE = TailCorrectionIdentitySwap(SystemComponents, NEWComponent, OLDComponent, FF.size, Sims.Box.Volume);
@@ -565,12 +591,19 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
   /////////////////////////////
   // PREPARE ACCEPTANCE RULE //
   /////////////////////////////
-  //(P_New * N_Old) / (P_Old * (N_New + 1))
-  double preFactor = (SystemComponents.MolFraction[NEWComponent] * SystemComponents.FugacityCoeff[NEWComponent]) * NOLDMol / ((SystemComponents.MolFraction[OLDComponent] * SystemComponents.FugacityCoeff[OLDComponent]) * (NNEWMol + 1));
   double NEWIdealRosen = SystemComponents.IdealRosenbluthWeight[NEWComponent];
   double OLDIdealRosen = SystemComponents.IdealRosenbluthWeight[OLDComponent];
 
+  double preFactor  = GetPrefactor(SystemComponents, Sims, NEWComponent, INSERTION); 
+         preFactor *= GetPrefactor(SystemComponents, Sims, OLDComponent, DELETION);
+
   double Pacc = preFactor * (Rosenbluth / NEWIdealRosen) / (Old_Rosen / OLDIdealRosen);
+
+  //printf("Rosenbluth Weights %.5f (New), %.5f (Old)\n", Rosenbluth, Old_Rosen);
+  //printf("Partial Fugacities: %.5f (New), %.5f (Old)\n", PartialFugacityNew, PartialFugacityOld);
+  //printf("NNEW: %.5f, NOLD: %.5f\n", NNEWMol, NOLDMol);
+  //printf("PAcc: %.5f\n", Pacc);
+
   //Determine whether to accept or reject the insertion
   double RANDOM = Get_Uniform_Random();
   bool Accept = false;
@@ -582,25 +615,33 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
     SystemComponents.Moves[OLDComponent].IdentitySwapRemoveAccepted ++;
 
     SystemComponents.Moves[OLDComponent].IdentitySwap_Acc_TO[NEWComponent] ++;
-
-    size_t LastMolecule = SystemComponents.NumberOfMolecule_for_Component[OLDComponent]-1;
-    size_t LastLocation = LastMolecule*SystemComponents.Moleculesize[OLDComponent];
-    Update_deletion_data<<<1,1>>>(Sims.d_a, OLDComponent, UpdateLocation, (int) SystemComponents.Moleculesize[OLDComponent], LastLocation);
-   
-    //The function below will only be processed if the system has a fractional molecule and the transfered molecule is NOT the fractional one //
-    if((SystemComponents.hasfractionalMolecule[OLDComponent])&&(LastMolecule == SystemComponents.Lambda[OLDComponent].FractionalMoleculeID))
+    if(NEWComponent != OLDComponent)
     {
-      //Since the fractional molecule is moved to the place of the selected deleted molecule, update fractional molecule ID on host
-      SystemComponents.Lambda[OLDComponent].FractionalMoleculeID = OLDMolInComponent;
-    }
+      size_t LastMolecule = SystemComponents.NumberOfMolecule_for_Component[OLDComponent]-1;
+      size_t LastLocation = LastMolecule*SystemComponents.Moleculesize[OLDComponent];
+      Update_deletion_data<<<1,1>>>(Sims.d_a, OLDComponent, UpdateLocation, (int) SystemComponents.Moleculesize[OLDComponent], LastLocation);
+   
+      //The function below will only be processed if the system has a fractional molecule and the transfered molecule is NOT the fractional one //
+      if((SystemComponents.hasfractionalMolecule[OLDComponent])&&(LastMolecule == SystemComponents.Lambda[OLDComponent].FractionalMoleculeID))
+      {
+        //Since the fractional molecule is moved to the place of the selected deleted molecule, update fractional molecule ID on host
+        SystemComponents.Lambda[OLDComponent].FractionalMoleculeID = OLDMolInComponent;
+      }
  
-    UpdateLocation = SystemComponents.Moleculesize[NEWComponent] * NEWMolInComponent;
-    Update_IdentitySwap_Insertion_data<<<1,1>>>(Sims.d_a, temp, NEWComponent, UpdateLocation, NEWMolInComponent, SystemComponents.Moleculesize[NEWComponent]); checkCUDAError("error Updating Identity Swap Insertion data");
+      UpdateLocation = SystemComponents.Moleculesize[NEWComponent] * NEWMolInComponent;
+      Update_IdentitySwap_Insertion_data<<<1,1>>>(Sims.d_a, temp, NEWComponent, UpdateLocation, NEWMolInComponent, SystemComponents.Moleculesize[NEWComponent]); checkCUDAError("error Updating Identity Swap Insertion data");
     
-    Update_NumberOfMolecules(SystemComponents, Sims.d_a, NEWComponent, INSERTION);
-    Update_NumberOfMolecules(SystemComponents, Sims.d_a, OLDComponent, DELETION);
-
-    cudaFree(temp); 
+      Update_NumberOfMolecules(SystemComponents, Sims.d_a, NEWComponent, INSERTION);
+      Update_NumberOfMolecules(SystemComponents, Sims.d_a, OLDComponent, DELETION);
+    }
+    else //If they are the same species, just update in the reinsertion way (just the locations)//
+    {
+      //Regarding the UpdateLocation, in the code it is the old molecule position//
+      //if the OLDComponent = NEWComponent, The new location will be filled into the old position//
+      //So just use what is already in the code//
+      Update_Reinsertion_data<<<1,SystemComponents.Moleculesize[OLDComponent]>>>(Sims.d_a, temp, OLDComponent, UpdateLocation);
+    }
+    cudaFree(temp);
     //Zhao's note: BUG!!!!, Think about if OLD/NEW Component belong to different type (framework/adsorbate)//
     if(!FF.noCharges && ((SystemComponents.hasPartialCharge[NEWComponent]) ||(SystemComponents.hasPartialCharge[OLDComponent])))
       Update_Ewald_Vector(Sims.Box, false, SystemComponents, NEWComponent);
