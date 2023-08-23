@@ -83,6 +83,27 @@ void FindIfInputIsThere(std::string& InputCommand, std::string& exepath)
 
 void Check_Inputs_In_read_data_cpp(std::string& exepath)
 {
+  //Check for input, if required input keywords are not there, throw runtime error//
+  std::vector<std::string> RequiredInputs_Cycles = {"NumberOfInitializationCycles", "NumberOfEquilibrationCycles", "NumberOfProductionCycles", "UseMaxStep"};
+  std::vector<std::string> RequiredInputs_System = {"RestartFile", "RandomSeed", "AdsorbateAllocateSpace", "NumberOfSimulations", "SingleSimulation", "Temperature", "Pressure"};
+  std::vector<std::string> RequiredInputs_CBMC   = {"NumberOfTrialPositions", "NumberOfTrialOrientations"};
+
+  std::vector<std::string> RequiredInputs_Framework = {"InputFileType", "FrameworkName", "UnitCells"};
+
+  std::vector<std::string> RequiredInputs_ForceField= {"ChargeMethod", "OverlapCriteria", "CutOffVDW", "CutOffCoulomb", "EwaldPrecision"};
+
+  std::vector<std::string> RequiredInputs_Adsorbate = {"Component", "MoleculeName", "IdealGasRosenbluthWeight", "FugacityCoefficient", "CreateNumberOfMolecules"};
+
+  std::vector<std::string> RequiredInputs;
+  RequiredInputs.insert(RequiredInputs.end(), RequiredInputs_Cycles.begin(), RequiredInputs_Cycles.end());
+  RequiredInputs.insert(RequiredInputs.end(), RequiredInputs_System.begin(), RequiredInputs_System.end());
+  RequiredInputs.insert(RequiredInputs.end(), RequiredInputs_CBMC.begin(), RequiredInputs_CBMC.end());
+  RequiredInputs.insert(RequiredInputs.end(), RequiredInputs_Framework.begin(), RequiredInputs_Framework.end());
+  RequiredInputs.insert(RequiredInputs.end(), RequiredInputs_ForceField.begin(), RequiredInputs_ForceField.end());
+  RequiredInputs.insert(RequiredInputs.end(), RequiredInputs_Adsorbate.begin(), RequiredInputs_Adsorbate.end());
+
+  std::vector<int> RequiredInput_Index(RequiredInputs.size(), -1);
+
   printf("Checking if all inputs are defined\n");
   std::vector<std::string> termsScannedLined{};
   //Zhao's note: Hard-coded executable name//
@@ -95,11 +116,27 @@ void Check_Inputs_In_read_data_cpp(std::string& exepath)
   size_t tempnum = 0; bool tempsingle = false; size_t counter = 0;
   while (std::getline(file, str))
   {
-    counter++;
     Split_Tab_Space(termsScannedLined, str);
     if(termsScannedLined.size() == 0) continue;
     std::string InputCommand = termsScannedLined[0];
     FindIfInputIsThere(InputCommand, exepath);
+
+    for(size_t i = 0; i < RequiredInputs.size(); i++)
+    {
+      if(str.find(RequiredInputs[i], 0) != std::string::npos)
+      {
+        RequiredInput_Index[i] = counter;
+      }
+    }
+    counter++;
+  }
+  for(size_t i = 0; i < RequiredInputs.size(); i++)
+  {
+    if(RequiredInput_Index[i] == -1)
+    {
+      printf("Cannot find *** %s *** keyword in simulation.input file!\n", RequiredInputs[i].c_str());
+      throw std::runtime_error("Required Keyword Not Found! Abort!!!!");
+    }
   }
 }
 
