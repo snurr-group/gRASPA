@@ -230,7 +230,7 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].IdentitySwapProb)
   {
-    DeltaE = IdentitySwapMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp);
+    DeltaE = IdentitySwapMove(SystemComponents, Sims, Widom, FF, Random);
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].CBCFProb && SystemComponents.hasfractionalMolecule[comp])
   {
