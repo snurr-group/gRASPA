@@ -64,6 +64,7 @@ inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, 
     energies.push_back(E);
     Trialindex.push_back(trial);
     Rosen.push_back(-Beta*tot);
+    //printf("Trial %zu ", trial); E.print();
   }
 }
 
@@ -129,6 +130,14 @@ __global__ void get_random_trial_position(Boxsize Box, Atoms* d_a, Atoms NewMol,
       //xyz = the first bead of the molecule being identity swapped, already taken care of outside of the function//
       scale = proposed_scale.x; scaleCoul = proposed_scale.y;
       break;
+    }
+    case IDENTITY_SWAP_OLD:
+    {
+      scale = AllData.scale[start_position]; scaleCoul = AllData.scaleCoul[start_position];
+      if(i==0) //if deletion, the first trial position is the old position of the selected molecule//
+      {
+        NewMol.pos[i] = AllData.pos[start_position];
+      }
     }
   }
   NewMol.scale[i] = scale; 
@@ -213,7 +222,7 @@ __global__ void get_random_trial_orientation(Boxsize Box, Atoms* d_a, Atoms Mol,
         NewMol.pos[i*chainsize+a] = Mol.pos[0] + Vec;
         break;
       }
-      case REINSERTION_RETRACE: //Reinsertion-Retrace//
+      case REINSERTION_RETRACE: case IDENTITY_SWAP_OLD: //Reinsertion-Retrace, but also works for Identity swap (old molecule) for multiple orientations (not first bead) //
       {
         scale = AllData.scale[start_position+a]; scaleCoul = AllData.scaleCoul[start_position+a];
         if(i==0) //if deletion, the first trial position is the old position of the selected molecule//
@@ -231,13 +240,6 @@ __global__ void get_random_trial_orientation(Boxsize Box, Atoms* d_a, Atoms Mol,
     NewMol.scale[i*chainsize+a] = scale; NewMol.charge[i*chainsize+a] = AllData.charge[start_position+a]; 
     NewMol.scaleCoul[i*chainsize+a] = scaleCoul;
     NewMol.Type[i*chainsize+a] = AllData.Type[start_position+a]; NewMol.MolID[i*chainsize+a] = MolID;
-    //DEBUG//
-    /*
-    if(MoveType == IDENTITY_SWAP_NEW && Cycle == 13664)
-    {
-      printf("scale: %.5f charge: %.5f scaleCoul: %.5f, Type: %lu, MolID: %lu\n", NewMol.scale[i*chainsize+a], NewMol.charge[i*chainsize+a],  NewMol.scaleCoul[i*chainsize+a] , NewMol.Type[i*chainsize+a], NewMol.MolID[i*chainsize+a] );
-    }
-    */
   }
   device_flag[i] = false;
 }
@@ -248,7 +250,7 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
 
   bool Goodconstruction = false; size_t SelectedTrial = 0; double Rosenbluth = 0.0;
   size_t Atomsize = 0;
-  for(size_t ijk = 0; ijk < SystemComponents.Total_Components; ijk++)
+  for(size_t ijk = 0; ijk < SystemComponents.NComponents.x; ijk++)
   {
     Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
   }
@@ -272,7 +274,7 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
     {
       break; //Go With Default//
     }
-    case REINSERTION_RETRACE:
+    case REINSERTION_RETRACE: case IDENTITY_SWAP_OLD:
     {
       NumberOfTrials = 1;
       
@@ -312,12 +314,12 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
   if(Atomsize != 0)
   {
     Calculate_Multiple_Trial_Energy_SEPARATE_HostGuest_VDWReal<<<HGGG_Nblock * NumberOfTrials, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Sims.device_flag, threadsNeeded,1, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG)");
-    cudaMemcpy(Sims.flag, Sims.device_flag, NumberOfTrials*sizeof(bool), cudaMemcpyDeviceToHost);
+    cudaMemcpy(SystemComponents.flag, Sims.device_flag, NumberOfTrials*sizeof(bool), cudaMemcpyDeviceToHost);
   }
   //printf("OldNBlock: %zu, HG_Nblock: %zu, GG_Nblock: %zu, HGGG_Nblock: %zu\n", Nblock, HG_Nblock, GG_Nblock, HGGG_Nblock);
 
   //printf("FIRST BEAD ENERGIES\n");
-  Host_sum_Widom_HGGG_SEPARATE(NumberOfTrials, SystemComponents.Beta, Sims.Blocksum, Sims.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE);
+  Host_sum_Widom_HGGG_SEPARATE(NumberOfTrials, SystemComponents.Beta, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE);
 
   double averagedRosen = 0.0;
   size_t REALselected  = 0;
@@ -344,7 +346,7 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
       Goodconstruction = true;
       break;
     }
-    case CBMC_DELETION: case REINSERTION_RETRACE:
+    case CBMC_DELETION: case REINSERTION_RETRACE: case IDENTITY_SWAP_OLD:
     {
       SelectedTrial = 0;
       for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
@@ -359,7 +361,10 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
 
   if(MoveType == REINSERTION_INSERTION) StoredR = Rosenbluth - Rosen[SelectedTrial];
   if(MoveType == REINSERTION_RETRACE) Rosenbluth += StoredR;
-  averagedRosen = Rosenbluth/double(Widom.NumberWidomTrials);
+  //For 1st bead for identity swap, there is only 1 bead used for insertion/retrace, don't divide.//
+  averagedRosen = Rosenbluth;
+  if(MoveType != IDENTITY_SWAP_OLD && MoveType != IDENTITY_SWAP_NEW) 
+    averagedRosen /= double(Widom.NumberWidomTrials);
 
   *REAL_Selected_Trial = REALselected;
   *SuccessConstruction = Goodconstruction;
@@ -377,7 +382,7 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
   bool Goodconstruction = false; size_t SelectedTrial = 0; double Rosenbluth = 0.0;
 
   // here, the Atomsize is the total number of atoms in the system
-  for(size_t ijk = 0; ijk < SystemComponents.Total_Components; ijk++)
+  for(size_t ijk = 0; ijk < SystemComponents.NComponents.x; ijk++)
   {
     Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
   }
@@ -397,7 +402,7 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
       SelectedMolID = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
       break;
     }
-    case CBMC_DELETION: case REINSERTION_INSERTION: case REINSERTION_RETRACE:
+    case CBMC_DELETION: case REINSERTION_INSERTION: case REINSERTION_RETRACE: case IDENTITY_SWAP_OLD:
     {
       break; //Go With Default//
     }
@@ -414,6 +419,7 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
   Random.Check(Widom.NumberWidomTrialsOrientations);
   //Get the first bead positions, and setup trial orientations//
   get_random_trial_orientation<<<1,Widom.NumberWidomTrialsOrientations>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, Sims.device_flag, Random.device_random, Random.offset, FirstBeadTrial, start_position, SelectedComponent, SelectedMolID, chainsize, MoveType, proposed_scale, SystemComponents.CURRENTCYCLE); checkCUDAError("error getting random trials orientations");
+
   Random.Update(Widom.NumberWidomTrialsOrientations);
 
   // Setup the pairwise calculation //
@@ -434,11 +440,11 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
   {
     Calculate_Multiple_Trial_Energy_SEPARATE_HostGuest_VDWReal<<<HGGG_Nblock * Widom.NumberWidomTrialsOrientations, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Sims.device_flag, threadsNeeded, chainsize, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG Orientation)");
 
-    cudaMemcpy(Sims.flag, Sims.device_flag, Widom.NumberWidomTrialsOrientations*sizeof(bool), cudaMemcpyDeviceToHost);
+    cudaMemcpy(SystemComponents.flag, Sims.device_flag, Widom.NumberWidomTrialsOrientations*sizeof(bool), cudaMemcpyDeviceToHost);
   }
   //printf("CHAIN ENERGIES\n");
 
-  Host_sum_Widom_HGGG_SEPARATE(Widom.NumberWidomTrialsOrientations, SystemComponents.Beta, Sims.Blocksum, Sims.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE);
+  Host_sum_Widom_HGGG_SEPARATE(Widom.NumberWidomTrialsOrientations, SystemComponents.Beta, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE);
 
   double averagedRosen= 0.0; 
   size_t REALselected = 0;
@@ -450,13 +456,14 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
     {
       if(Rosen.size() == 0) break;
       SelectedTrial = SelectTrialPosition(Rosen); 
+
       for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
       Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(Rosen)::value_type(0));
       if(Rosenbluth < 1e-150) break;
       Goodconstruction = true;
       break;
     }
-    case CBMC_DELETION: case REINSERTION_RETRACE:
+    case CBMC_DELETION: case REINSERTION_RETRACE: case IDENTITY_SWAP_OLD:
     {
       SelectedTrial = 0;
       for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
@@ -467,6 +474,7 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
   }
   if(!Goodconstruction) return 0.0;
   REALselected = Trialindex[SelectedTrial];
+
 
   averagedRosen = Rosenbluth/double(Widom.NumberWidomTrialsOrientations);
   *REAL_Selected_Trial = REALselected;

@@ -178,7 +178,7 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
   printf("System allocate_sizes are: %zu, %zu\n", System[0].Allocate_size, System[1].Allocate_size); 
   printf("Component allocate_sizes are: %zu, %zu\n", SystemComponents.Allocate_size[0], SystemComponents.Allocate_size[1]);
 
-  Sims.flag        = (bool*)malloc(MaxTrialsize * sizeof(bool));
+  SystemComponents.flag        = (bool*)malloc(MaxTrialsize * sizeof(bool));
   cudaMallocHost(&Sims.device_flag,          MaxTrialsize * sizeof(bool));
 
   cudaMallocHost(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));

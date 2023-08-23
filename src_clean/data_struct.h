@@ -16,7 +16,7 @@ double Get_Uniform_Random();
 
 enum MoveTypes {TRANSLATION = 0, ROTATION, SINGLE_INSERTION, SINGLE_DELETION, SPECIAL_ROTATION, INSERTION, DELETION, REINSERTION, CBCF_LAMBDACHANGE, CBCF_INSERTION, CBCF_DELETION, IDENTITY_SWAP};
 
-enum CBMC_Types {CBMC_INSERTION = 0, CBMC_DELETION, REINSERTION_INSERTION, REINSERTION_RETRACE, IDENTITY_SWAP_NEW};
+enum CBMC_Types {CBMC_INSERTION = 0, CBMC_DELETION, REINSERTION_INSERTION, REINSERTION_RETRACE, IDENTITY_SWAP_NEW, IDENTITY_SWAP_OLD};
 
 enum SIMULATION_MODE {CREATE_MOLECULE = 0, INITIALIZATION, EQUILIBRATION, PRODUCTION};
 
@@ -776,6 +776,8 @@ struct Components
   double  Temperature={0.0};
   double  Beta;                                       // Inverse Temperature 
 
+  bool*   flag;                                       // flags for checking overlaps (on host), device version in Simulations struct//
+
   std::vector<FRAMEWORK_COMPONENT_LISTS>FrameworkComponentDef;
 
   MoveEnergy Initial_Energy;
@@ -900,7 +902,6 @@ struct Simulations //For multiple simulations//
   Atoms   New;                  // Temporary data storage for New Configuration //
   int2*   ExcludeList;          // Atoms to exclude during energy calculations: x: component, y: molecule-ID (may need to add z and make it int3, z: atom-ID)
   double* Blocksum;             // Block sums for partial reduction //
-  bool*   flag;                 // flags for checking overlaps //
   bool*   device_flag;          // flags for overlaps on the device //
   size_t  start_position;       // Start position for reading data in d_a when proposing a trial position for moves //
   size_t  Nblocks;              // Number of blocks for energy calculation //

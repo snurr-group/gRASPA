@@ -62,9 +62,9 @@ static inline MoveEnergy CBCF_LambdaChange(Components& SystemComponents, Simulat
 
   Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal_LambdaChange<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents, newScale);
 
-  cudaMemcpy(Sims.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
+  cudaMemcpy(SystemComponents.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
 
-  if(!Sims.flag[0])
+  if(!SystemComponents.flag[0])
   {
     SuccessConstruction = true;
     double BlockResult[Total_Nblock + Total_Nblock];

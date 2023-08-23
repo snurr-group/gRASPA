@@ -227,8 +227,8 @@ void NVTGibbsMove(std::vector<Components>& SystemComponents, Simulations*& Sims,
       size_t  NFrameworkAtomsPerThread = 1;
       NewE[sim] = Total_VDW_Coulomb_Energy(Sims[sim], FF, totMol, Host_threads, Guest_threads, NFrameworkAtomsPerThread, ConsiderHostHost, UseOffset);
       //Check for Overlaps//
-      cudaMemcpy(Sims[sim].flag, Sims[sim].device_flag, sizeof(bool), cudaMemcpyDeviceToHost); 
-      if(Sims[sim].flag[0]) 
+      cudaMemcpy(SystemComponents[sim].flag, Sims[sim].device_flag, sizeof(bool), cudaMemcpyDeviceToHost); 
+      if(SystemComponents[sim].flag[0]) 
       { 
         Overlap = true;
         printf("There is OVERLAP IN GIBBS VOLUME MOVE in Box[%zu]!\n", sim);

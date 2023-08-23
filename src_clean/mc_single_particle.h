@@ -96,10 +96,10 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
 
   Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents);
 
-  cudaMemcpy(Sims.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
+  cudaMemcpy(SystemComponents.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
 
   MoveEnergy tot; bool Accept = false; double Pacc = 0.0;
-  if(!Sims.flag[0] || !CheckOverlap)
+  if(!SystemComponents.flag[0] || !CheckOverlap)
   {
     double BlockResult[Total_Nblock + Total_Nblock];
     cudaMemcpy(BlockResult, Sims.Blocksum, 2 * Total_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
