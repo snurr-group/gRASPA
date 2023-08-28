@@ -50,17 +50,37 @@ inline std::vector<std::string> split(const std::string txt, char ch)
     return strs;
 }
 
+std::string replaceTabsWithSpaces(const std::string& input, size_t spacesPerTab)
+{
+  std::string result;
+
+  for (char c : input)
+  {
+    if (c == '\t')
+    {
+      // Insert spaces instead of tab
+      result += std::string(spacesPerTab, ' ');
+    }
+    else
+    {
+      // Keep other characters as they are
+      result += c;
+    }
+  }
+  return result;
+}
+
 //Zhao's note: DO NOT MIX TAB AND SPACE!!!
+//082823 Update, now you can mix tab and space..//
 void Split_Tab_Space(std::vector<std::string>& termsScannedLined, std::string& str)
 {
   if (str.find("\t", 0) != std::string::npos) //if the delimiter is tab
   {
-    termsScannedLined = split(str, '\t');
+    //termsScannedLined = split(str, '\t');
+    size_t spacesPerTab = 4;
+    str = replaceTabsWithSpaces(str, spacesPerTab);
   }
-  else
-  {
-    termsScannedLined = split(str, ' ');
-  }
+  termsScannedLined = split(str, ' ');
 }
 
 void FindIfInputIsThere(std::string& InputCommand, std::string& exepath)
