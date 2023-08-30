@@ -1192,7 +1192,13 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
     //std::vector<size_t> MolID_i = super_MolID[i];
     //size_t NMol = std::max(MolID_i);
     std::vector<size_t>::iterator maxValueIterator = std::max_element(super_MolID[i].begin(), super_MolID[i].end());
-    size_t NMol = *maxValueIterator; NMol ++;
+    size_t NMol = 0;
+    //Zhao's note: add protection here for reading empty cif file for an empty box//
+    if(super_pos[i].size() != 0)
+    {
+      NMol = *maxValueIterator;
+    }
+    NMol ++;
     //size_t NMol = (*std::max_element(begin(super_MolID), end(super_MolID), [](size_t& a, size_t& b){ return a[i] < b[i]; }))[i];
     size_t NMol_In_Def = SystemComponents.FrameworkComponentDef[i].Number_of_Molecules_for_Framework_component;
     if(SystemComponents.FrameworkComponentDef[i].SeparatedComponent)
