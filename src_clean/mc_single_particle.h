@@ -238,6 +238,6 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
       break;
     }
   }
-  if(MoveType == SINGLE_INSERTION) {printf("Cycle %zu, ENERGY: ", SystemComponents.CURRENTCYCLE); tot.print();}
+  //if(MoveType == SINGLE_INSERTION) {printf("Cycle %zu, ENERGY: ", SystemComponents.CURRENTCYCLE); tot.print();}
   return tot;
 }
