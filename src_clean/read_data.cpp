@@ -110,7 +110,11 @@ void Check_Inputs_In_read_data_cpp(std::string& exepath)
 
   std::vector<std::string> RequiredInputs_Framework = {"InputFileType", "FrameworkName", "UnitCells"};
 
-  std::vector<std::string> RequiredInputs_ForceField= {"ChargeMethod", "OverlapCriteria", "CutOffVDW", "CutOffCoulomb", "EwaldPrecision"};
+  //Zhao's note!
+  //Although there are cases where charge is not needed, for example, "ChargeMethod None", here we still require "UseChargesFromCIFFile"
+  //A better solution might be to check the input keyword for "ChargeMethod", if "None", then don't check for "UseChargesFromCIFFile"
+  //Need more careful design of input..
+  std::vector<std::string> RequiredInputs_ForceField= {"ChargeMethod", "OverlapCriteria", "CutOffVDW", "CutOffCoulomb", "EwaldPrecision", "UseChargesFromCIFFile"};
 
   std::vector<std::string> RequiredInputs_Adsorbate = {"Component", "MoleculeName", "IdealGasRosenbluthWeight", "FugacityCoefficient", "CreateNumberOfMolecules"};
 
@@ -1350,7 +1354,7 @@ void ReadFrameworkSpeciesDefinitions(Components& SystemComponents)
 void ReadFramework(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, size_t FrameworkIndex, Components& SystemComponents)
 {
   printf("------------------------PARSING FRAMEWORK DATA------------------------\n");
-  bool UseChargesFromCIFFile = true;  //Zhao's note: if not, use charge from pseudo atoms file, not implemented (if reading poscar, then self-defined charges probably need a separate file //
+  bool UseChargesFromCIFFile = false;  //By default, it is using charge from pseudo_atoms.def//
   std::vector<std::string> Names = PseudoAtom.Name;
   //size_t temp = 0;
   std::string scannedLine; std::string str;
@@ -1364,6 +1368,22 @@ void ReadFramework(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, size_t Frame
   double3 NumberUnitCells;
   bool FrameworkFound = false;
 
+  //Check input file for "UseChargeFromCIFFile" keyword//
+  while (std::getline(simfile, str))
+  {
+    if (str.find("UseChargesFromCIFFile", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      if(caseInSensStringCompare(termsScannedLined[1], "yes"))
+      {
+        UseChargesFromCIFFile = true;
+        printf("Reading Partial Charges from pseudo_atoms.def file\n");
+      }
+    }
+  }
+  simfile.clear();
+  simfile.seekg(0);
+    
   while (std::getline(simfile, str))
   {
     if (str.find("InputFileType", 0) != std::string::npos)
