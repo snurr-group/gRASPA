@@ -2,6 +2,7 @@
 ## NOTE: If you don't need the DeepPotential, download the code, `cd src_clean/`, and start from [step 6](#Step-6).
 ## NOTE: Installation on other clusters are similar to on Perlmutter of NERSC. Follow the instructions here, and if you encounter issues, please consult with your institution's IT. 
   * [Northwestern Quest IT](https://www.it.northwestern.edu/departments/it-services-support/research/computing/quest/)
+<br />
 Follow this instruction to install gRASPA-DP on the NERSC Perlmutter cluster. 
 # Step 1
 We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
