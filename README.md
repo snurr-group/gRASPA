@@ -7,4 +7,4 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 - Unzip the downloaded file
 - Navigate into the unzipped folder, and click on **index.html**
 
-# For installation of gRASPA on various machines (NERSC, Quest of Northwestern, etc.), see the Cluster-Setup folder.
+# To install gRASPA on various clusters, check out [Cluster-Setup](Cluster-Setup/)
