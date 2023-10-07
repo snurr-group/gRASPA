@@ -7,4 +7,5 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 - Unzip the downloaded file
 - Navigate into the unzipped folder, and click on **index.html**
 
-# To install gRASPA on various clusters, check out [Cluster-Setup](Cluster-Setup/)
+# NOTES:
+  * To install gRASPA on various clusters, check out [Cluster-Setup](Cluster-Setup/)
