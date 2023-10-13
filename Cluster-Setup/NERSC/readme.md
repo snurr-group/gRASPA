@@ -52,6 +52,7 @@ Finally, we need to modify the source code due to NERSC configuration:
 sed -i "s/std::filesystem/std::experimental::filesystem/g" *
 sed -i "s/<filesystem>/<experimental\/filesystem>/g" *
 ```
+* **NOTE**: Make sure there is no **sub-folder** in the source code folder. Otherwise the wildcard ```*``` will not work!
 # Step 7
 Then, copy `NVC_COMPILE_NERSC` to the source code folder, and compile the code in the folder as follows:
 * NOTE: If you use the vanilla version, simply replace [`NVC_COMPILE_NERSC`](NVC_COMPILE_NERSC) with [`NVC_COMPILE_NERSC_VANILLA`](NVC_COMPILE_NERSC_VANILLA) and proceed.
