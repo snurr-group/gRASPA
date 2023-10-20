@@ -512,7 +512,7 @@ void ReadFrameworkComponentMoves(Move_Statistics& MoveStats, Components& SystemC
   { printf("Only one Framework Component, No moves assigned\n"); return;}
   if(comp >= SystemComponents.NComponents.y) return;
   printf("Checking Framework Moves for Framework Component %zu\n", comp);
-  std::string FrameworkComponentName = "Framework_Component_" + std::to_string(comp);
+  std::string FrameworkComponentName = "Framework_Component_ " + std::to_string(comp); //Separate with a space, add a _ to avoid confusion with Adsorbate species//
 
   std::vector<std::string> termsScannedLined{};
   std::string str;
@@ -544,7 +544,7 @@ void ReadFrameworkComponentMoves(Move_Statistics& MoveStats, Components& SystemC
     if (str.find(FrameworkComponentName, 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      printf("Found Framework_Component_%s in simulation.input file\n", std::to_string(comp).c_str());
+      printf("Found Framework_Component %s in simulation.input file\n", std::to_string(comp).c_str());
     }
     if (str.find("TranslationProbability", 0) != std::string::npos)
     {
@@ -562,6 +562,10 @@ void ReadFrameworkComponentMoves(Move_Statistics& MoveStats, Components& SystemC
       MoveStats.SpecialRotationProb=std::stod(termsScannedLined[1]);
       printf("WARNING: Special Rotations are rotations with pre-set Rotation Axes, Rotation Axes, Angles are needed to define in def files for %s !\n", FrameworkComponentName.c_str());
     }
+    if (str.find("END_OF_Framework_Component_" + std::to_string(comp), 0) != std::string::npos)
+    {
+      printf("Reach the end of %s\n", FrameworkComponentName); break;
+    } 
     counter ++;
   }
   MoveStats.NormalizeProbabilities();
@@ -1599,7 +1603,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
 {
   //adsorbate component start from zero, but in the code, framework is zero-th component
   //This function also calls MoleculeDefinitionParser//
-  size_t component = AdsorbateComponent+1;
+  size_t Terminatecomponent = AdsorbateComponent+1;
   std::vector<std::string> termsScannedLined{};
   std::string str;
   std::ifstream file("simulation.input");
@@ -1611,7 +1615,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   TMMC temp_tmmc;
 
   std::string start_string = "Component " + std::to_string(AdsorbateComponent); //start when reading "Component 0" for example
-  std::string terminate_string="Component " + std::to_string(component);     //terminate when reading "Component 1", if we are interested in Component 0
+  std::string terminate_string="Component " + std::to_string(Terminatecomponent);     //terminate when reading "Component 1", if we are interested in Component 0
   //first get the line number of the destinated component
   while (std::getline(file, str))
   {
@@ -1625,7 +1629,11 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   
   while (std::getline(file, str))
   {
-    if(str.find(terminate_string, 0) != std::string::npos){break;}
+    if(str.find(terminate_string, 0) != std::string::npos)
+    {
+      printf("Found terminate string [%s]\n", terminate_string.c_str());
+      break;
+    }
     if(counter >= start_counter) //start reading after touching the starting line number
     {
       if (str.find(start_string, 0) != std::string::npos) // get the molecule name
@@ -1789,6 +1797,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
 
   //Zhao's note: if monatomic molecule has rotation prob, break the program!//
   size_t currentCompsize = SystemComponents.Moleculesize.size();
+  printf("Current processed %zu components\n", currentCompsize);
   if(SystemComponents.Moleculesize[currentCompsize-1] == 1 && (MoveStats.RotationProb - MoveStats.TranslationProb) > 1e-10)
   {
     throw std::runtime_error("Molecule [" + SystemComponents.MoleculeName[currentCompsize-1] + "] is MONATOMIC, CANNOT DO ROTATION!\n");
@@ -1801,7 +1810,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
     
   SystemComponents.NumberOfMolecule_for_Component.push_back(0); // Zhao's note: Molecules are created later in main.cpp //
   SystemComponents.Allocate_size.push_back(Allocate_space);
-  if(idealrosen < 1e-150) throw std::runtime_error("Ideal-Rosenbluth weight not assigned (or not valid), bad. If rigid, assign 1.");
+  if(idealrosen < 1e-150) throw std::runtime_error("Error for component {" + std::to_string(AdsorbateComponent) + "}" + "("+ MolName + "): Ideal-Rosenbluth weight not assigned (or not valid), bad. If rigid, assign 1.");
   SystemComponents.IdealRosenbluthWeight.push_back(idealrosen);
   //Zhao's note: for fugacity coefficient, if not assigned (0.0), do Peng-Robinson
   if(fugacoeff < 1e-150)
