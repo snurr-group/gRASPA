@@ -1,0 +1,10 @@
+#Note: The numbering here should match the numbering in your CIF FILE. P1 Symmetry is required.
+#YOU SHOULD have no issue making supercells with this list defined here, the numbers will be replicated accordingly.
+#Molecule index should match atom indices, also make sure your molecule do not across the pbc
+Framework_Component_Name: BiCyclo-Linker
+Number_of_Molecules_for_Framework_component: 4
+Number_of_atoms_for_each_molecule: 22
+Atom_Indices_for_Molecule 0: 5 6 7  8  9  10 11 12  13  14  15  16  17  18  20  21  22  23  25  26  27  28
+Atom_Indices_for_Molecule 1: 38 39 40 41 42 43 44 45  46  47  48  49  50  51  53  54  55  56  58  59  60  61
+Atom_Indices_for_Molecule 2: 67 68 69 70 71 72 73 74  75  76  77  78  79  80  82  83  84  85  86  87  88  89
+Atom_Indices_for_Molecule 3: 93 94 95 96 97 98 99 100 101 102 103 104 105 106 108 109 110 111 112 113 114 115
