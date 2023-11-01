@@ -4,7 +4,8 @@
   * If you don't need the DeepPotential, download the code, `cd src_clean/`, and start from [step 6](#Step-6).
   * Installation on other clusters are similar to on Perlmutter of NERSC. Follow the instructions here, and if you encounter issues, please consult with your institution's IT. 
     * [Northwestern Quest IT](https://www.it.northwestern.edu/departments/it-services-support/research/computing/quest/)
-
+    * cppflow-patch is for the LCLin model, you can do ```mv cppflow-patch LCLin``` when patching the code with LCLin's ML potential
+    * Similarly, do ```mv libtorch-patch Allegro``` for using the Allegro ML potential
 # Step 1
 We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
 ```shellscript
