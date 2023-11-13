@@ -7,5 +7,3 @@
 # Issues
   * When combining "TURN_OFF_CBMC_SWAP yes" with an empty-box (empty-box.cif) with no framework atoms, there is error about initializing ewald summation.
     * **FIXED** See commit on 11/13/2023: [**LINK**](https://github.com/snurr-group/CUDA-RASPA-DeepPotential/commit/ab7a890583f25aabc574df586e4c85c55c59a14f)
-    * Really? Who TF uses single swap moves together with an empty box?
-    * No issue if you do non-CBMC swap + MOF, or you do CBMC swap + empty-box
