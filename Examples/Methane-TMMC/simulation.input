@@ -27,8 +27,8 @@ FrameworkName 667
 UnitCells 0 1 1 1
 
 ChargeMethod None
-Temperature 179.228
-Pressure 28000
+Temperature 95
+Pressure 6800
 
 MoviesEvery 10000
 PrintEvery 10000
