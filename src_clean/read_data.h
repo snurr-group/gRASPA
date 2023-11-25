@@ -30,6 +30,8 @@ void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double pr
 
 void OverWriteFFTerms(Components& SystemComponents, ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
 
+void read_movies_stats_print(Components& SystemComponents);
+
 std::vector<double2> ReadMinMax();
 void ReadDNNModelSetup(Components& SystemComponents);
 //###PATCH_LCLIN_READDATA_H###//

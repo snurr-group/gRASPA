@@ -822,6 +822,30 @@ void OverWriteFFTerms(Components& SystemComponents, ForceField& FF, PseudoAtomDe
     SystemComponents.TailCorrection.push_back(TempTail[i]);
 }
 
+void read_movies_stats_print(Components& SystemComponents)
+{
+  std::vector<std::string> termsScannedLined{};
+  std::string str;
+  std::ifstream file("simulation.input");
+
+  while (std::getline(file, str))
+  {
+    if (str.find("MoviesEvery", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      sscanf(termsScannedLined[1].c_str(), "%zu", &SystemComponents.MoviesEvery);
+    }
+    if (str.find("PrintEvery", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      sscanf(termsScannedLined[1].c_str(), "%zu", &SystemComponents.PrintStatsEvery);
+    }
+  }
+  printf("Writing Movies every %zu MC step(s) or cycle(s)\n", SystemComponents.MoviesEvery);
+  printf("Printing Loadings and energies every %zu MC step(s) or cycle(s)\n", SystemComponents.PrintStatsEvery);
+}
+
+
 void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
 {
   std::string scannedLine; std::string str;
@@ -1757,6 +1781,12 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
             printf("TMMC: Biasing Insertion/Deletions\n");
           }
         }
+        if (str.find("UpdateTMMCEvery", 0) != std::string::npos)
+        {
+          Split_Tab_Space(termsScannedLined, str);
+          sscanf(termsScannedLined[1].c_str(), "%zu", &temp_tmmc.UpdateTMEvery);
+          printf("TMMC: Bias Updated from component %s every %zu MC Step(s)!\n", MolName.c_str(), temp_tmmc.UpdateTMEvery);
+        }
       }
       //This should be a general DNN setup//
       //Consider the positions of water TIP4P, you don't need to feed the position of the fictional charge to the model//
@@ -1867,6 +1897,8 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
     if(temp_tmmc.RejectOutofBound && !SystemComponents.ReadRestart)
       if(CreateMolecule < temp_tmmc.MinMacrostate || CreateMolecule > temp_tmmc.MaxMacrostate)
         throw std::runtime_error("TMMC: Number of created molecule fall out of the TMMC Macrostate range!");
+
+    printf("TMMC Bias for **Adsorbate** component %zu (%s) is updated every %zu step(s)!\n", AdsorbateComponent, MolName.c_str(), temp_tmmc.UpdateTMEvery);
   }
 
   SystemComponents.Lambda.push_back(lambda);

@@ -481,7 +481,8 @@ void Run_Simulation_MultipleBoxes(int Cycles, std::vector<Components>& SystemCom
           if(SystemComponents[sim].Moves[comp].SpecialRotationTotal > 0)
             Update_Max_SpecialRotation(SystemComponents[sim], comp);
       }
-      if(i%5000==0) Print_Cycle_Statistics(i, SystemComponents[sim]);
+      
+      if(i % SystemComponents[sim].PrintStatsEvery == 0) Print_Cycle_Statistics(i, SystemComponents[sim]);
       ////////////////////////////////////////////////
       // ADJUST CBCF BIASING FACTOR (EQUILIBRATION) //
       ////////////////////////////////////////////////
@@ -616,7 +617,7 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
           Update_Max_SpecialRotation(SystemComponents, comp);
       }
     }
-    if(i%5000==0) Print_Cycle_Statistics(i, SystemComponents);
+    if(i%SystemComponents.PrintStatsEvery==0) Print_Cycle_Statistics(i, SystemComponents);
     ////////////////////////////////////////////////
     // ADJUST CBCF BIASING FACTOR (EQUILIBRATION) //
     ////////////////////////////////////////////////
@@ -640,7 +641,7 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
         if(i % SystemComponents.Tmmc[comp].UpdateTMEvery == 0)
           SystemComponents.Tmmc[comp].AdjustTMBias();
     }
-    if(SimulationMode == PRODUCTION && i % 5000 == 0)
+    if(SimulationMode == PRODUCTION && i % SystemComponents.MoviesEvery == 0)
       GenerateRestartMovies(SystemComponents, Sims, SystemComponents.PseudoAtoms);
   }
   //print statistics

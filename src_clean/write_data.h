@@ -287,7 +287,7 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
   {
     if(SystemComponents.Tmmc[i].DoTMMC)
     {
-      textTMMCFile << "Component " << i << ": " << SystemComponents.MoleculeName[i] << '\n';
+      textTMMCFile << "Component " << i << ": " << SystemComponents.MoleculeName[i] << " -> Updated " << SystemComponents.Tmmc[i].TMUpdateTimes << " times \n";
       textTMMCFile << "Min Macrostate : " << SystemComponents.Tmmc[i].MinMacrostate << '\n';
       textTMMCFile << "Max Macrostate : " << SystemComponents.Tmmc[i].MaxMacrostate << '\n';
       textTMMCFile << "Wang-Landau Factor : " << SystemComponents.Tmmc[i].WLFactor << '\n';

@@ -152,8 +152,8 @@ int main(void)
       ReadFramework(Box[a], PseudoAtom, a, TempComponents);
       read_Ewald_Parameters_from_input(sqrt(FF.CutOffCoul), Box[a], EwaldPrecision);
       Update_Components_for_framework(TempComponents);
-
     }
+    read_movies_stats_print(TempComponents);
     /////////////////////////////////////
     // Read and process adsorbate data //
     /////////////////////////////////////

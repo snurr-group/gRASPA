@@ -117,6 +117,7 @@ struct TMMC
   size_t currentBin = {0};  //Should match what you have for lambda bin//
   //size_t UpdateTMEvery = {1000000};
   size_t UpdateTMEvery = {5000};
+  size_t TMUpdateTimes = 0;
   bool   DoTMMC = {false};
   bool   DoUseBias = {false}; //Whether or not to use WL or TM Bias for changing macrostates//
   bool   UseWLBias = {false}; //Whether to use WL for the Bias//
@@ -297,6 +298,7 @@ struct TMMC
   void AdjustTMBias() 
   { 
     if(!DoTMMC || !DoUseBias || !UseTMBias) return;
+    TMUpdateTimes ++;
     //printf("Adjusting TMBias\n");
     //First step is to get the lowest and highest visited states in terms of loading//
     size_t MinVisited = 0; size_t MaxVisited = 0;
@@ -763,6 +765,9 @@ struct Components
   size_t  Total_Components;                           // Number of Components in the system (including framework)
   int3    NComponents;                                // Total components (x), Framework Components (y), Guest Components (z)
   int3    NumberofUnitCells;
+  size_t  MoviesEvery = 5000;                         // Write Movies (LAMMPS data file) every X MC Steps/Cycles
+  size_t  PrintStatsEvery = 5000;                     // Write instantaneous loading and energy to screen every X MC Steps/Cycles
+
   size_t  Nblock={5};                                 // Number of Blocks for block averages
   size_t  CURRENTCYCLE={0};
   double  DNNPredictTime={0.0}; 
