@@ -6,9 +6,13 @@
 
 #include <complex>
 
+#include <iostream>
+#include <filesystem>
+#include <fstream>
+
 #include "axpy.h"
 #include "read_data.h"
-#include "write_data.h"
+//#include "write_data.h"
 #include "fxn_main.h"
 
 #include <unistd.h>
@@ -333,7 +337,7 @@ int main(void)
   //////////////////////
   // PRINT MOVIE FILE //
   //////////////////////
-  GenerateRestartMovies(0, SystemComponents, Sims, FF, Box, PseudoAtom);
+  GenerateSummaryAtEnd(0, SystemComponents, Sims, FF, Box, PseudoAtom);
   /*
   if(SystemComponents[a].UseDNNforHostGuest)
   {

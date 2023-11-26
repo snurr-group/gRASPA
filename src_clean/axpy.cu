@@ -3,6 +3,8 @@
 #include "mc_swap_moves.h"
 #include "mc_box.h"
 
+#include "write_data.h"
+
 #include "print_statistics.cuh"
 
 //#include "lambda.h"
@@ -13,90 +15,6 @@
 #include <optional>
 
 #include <fstream>
-
-static inline void WriteBox_LAMMPS_Axpy(Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::ofstream& textrestartFile, std::vector<std::string> AtomNames)
-{
-  size_t NumberOfAtoms = 0;
-  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
-  {
-    NumberOfAtoms += SystemComponents.NumberOfMolecule_for_Component[i] * SystemComponents.Moleculesize[i];
-    //printf("Printing: Component: %zu [ %s ], NumMol: %zu, Molsize: %zu\n", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i], SystemComponents.Moleculesize[i]);
-  }
-  textrestartFile << "# LAMMPS data file written by WriteLammpsdata function in RASPA(written by Zhao Li)" << '\n';
-  textrestartFile << NumberOfAtoms << " atoms" << '\n';
-  textrestartFile << 0 << " bonds" << '\n';
-  textrestartFile << 0 << " angles" << '\n';
-  textrestartFile << 0 << " dihedrals" << '\n';
-  textrestartFile << 0 << " impropers" << '\n';
-  textrestartFile << 0 << " " << Box.Cell[0] << " xlo xhi" << '\n';
-  textrestartFile << 0 << " " << Box.Cell[4] << " ylo yhi" << '\n';
-  textrestartFile << 0 << " " << Box.Cell[8] << " zlo zhi" << '\n';
-  textrestartFile << Box.Cell[3] << " " << Box.Cell[6] << " " << Box.Cell[7] << " xy xz yz" << '\n' << '\n';
-  textrestartFile << FF.size << " atom types" << '\n';
-  textrestartFile << 0 << " bond types" << '\n';
-  textrestartFile << 0 << " angle types" << '\n';
-  textrestartFile << 0 << " dihedral types" << '\n';
-  textrestartFile << 0 << " improper types" << '\n' << '\n';
-  //textrestartFile << std::puts("%zu bonds\n", NumberOfAtoms);
-  textrestartFile << "Masses" << '\n' << '\n';
-  for(size_t i = 0; i < FF.size; i++)
-  {
-    double mass = 0.0;
-    textrestartFile << i+1 << " " << mass << " # " << AtomNames[i] << '\n';
-  }
-  textrestartFile << '\n' << "Pair Coeffs" << '\n' << '\n';
-  for(size_t i = 0; i < FF.size; i++)
-  {
-    const size_t row = i*FF.size+i;
-    textrestartFile << i+1 << " " << FF.epsilon[row]/120.2/4.184*1.2 << " " << FF.sigma[row] << " # " << AtomNames[i] << '\n';
-  }
-}
-
-static inline void WriteAtoms_LAMMPS_Axpy(Atoms* System, Components SystemComponents, Boxsize Box, std::ofstream& textrestartFile, std::vector<std::string> AtomNames)
-{
-  textrestartFile << '\n' << "Atoms" << '\n' << '\n';
-  size_t Atomcount=0; size_t Molcount=0;
-  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
-  {
-    Atoms Data = System[i];
-    printf("Component %zu, Molsize: %zu\n", i, Data.Molsize);
-    double3 Wrap_shift;
-    for(size_t j = 0; j < Data.size; j++)
-    {
-      //Wrap To Box//
-      double3 pos = Data.pos[j];
-      if(j % Data.Molsize == 0)
-      {
-        WrapInBox(pos, Box.Cell, Box.InverseCell, Box.Cubic);
-        Wrap_shift = pos - Data.pos[j];
-      }
-      else
-      {
-        pos += Wrap_shift;
-      }
-      textrestartFile << Atomcount+1 << " " << Molcount+Data.MolID[j]+1 << " " << Data.Type[j]+1 << " " << Data.charge[j] << " " << pos.x << " " << pos.y << " " << pos.z << " # " << AtomNames[Data.Type[j]] << '\n';
-      Atomcount++;
-    }
-    Molcount+=SystemComponents.NumberOfMolecule_for_Component[i];
-  }
-}
-
-static inline void create_movie_file(Atoms* System, Components& SystemComponents, Boxsize& HostBox, std::vector<std::string> AtomNames, size_t SystemIndex)
-{
-  std::ofstream textrestartFile{};
-  std::string dirname="Movies/System_" + std::to_string(SystemIndex) + "/";
-  std::string fname  = dirname + "/" + "result_" + std::to_string(SystemComponents.CURRENTCYCLE) + ".data";
-  std::filesystem::path cwd = std::filesystem::current_path();
-
-  std::filesystem::path directoryName = cwd /dirname;
-  std::filesystem::path fileName = cwd /fname;
-  std::filesystem::create_directories(directoryName);
-
-  textrestartFile = std::ofstream(fileName, std::ios::out);
-
-  WriteBox_LAMMPS_Axpy(System, SystemComponents, SystemComponents.FF, HostBox, textrestartFile, AtomNames);
-  WriteAtoms_LAMMPS_Axpy(System, SystemComponents, HostBox, textrestartFile, AtomNames);
-}
 
 inline void Copy_AtomData_from_Device(Atoms* System, Atoms* d_a, Components& SystemComponents, Boxsize& HostBox, Simulations& Sims)
 {
@@ -128,12 +46,16 @@ inline void Copy_AtomData_from_Device(Atoms* System, Atoms* d_a, Components& Sys
   HostBox.Cubic = Sims.Box.Cubic;
 }
 
-inline void GenerateRestartMovies(Components& SystemComponents, Simulations& Sims, PseudoAtomDefinitions& PseudoAtom)
+inline void GenerateRestartMovies(Components& SystemComponents, Simulations& Sims, PseudoAtomDefinitions& PseudoAtom, size_t systemIdx, int SimulationMode)
 {
+  //Generate Restart file during the simulation, regardless of the phase
   Atoms device_System[SystemComponents.NComponents.x];
   Boxsize HostBox;
   Copy_AtomData_from_Device(device_System, Sims.d_a, SystemComponents, HostBox, Sims);
-  create_movie_file(SystemComponents.HostSystem, SystemComponents, HostBox, PseudoAtom.Name, 0);
+  create_Restart_file(0, SystemComponents.HostSystem, SystemComponents, SystemComponents.FF, HostBox, PseudoAtom.Name, systemIdx);
+  Write_All_Adsorbate_data(0, SystemComponents.HostSystem, SystemComponents, SystemComponents.FF, HostBox, PseudoAtom.Name, systemIdx);
+  //Only generate LAMMPS data movie for production phase
+  if(SimulationMode == PRODUCTION)  create_movie_file(SystemComponents.HostSystem, SystemComponents, HostBox, PseudoAtom.Name, systemIdx);
 }
 
 ///////////////////////////////////////////////////////////
@@ -641,8 +563,8 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
         if(i % SystemComponents.Tmmc[comp].UpdateTMEvery == 0)
           SystemComponents.Tmmc[comp].AdjustTMBias();
     }
-    if(SimulationMode == PRODUCTION && i % SystemComponents.MoviesEvery == 0)
-      GenerateRestartMovies(SystemComponents, Sims, SystemComponents.PseudoAtoms);
+    if(i % SystemComponents.MoviesEvery == 0)//Generate restart file and movies 
+      GenerateRestartMovies(SystemComponents, Sims, SystemComponents.PseudoAtoms, 0, SimulationMode);
   }
   //print statistics
   if(Cycles > 0)
@@ -651,5 +573,7 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
     PrintAllStatistics(SystemComponents, Sims, Cycles, SimulationMode, BlockAverageSize);
     //Print_Widom_Statistics(SystemComponents, Sims.Box, Constants, 1);
   }
+  //At the end of the sim, print a last-step restart and last-step movie
+  GenerateRestartMovies(SystemComponents, Sims, SystemComponents.PseudoAtoms, 0, SimulationMode);
   return running_energy;
 }

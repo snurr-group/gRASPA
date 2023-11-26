@@ -450,7 +450,73 @@ inline void ENERGY_SUMMARY(std::vector<Components>& SystemComponents, Units& Con
   }
 }
 
-inline void GenerateRestartMovies(int Cycle, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField& FF, std::vector<Boxsize>& Box, PseudoAtomDefinitions& PseudoAtom)
+static inline void Write_Lambda(size_t Cycle, Components SystemComponents, size_t SystemIndex)
+{
+  std::ofstream textrestartFile{};
+  std::filesystem::path cwd = std::filesystem::current_path();
+
+  std::string dirname="Lambda/System_" + std::to_string(SystemIndex) + "/";
+  std::string fname  = dirname + "/" + "Lambda_Histogram.data";
+
+  std::filesystem::path directoryName = cwd /dirname;
+  std::filesystem::path fileName = cwd /fname;
+  std::filesystem::create_directories(directoryName);
+  textrestartFile = std::ofstream(fileName, std::ios::out);
+  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  {
+    if(SystemComponents.hasfractionalMolecule[i])
+    {
+      textrestartFile << "Component " << i << ": " << SystemComponents.MoleculeName[i] << '\n';
+      textrestartFile << "BIN SIZE : " << SystemComponents.Lambda[i].binsize << '\n';
+      textrestartFile << "BIN WIDTH: " << SystemComponents.Lambda[i].delta << '\n';
+      textrestartFile << "WL SCALING FACTOR: " << SystemComponents.Lambda[i].WangLandauScalingFactor << '\n';
+      textrestartFile << "FRACTIONAL MOLECULE ID: " << SystemComponents.Lambda[i].FractionalMoleculeID << '\n';
+      textrestartFile << "CURRENT BIN: " << SystemComponents.Lambda[i].currentBin << '\n';
+      textrestartFile << "BINS: ";
+      for(size_t j = 0; j < SystemComponents.Lambda[i].binsize; j++)
+        textrestartFile << j << " ";
+      textrestartFile << "\nHistogram: ";
+      for(size_t j = 0; j < SystemComponents.Lambda[i].binsize; j++)
+        textrestartFile << SystemComponents.Lambda[i].Histogram[j] << " ";
+      textrestartFile << "\nBIAS FACTOR: ";
+      for(size_t j = 0; j < SystemComponents.Lambda[i].binsize; j++)
+        textrestartFile << SystemComponents.Lambda[i].biasFactor[j] << " ";
+    }
+  }
+}
+
+static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t SystemIndex)
+{
+  std::ofstream textTMMCFile{};
+  std::filesystem::path cwd = std::filesystem::current_path();
+
+  std::string dirname="TMMC/System_" + std::to_string(SystemIndex) + "/";
+  std::string fname  = dirname + "/" + "TMMC_Statistics.data";
+
+  std::filesystem::path directoryName = cwd /dirname;
+  std::filesystem::path fileName = cwd /fname;
+  std::filesystem::create_directories(directoryName);
+  textTMMCFile = std::ofstream(fileName, std::ios::out);
+  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  {
+    if(SystemComponents.Tmmc[i].DoTMMC)
+    {
+      textTMMCFile << "Component " << i << ": " << SystemComponents.MoleculeName[i] << " -> Updated " << SystemComponents.Tmmc[i].TMUpdateTimes << " times \n";
+      textTMMCFile << "Min Macrostate : " << SystemComponents.Tmmc[i].MinMacrostate << '\n';
+      textTMMCFile << "Max Macrostate : " << SystemComponents.Tmmc[i].MaxMacrostate << '\n';
+      textTMMCFile << "Wang-Landau Factor : " << SystemComponents.Tmmc[i].WLFactor << '\n';
+      textTMMCFile << "N NMol Bin CM[-1] CM[0] CM[1] WLBias ln_g TMBias lnpi Forward_lnpi Reverse_lnpi Histogram" << '\n';
+      for(size_t j = 0; j < SystemComponents.Tmmc[i].Histogram.size(); j++)
+      {
+        size_t N   = j / SystemComponents.Tmmc[i].nbinPerMacrostate;
+        size_t bin = j % SystemComponents.Tmmc[i].nbinPerMacrostate;
+        textTMMCFile << j << " " << N << " " << bin << " " << SystemComponents.Tmmc[i].CMatrix[j].x << " " << SystemComponents.Tmmc[i].CMatrix[j].y << " " << SystemComponents.Tmmc[i].CMatrix[j].z << " " << SystemComponents.Tmmc[i].WLBias[j] << " " << SystemComponents.Tmmc[i].ln_g[j] << " " << SystemComponents.Tmmc[i].TMBias[j] << " " << SystemComponents.Tmmc[i].lnpi[j] << " " << SystemComponents.Tmmc[i].forward_lnpi[j] << " " << SystemComponents.Tmmc[i].reverse_lnpi[j] << " " << SystemComponents.Tmmc[i].Histogram[j] << '\n';
+      }
+    }
+  }
+}
+
+inline void GenerateSummaryAtEnd(int Cycle, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField& FF, std::vector<Boxsize>& Box, PseudoAtomDefinitions& PseudoAtom)
 {
   
   size_t NumberOfSimulations = SystemComponents.size();
@@ -460,9 +526,6 @@ inline void GenerateRestartMovies(int Cycle, std::vector<Components>& SystemComp
     Atoms device_System[SystemComponents[i].Total_Components];
     Copy_AtomData_from_Device(device_System, SystemComponents[i].HostSystem, Sims[i].d_a, SystemComponents[i]);
 
-    create_movie_file(Cycle, SystemComponents[i].HostSystem, SystemComponents[i], FF, Box[i], PseudoAtom.Name, i);
-    create_Restart_file(Cycle, SystemComponents[i].HostSystem, SystemComponents[i], FF, Box[i], PseudoAtom.Name, i);
-    Write_All_Adsorbate_data(Cycle, SystemComponents[i].HostSystem, SystemComponents[i], FF, Box[i], PseudoAtom.Name, i);
     Write_Lambda(Cycle, SystemComponents[i], i);
     Write_TMMC(Cycle, SystemComponents[i], i);
     //Print Number of Pseudo Atoms//

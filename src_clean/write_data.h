@@ -4,9 +4,7 @@
 #include <vector>
 #include <string>
 #include <iomanip>
-void create_movie_file(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames);
 
-static inline void create_Restart_file(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames);
 
 static inline void WriteBox_LAMMPS(Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::ofstream& textrestartFile, std::vector<std::string> AtomNames)
 {
@@ -175,20 +173,21 @@ static inline void WriteCellInfo_Restart(Atoms* System, Components SystemCompone
   WriteComponent_Restart(System, SystemComponents, textrestartFile, Box);
 }
 
-static inline void create_movie_file(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames, size_t SystemIndex)
+static inline void create_movie_file(Atoms* System, Components& SystemComponents, Boxsize& HostBox, std::vector<std::string> AtomNames, size_t SystemIndex)
 {
   std::ofstream textrestartFile{};
   std::string dirname="Movies/System_" + std::to_string(SystemIndex) + "/";
-  std::string fname  = dirname + "/" + "result.data";
+  std::string fname  = dirname + "/" + "result_" + std::to_string(SystemComponents.CURRENTCYCLE) + ".data";
   std::filesystem::path cwd = std::filesystem::current_path();
 
   std::filesystem::path directoryName = cwd /dirname;
   std::filesystem::path fileName = cwd /fname;
   std::filesystem::create_directories(directoryName);
-  
+
   textrestartFile = std::ofstream(fileName, std::ios::out);
-  WriteBox_LAMMPS(System, SystemComponents, FF, Box, textrestartFile, AtomNames);
-  WriteAtoms_LAMMPS(System, SystemComponents, Box, textrestartFile, AtomNames);
+
+  WriteBox_LAMMPS(System, SystemComponents, SystemComponents.FF, HostBox, textrestartFile, AtomNames);
+  WriteAtoms_LAMMPS(System, SystemComponents, HostBox, textrestartFile, AtomNames);
 }
 
 static inline void create_Restart_file(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames, size_t SystemIndex)
@@ -212,7 +211,7 @@ static inline void WriteAllData(Atoms* System, Components SystemComponents, std:
   Atoms Data = System[i];
   size_t molsize = SystemComponents.Moleculesize[i];
   //First write positions//
-  printf("Writing AllData for Component %zu, There are %zu atoms, molsize: %zu\n", i, Data.size, molsize);
+  //printf("Writing AllData for Component %zu, There are %zu atoms, molsize: %zu\n", i, Data.size, molsize);
   textrestartFile << "x y z charge scale scaleCoul Type" << '\n';
   for(size_t j = 0; j < Data.size; j++)
     textrestartFile << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.pos[j].x << "  " << Data.pos[j].y << "  " << Data.pos[j].z << " " << Data.charge[j] << " " << Data.scale[j] << " " << Data.scaleCoul[j] << " " << Data.Type[j] << '\n';
@@ -236,6 +235,8 @@ static inline void Write_All_Adsorbate_data(size_t Cycle, Atoms* System, Compone
   }
 }
 
+//Zhao's note on 112623, moved the following to fxn_main.h//
+/*
 static inline void Write_Lambda(size_t Cycle, Components SystemComponents, size_t SystemIndex)
 {
   std::ofstream textrestartFile{};
@@ -301,3 +302,4 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
     }
   }
 }
+*/
