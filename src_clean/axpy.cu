@@ -455,7 +455,7 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
       printf("Warning! Number of Cycles cannot be divided by Number of blocks. Residue values go to the last block\n");
   }
 
-  printf("Number of Framework Atoms: %zu\n", SystemComponents.NumberOfFrameworks);
+  printf("Number of Frameworks: %zu\n", SystemComponents.NumberOfFrameworks);
  
   if(SimulationMode == EQUILIBRATION) //Rezero the TMMC stats at the beginning of the Equilibration cycles//
   {
