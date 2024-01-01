@@ -1833,9 +1833,9 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
     throw std::runtime_error("Molecule [" + SystemComponents.MoleculeName[currentCompsize-1] + "] is MONATOMIC, CANNOT DO ROTATION!\n");
   }
 
-  if(SystemComponents.Moleculesize[currentCompsize-1] >= 1 && (MoveStats.RotationProb - MoveStats.TranslationProb) <= 1e-10)
+  if(SystemComponents.Moleculesize[currentCompsize-1] > 1 && (MoveStats.RotationProb - MoveStats.TranslationProb) <= 1e-10)
   {
-    printf("Molecule [%s] is POLYATOMIC, WE RECOMMEND USING ROTATION (Currently not using it)!\n", SystemComponents.MoleculeName[currentCompsize-1]);
+    printf("Molecule [%s] is POLYATOMIC, WE RECOMMEND USING ROTATION (Currently not using it)!\n", SystemComponents.MoleculeName[currentCompsize-1].c_str());
   }
     
   SystemComponents.NumberOfMolecule_for_Component.push_back(0); // Zhao's note: Molecules are created later in main.cpp //
