@@ -33,19 +33,19 @@ cmake -DCMAKE_PREFIX_PATH=~/ctensorflow/ ..
 make install DESTDIR=~/ctensorflow/
 ```
 # Step 4
-NERSC has its own PyTorch/LibTorch module, so now we can start patching gRASPA code with ML potential functionality. 
-For example, if we want to use Allegro model which uses LibTorch:
+NERSC has its own PyTorch/LibTorch module, so now we can start patching gRASPA code with ML potential functionality. If the libtorch is not pre-installed on your cluster, you can download it via:
 ```shellscript
-mkdir patch_Allegro
+wget https://download.pytorch.org/libtorch/cu117/libtorch-cxx11-abi-shared-with-deps-2.0.1%2Bcu117.zip
+unzip libtorch-cxx11-abi-shared-with-deps-2.0.1+cu117.zip
 ```
 # Step 5
 Modify line 64 in `patch.py` file to `patch_model=['Allegro']`. Then,
 ```shellscript
 python patch.py
 ```
-Now the patched source code is in `patch_Allegro/`. Go into the patched folder, and we have some final work to do.
+Now the patched source code is in `patch_libtorch_Allegro/`. Go into the patched folder, and we have some final work to do.
 ```shellscript
-cd patch_Allegro/
+cd patch_libtorch_Allegro/
 ```
 # Step 6
 Finally, we need to modify the source code due to NERSC configuration:
@@ -62,3 +62,14 @@ chmod +x NVC_COMPILE_NERSC
 ./NVC_COMPILE_NERSC
 ```
 Remeber to change `cppflowDir` and `tfDir` directories in [`NVC_COMPILE_NERSC`](NVC_COMPILE_NERSC) if you install CppFlow and TensorFlow API in different directories. You might see some warning messages during compilation, just ignore them. Once ready, you will see a binary excutable `nvc_main.x` in the folder.
+# Step 8
+Based on your cluster setup, you may need to do this final step to create a symbolic link:
+```shellscript
+ln -s libnvrtc-builtins-7237cb5d.so.11.7  libnvrtc-builtins.so.11.7
+```
+where `libnvrtc-builtins-7237cb5d.so.11.7` is a file in `/your_libtorch_path/libtorch/lib` and it is the source file or target of the link. This command is creating a symbolic link named `libnvrtc-builtins.so.11.7` that points to the source file `libnvrtc-builtins-7237cb5d.so.11.7`. 
+<aside>
+⚠️ Note that this step may not be needed for NERSC, but will be necessary for gRASPA/Allegro to work on other universitys' clusters, depending on cluster's setup**
+</aside>
+
+
