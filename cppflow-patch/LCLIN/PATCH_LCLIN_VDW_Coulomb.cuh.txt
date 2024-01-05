@@ -1,0 +1,7 @@
+PATCH_LCLIN_HEADER
+void Read_LCLin_Model(Components& SystemComponents);
+double DNN_Evaluate(Components& SystemComponents, std::vector<double>& Feature);
+void Prepare_FeatureMatrix(Simulations& Sim, Components& SystemComponents, Atoms* HostSystem, Boxsize Box);
+//void Predict_From_FeatureMatrix(Simulations& Sim, Components& SystemComponents);
+double Predict_From_FeatureMatrix_Total(Simulations& Sim, Components& SystemComponents);
+double Predict_From_FeatureMatrix_Move(Simulations& Sim, Components& SystemComponents, int DNN_CalcType);

@@ -61,22 +61,29 @@ def WritePatchTofile(fin, patch_list):
     
     shutil.move(temp, fin)
 
-patch_model= ['LCLin']
+tf_or_torch = ['libtorch']
+patch_model= ['Allegro']
 clean_src = 'src_clean/'
 #patch_keyword = 'PATCH_LCLIN_SINGLE'
-for model in patch_model:
-    if(len(patch_model) > 1): 
+
+for ind in range(0, len(tf_or_torch)):#model in patch_model:
+    method= tf_or_torch[ind]
+    model = patch_model[ind]
+    patch_dir = method + '-patch/' + model + '/'
+    if(len(patch_model) > 1 or len(tf_or_torch) > 1): 
         raise Exception("DO ONE MODEL AT A TIME!!!")
-    final_dir = 'patch_' + model + '/'
+    final_dir = 'patch_' + method + '_' + model + '/'
+    if(not os.path.isdir(final_dir)):
+        os.mkdir(final_dir)
     src_files = os.listdir(clean_src)
     src_files = [f for f in src_files if os.path.isfile(clean_src + '/' + f)]
     for f in src_files:
         shutil.copy(clean_src + f, final_dir + f)
-    files = os.listdir(model)
-    patch_file = [f for f in files if os.path.isfile(model + '/' + f)]
+    files = os.listdir(patch_dir)
+    patch_file = [f for f in files if os.path.isfile(patch_dir + '/' + f)]
     for f in patch_file:
         first_half = f.split('.txt')[0]
         srcfile    = first_half.split('PATCH_' + model.upper() + '_')[1]
         print("Processing " + model + " patch" + " for " + srcfile)
-        patches = Read_File_into_array_string(model + '/' + f)
+        patches = Read_File_into_array_string(patch_dir + '/' + f)
         WritePatchTofile(final_dir + srcfile, patches)
