@@ -1,2 +1,0 @@
-PATCH_ALLEGRO_READDATA_H
-void ReadAllegroModelParameters(Components& SystemComponents);
