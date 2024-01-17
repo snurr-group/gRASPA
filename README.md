@@ -14,6 +14,6 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
   * Part of gRASPA is documented in [Zhao Li's dissertation](https://www.proquest.com/docview/2856224877/406AD117D18F4215PQ/1?accountid=12861). Please kindly cite this if you used it in your publication. Thanks.
 
 # Action Items
-  * Merge Xiaoyi's addition of more units for loading
+  * Fugacity Coefficient calculation using PR-EOS (Xiaoyi)
   * restart-able TMMC calculations
   * Better output files (distinguish between Initialization/Equilibration/Production phases)
