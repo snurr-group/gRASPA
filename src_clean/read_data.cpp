@@ -905,6 +905,21 @@ void DetermineFrameworkComponent(Components& SystemComponents, size_t AtomCountP
   }
 }
 
+/*
+ * Checks and corrects the ordering of atoms in system components based on atom indices.
+ * The function swaps the atom properties to ensure the order from `SystemComponents`
+ * matches that from `unit_AtomIndex`.
+ *
+ * @param SystemComponents Contains the definition of each component in the system.
+ * @param unit_fpos Vector containing the fractional positions of atoms.
+ * @param unit_scale Vector containing the scaling factor for atoms.
+ * @param unit_charge Vector containing the charge of atoms.
+ * @param unit_scaleCoul Vector containing the Coulombic scaling factor for atoms.
+ * @param unit_Type Vector containing the type ID of atoms.
+ * @param unit_MolID Vector containing the molecule ID for atoms.
+ * @param unit_AtomIndex Vector containing the atom indices.
+ */
+
 void CheckFrameworkComponentAtomOrder(Components& SystemComponents, std::vector<std::vector<double3>>& unit_fpos, std::vector<std::vector<double>>& unit_scale, std::vector<std::vector<double>>& unit_charge, std::vector<std::vector<double>>& unit_scaleCoul, std::vector<std::vector<size_t>>& unit_Type, std::vector<std::vector<size_t>>& unit_MolID, std::vector<std::vector<size_t>>& unit_AtomIndex)
 {
   if(SystemComponents.NComponents.y <= 1) return; //Then no need to Check
@@ -1115,6 +1130,8 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
   double3 Shift;
   Shift.x = (double)1/NumberUnitCells.x; Shift.y = (double)1/NumberUnitCells.y; Shift.z = (double)1/NumberUnitCells.z;
   size_t AtomCountPerUnitcell = 0;
+  // initiate total mass as a vector of doubles with size of framework components
+  std::vector<double> totalmass(SystemComponents.NComponents.y, 0.0);
   while (std::getline(simfile, str))
   {
     if(i <= atom_site_occurance.y){i++; continue;}
@@ -1143,6 +1160,7 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
     //Zhao's note: try to remove numbers from the Atom labels//
     remove_number(AtomName);
     size_t AtomTypeInt = 0;
+    double AtomMass = 0.0;
     //Get the type (int) for this AtomName//
     bool AtomTypeFOUND = false;
     for(size_t j = 0; j < PseudoAtom.Name.size(); j++)
@@ -1150,15 +1168,18 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
       if(AtomName == PseudoAtom.Name[j])
       {
         AtomTypeInt = j;
+        AtomMass = PseudoAtom.mass[j];
         AtomTypeFOUND = true;
         if(!UseChargeFromCIF) Charge = PseudoAtom.charge[j];
+        // add to the totalmass of the component
+        totalmass[ATOM_COMP] = totalmass[ATOM_COMP] + AtomMass;
         //Add to the number of pseudo atoms
         TEMPINTTWO[ATOM_COMP][j].x =j;
         TEMPINTTWO[ATOM_COMP][j].y ++;
         break;
       }
     }
-    printf("Atom Count %zu, Component %zu, AtomType %zu (%s), MoleculeID %zu\n", AtomCountPerUnitcell, ATOM_COMP, AtomTypeInt, AtomName.c_str(), MoleculeID);
+    printf("Atom Count %zu, Component %zu, AtomType %zu (%s), MoleculeID %zu, AtomMass %f\n", AtomCountPerUnitcell, ATOM_COMP, AtomTypeInt, AtomName.c_str(), MoleculeID, AtomMass);
     if(!AtomTypeFOUND)throw std::runtime_error("Error: Atom Label [" + AtomName + "] not defined!");
     unit_fpos[ATOM_COMP].push_back(fpos);
     unit_scale[ATOM_COMP].push_back(1.0); //For framework, use 1.0
@@ -1212,6 +1233,8 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
           }
         }
   printf("Finished Reading Atoms\n");
+  // initiate overall size of the framework //
+  double OverallMass = 0.0;
   for(size_t i = 0; i < SystemComponents.NComponents.y; i++)
   {
     SystemComponents.HostSystem[i].pos       = (double3*) malloc(super_pos[i].size() * sizeof(double3));
@@ -1234,7 +1257,14 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
     //size_t NMol = (*std::max_element(begin(super_MolID), end(super_MolID), [](size_t& a, size_t& b){ return a[i] < b[i]; }))[i];
     size_t NMol_In_Def = SystemComponents.FrameworkComponentDef[i].Number_of_Molecules_for_Framework_component;
     if(SystemComponents.FrameworkComponentDef[i].SeparatedComponent)
+    {
       NMol_In_Def *= NumberUnitCells.x * NumberUnitCells.y * NumberUnitCells.z;
+      // in the case there is multiple unit cells, make sure that the mass is the total mass of the box //
+      totalmass[i] *= NMol_In_Def;
+    }
+    double unitcells = NumberUnitCells.x * NumberUnitCells.y * NumberUnitCells.z;
+    totalmass[i] *= unitcells;
+
     printf("NMol = %zu, pos_size: %zu, NMol in FrameworkDef: %zu\n", NMol, super_pos[i].size(), NMol_In_Def);
 
     if(NMol != NMol_In_Def)
@@ -1251,7 +1281,11 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
 
     NMol_Framework += NMol;
 
-    printf("Framework Comp [%zu], size: %zu, Molsize: %zu, Allocate_size: %zu\n", i, super_pos[i].size(), SystemComponents.HostSystem[i].Molsize, SystemComponents.HostSystem[i].Allocate_size);
+    SystemComponents.MolecularWeight.push_back(totalmass[i]);
+    // gather all the mass of the framework //
+    OverallMass += totalmass[i];
+
+    printf("Framework Comp [%zu], size: %zu, Molsize: %zu, Allocate_size: %zu, component mass: %f\n", i, super_pos[i].size(), SystemComponents.HostSystem[i].Molsize, SystemComponents.HostSystem[i].Allocate_size, totalmass[i]);
   }
   for(size_t i = 0; i < super_pos.size(); i++)
   {
@@ -1294,6 +1328,7 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
     {
       printf("Framework Component [%zu], Pseudo Atom [%zu], Name: %s, #: %zu\n", i, SystemComponents.NumberOfPseudoAtomsForSpecies[i][j].x, PseudoAtom.Name[SystemComponents.NumberOfPseudoAtomsForSpecies[i][j].x].c_str(), SystemComponents.NumberOfPseudoAtomsForSpecies[i][j].y);
     }
+  printf("Overall Mass: %f \n", OverallMass);
   //Add PseudoAtoms from the Framework to the total PseudoAtoms array//
   for(size_t i = 0; i < SystemComponents.NComponents.y; i++)
     SystemComponents.UpdatePseudoAtoms(INSERTION, i);
@@ -1504,11 +1539,13 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
   std::vector<double3> Apos(Allocate_space);
   std::vector<double>  Ascale(Allocate_space);
   std::vector<double>  Acharge(Allocate_space);
+  std::vector<double>  Amass(Allocate_space);
   std::vector<double>  AscaleCoul(Allocate_space);
   std::vector<size_t>  AType(Allocate_space);
   std::vector<size_t>  AMolID(Allocate_space);
  
   double chargesum = 0.0; //a sum of charge for the atoms in the molecule, for checking charge neutrality
+  double masssum = 0.0;
  
   bool temprigid = false;
 
@@ -1582,7 +1619,9 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
       ANumberOfPseudoAtomsForSpecies[AType[atomcount]].x = AType[atomcount];
       ANumberOfPseudoAtomsForSpecies[AType[atomcount]].y ++;
       Acharge[atomcount] = PseudoAtom.charge[AType[atomcount]]; //Determine the charge after determining the type
+      Amass[atomcount] = PseudoAtom.mass[AType[atomcount]];
       chargesum += PseudoAtom.charge[AType[atomcount]]; 
+      masssum   += PseudoAtom.mass[AType[atomcount]];
       AMolID[atomcount] = 0;// Molecule ID = 0, since it is in the first position
       atomcount++;
     }
@@ -1610,7 +1649,7 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
   Mol.MolID     = convert1DVectortoArray(AMolID);
 
   for(size_t i = 0; i < Mol.Molsize; i++)
-    printf("Atom [%zu]: Type [%zu], Name: %s, %.5f %.5f %.5f\n", i, Mol.Type[i], PseudoAtom.Name[Mol.Type[i]].c_str(), Mol.pos[i].x, Mol.pos[i].y, Mol.pos[i].z);
+    printf("Atom [%zu]: Type [%zu], Name: %s, Mass: %f, position: %.5f %.5f %.5f\n", i, Mol.Type[i], PseudoAtom.Name[Mol.Type[i]].c_str(), PseudoAtom.mass[Mol.Type[i]], Mol.pos[i].x, Mol.pos[i].y, Mol.pos[i].z);
 
   //Remove Elements from ANumberOfPseudoAtomsForSpecies if the ANumberOfPseudoAtomsForSpecies.y = 0
   std::vector<int2>TEMPINTTWO;
@@ -1620,7 +1659,9 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
     TEMPINTTWO.push_back(ANumberOfPseudoAtomsForSpecies[i]);
     printf("Adsorbate Type[%zu], Name: %s, #: %zu\n", ANumberOfPseudoAtomsForSpecies[i].x, PseudoAtom.Name[i].c_str(), ANumberOfPseudoAtomsForSpecies[i].y);
   }
+  printf("current adsorbate mass is: %f \n", masssum);
   SystemComponents.NumberOfPseudoAtomsForSpecies.push_back(TEMPINTTWO);
+  SystemComponents.MolecularWeight.push_back(masssum);
 }
 
 void read_component_values_from_simulation_input(Components& SystemComponents, Move_Statistics& MoveStats, size_t AdsorbateComponent, Atoms& Mol, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space)

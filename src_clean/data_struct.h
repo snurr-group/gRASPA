@@ -489,6 +489,7 @@ struct Move_Statistics
   }
   void PrintProbabilities()
   {
+    printf("==================================================\n");
     printf("ACCUMULATED Probabilities:\n");
     printf("Translation Probability:      %.5f\n", TranslationProb);
     printf("Rotation Probability:         %.5f\n", RotationProb);
@@ -499,6 +500,7 @@ struct Move_Statistics
     printf("CBCF Swap Probability:        %.5f\n", CBCFProb);
     printf("Swap Probability:             %.5f\n", SwapProb);
     printf("Sum of Probabilities:         %.5f\n", TotalProb);
+    printf("==================================================\n");
   }
   void RecordRosen(double R, int MoveType)
   {
@@ -859,6 +861,7 @@ struct Components
   std::vector<double>Pc;                              // Critical Pressure of the component
   std::vector<double>Accentric;                       // Accentric Factor of the component
   std::vector<Tail>TailCorrection;                    // Tail Correction
+  std::vector<double>MolecularWeight;                 // Molecular Weight of the component
   ForceField FF;
   PseudoAtomDefinitions PseudoAtoms;
   std::vector<size_t>NumberOfPseudoAtoms;             // NumberOfPseudoAtoms

@@ -54,6 +54,7 @@ int main(void)
   std::vector<Boxsize> Box(NumberOfSimulations); //(Boxsize*) malloc(NumberOfSimulations * sizeof(Boxsize)); //Boxsize device_Box;
   PseudoAtomDefinitions PseudoAtom;
   ForceField FF; ForceField device_FF;
+  // read in force field and pseudo atom
   ForceFieldParser(FF, PseudoAtom);
   PseudoAtomParser(FF, PseudoAtom);
 
@@ -101,6 +102,7 @@ int main(void)
   read_Gibbs_Stats(GibbsStatistics, SetMaxStep, MaxStepPerCycle);
   printf("-------------------------------------------------------\n");
   // PREPARE VALUES FOR THE FORCEFIELD STRUCT //
+  //file in fxn_main.h//
   Prepare_ForceField(FF, device_FF, PseudoAtom);
 
   ////////////////////////
@@ -166,6 +168,10 @@ int main(void)
       TempComponents.UseAllegro         = Comp_for_DNN_Model[a].UseAllegro;
       TempComponents.UseLCLin           = Comp_for_DNN_Model[a].UseLCLin;
       TempComponents.DNNEnergyConversion= Comp_for_DNN_Model[a].DNNEnergyConversion;
+      if(TempComponents.UseDNNforHostGuest)
+        if(static_cast<int>(TempComponents.UseLCLin) + static_cast<int>(TempComponents.UseAllegro)/* + static_cast<int>(TempComponents.UseDylan)*/ > 1)
+          throw std::runtime_error("Currently do not support using more than 1 ML model in gRASPA! Please just use 1 (or none)!!!");
+
       for(size_t comp = 0; comp < TempComponents.Total_Components; comp++)
       {
         Move_Statistics MoveStats;

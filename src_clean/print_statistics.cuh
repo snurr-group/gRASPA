@@ -144,6 +144,167 @@ static inline void Print_CBCF_Statistics(Move_Statistics MoveStats)
   printf("====================================================\n");
 }
 
+//Xiaoyi's code about mass unit data//
+// This function converts the given molecule to its mass-mass representation.
+// The function is marked "inline" for potential optimization by the compiler.
+// It works on structures and vectors in order to provide the desired conversion.
+static inline std::vector<double2> ConvertMoleculetoMassMass(Components& SystemComponents, size_t i, std::vector<double2>& input, size_t Nblock)
+{  
+  // Number of components in the framework
+  int FrameworkComponents = SystemComponents.NComponents.y;
+
+  // Initialize the mass of the unit cell
+  double UnitCellMass = 0.0;
+
+  // Create an empty result vector to hold the mass-mass conversion
+  // Reserve memory for efficiency based on the size of the input vector.
+  std::vector<double2> result;
+  result.reserve(input.size());
+
+  // Loop through each framework component
+  for(size_t j = 0; j < FrameworkComponents; j++)
+  {
+    
+    // Start with a single molecule in the definition
+    int NMol_In_Def = 1;
+
+    // Calculate the total number of molecules in all unit cells
+    NMol_In_Def *= SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
+    
+    // Print out the total unit cells (for debugging or information)
+    printf("Total Unit Cells %d \n", NMol_In_Def);
+
+    // Incrementally sum up the molecular weight for each component
+    UnitCellMass += SystemComponents.MolecularWeight[j];
+  }
+
+  // Calculate the ratio of the molecular weight of the current molecule to the total unit cell mass, scaled to milligrams/gram
+  double MiligramPerGram = 1000.0*SystemComponents.MolecularWeight[i]/UnitCellMass;
+
+  // Loop through each block of the input
+  for(size_t i = 0; i < Nblock; i++)
+  {
+    // Extract the average and squared average values from the input
+    double Average   = input[i].x;
+    double SQAverage = input[i].y;
+
+    // Declare a new variable to hold the mass-mass conversion
+    double2 val; 
+
+    // Convert the average and squared average to their mass-mass representation
+    val.x = Average * MiligramPerGram; 
+    val.y = SQAverage*MiligramPerGram*MiligramPerGram;
+
+    // Append the converted values to the result vector
+    result.push_back(val);
+  }
+
+  // Return the result vector
+  return result;
+}
+
+
+// This function converts the given molecule data to its mole-mass representation.
+// The function is marked "inline" for potential optimization by the compiler.
+// It operates on structures and vectors to provide the desired conversion.
+static inline std::vector<double2> ConvertMoleculetoMolMass(Components& SystemComponents, size_t i, std::vector<double2>& input, size_t Nblock)
+{
+  // Number of components in the framework
+  int FrameworkComponents = SystemComponents.NComponents.y;
+
+  // Initialize the mass of the unit cell
+  double UnitCellMass = 0.0;
+
+  // Create an empty result vector to hold the mole-mass conversion.
+  // Reserve memory based on the size of the input vector for efficiency.
+  std::vector<double2> result;
+  result.reserve(input.size());
+
+  // Loop through each framework component
+  for(size_t j = 0; j < FrameworkComponents; j++){
+    
+    // Start with a single molecule in the definition
+    int NMol_In_Def = 1;
+
+    // Calculate the total number of molecules in all unit cells
+    NMol_In_Def *= SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
+    
+    // Print out the total number of unit cells (for debugging or informational purposes)
+    printf("Total Unit Cells %d \n", NMol_In_Def);
+
+    // Incrementally sum up the molecular weight for each component
+    UnitCellMass += SystemComponents.MolecularWeight[j];
+  }
+
+  // Calculate the ratio of moles per kilogram based on the unit cell mass
+  double MolPerKilogram = 1000.0/UnitCellMass;
+
+  // Loop through each block of the input
+  for(size_t i = 0; i < Nblock; i++)
+  {
+    // Extract the average and squared average values from the input
+    double Average   = input[i].x;
+    double SQAverage = input[i].y;
+
+    // Declare a new variable to hold the mole-mass conversion
+    double2 val; 
+
+    // Convert the average and squared average values to their mole-mass representations
+    val.x = Average * MolPerKilogram; 
+    val.y = SQAverage*MolPerKilogram*MolPerKilogram;
+
+    // Append the converted values to the result vector
+    result.push_back(val);
+  }
+
+  // Return the result vector
+  return result;
+}
+
+// This function converts the given molecule data to its mass-volume representation.
+// The function is marked "inline" for potential optimization by the compiler.
+// It operates on structures and vectors to provide the desired conversion.
+static inline std::vector<double2> ConvertMoleculetoMassVolume(Components& SystemComponents, size_t i, std::vector<double2>& input, size_t Nblock, Simulations& Sims)
+{
+  // Create an empty result vector to hold the mass-volume conversion.
+  // Reserve memory based on the size of the input vector for efficiency.
+  std::vector<double2> result;
+  result.reserve(input.size());
+
+  // Calculate the total number of molecules in all unit cells
+  int NMol_In_Def = SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
+
+  // Print the total number of unit cells (for debugging or informational purposes)
+  printf("Total Unit Cells %d \n", NMol_In_Def);
+
+  // Retrieve the volume of the simulation box
+  double Volume = Sims.Box.Volume;
+
+  // Calculate the ratio of grams per liter, factoring in the number of unit cells, molecular weight, volume, and Avogadro's number
+  double GramPerLiter = SystemComponents.MolecularWeight[i]*10000/Volume/6.0221408;
+
+  // Loop through each block of the input
+  for(size_t i = 0; i < Nblock; i++)
+  {
+    // Extract the average and squared average values from the input
+    double Average   = input[i].x;
+    double SQAverage = input[i].y;
+
+    // Declare a new variable to hold the mass-volume conversion
+    double2 val; 
+
+    // Convert the average and squared average values to their mass-volume representations
+    val.x = Average * GramPerLiter; 
+    val.y = SQAverage*GramPerLiter*GramPerLiter;
+
+    // Append the converted values to the result vector
+    result.push_back(val);
+  }
+
+  // Return the result vector
+  return result;
+}
+
 static inline void Gather_Averages(std::vector<double2>& Array, double init_energy, double running_energy, int Cycles, int Blocksize, size_t Nblock)
 {
   //Determine the block id//
@@ -177,18 +338,49 @@ static inline void Print_Values(std::vector<double2>& Array, int Cycles, int Blo
   printf("Overall: Average: %.5f, ErrorBar: %.5f\n", OverallAverage/Nblock, 2.0 * pow((OverallSQAverage/Nblock - OverallAverage/Nblock * OverallAverage/Nblock), 0.5));
 }
 
-static inline void Print_Averages(Components& SystemComponents, int Cycles, int Blocksize)
+static inline void Print_Averages(Components& SystemComponents, int Cycles, int Blocksize, Simulations& Sims)
 {
   printf("=====================BLOCK AVERAGES (ENERGIES)================\n");
   std::vector<double2>Temp = SystemComponents.EnergyAverage;
   Print_Values(Temp, Cycles, Blocksize, SystemComponents.Nblock);
   printf("==============================================================\n");
-  printf("=====================BLOCK AVERAGES (# MOLECULES)=============\n");
+  printf("=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============\n");
   for(size_t i = 0; i < SystemComponents.Total_Components; i++)
   {
     printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
     Print_Values(Temp, Cycles, Blocksize, SystemComponents.Nblock);
+    printf("----------------------------------------------------------\n");
+  }
+  printf("======================================================================\n");
+  
+  printf("=====================BLOCK AVERAGES (LOADING: mg/g)=============\n");
+  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  {
+    printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
+    std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
+    std::vector<double2>MMTemp = ConvertMoleculetoMassMass(SystemComponents, i, Temp, SystemComponents.Nblock);
+    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock);
+    printf("----------------------------------------------------------\n");
+  }
+  printf("==============================================================\n");
+  printf("=====================BLOCK AVERAGES (LOADING: mol/kg)=============\n");
+  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  {
+    printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
+    std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
+    std::vector<double2>MMTemp = ConvertMoleculetoMolMass(SystemComponents, i, Temp, SystemComponents.Nblock);
+    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock);
+    printf("----------------------------------------------------------\n");
+  }
+  printf("==============================================================\n");
+  printf("=====================BLOCK AVERAGES (LOADING: g/L)=============\n");
+  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  {
+    printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
+    std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
+    std::vector<double2>MMTemp = ConvertMoleculetoMassVolume(SystemComponents, i, Temp, SystemComponents.Nblock,Sims);
+    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock);
     printf("----------------------------------------------------------\n");
   }
   printf("==============================================================\n");
@@ -224,7 +416,7 @@ static inline void PrintAllStatistics(Components& SystemComponents, Simulations&
   }
   if(SimulationMode == PRODUCTION)
   {
-    Print_Averages(SystemComponents, Cycles, BlockAverageSize);
+    Print_Averages(SystemComponents, Cycles, BlockAverageSize, Sims);
   }
 }
 
