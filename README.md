@@ -16,4 +16,4 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 # Action Items
   * Fugacity Coefficient calculation using PR-EOS (Xiaoyi)
   * restart-able TMMC calculations
-  * Better output files (distinguish between Initialization/Equilibration/Production phases)
+  * Better output files (distinguish between Initialization/Equilibration/Production phases) [DONE: Check commit here](https://github.com/snurr-group/CUDA-RASPA-DeepPotential/commit/791b796132c1429c48dd4549820a12f69ab0f353)
