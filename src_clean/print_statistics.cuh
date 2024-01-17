@@ -1,6 +1,14 @@
-static inline void Print_Cycle_Statistics(size_t Cycle, Components& SystemComponents)
+static inline void Print_Cycle_Statistics(size_t Cycle, Components& SystemComponents, std::string& Mode)
 {
-  printf("Cycle: %zu, %zu Adsorbate Molecules, Total Energy: %.5f  ||  ", Cycle, SystemComponents.TotalNumberOfMolecules - SystemComponents.NumberOfFrameworks, SystemComponents.CreateMol_Energy.total() + SystemComponents.deltaE.total());
+  /*std::string Mode;
+  switch(SimulationMode)
+  {
+    case INITIALIZATION:{Mode = "INITIALIZATION"; break;}
+    case EQUILIBRATION: {Mode = "EQUILIBRATION"; break;}
+    case PRODUCTION:    {Mode = "PRODUCTION"; break;}
+  }
+  */
+  printf("%s Cycle: %zu, %zu Adsorbate Molecules, Total Energy: %.5f  ||  ", Mode.c_str(), Cycle, SystemComponents.TotalNumberOfMolecules - SystemComponents.NumberOfFrameworks, SystemComponents.CreateMol_Energy.total() + SystemComponents.deltaE.total());
   for(size_t i = 0; i < SystemComponents.Total_Components; i++)
     printf("Component %zu [%s], %zu Molecules  ||  ", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i]);
   printf("\n");

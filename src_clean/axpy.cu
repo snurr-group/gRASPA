@@ -280,6 +280,14 @@ void Run_Simulation_MultipleBoxes(int Cycles, std::vector<Components>& SystemCom
   size_t WLSampled = 0; size_t WLAdjusted = 0;
 
   std::vector<int> BlockAverageSize(NumberOfSimulations, 1);
+
+  std::string Mode;
+  switch(SimulationMode)
+  {
+    case INITIALIZATION:{Mode = "INITIALIZATION"; break;}
+    case EQUILIBRATION: {Mode = "EQUILIBRATION"; break;}
+    case PRODUCTION:    {Mode = "PRODUCTION"; break;}
+  } 
   /*
   if(SimulationMode == INITIALIZATION && Cycles > 0)
   {
@@ -404,7 +412,7 @@ void Run_Simulation_MultipleBoxes(int Cycles, std::vector<Components>& SystemCom
             Update_Max_SpecialRotation(SystemComponents[sim], comp);
       }
       
-      if(i % SystemComponents[sim].PrintStatsEvery == 0) Print_Cycle_Statistics(i, SystemComponents[sim]);
+      if(i % SystemComponents[sim].PrintStatsEvery == 0) Print_Cycle_Statistics(i, SystemComponents[sim], Mode);
       ////////////////////////////////////////////////
       // ADJUST CBCF BIASING FACTOR (EQUILIBRATION) //
       ////////////////////////////////////////////////
@@ -492,6 +500,14 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
         Initialize_WangLandauIteration(SystemComponents.Lambda[icomp]);
   }
 
+  std::string Mode;
+  switch(SimulationMode)
+  {
+    case INITIALIZATION:{Mode = "INITIALIZATION"; break;}
+    case EQUILIBRATION: {Mode = "EQUILIBRATION"; break;}
+    case PRODUCTION:    {Mode = "PRODUCTION"; break;}
+  }
+
   for(size_t i = 0; i < Cycles; i++)
   {
     size_t Steps = 20;
@@ -539,7 +555,7 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
           Update_Max_SpecialRotation(SystemComponents, comp);
       }
     }
-    if(i%SystemComponents.PrintStatsEvery==0) Print_Cycle_Statistics(i, SystemComponents);
+    if(i%SystemComponents.PrintStatsEvery==0) Print_Cycle_Statistics(i, SystemComponents, Mode);
     ////////////////////////////////////////////////
     // ADJUST CBCF BIASING FACTOR (EQUILIBRATION) //
     ////////////////////////////////////////////////
