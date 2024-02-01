@@ -6,6 +6,9 @@
     * [Northwestern Quest IT](https://www.it.northwestern.edu/departments/it-services-support/research/computing/quest/)
     * cppflow-patch is for the LCLin model, you can do ```mv cppflow-patch LCLin``` when patching the code with LCLin's ML potential
     * Similarly, do ```mv libtorch-patch Allegro``` for using the Allegro ML potential
+  * Check the [nvhpc](https://developer.nvidia.com/hpc-sdk) version. Currently the code works for **22.5 and 22.7**
+    * on NERSC, you can do ```module load nvhpc/22.7``` to use the 22.7 version of nvhpc.
+    * Also check out the [issue on this topic](https://github.com/snurr-group/gRASPA/issues/9)
 # Step 1
 We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
 ```shellscript
