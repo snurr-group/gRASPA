@@ -5,7 +5,6 @@
 void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& SystemComponents, MoveEnergy& E)
 {
   printf("****** Calculating Ewald Energy (CPU) ******\n");
-  double recip_cutoff = Box.ReciprocalCutOff;
   int kx_max = Box.kmax.x;
   int ky_max = Box.kmax.y;
   int kz_max = Box.kmax.z;
@@ -101,10 +100,31 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
       for(std::make_signed_t<std::size_t> kz = -kz_max; kz <= kz_max; ++kz)
       {
         // Ommit kvec==0
-        size_t ksqr = kx * kx + ky * ky + kz * kz;
+        double ksqr = static_cast<double>(kx * kx + ky * ky + kz * kz);
         std::complex<double> Adsorbateck(0.0, 0.0);
         std::complex<double> Frameworkck(0.0, 0.0);
-        if((ksqr != 0) && (static_cast<double>(ksqr) < recip_cutoff))
+       
+        if(Box.UseLAMMPSEwald) //Overwrite ksqr if we use the LAMMPS Setup for Ewald//
+        {
+          const double lx = Box.Cell[0];
+          const double ly = Box.Cell[4];
+          const double lz = Box.Cell[8];
+          const double xy = Box.Cell[3];
+          const double xz = Box.Cell[6];
+          const double yz = Box.Cell[7];
+          const double ux = 2*M_PI/lx;
+          const double uy = 2*M_PI*(-xy)/lx/ly;
+          const double uz = 2*M_PI*(xy*yz - ly*xz)/lx/ly/lz;
+          const double vy = 2*M_PI/ly;
+          const double vz = 2*M_PI*(-yz)/ly/lz;
+          const double wz = 2*M_PI/lz;
+          const double kvecx = kx*ux;
+          const double kvecy = kx*uy + ky*vy;
+          const double kvecz = kx*uz + ky*vz + kz*wz;
+          ksqr  = kvecx*kvecx + kvecy*kvecy + kvecz*kvecz;
+        } 
+        //if((ksqr != 0) && (ksqr < Box.ReciprocalCutOff))
+        if((ksqr > 1e-10) && (ksqr < Box.ReciprocalCutOff))
         {
           double3 kvec_z = az * 2.0 * M_PI * static_cast<double>(kz);
           //std::complex<double> Adsorbateck(0.0, 0.0);

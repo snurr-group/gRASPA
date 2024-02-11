@@ -189,7 +189,7 @@ __global__ void JustStore_Ewald(Boxsize Box, size_t nvec)
 // CALCULATE FOURIER PART OF THE COULOMBIC ENERGY FOR A MOVE //
 ///////////////////////////////////////////////////////////////
 
-__global__ void Fourier_Ewald_Diff(Boxsize Box, Complex* SameTypeEik, Complex* CrossTypeEik, Atoms Old, double alpha_squared, double prefactor, int3 kmax, double recip_cutoff, size_t Oldsize, size_t Newsize, double* Blocksum, bool UseTempVector, size_t Nblock)
+__global__ void Fourier_Ewald_Diff(Boxsize Box, Complex* SameTypeEik, Complex* CrossTypeEik, Atoms Old, double alpha_squared, double prefactor, int3 kmax, size_t Oldsize, size_t Newsize, double* Blocksum, bool UseTempVector, size_t Nblock)
 {
   //Zhao's note: provide an additional Nblock to distinguish Host-Guest and Guest-Guest Ewald//
   //Guest-Guest is the first half, Host-Guest is the second//
@@ -212,9 +212,27 @@ __global__ void Fourier_Ewald_Diff(Boxsize Box, Complex* SameTypeEik, Complex* C
     int       kxy     = kxyz/(2 * kz_max + 1);
     int       kx      = kxy /(2 * ky_max + 1);
     int       ky      = kxy %(2 * ky_max + 1) - ky_max;
-    size_t    ksqr    = kx * kx + ky * ky + kz * kz;
-
-    if((ksqr != 0) && (static_cast<double>(ksqr) < recip_cutoff))
+    double    ksqr    = static_cast<double>(kx * kx + ky * ky + kz * kz);
+    if(Box.UseLAMMPSEwald) //Overwrite ksqr if we use the LAMMPS Setup for Ewald//
+    {
+      const double lx = Box.Cell[0];
+      const double ly = Box.Cell[4];
+      const double lz = Box.Cell[8];
+      const double xy = Box.Cell[3];
+      const double xz = Box.Cell[6];
+      const double yz = Box.Cell[7];
+      const double ux = 2*M_PI/lx;
+      const double uy = 2*M_PI*(-xy)/lx/ly;
+      const double uz = 2*M_PI*(xy*yz - ly*xz)/lx/ly/lz;
+      const double vy = 2*M_PI/ly;
+      const double vz = 2*M_PI*(-yz)/ly/lz;
+      const double wz = 2*M_PI/lz;
+      const double kvecx = kx*ux;
+      const double kvecy = kx*uy + ky*vy;
+      const double kvecz = kx*uz + ky*vz + kz*wz;
+      ksqr  = kvecx*kvecx + kvecy*kvecy + kvecz*kvecz;
+    }
+    if((ksqr > 1e-10) && (ksqr < Box.ReciprocalCutOff))
     {
       double3 ax; ax.x = Box.InverseCell[0]; ax.y = Box.InverseCell[3]; ax.z = Box.InverseCell[6];
       double3 ay; ay.x = Box.InverseCell[1]; ay.y = Box.InverseCell[4]; ay.z = Box.InverseCell[7];
@@ -412,7 +430,7 @@ double2 GPU_EwaldDifference_General(Boxsize& Box, Atoms*& d_a, Atoms& New, Atoms
   size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
 
   //If we separate Host-Guest from Guest-Guest, we can double the Nblock, so the first half does Guest-Guest, and the second half does Host-Guest//
-  Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Box.ReciprocalCutOff, Oldsize, Newsize, Blocksum, UseTempVector, Nblock);
+  Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, UseTempVector, Nblock);
   
   double sum[Nblock * 2]; double SameSum = 0.0; double CrossSum = 0.0;
   cudaMemcpy(sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost); //HG + GG Energies//
@@ -483,7 +501,7 @@ double2 GPU_EwaldDifference_Reinsertion(Boxsize& Box, Atoms*& d_a, Atoms& Old, d
   //Fourier Loop//
   size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
   size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
-  Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Box.ReciprocalCutOff, Oldsize, Newsize, Blocksum, false, Nblock);
+  Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, false, Nblock);
   double sum[Nblock * 2]; double SameSum = 0.0;  double CrossSum = 0.0;
   cudaMemcpy(sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
 
@@ -518,7 +536,7 @@ double2 GPU_EwaldDifference_IdentitySwap(Boxsize& Box, Atoms*& d_a, Atoms& Old, 
   //Fourier Loop//
   size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
   size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
-  Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Box.ReciprocalCutOff, Oldsize, Newsize, Blocksum, false, Nblock);
+  Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, false, Nblock);
   double sum[Nblock * 2]; double SameSum = 0.0;  double CrossSum = 0.0;
   cudaMemcpy(sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
 
@@ -545,7 +563,7 @@ double2 GPU_EwaldDifference_IdentitySwap(Boxsize& Box, Atoms*& d_a, Atoms& Old, 
 ///////////////////////////////////////////////////////////////////////////
 // Zhao's note: Special function for the Ewald for Lambda change of CBCF //
 ///////////////////////////////////////////////////////////////////////////
-__global__ void Fourier_Ewald_Diff_LambdaChange(Boxsize Box, Complex* SameTypeEik, Complex* CrossTypeEik, Atoms Old, double alpha_squared, double prefactor, int3 kmax, double recip_cutoff, size_t Oldsize, size_t Newsize, double* Blocksum, bool UseTempVector, size_t Nblock, double newScale)
+__global__ void Fourier_Ewald_Diff_LambdaChange(Boxsize Box, Complex* SameTypeEik, Complex* CrossTypeEik, Atoms Old, double alpha_squared, double prefactor, int3 kmax, size_t Oldsize, size_t Newsize, double* Blocksum, bool UseTempVector, size_t Nblock, double newScale)
 {
   extern __shared__ double sdata[]; //shared memory for partial sum//
   size_t kxyz           = blockIdx.x * blockDim.x + threadIdx.x;
@@ -565,9 +583,28 @@ __global__ void Fourier_Ewald_Diff_LambdaChange(Boxsize Box, Complex* SameTypeEi
     int       kxy     = kxyz/(2 * kz_max + 1);
     int       kx      = kxy /(2 * ky_max + 1);
     int       ky      = kxy %(2 * ky_max + 1) - ky_max;
-    size_t    ksqr    = kx * kx + ky * ky + kz * kz;
+    double    ksqr    = static_cast<double>(kx * kx + ky * ky + kz * kz);
 
-    if((ksqr != 0) && (static_cast<double>(ksqr) < recip_cutoff))
+    if(Box.UseLAMMPSEwald) //Overwrite ksqr if we use the LAMMPS Setup for Ewald//
+    {
+      const double lx = Box.Cell[0];
+      const double ly = Box.Cell[4];
+      const double lz = Box.Cell[8];
+      const double xy = Box.Cell[3];
+      const double xz = Box.Cell[6];
+      const double yz = Box.Cell[7];
+      const double ux = 2*M_PI/lx;
+      const double uy = 2*M_PI*(-xy)/lx/ly;
+      const double uz = 2*M_PI*(xy*yz - ly*xz)/lx/ly/lz;
+      const double vy = 2*M_PI/ly;
+      const double vz = 2*M_PI*(-yz)/ly/lz;
+      const double wz = 2*M_PI/lz;
+      const double kvecx = kx*ux;
+      const double kvecy = kx*uy + ky*vy;
+      const double kvecz = kx*uz + ky*vz + kz*wz;
+      ksqr  = kvecx*kvecx + kvecy*kvecy + kvecz*kvecz;
+    }
+    if((ksqr > 1e-10) && (ksqr < Box.ReciprocalCutOff))
     {
       double3 ax = {Box.InverseCell[0], Box.InverseCell[3], Box.InverseCell[6]};
       double3 ay = {Box.InverseCell[1], Box.InverseCell[4], Box.InverseCell[7]};
@@ -664,7 +701,7 @@ double2 GPU_EwaldDifference_LambdaChange(Boxsize& Box, Atoms*& d_a, Atoms& Old, 
   Complex* SameType = Box.AdsorbateEik;
   Complex* CrossType= Box.FrameworkEik;
 
-  Fourier_Ewald_Diff_LambdaChange<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Box.ReciprocalCutOff, Oldsize, Newsize, Blocksum, UseTempVector, Nblock, newScale.y);
+  Fourier_Ewald_Diff_LambdaChange<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, UseTempVector, Nblock, newScale.y);
  
   double Host_sum[Nblock * 2]; double SameSum = 0.0; double CrossSum = 0.0;
   cudaMemcpy(Host_sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
@@ -750,7 +787,7 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
   int       kxy     = kxyz/(2 * kz_max + 1);
   int       kx      = kxy /(2 * ky_max + 1);
   int       ky      = kxy %(2 * ky_max + 1) - ky_max;
-  size_t ksqr = kx * kx + ky * ky + kz * kz;
+  double ksqr = static_cast<double>(kx * kx + ky * ky + kz * kz);
 
   double alpha = Box.Alpha; double alpha_squared = alpha * alpha;
   double prefactor = Box.Prefactor * (2.0 * M_PI / Box.Volume);
@@ -767,8 +804,27 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
   double  rksq      = dot(tempkvec, tempkvec);
   double  temp      = 0.0;
 
+  if(Box.UseLAMMPSEwald) //Overwrite ksqr if we use the LAMMPS Setup for Ewald//
+  {
+    const double lx = Box.Cell[0];
+    const double ly = Box.Cell[4];
+    const double lz = Box.Cell[8];
+    const double xy = Box.Cell[3];
+    const double xz = Box.Cell[6];
+    const double yz = Box.Cell[7];
+    const double ux = 2*M_PI/lx;
+    const double uy = 2*M_PI*(-xy)/lx/ly;
+    const double uz = 2*M_PI*(xy*yz - ly*xz)/lx/ly/lz;
+    const double vy = 2*M_PI/ly;
+    const double vz = 2*M_PI*(-yz)/ly/lz;
+    const double wz = 2*M_PI/lz;
+    const double kvecx = kx*ux;
+    const double kvecy = kx*uy + ky*vy;
+    const double kvecz = kx*uz + ky*vz + kz*wz;
+    ksqr  = kvecx*kvecx + kvecy*kvecy + kvecz*kvecz;   
+  }
   Complex cksum; cksum.real = 0.0; cksum.imag = 0.0;
-  if((ksqr != 0) && ((double)(ksqr) < Box.ReciprocalCutOff))
+  if((ksqr > 1e-10) && (ksqr < Box.ReciprocalCutOff))
   {
     temp = factor * std::exp((-0.25 / alpha_squared) * rksq) / rksq;
     for(size_t a = 0; a < NAtomPerThread; a++)

@@ -722,7 +722,7 @@ struct ForceField
   double* shift;
   int*    FFType; //type of force field calculation  
   bool    noCharges;
-  bool    VDWRealBias = {true}; //By default, the CBMC moves use VDW + Real Biasing//
+  bool    VDWRealBias = true; //By default, the CBMC moves use VDW + Real Biasing//
   size_t  size;
   double  OverlapCriteria;
   double  CutOffVDW;       // Square of cutoff for vdW interaction //
@@ -757,7 +757,8 @@ struct Boxsize
   double   Alpha;
   double   tol1; //For Ewald, see read_Ewald_Parameters_from_input function//
   bool     Cubic;
-  bool     ExcludeHostGuestEwald = {false};
+  bool     ExcludeHostGuestEwald = false;
+  bool     UseLAMMPSEwald = false;
   int3     kmax;
 };
 //###PATCH_ALLEGRO_H###//

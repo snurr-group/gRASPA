@@ -574,21 +574,100 @@ void ReadFrameworkComponentMoves(Move_Statistics& MoveStats, Components& SystemC
 
 void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double precision)
 {
-  double tempprefactor = 138935.48350;
-  double tempalpha = 0.26506; //Zhao's note: here we used alpha equal to the preset value from raspa3. Need to revisit RASPA-2 for the exact calculation of alpha.
+  double tempprefactor = 138935.483496;
   Box.Prefactor = tempprefactor;
-  double tol = sqrt(fabs(log(precision*CutOffCoul)));
-  tempalpha  = sqrt(fabs(log(precision*CutOffCoul*tol)))/CutOffCoul;
-  double tol1= sqrt(-log(precision*CutOffCoul*pow(2.0*tol*tempalpha, 2)));
-  Box.tol1   = tol1;
-  Box.Alpha  = tempalpha;
-  //Zhao's note: See InitializeEwald function in RASPA-2.0 //
-  Box.kmax.x = std::round(0.25 + Box.Cell[0] * tempalpha * tol1/3.1415926);
-  Box.kmax.y = std::round(0.25 + Box.Cell[4] * tempalpha * tol1/3.1415926);
-  Box.kmax.z = std::round(0.25 + Box.Cell[8] * tempalpha * tol1/3.1415926);
-  Box.ReciprocalCutOff = pow(1.05*static_cast<double>(MAX3(Box.kmax.x, Box.kmax.y, Box.kmax.z)), 2);
+  double tempalpha = 0.26506; //Zhao's note: here we used alpha equal to the preset value from raspa3. Need to revisit RASPA-2 for the exact calculation of alpha.
+  // Zhao's note: use the Ewald method in LAMMPS, need full control of alpha and kvectors //
+  bool Ewald_UseLAMMPS_Setup = false; //Default using RASPA-2's setup (automatic, heurestic)
   printf("----------------EWALD SUMMATION SETUP-----------------\n");
-  printf("tol: %.5f, tol1: %.5f\n", tol, tol1);
+  //Zhao's note: add controls if the users want to use specified ewald parameters//
+  std::vector<std::string> termsScannedLined{};
+  std::string str;
+
+  std::ifstream file("simulation.input");
+  while (std::getline(file, str))
+  {
+    if (str.find("Ewald_UseLAMMPS_Setup", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      if(caseInSensStringCompare(termsScannedLined[1], "yes"))
+      {
+        Ewald_UseLAMMPS_Setup = true;
+      }
+    }
+  }
+  file.clear();
+  file.seekg(0);
+  if(Ewald_UseLAMMPS_Setup) 
+  //Then read alpha and number of kvectors in xyz, calculate reciprocal cutoff//
+  {
+    bool AlphaFound = false;
+    bool kvecFound  = false;
+    while (std::getline(file, str))
+    {
+      if (str.find("Ewald_Alpha", 0) != std::string::npos)
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        tempalpha=std::stod(termsScannedLined[1]);
+        Box.Alpha  = tempalpha;
+        AlphaFound = true;
+      }
+      if (str.find("Ewald_kvectors", 0) != std::string::npos)
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        printf("termsScannedLined.size(): %zu\n", termsScannedLined.size());
+        if(termsScannedLined.size() != 4)
+        {
+          throw std::runtime_error("Need 3 values provided for the Ewald kvectors! Check your input\n");
+        }
+        Box.kmax.x=std::stoi(termsScannedLined[1]);
+        Box.kmax.y=std::stoi(termsScannedLined[2]);
+        Box.kmax.z=std::stoi(termsScannedLined[3]);
+        if(Box.kmax.x == 0 || Box.kmax.y == 0 || Box.kmax.z == 0) throw std::runtime_error("Number of kvectors cannot be zero!");
+        kvecFound  = true;
+      }
+    }
+    if(AlphaFound && kvecFound)
+    {
+      Box.UseLAMMPSEwald = true;
+      printf("Using LAMMPS Setup for Ewald, need to specify both Alpha and number of kvectors in simulation.input file\n");
+      //Calculate Reciprocal cutoff
+      double lx = Box.Cell[0];
+      double ly = Box.Cell[4];
+      double lz = Box.Cell[8];
+      double xy = 0.0; //Box.Cell[3];
+      double xz = 0.0; //Box.Cell[6];
+      double yz = 0.0; //Box.Cell[7];
+      //printf("Box Vals: %.5f %.5f %.5f\n %.5f %.5f %.5f\n %.5f %.5f %.5f\n", Box.Cell[0], Box.Cell[1], Box.Cell[2], Box.Cell[3], Box.Cell[4], Box.Cell[5], Box.Cell[6], Box.Cell[7], Box.Cell[8]);
+      //printf("xy: %.5f, xz: %.5f, yz: %.5f\n", xy, xz, yz);
+      double ux = 2*M_PI/lx;
+      double uy = 2*M_PI*(-xy)/lx/ly;
+      double uz = 2*M_PI*(xy*yz - ly*xz)/lx/ly/lz;
+      double vy = 2*M_PI/ly;
+      double vz = 2*M_PI*(-yz)/ly/lz;
+      double wz = 2*M_PI/lz;
+      const double kvecx = Box.kmax.x*ux;
+      const double kvecy = Box.kmax.x*uy + Box.kmax.y*vy;
+      const double kvecz = Box.kmax.x*uz + Box.kmax.y*vz + Box.kmax.z*wz;
+      Box.ReciprocalCutOff = MAX3(kvecx*kvecx, kvecy*kvecy, kvecz*kvecz) * 1.00001;
+    }
+    else throw std::runtime_error("Need to specify both **Ewald_Alpha** and **Ewald_kvectors** in your input file. Check your input!\n");
+  }
+  else //Doing the RASPA-2 way of automatically calculate alpha and kvecs using Precision
+  {
+    printf("Using RASPA-2 way, need to specify the Precision of Ewald\n");
+    double tol = sqrt(fabs(log(precision*CutOffCoul)));
+    tempalpha  = sqrt(fabs(log(precision*CutOffCoul*tol)))/CutOffCoul;
+    double tol1= sqrt(-log(precision*CutOffCoul*pow(2.0*tol*tempalpha, 2)));
+    Box.tol1   = tol1;
+    Box.Alpha  = tempalpha;
+    //Zhao's note: See InitializeEwald function in RASPA-2.0 //
+    Box.kmax.x = std::round(0.25 + Box.Cell[0] * tempalpha * tol1/M_PI);
+    Box.kmax.y = std::round(0.25 + Box.Cell[4] * tempalpha * tol1/M_PI);
+    Box.kmax.z = std::round(0.25 + Box.Cell[8] * tempalpha * tol1/M_PI);
+    Box.ReciprocalCutOff = pow(1.05*static_cast<double>(MAX3(Box.kmax.x, Box.kmax.y, Box.kmax.z)), 2);
+    printf("tol: %.5f, tol1: %.5f\n", tol, tol1);
+  } 
   printf("ALpha is %.5f, Prefactor: %.5f\n", Box.Alpha, Box.Prefactor);
   printf("kmax: %d %d %d, ReciprocalCutOff: %.5f\n", Box.kmax.x, Box.kmax.y, Box.kmax.z, Box.ReciprocalCutOff);
   printf("------------------------------------------------------\n");
