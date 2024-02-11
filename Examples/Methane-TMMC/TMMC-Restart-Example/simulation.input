@@ -1,0 +1,51 @@
+NumberOfInitializationCycles 0
+NumberOfEquilibrationCycles  10000
+NumberOfProductionCycles     10000
+
+UseMaxStep  yes
+MaxStepPerCycle 1
+
+UseChargesFromCIFFile no
+
+RestartFile yes
+RandomSeed  1
+
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+
+NumberOfBlocks 1
+AdsorbateAllocateSpace 10240
+NumberOfSimulations 1
+SingleSimulation yes
+
+DifferentFrameworks yes
+InputFileType cif
+FrameworkName Empty-Box
+UnitCells 0 30 30 30
+
+ChargeMethod Ewald
+Temperature 230
+Pressure 700000
+
+MoviesEvery 5000000
+PrintEvery 10000
+
+OverlapCriteria 1e5
+CutOffVDW 15.0
+CutOffCoulomb 15.0
+EwaldPrecision 1e-6
+
+Component 0 MoleculeName             CO2
+            IdealGasRosenbluthWeight 1.0
+            FugacityCoefficient      1.0
+            TranslationProbability   1.0
+            RotationProbability      1.0
+            ReinsertionProbability   1.0
+            SwapProbability          2.0
+            RunTMMC yes
+            UseBiasOnMacrostate yes
+            RestartTMMC yes
+            TMMCMin 60
+            TMMCMax 120
+            UpdateTMMCEvery 500000
+            CreateNumberOfMolecules  0
