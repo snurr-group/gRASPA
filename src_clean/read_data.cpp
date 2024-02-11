@@ -9,6 +9,8 @@
 
 #include <iostream>
 
+#include <cfloat> //for DBL_MIN
+
 //#include <print>
 
 //#include "data_struct.h"
@@ -1742,6 +1744,118 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
   SystemComponents.NumberOfPseudoAtomsForSpecies.push_back(TEMPINTTWO);
   SystemComponents.MolecularWeight.push_back(masssum);
 }
+/*
+bool isSmallerThanDBL_MIN(const std::string& str) 
+{
+  //Zhao's note: if value is 0.0, return false;
+  std::istringstream iss(str);
+  double value;
+  if (iss >> value) 
+  {
+      return (value < DBL_MIN);
+  }
+  // Handle invalid input string
+  return false;
+}
+*/
+double process_str_double_DBLMIN(const std::string& str)
+{
+  std::istringstream iss(str);
+  double value;
+  if (iss >> value)
+  {
+      if(std::abs(value) < DBL_MIN)
+        return 0.0;
+      else return std::stod(str);
+  }
+}
+
+static inline void Read_TMMC_Initial(TMMC& tmmc, std::string& MolName)
+{
+  std::string scannedLine; std::string str;
+  std::vector<std::string> termsScannedLined{};
+  //Determine framework name (file name)//
+  std::string Filename = "TMMCInitial/System_0/TMMC_Statistics.data";
+  std::ifstream file(Filename);
+  std::filesystem::path pathfile = std::filesystem::path(Filename);
+  if (!std::filesystem::exists(pathfile))
+  {
+    throw std::runtime_error("TMMCInitial file not found\n");
+  }
+  //Zhao's note: first read the number of lines in the TMMCInitial file
+  int Histogramsize = -5;
+  size_t counter = 0;
+  size_t header  = 5;
+  //Process the header of the TMMCInitial file//
+  while (std::getline(file, str))
+  {
+    if(counter < header)
+    {
+    Split_Tab_Space(termsScannedLined, str);
+    if(counter == 0)
+    {
+      //Record the number of TMUpdateTimes
+      std::string ReadMolName = termsScannedLined[2];
+      if(ReadMolName != MolName) throw std::runtime_error("TMMCInitial Mol name doesn't match what is in the simulation.input file. Please check!!!");
+      tmmc.TMUpdateTimes = std::stoi(termsScannedLined[5]);
+    }
+    else if(counter == 1)
+    {
+      size_t temp_MinMacrostate = static_cast<size_t>(std::stoi(termsScannedLined[3]));
+      if(temp_MinMacrostate != tmmc.MinMacrostate)
+        throw std::runtime_error("TMMCInitial Min Macrostate doesn't match the value in simulation.input file!!!");
+    }
+    else if(counter == 2)
+    {
+      size_t temp_MaxMacrostate = static_cast<size_t>(std::stoi(termsScannedLined[3]));
+      if(temp_MaxMacrostate != tmmc.MaxMacrostate)
+        throw std::runtime_error("TMMCInitial Max Macrostate doesn't match the value in simulation.input file!!!");
+    }
+    else if(counter == 3)
+    {
+      tmmc.WLFactor = std::stoi(termsScannedLined[3]);
+    }
+    }
+    ++Histogramsize;
+    counter ++;
+  }
+  file.clear();
+  file.seekg(0);
+  printf("Lines of TMMCInitial file: %d, Histogram size: %d\n", Histogramsize+5, Histogramsize);
+  if(Histogramsize<= 0) throw std::runtime_error("TMMCInitial size is zero, there is no value written in the file. Check!!!");
+  //Check histogram size and bin size//
+  //From 0 to 60, there are 61 bins//
+  size_t temp_nbin = (Histogramsize-1) / (tmmc.MaxMacrostate - tmmc.MinMacrostate);
+  if(temp_nbin != tmmc.nbinPerMacrostate)
+    throw std::runtime_error("Number of bins calculated from TMMCInitial doesn't match with what is specified in the input file. Maybe check your CBCFC (fractional molecule) setup!!!");
+  if((Histogramsize-1) != (tmmc.MaxMacrostate - tmmc.MinMacrostate) * temp_nbin)
+     throw std::runtime_error("Number of macrostates doesn't match! Your nbin: " + std::to_string(temp_nbin) + ", Histogram size: "+ std::to_string(Histogramsize) + ", Max-Min: " + std::to_string(tmmc.MaxMacrostate - tmmc.MinMacrostate));
+  counter = 0;
+  while (std::getline(file, str))
+  {
+    Split_Tab_Space(termsScannedLined, str);
+    if(counter >= header) //Skip line 5 (column names)
+    {
+      //printf("str is: %s\n", str.c_str());
+      //Column names: N NMol Bin CM[-1] CM[0] CM[1] WLBias ln_g TMBias lnpi Forward_lnpi Reverse_lnpi Histogram
+      size_t j   = static_cast<size_t>(std::stoi(termsScannedLined[0])); //Bin index//
+      //size_t N   = std::stoi(termsScannedLined[1]);
+      //size_t bin = std::stoi(termsScannedLined[2]);
+      //Zhao's note: some values in the TMMC data file are extremely small, add a check here, if the printed value is smaller than DBL_MIN, make it DBL_MIN
+      tmmc.CMatrix[j].x    = process_str_double_DBLMIN(termsScannedLined[3]);
+      tmmc.CMatrix[j].y    = process_str_double_DBLMIN(termsScannedLined[4]);
+      tmmc.CMatrix[j].z    = process_str_double_DBLMIN(termsScannedLined[5]);
+      tmmc.WLBias[j]       = process_str_double_DBLMIN(termsScannedLined[6]);
+      tmmc.ln_g[j]         = process_str_double_DBLMIN(termsScannedLined[7]);
+      tmmc.TMBias[j]       = process_str_double_DBLMIN(termsScannedLined[8]);
+      tmmc.lnpi[j]         = process_str_double_DBLMIN(termsScannedLined[9]);
+      tmmc.forward_lnpi[j] = process_str_double_DBLMIN(termsScannedLined[10]);
+      tmmc.reverse_lnpi[j] = process_str_double_DBLMIN(termsScannedLined[11]);
+      tmmc.Histogram[j]    = process_str_double_DBLMIN(termsScannedLined[12]);
+    }
+    counter ++;
+  }
+}
 
 void read_component_values_from_simulation_input(Components& SystemComponents, Move_Statistics& MoveStats, size_t AdsorbateComponent, Atoms& Mol, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space)
 {
@@ -1901,6 +2015,16 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
             printf("TMMC: Biasing Insertion/Deletions\n");
           }
         }
+        if (str.find("RestartTMMC", 0) != std::string::npos)
+        {
+          Split_Tab_Space(termsScannedLined, str);
+          if(caseInSensStringCompare(termsScannedLined[1], "yes"))
+          {
+            temp_tmmc.TMMCRestart = true;
+            printf("Need to Read TMMC stats from TMMC_Initial Folder\n");
+            printf("WARNING: Using TMMCRestart, we thus recommend that you do NOT use Initialization steps, start by Equilibration/Production instead!!!");
+          }
+        }
         if (str.find("UpdateTMMCEvery", 0) != std::string::npos)
         {
           Split_Tab_Space(termsScannedLined, str);
@@ -2013,6 +2137,14 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
     temp_tmmc.forward_lnpi.resize(NBin);
     temp_tmmc.reverse_lnpi.resize(NBin);
     temp_tmmc.Histogram.resize(NBin);
+    //Zhao's note: one must do TMMC restart and RestartInitial together, and skip the initializations//
+    if(temp_tmmc.TMMCRestart)
+    {
+      Read_TMMC_Initial(temp_tmmc, MolName);
+      if(!SystemComponents.ReadRestart)
+      throw std::runtime_error("If TMMC Restart is used, then RestartFile must be used at the same time (cannot start with no molecules)!");
+    }
+    
     //Zhao's note: if we set the bounds for min/max macrostate, the number of createMolecule should fall in the range//
     if(temp_tmmc.RejectOutofBound && !SystemComponents.ReadRestart)
       if(CreateMolecule < temp_tmmc.MinMacrostate || CreateMolecule > temp_tmmc.MaxMacrostate)

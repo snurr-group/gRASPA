@@ -510,7 +510,17 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
       {
         size_t N   = j / SystemComponents.Tmmc[i].nbinPerMacrostate;
         size_t bin = j % SystemComponents.Tmmc[i].nbinPerMacrostate;
-        textTMMCFile << j << " " << N << " " << bin << " " << SystemComponents.Tmmc[i].CMatrix[j].x << " " << SystemComponents.Tmmc[i].CMatrix[j].y << " " << SystemComponents.Tmmc[i].CMatrix[j].z << " " << SystemComponents.Tmmc[i].WLBias[j] << " " << SystemComponents.Tmmc[i].ln_g[j] << " " << SystemComponents.Tmmc[i].TMBias[j] << " " << SystemComponents.Tmmc[i].lnpi[j] << " " << SystemComponents.Tmmc[i].forward_lnpi[j] << " " << SystemComponents.Tmmc[i].reverse_lnpi[j] << " " << SystemComponents.Tmmc[i].Histogram[j] << '\n';
+        textTMMCFile << j << " " << N << " " << bin << " "; 
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].CMatrix[j].x << " " ; 
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].CMatrix[j].y << " " ;
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].CMatrix[j].z << " " ;
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].WLBias[j] << " " ; 
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].ln_g[j] << " "; 
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].TMBias[j] << " " ;
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].lnpi[j] << " "; 
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].forward_lnpi[j] << " " ;
+        textTMMCFile /*<< std::setprecision (15)*/ << SystemComponents.Tmmc[i].reverse_lnpi[j] << " " ; 
+        textTMMCFile << SystemComponents.Tmmc[i].Histogram[j] << '\n';
       }
     }
   }

@@ -110,20 +110,21 @@ struct TMMC
   std::vector<double>  forward_lnpi; //Debugging//
   std::vector<double>  reverse_lnpi;
   std::vector<double>  Histogram;
-  double WLFactor      = {1.0};
-  size_t MaxMacrostate     = {0};
-  size_t MinMacrostate     = {0};
-  size_t nbinPerMacrostate = {1};
-  size_t currentBin = {0};  //Should match what you have for lambda bin//
+  double WLFactor      = 1.0;
+  size_t MaxMacrostate     = 0;
+  size_t MinMacrostate     = 0;
+  size_t nbinPerMacrostate = 1;
+  size_t currentBin = 0;  //Should match what you have for lambda bin//
   //size_t UpdateTMEvery = {1000000};
-  size_t UpdateTMEvery = {5000};
+  size_t UpdateTMEvery = 5000;
   size_t TMUpdateTimes = 0;
-  bool   DoTMMC = {false};
-  bool   DoUseBias = {false}; //Whether or not to use WL or TM Bias for changing macrostates//
-  bool   UseWLBias = {false}; //Whether to use WL for the Bias//
-  bool   UseTMBias = {true};  //Whether to use TM for the Bias//
-  bool   RejectOutofBound = {true}; //Whether to reject the move out of the bound of macrostate//
-  bool   RezeroAfterInitialization = {false};
+  bool   DoTMMC = false;
+  bool   DoUseBias = false; //Whether or not to use WL or TM Bias for changing macrostates//
+  bool   UseWLBias = false; //Whether to use WL for the Bias//
+  bool   UseTMBias = true;  //Whether to use TM for the Bias//
+  bool   RejectOutofBound = true; //Whether to reject the move out of the bound of macrostate//
+  bool   TMMCRestart = false; //Whether to read a TMMC file from TMMC_Initial folder
+  bool   RezeroAfterInitialization = false;
   //Zhao's note: the N below is the Number of Molecule from the OLD STATE//
   //(According to Vince Shen's code)//
   void Update(double Pacc, size_t N, int MoveType) 
