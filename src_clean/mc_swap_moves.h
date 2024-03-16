@@ -471,6 +471,11 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
   //It seems that identity swap can swap back to its own species, so need to relax the current criterion//
   //while(NEWComponent == OLDComponent || NEWComponent == 0 || NEWComponent >= SystemComponents.NComponents.x)
   //Must select adsorbate species, cannot exceed number of species in sim, oldcomponent number of mol > 0//
+  if((SystemComponents.TotalNumberOfMolecules - SystemComponents.NumberOfFrameworks) == 0) //No adsorbates
+  {
+    MoveEnergy Empty;
+    return Empty;
+  }
   while(OLDComponent == 0 || OLDComponent >= SystemComponents.NComponents.x ||
         NEWComponent == 0 || NEWComponent >= SystemComponents.NComponents.x || 
         NOld == 0)

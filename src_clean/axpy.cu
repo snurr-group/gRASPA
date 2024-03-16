@@ -92,6 +92,7 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
   //printf("AFTER: Comp: %zu, TotalProb: %.5f\n", comp, SystemComponents.Moves[comp].TotalProb);
 
   MoveEnergy DeltaE;
+  /*
   if(SystemComponents.NumberOfMolecule_for_Component[comp] == 0)
   { 
     //no molecule in the system for this species
@@ -104,29 +105,33 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
       DeltaE = SingleBodyMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, SINGLE_INSERTION);
     }
   }
-  else
-  {
+  */
+  //else
+  //{
   double RANDOMNUMBER = Get_Uniform_Random();
   if(RANDOMNUMBER < SystemComponents.Moves[comp].TranslationProb)
   {
     //////////////////////////////
     // PERFORM TRANSLATION MOVE //
     //////////////////////////////
-    DeltaE = SingleBodyMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, TRANSLATION);
+    if(SystemComponents.NumberOfMolecule_for_Component[comp] > 0)
+      DeltaE = SingleBodyMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, TRANSLATION);
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].RotationProb) //Rotation
   {
     ///////////////////////////
     // PERFORM ROTATION MOVE //
     ///////////////////////////
-    DeltaE = SingleBodyMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, ROTATION);
+    if(SystemComponents.NumberOfMolecule_for_Component[comp] > 0)
+      DeltaE = SingleBodyMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, ROTATION);
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].SpecialRotationProb) //Special Rotation for Framework Components
   {
     ///////////////////////////////////
     // PERFORM SPECIAL ROTATION MOVE //
     ///////////////////////////////////
-    DeltaE = SingleBodyMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, SPECIAL_ROTATION);
+    if(SystemComponents.NumberOfMolecule_for_Component[comp] > 0)
+      DeltaE = SingleBodyMove(SystemComponents, Sims, Widom, FF, Random, SelectedMolInComponent, comp, SPECIAL_ROTATION);
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].WidomProb)
   {
@@ -148,7 +153,8 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
     //////////////////////////////
     // PERFORM REINSERTION MOVE //
     //////////////////////////////
-    DeltaE = Reinsertion(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp);
+    if(SystemComponents.NumberOfMolecule_for_Component[comp] > 0)
+      DeltaE = Reinsertion(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp);
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].IdentitySwapProb)
   {
@@ -187,6 +193,7 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
       //Zhao's note: Do not do a deletion if the chosen molecule is a fractional molecule, fractional molecules should go to CBCFSwap moves//
       if(!((SystemComponents.hasfractionalMolecule[comp]) && SelectedMolInComponent == SystemComponents.Lambda[comp].FractionalMoleculeID))
       {
+        if(SystemComponents.NumberOfMolecule_for_Component[comp] > 0)
         if(!SystemComponents.SingleSwap)
         {
           DeltaE = Deletion(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp);
@@ -198,7 +205,6 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
         }
       }
     }
-  }
   }
   
   if(Cycle == 4)
