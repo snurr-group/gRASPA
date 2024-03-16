@@ -161,8 +161,8 @@ static inline std::vector<double2> ConvertMoleculetoMassMass(Components& SystemC
   // Number of components in the framework
   int FrameworkComponents = SystemComponents.NComponents.y;
 
-  // Initialize the mass of the unit cell
-  double UnitCellMass = 0.0;
+  // Initialize the mass of the cell
+  double CellMass = 0.0;
 
   // Create an empty result vector to hold the mass-mass conversion
   // Reserve memory for efficiency based on the size of the input vector.
@@ -170,24 +170,19 @@ static inline std::vector<double2> ConvertMoleculetoMassMass(Components& SystemC
   result.reserve(input.size());
 
   // Loop through each framework component
+  // The molecularweight here are per unit cell (for framework components)
   for(size_t j = 0; j < FrameworkComponents; j++)
   {
-    
-    // Start with a single molecule in the definition
-    int NMol_In_Def = 1;
-
-    // Calculate the total number of molecules in all unit cells
-    NMol_In_Def *= SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
-    
-    // Print out the total unit cells (for debugging or information)
-    printf("Total Unit Cells %d \n", NMol_In_Def);
-
+    //size_t NMol = SystemComponents.NumberOfMolecule_for_Component[j];
     // Incrementally sum up the molecular weight for each component
-    UnitCellMass += SystemComponents.MolecularWeight[j];
+    size_t NCell = SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
+    CellMass += SystemComponents.MolecularWeight[j] * NCell;
+    printf("Framework component %zu, molar mass: %.5f\n", j, SystemComponents.MolecularWeight[j]);
   }
+  printf("Framework total mass: %.5f\n", CellMass);
 
-  // Calculate the ratio of the molecular weight of the current molecule to the total unit cell mass, scaled to milligrams/gram
-  double MiligramPerGram = 1000.0*SystemComponents.MolecularWeight[i]/UnitCellMass;
+  // Calculate the ratio of the molecular weight of the current molecule to the total cell mass, scaled to milligrams/gram
+  double MiligramPerGram = 1000.0*SystemComponents.MolecularWeight[i]/CellMass;
 
   // Loop through each block of the input
   for(size_t i = 0; i < Nblock; i++)
@@ -221,7 +216,7 @@ static inline std::vector<double2> ConvertMoleculetoMolMass(Components& SystemCo
   int FrameworkComponents = SystemComponents.NComponents.y;
 
   // Initialize the mass of the unit cell
-  double UnitCellMass = 0.0;
+  double CellMass = 0.0;
 
   // Create an empty result vector to hold the mole-mass conversion.
   // Reserve memory based on the size of the input vector for efficiency.
@@ -229,23 +224,20 @@ static inline std::vector<double2> ConvertMoleculetoMolMass(Components& SystemCo
   result.reserve(input.size());
 
   // Loop through each framework component
-  for(size_t j = 0; j < FrameworkComponents; j++){
-    
-    // Start with a single molecule in the definition
-    int NMol_In_Def = 1;
+  for(size_t j = 0; j < FrameworkComponents; j++)
+  {  
 
     // Calculate the total number of molecules in all unit cells
-    NMol_In_Def *= SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
+    size_t NCell = SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
     
-    // Print out the total number of unit cells (for debugging or informational purposes)
-    printf("Total Unit Cells %d \n", NMol_In_Def);
-
     // Incrementally sum up the molecular weight for each component
-    UnitCellMass += SystemComponents.MolecularWeight[j];
+    // The molecular weight here for framework components are per unit cell
+    CellMass += SystemComponents.MolecularWeight[j] * NCell;
+    printf("Framework component %zu, molar mass: %.5f\n", j, SystemComponents.MolecularWeight[j]);
   }
-
+  printf("Framework total mass: %.5f\n", CellMass);
   // Calculate the ratio of moles per kilogram based on the unit cell mass
-  double MolPerKilogram = 1000.0/UnitCellMass;
+  double MolPerKilogram = 1000.0/CellMass;
 
   // Loop through each block of the input
   for(size_t i = 0; i < Nblock; i++)

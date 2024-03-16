@@ -1253,7 +1253,7 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
         AtomTypeFOUND = true;
         if(!UseChargeFromCIF) Charge = PseudoAtom.charge[j];
         // add to the totalmass of the component
-        totalmass[ATOM_COMP] = totalmass[ATOM_COMP] + AtomMass;
+        totalmass[ATOM_COMP] += AtomMass;
         //Add to the number of pseudo atoms
         TEMPINTTWO[ATOM_COMP][j].x =j;
         TEMPINTTWO[ATOM_COMP][j].y ++;
@@ -1272,6 +1272,9 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
     AtomCountPerUnitcell ++;
     i++;
   }
+  //Check total mass of framework components//
+  for(size_t asd = 0; asd < totalmass.size(); asd++)
+    printf("component %zu, totalmass: %.5f\n", asd, totalmass[asd]);
   //Zhao's note: Need to sort the atom positions for the framework component to match the order in Framework_Component definition files, see Hilal's example//
   CheckFrameworkComponentAtomOrder(SystemComponents, unit_fpos, unit_scale, unit_charge, unit_scaleCoul, unit_Type, unit_MolID, unit_AtomIndex);
   
@@ -1341,10 +1344,10 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
     {
       NMol_In_Def *= NumberUnitCells.x * NumberUnitCells.y * NumberUnitCells.z;
       // in the case there is multiple unit cells, make sure that the mass is the total mass of the box //
-      totalmass[i] *= NMol_In_Def;
+      //totalmass[i] *= NMol_In_Def;
     }
     double unitcells = NumberUnitCells.x * NumberUnitCells.y * NumberUnitCells.z;
-    totalmass[i] *= unitcells;
+    //totalmass[i] *= unitcells;
 
     printf("NMol = %zu, pos_size: %zu, NMol in FrameworkDef: %zu\n", NMol, super_pos[i].size(), NMol_In_Def);
 
@@ -1744,20 +1747,7 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
   SystemComponents.NumberOfPseudoAtomsForSpecies.push_back(TEMPINTTWO);
   SystemComponents.MolecularWeight.push_back(masssum);
 }
-/*
-bool isSmallerThanDBL_MIN(const std::string& str) 
-{
-  //Zhao's note: if value is 0.0, return false;
-  std::istringstream iss(str);
-  double value;
-  if (iss >> value) 
-  {
-      return (value < DBL_MIN);
-  }
-  // Handle invalid input string
-  return false;
-}
-*/
+
 double process_str_double_DBLMIN(const std::string& str)
 {
   std::istringstream iss(str);
