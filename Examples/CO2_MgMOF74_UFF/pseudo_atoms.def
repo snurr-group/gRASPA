@@ -1,0 +1,12 @@
+#number of pseudo atoms
+9
+#type     print     as     chem     oxi     mass     charge     pol
+Mg     yes     Mg     Mg     0     24.305     0.0     0
+O     yes     O     O     0     15.999     0     0
+C     yes     C     C     0     12.011     0     0
+H     yes     H     H     0     1.008     0.0     0
+Ow     yes     O     Ow     0     16     0     0
+Hw     yes     H     Hw     0     1     0.52     0
+Lw     yes     L     Lw     0     0     -1.04     0
+C_co2      yes   C  C    0   12.0       0.7   0.0
+O_co2      yes   O  O    0   15.9994   -0.35   0.0

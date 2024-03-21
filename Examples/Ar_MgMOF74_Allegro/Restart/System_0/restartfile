@@ -1,0 +1,41 @@
+Cell info:
+========================================================================
+number-of-unit-cells: 1 1 1
+unit-cell-vector-a: 26.136 0 0
+unit-cell-vector-b: -13.068 22.6344 0
+unit-cell-vector-c: 8.5015e-16 1.4725e-15 13.884
+
+cell-vector-a: 26.136 0 0
+cell-vector-b: -13.068 22.6344 0
+cell-vector-c: 8.5015e-16 1.4725e-15 13.884
+
+cell-lengths: 26.136 22.6344 13.884 
+cell-angles: 90 90 90 
+
+
+Maximum changes for MC-moves:
+========================================================================
+Maximum-volume-change: 0.006250
+Maximum-Gibbs-volume-change: 0.025000
+Maximum-box-shape-change: 0.100000 0.100000 0.100000, 0.100000 0.100000 0.100000, 0.100000 0.100000 0.100000
+
+
+Acceptance targets for MC-moves:
+========================================================================
+Target-volume-change: 0.500000
+Target-box-shape-change: 0.500000
+Target-Gibbs-volume-change: 0.500000
+
+
+Components: 1 (Adsorbates 0, Cations 0)
+========================================================================
+Components 0 (argon) 
+
+Maximum-translation-change component 0: 2.6136 2.26344 1.3884
+Maximum-translation-in-plane-change component 0: 0.000000,0.000000,0.000000
+Maximum-rotation-change component 0: 0.523583 0.523583 0.523583
+
+Reactions: 0
+
+Component: 0   Adsorbate 0 molecules of argon
+------------------------------------------------------------------------

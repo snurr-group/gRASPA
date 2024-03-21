@@ -1,0 +1,52 @@
+UseGPUReduction no
+Useflag yes
+
+NumberOfInitializationCycles 500000
+NumberOfEquilibrationCycles  0
+NumberOfProductionCycles     500000
+
+UseMaxStep  yes
+MaxStepPerCycle 1
+
+UseChargesFromCIFFile no
+
+RestartFile no
+RandomSeed  0
+
+BMCBiasingMethod LJ_Biasing
+
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+
+NumberOfBlocks 1
+AdsorbateAllocateSpace 10240
+NumberOfSimulations 1
+SingleSimulation yes
+
+DifferentFrameworks yes
+InputFileType cif
+FrameworkName Framework_0_final_1_1_2_P1 
+UnitCells 0 1 1 1 
+
+ChargeMethod None
+Temperature 77
+Pressure    1e5
+
+OverlapCriteria 1e5
+CutOffVDW 6.0
+CutOffCoulomb 6.0
+EwaldPrecision 1e-6
+
+UseDNNforHostGuest yes
+DNNModelName ar-deployed32.pth
+DNNMethod Allegro
+DNNEnergyUnit kJ_mol
+MaxDNNDrift 100000.0
+
+Component 0 MoleculeName             argon
+            IdealGasRosenbluthWeight 1.0
+            FugacityCoefficient      1.0
+            TranslationProbability   1.0
+            ReinsertionProbability   1.0
+            SwapProbability          1.0
+            CreateNumberOfMolecules  0
