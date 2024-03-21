@@ -1,11 +1,9 @@
 ## Installation instructions on [NERSC](https://www.nersc.gov/)
 ## Follow this instruction to install gRASPA-DP on the NERSC Perlmutter cluster. 
 # SPECIAL NOTE: 
-  * If you don't need the DeepPotential, download the code, `cd src_clean/`, and start from [step 6](#Step-6).
+  * If you don't need the ML potential, download the code, `cd src_clean/`, and start from [step 6](#Step-6).
   * Installation on other clusters are similar to on Perlmutter of NERSC. Follow the instructions here, and if you encounter issues, please consult with your institution's IT. 
     * [Northwestern Quest IT](https://www.it.northwestern.edu/departments/it-services-support/research/computing/quest/)
-    * cppflow-patch is for the LCLin model, you can do ```mv cppflow-patch LCLin``` when patching the code with LCLin's ML potential
-    * Similarly, do ```mv libtorch-patch Allegro``` for using the Allegro ML potential
   * Check the [nvhpc](https://developer.nvidia.com/hpc-sdk) version. Currently the code works for **22.5 and 22.7**
     * on NERSC, you can do ```module load nvhpc/22.7``` to use the 22.7 version of nvhpc.
     * Also check out the [issue on this topic](https://github.com/snurr-group/gRASPA/issues/9)
@@ -42,7 +40,7 @@ wget https://download.pytorch.org/libtorch/cu117/libtorch-cxx11-abi-shared-with-
 unzip libtorch-cxx11-abi-shared-with-deps-2.0.1+cu117.zip
 ```
 # Step 5
-Modify line 64 in `patch.py` file to `patch_model=['Allegro']`. Then,
+Modify line 65 in `patch.py` file to `patch_model=['Allegro']`. Then,
 ```shellscript
 python patch.py
 ```
@@ -50,6 +48,7 @@ Now the patched source code is in `patch_libtorch_Allegro/`. Go into the patched
 ```shellscript
 cd patch_libtorch_Allegro/
 ```
+If you are using the Lin model, modify line 64 in `patch.py` to `tf_or_torch = ['cppflow']` and line 65 to `patch_model=['LCLIN']`. Then do the similar steps to those for the Allegro model.
 # Step 6
 Finally, we need to modify the source code due to NERSC configuration:
 ```shellscript
@@ -72,7 +71,7 @@ ln -s libnvrtc-builtins-7237cb5d.so.11.7  libnvrtc-builtins.so.11.7
 ```
 where `libnvrtc-builtins-7237cb5d.so.11.7` is a file in `/your_libtorch_path/libtorch/lib` and it is the source file or target of the link. This command is creating a symbolic link named `libnvrtc-builtins.so.11.7` that points to the source file `libnvrtc-builtins-7237cb5d.so.11.7`. 
 <aside>
-⚠️ Note that this step may not be needed for NERSC, but will be necessary for gRASPA/Allegro to work on other universitys' clusters, depending on cluster's setup**
+⚠️ Note that this step may not be needed for NERSC, but will be necessary for gRASPA/Allegro to work on other universitys' clusters, depending on cluster's setup
 </aside>
 
 
