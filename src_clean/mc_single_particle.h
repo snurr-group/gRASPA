@@ -70,24 +70,28 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
 
   // Setup for the pairwise calculation //
   // New Features: divide the Blocks into two parts: Host-Guest + Guest-Guest //
+  
   size_t NHostAtom = 0; size_t NGuestAtom = 0;
   for(size_t i = 0; i < SystemComponents.NComponents.y; i++)
     NHostAtom += SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
   for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
     NGuestAtom+= SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
 
-
+  //Zhao's note: Cross term, if the selected species is host atom, the crossAtom = guest, vice versa//
+  size_t NCrossAtom = NHostAtom;
+  if(SelectedComponent < SystemComponents.NComponents.y) //Framework component//
+    NCrossAtom = NGuestAtom;
   size_t HH_Nthread=0; size_t HH_Nblock=0; Setup_threadblock(NHostAtom *  Molsize, &HH_Nblock, &HH_Nthread);
-  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NHostAtom *  Molsize, &HG_Nblock, &HG_Nthread);
+  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NCrossAtom * Molsize, &HG_Nblock, &HG_Nthread);
   size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * Molsize, &GG_Nblock, &GG_Nthread);
-  
-  size_t CrossTypeNthread = 0;
-  if(SelectedComponent < SystemComponents.NComponents.y) //Framework-Framework + Framework-Adsorbate//
-  {GG_Nthread = 0; GG_Nblock = 0; CrossTypeNthread = HH_Nthread; }
-  else //Framework-Adsorbate + Adsorbate-Adsorbate//
-  {HH_Nthread = 0; HH_Nblock = 0; CrossTypeNthread = GG_Nthread; }
 
-  size_t Nthread = std::max(CrossTypeNthread, HG_Nthread);
+  size_t SameTypeNthread = 0;
+  if(SelectedComponent < SystemComponents.NComponents.y) //Framework-Framework + Framework-Adsorbate//
+  {GG_Nthread = 0; GG_Nblock = 0; SameTypeNthread = HH_Nthread; }
+  else //Framework-Adsorbate + Adsorbate-Adsorbate//
+  {HH_Nthread = 0; HH_Nblock = 0; SameTypeNthread = GG_Nthread; }
+
+  size_t Nthread = std::max(SameTypeNthread, HG_Nthread);
   size_t Total_Nblock  = HH_Nblock + HG_Nblock + GG_Nblock;
 
   int3 NBlocks = {(int) HH_Nblock, (int) HG_Nblock, (int) GG_Nblock}; //x: HH_Nblock, y: HG_Nblock, z: GG_Nblock;
