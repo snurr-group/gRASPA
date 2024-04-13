@@ -52,6 +52,14 @@ inline std::vector<std::string> split(const std::string txt, char ch)
     return strs;
 }
 
+bool isFloat(const std::string& str) 
+{
+  std::istringstream iss(str);
+  float f;
+  iss >> f;
+  return iss.eof() && !iss.fail();
+}
+
 std::string replaceTabsWithSpaces(const std::string& input, size_t spacesPerTab)
 {
   std::string result;
@@ -563,6 +571,12 @@ void ReadFrameworkComponentMoves(Move_Statistics& MoveStats, Components& SystemC
       Split_Tab_Space(termsScannedLined, str);
       MoveStats.SpecialRotationProb=std::stod(termsScannedLined[1]);
       printf("WARNING: Special Rotations are rotations with pre-set Rotation Axes, Rotation Axes, Angles are needed to define in def files for %s !\n", FrameworkComponentName.c_str());
+    }
+    //Try to add reinsertion move here//
+    if (str.find("ReinsertionProbability", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      MoveStats.ReinsertionProb=std::stod(termsScannedLined[1]);
     }
     if (str.find("END_OF_Framework_Component_" + std::to_string(comp), 0) != std::string::npos)
     {
@@ -1959,7 +1973,14 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
       if (str.find("FugacityCoefficient", 0) != std::string::npos)
       {
         Split_Tab_Space(termsScannedLined, str);
-        fugacoeff = std::stod(termsScannedLined[1]);
+        if(caseInSensStringCompare(termsScannedLined[1], "PR-EOS"))
+        {
+          fugacoeff = -1.0; //Zhao's note: fugacity coefficient cannot be negative! so using negative values as flags for using Peng-Robinson EOS!
+        }
+        else if (isFloat(termsScannedLined[1])) //If not PR-EOS, then the user must input a value (double) //
+          fugacoeff = std::stod(termsScannedLined[1]);
+        else
+          throw std::runtime_error("Unrecognized FugacityCoefficient Input: " + termsScannedLined[1] + ", Currently taking 'PR-EOS' or `a float`!!!");
       }
       if (str.find("MolFraction", 0) != std::string::npos)
       {
@@ -2076,12 +2097,13 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   SystemComponents.Allocate_size.push_back(Allocate_space);
   if(idealrosen < 1e-150) throw std::runtime_error("Error for component {" + std::to_string(AdsorbateComponent) + "}" + "("+ MolName + "): Ideal-Rosenbluth weight not assigned (or not valid), bad. If rigid, assign 1.");
   SystemComponents.IdealRosenbluthWeight.push_back(idealrosen);
-  //Zhao's note: for fugacity coefficient, if not assigned (0.0), do Peng-Robinson
+  /*
+  //Zhao's note: for fugacity coefficient, if assigned in input as "PR-EOS", do Peng-Robinson
   if(fugacoeff < 1e-150)
   {
     throw std::runtime_error("Peng-rob EOS not implemented yet...");
   }
-  
+  */
    
   SystemComponents.FugacityCoeff.push_back(fugacoeff);
   //Zhao's note: for now, Molfraction = 1.0

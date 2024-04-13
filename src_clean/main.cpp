@@ -13,6 +13,7 @@
 #include "axpy.h"
 #include "read_data.h"
 //#include "write_data.h"
+#include "equations_of_state.h"
 #include "fxn_main.h"
 
 #include <unistd.h>
@@ -201,6 +202,13 @@ int main(void)
     Sims[a].Box.Cubic    = Box[a].Cubic;    Sims[a].Box.ReciprocalCutOff = Box[a].ReciprocalCutOff;
     Sims[a].Box.Alpha    = Box[a].Alpha;    Sims[a].Box.Prefactor        = Box[a].Prefactor;
     Sims[a].Box.tol1     = Box[a].tol1;     Sims[a].Box.ExcludeHostGuestEwald = Box[a].ExcludeHostGuestEwald;
+
+    //Calculate Fugacity Coefficient//
+    //Note pressure in Box variable is already converted to internal units//
+    ComputeFugacity(SystemComponents[a], PRESSURE, SystemComponents[a].Temperature);
+    //throw std::runtime_error("EXIT, just test Fugacity Coefficient\n");
+    
+
     cudaMalloc(&Sims[a].Box.Cell, sizeof(double) * 9); cudaMalloc(&Sims[a].Box.InverseCell, sizeof(double) * 9);
     cudaMemcpy(Sims[a].Box.Cell, Box[a].Cell, 9 * sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(Sims[a].Box.InverseCell, Box[a].InverseCell, 9 * sizeof(double), cudaMemcpyHostToDevice);

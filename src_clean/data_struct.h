@@ -115,7 +115,7 @@ struct TMMC
   size_t MinMacrostate     = 0;
   size_t nbinPerMacrostate = 1;
   size_t currentBin = 0;  //Should match what you have for lambda bin//
-  //size_t UpdateTMEvery = {1000000};
+  //size_t UpdateTMEvery = 1000000;
   size_t UpdateTMEvery = 5000;
   size_t TMUpdateTimes = 0;
   bool   DoTMMC = false;
@@ -404,54 +404,58 @@ struct RosenbluthWeight
 struct Move_Statistics
 {
   //Translation Move//
-  double TranslationProb        ={0.0};
-  double RotationProb           ={0.0};
-  double SpecialRotationProb    ={0.0};
-  double WidomProb              ={0.0};
-  double SwapProb               ={0.0};
-  double ReinsertionProb        ={0.0};
-  double IdentitySwapProb       ={0.0};
-  double CBCFProb               ={0.0};
-  double TotalProb              ={0.0};
+  double TranslationProb        =0.0;
+  double RotationProb           =0.0;
+  double SpecialRotationProb    =0.0;
+  double WidomProb              =0.0;
+  double SwapProb               =0.0;
+  double ReinsertionProb        =0.0;
+  double IdentitySwapProb       =0.0;
+  double CBCFProb               =0.0;
+  double TotalProb              =0.0;
   //Translation Move//
-  int TranslationAccepted = {0};
-  int TranslationTotal = {0};
-  double TranslationAccRatio = {0.0};
+  int TranslationAccepted = 0; //zeroed when max translation updated 
+  int TranslationTotal = 0;    //zeroed when max translation updated
+  int CumTranslationAccepted = 0; //Cumulative
+  int CumTranslationTotal = 0;
+  double TranslationAccRatio = 0.0;
   //Rotation Move//
-  int RotationAccepted = {0};
-  int RotationTotal = {0};
-  double RotationAccRatio = {0};
+  int RotationAccepted = 0;    //zeroed when max rotation updated
+  int RotationTotal = 0;       //zeroed when max rotation updated
+  int CumRotationAccepted = 0; //Cumulative
+  int CumRotationTotal = 0;
+  double RotationAccRatio = 0;
   //Special Rotation Move//
-  int SpecialRotationAccepted = {0};
-  int SpecialRotationTotal = {0};
-  double SpecialRotationAccRatio = {0};
+  int SpecialRotationAccepted = 0;
+  int SpecialRotationTotal = 0;
+  double SpecialRotationAccRatio = 0;
   //Insertion Move//
-  size_t InsertionTotal = {0};
-  size_t InsertionAccepted = {0};
+  size_t InsertionTotal = 0;
+  size_t InsertionAccepted = 0;
   //Deletion Move//
-  size_t DeletionTotal = {0};
-  size_t DeletionAccepted = {0};
+  size_t DeletionTotal = 0;
+  size_t DeletionAccepted = 0;
   //Reinsertion Move//
-  size_t ReinsertionTotal = {0};
-  size_t ReinsertionAccepted = {0};
+  size_t ReinsertionTotal = 0;
+  size_t ReinsertionAccepted = 0;
   //CBCFSwap Move//
-  size_t CBCFTotal = {0};
-  size_t CBCFAccepted = {0};
-  size_t CBCFInsertionTotal = {0};
-  size_t CBCFInsertionAccepted = {0};
-  size_t CBCFLambdaTotal = {0};
-  size_t CBCFLambdaAccepted = {0};
-  size_t CBCFDeletionTotal = {0};
-  size_t CBCFDeletionAccepted = {0};
+  size_t CBCFTotal = 0;
+  size_t CBCFAccepted = 0;
+  size_t CBCFInsertionTotal = 0;
+  size_t CBCFInsertionAccepted = 0;
+  size_t CBCFLambdaTotal = 0;
+  size_t CBCFLambdaAccepted = 0;
+  size_t CBCFDeletionTotal = 0;
+  size_t CBCFDeletionAccepted = 0;
   //Identity Swap Move//
   std::vector<size_t>IdentitySwap_Total_TO;
   std::vector<size_t>IdentitySwap_Acc_TO;
-  size_t IdentitySwapAddAccepted={0};
-  size_t IdentitySwapAddTotal={0};
-  size_t IdentitySwapRemoveAccepted={0};
-  size_t IdentitySwapRemoveTotal={0};
+  size_t IdentitySwapAddAccepted=0;
+  size_t IdentitySwapAddTotal=0;
+  size_t IdentitySwapRemoveAccepted=0;
+  size_t IdentitySwapRemoveTotal=0;
 
-  size_t BlockID = {0}; //Keep track of the current Block for Averages//
+  size_t BlockID = 0; //Keep track of the current Block for Averages//
   std::vector<double2>MolAverage;
   //x: average; y: average^2; z: Number of Widom insertion performed//
   std::vector<RosenbluthWeight>Rosen; //vector over Nblocks//
@@ -598,24 +602,24 @@ struct Tail
 //Zhao's note: consider making this the default return variable for moves, like RASPA-3?//
 struct MoveEnergy
 {
-  double storedHGVDW={0.0};
-  double storedHGReal={0.0};
-  double storedHGEwaldE={0.0};
+  double storedHGVDW=0.0;
+  double storedHGReal=0.0;
+  double storedHGEwaldE=0.0;
   // van der Waals //
-  double HHVDW={0.0};
-  double HGVDW={0.0};
-  double GGVDW={0.0};
+  double HHVDW=0.0;
+  double HGVDW=0.0;
+  double GGVDW=0.0;
   // Real Part of Coulomb //
-  double HHReal={0.0};
-  double HGReal={0.0};
-  double GGReal={0.0};
+  double HHReal=0.0;
+  double HGReal=0.0;
+  double GGReal=0.0;
   // Long-Range Ewald Energy //
-  double HHEwaldE={0.0};
-  double HGEwaldE={0.0};
-  double GGEwaldE={0.0};
+  double HHEwaldE=0.0;
+  double HGEwaldE=0.0;
+  double GGEwaldE=0.0;
   // Other Energies //
-  double TailE ={0.0};
-  double DNN_E ={0.0};
+  double TailE =0.0;
+  double DNN_E =0.0;
   double total()
   {
     return HHVDW + HGVDW + GGVDW + 
@@ -854,7 +858,8 @@ struct Components
   std::vector<size_t> NumberOfCreateMolecules;        // Number of Molecules needed to create for every component
   std::vector<double> MolFraction;                    // Mol fraction of the component(excluding the framework)
   std::vector<double> IdealRosenbluthWeight;          // Ideal Rosenbluth weight
-  std::vector<double> FugacityCoeff;                  // Fugacity Coefficient
+  std::vector<double> FugacityCoeff;                  // Fugacity Coefficient //Zhao's note: We can use negative FugacityCoeff for flag of using EOS for the fugacity Coefficient
+
   std::vector<Move_Statistics>Moves;                  // Move statistics: total, acceptance, etc.
   std::vector<double3> MaxTranslation;
   std::vector<double3> MaxRotation;
