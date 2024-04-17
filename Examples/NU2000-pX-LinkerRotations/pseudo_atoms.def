@@ -1,0 +1,13 @@
+#number of pseudo atoms
+10
+#type      print as chem oxi mass       charge   pol.
+HH      yes   H  H    0   1.0000     0.000    0.0
+c       yes   C  C    0   12.000     0.000    0.0
+C       yes   C  C    0   12.000     0.000    0.0
+Al      yes   Al Al   0   27.000     0.000    0.0
+o       yes   O  O    0   16.000     0.000    0.0
+OH      yes   O  O    0   16.000     0.000    0.0
+H       yes   H  H    0   1.0000     0.000    0.0
+CH3_xyl yes  C  C    0   15.000     0.115    0.0
+C_xyl   yes  C  C    0   12.000    -0.115    0.0
+H_xyl   yes  H  H    0   1.0000     0.115    0.0

@@ -1,0 +1,9 @@
+PATCH_ALLEGRO_DATA_STRUCT_H
+#include <torch/script.h> // One-stop header.
+
+PATCH_ALLEGRO_VARIABLES
+  //Allegro Model//
+  Allegro DNN;
+
+PATCH_ALLEGRO_H
+#include "torch_allegro.h"

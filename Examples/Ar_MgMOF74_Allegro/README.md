@@ -1,0 +1,1 @@
+This folder contains example simulation input files for modeling Ar adsorption in Mg-MOF-74 using machine learning potential (Allegro model)

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+rm nvc_main.x
+
+CXX="nvc++"
+#NOTE: TO RUN THE EXECUTABLE, YOU NEED TO LOAD THE ENVIRONMENT OF NVIDIA-HPC-SDK
+torchDir="/home/snurrlab/libtorch-2.0.1-cu117/libtorch/"
+
+LINKFLAG="-D_GLIBCXX_USE_CXX11_ABI=1 -L${torchDir}/lib -I${torchDir}/include/ -I${torchDir}/include/torch/csrc/api/include -Wl,-R${torchDir}/lib -ltorch -ltorch_cpu -lc10 -ltorch_cuda -L/opt/nvidia/hpc_sdk/Linux_x86_64/22.5/cuda/lib64 -L/usr/lib64/ -L/opt/local/lib/gcc11/"
+
+#LINKFLAG="-ltensorflow -L/opt/nvidia/hpc_sdk/Linux_x86_64/22.5/cuda/lib64 -L/usr/lib64/ -L/opt/local/lib/gcc11/"
+
+#NVCFLAG="-O3 -std=c++20 -gpu=cc86 -Minline -fopenmp -Minfo -DUSE_DOUBLE -cuda"
+NVCFLAG="-O3 -std=c++20 -gpu=cc86 -Minline -fopenmp -cuda -stdpar=multicore"
+
+$CXX $NVCFLAG $LINKFLAG -c axpy.cu
+
+$CXX $NVCFLAG $LINKFLAG -c main.cpp
+
+$CXX $NVCFLAG $LINKFLAG -c read_data.cpp
+
+$CXX $NVCFLAG $LINKFLAG -c data_struct.cpp
+
+$CXX $NVCFLAG $LINKFLAG -c VDW_Coulomb.cu
+
+$CXX $NVCFLAG $LINKFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x
+
+rm *.o

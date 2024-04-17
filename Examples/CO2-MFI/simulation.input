@@ -13,8 +13,9 @@ RandomSeed  0
 
 BMCBiasingMethod LJ_Biasing
 
-Widom_Trials 10
-Widom_Orientation 10
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+
 NumberOfBlocks 1
 AdsorbateAllocateSpace 10240
 NumberOfSimulations 1

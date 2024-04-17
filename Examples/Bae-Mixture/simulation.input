@@ -1,0 +1,53 @@
+NumberOfInitializationCycles 100000
+NumberOfEquilibrationCycles  0
+NumberOfProductionCycles     100000
+
+UseChargesFromCIFFile yes
+
+UseMaxStep  yes
+MaxStepPerCycle 1
+
+RestartFile no
+RandomSeed  0
+
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+
+NumberOfBlocks 1
+AdsorbateAllocateSpace 10240
+NumberOfSimulations 1
+SingleSimulation yes
+
+InputFileType cif
+FrameworkName MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge
+UnitCells 0 3 3 2
+
+ChargeMethod Ewald
+Temperature  296
+Pressure     500000
+
+OverlapCriteria 1e5
+CutOffVDW 12.8
+CutOffCoulomb 12.0
+EwaldPrecision 1e-6
+
+Component 0 MoleculeName              CO2
+            IdealGasRosenbluthWeight  1.0
+            FugacityCoefficient       0.9730021872
+            MolFraction               0.5
+            TranslationProbability    1.0
+            RotationProbability       1.0
+            ReinsertionProbability    1.0
+            IdentityChangeProbability 1.0
+            SwapProbability           1.0
+            CreateNumberOfMolecules   0
+
+Component 1 MoleculeName              methane
+            IdealGasRosenbluthWeight  1.0
+            FugacityCoefficient       0.9894689168
+            MolFraction               0.5
+            TranslationProbability    1.0
+            ReinsertionProbability    1.0
+            IdentityChangeProbability 1.0
+            SwapProbability           1.0
+            CreateNumberOfMolecules   0

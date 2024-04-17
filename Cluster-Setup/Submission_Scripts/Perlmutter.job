@@ -1,0 +1,26 @@
+#!/bin/bash
+#SBATCH -A m538
+#SBATCH -C gpu
+#SBATCH -q regular
+#SBATCH -t 12:00:00
+#SBATCH -n 1
+#SBATCH --ntasks-per-node=1
+#SBATCH -c 128
+#SBATCH --gpus-per-task=1
+#SBATCH --gpu-bind=none
+#SBATCH --mem=8G
+
+currentdir=$(pwd)
+
+#write basic node information
+hostname
+nproc=`echo $LSB_MCPU_HOSTS | cut -d " " -f2`
+echo $nproc
+grep -m 1 'model name' /proc/cpuinfo
+cat /etc/redhat-release
+
+# Print GPU information
+nvidia-smi --query-gpu=name --format=csv,noheader
+
+<SOURCE_LOCATION>/nvc_main.x > result.txt
+

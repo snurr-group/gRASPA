@@ -1,18 +1,21 @@
 UseGPUReduction no
 Useflag yes
 
-NumberOfInitializationCycles 100000
-NumberOfEquilibrationCycles  500000
-NumberOfProductionCycles     500000
+NumberOfInitializationCycles 10000
+NumberOfEquilibrationCycles  50000
+NumberOfProductionCycles     50000
 
 UseMaxStep  yes
 MaxStepPerCycle 1
 
+UseChargesFromCIFFile no
+
 RestartFile no
 RandomSeed  0
 
-Widom_Trials 10
-Widom_Orientation 10
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+
 NumberOfBlocks 1
 AdsorbateAllocateSpace 10240
 NumberOfSimulations 1
@@ -26,6 +29,9 @@ UnitCells 0 1 1 1
 ChargeMethod None
 Temperature 95
 Pressure 6800
+
+MoviesEvery 10000
+PrintEvery 10000
 
 OverlapCriteria 1e5
 CutOffVDW 12.8
@@ -43,6 +49,7 @@ Component 0 MoleculeName             methane
             SwapProbability          1.0
             RunTMMC yes
             UseBiasOnMacrostate yes
-            TMMCMin 200
-            TMMCMax 300
-            CreateNumberOfMolecules  200
+            TMMCMin 0
+            TMMCMax 64
+            UpdateTMMCEvery 2000
+            CreateNumberOfMolecules  0
