@@ -6,7 +6,7 @@
 #include <iomanip>
 
 
-static inline void WriteBox_LAMMPS(Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::ofstream& textrestartFile, std::vector<std::string> AtomNames)
+static inline void WriteBox_LAMMPS(Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::ofstream& textrestartFile, std::vector<std::string> AtomNames, std::vector<double> AtomMass)
 {
   size_t NumberOfAtoms = 0;
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
@@ -33,14 +33,14 @@ static inline void WriteBox_LAMMPS(Atoms* System, Components SystemComponents, F
   textrestartFile << "Masses" << '\n' << '\n';
   for(size_t i = 0; i < FF.size; i++)
   { 
-    double mass = 0.0;
-    textrestartFile << i+1 << " " << mass << " # " << AtomNames[i] << '\n';
+    textrestartFile << i+1 << " " << AtomMass[i] << " # " << AtomNames[i] << '\n';
   }
   textrestartFile << '\n' << "Pair Coeffs" << '\n' << '\n'; 
   for(size_t i = 0; i < FF.size; i++)
   { 
     const size_t row = i*FF.size+i;
-    textrestartFile << i+1 << " " << FF.epsilon[row]/120.2/4.184*1.2 << " " << FF.sigma[row] << " # " << AtomNames[i] << '\n';
+    // convert epsilon in internal units of [10 J/mol] to [kcal/mol] for use in LAMMPS with "real" units setting, sigma remains units of [Angstrom]
+    textrestartFile << i+1 << " " << FF.epsilon[row]*0.00239006 << " " << FF.sigma[row] << " # " << AtomNames[i] << '\n';
   }
 }
 
@@ -173,7 +173,7 @@ static inline void WriteCellInfo_Restart(Atoms* System, Components SystemCompone
   WriteComponent_Restart(System, SystemComponents, textrestartFile, Box);
 }
 
-static inline void create_movie_file(Atoms* System, Components& SystemComponents, Boxsize& HostBox, std::vector<std::string> AtomNames, size_t SystemIndex)
+static inline void create_movie_file(Atoms* System, Components& SystemComponents, Boxsize& HostBox, std::vector<std::string> AtomNames, std::vector<double> AtomMass, size_t SystemIndex)
 {
   std::ofstream textrestartFile{};
   std::string dirname="Movies/System_" + std::to_string(SystemIndex) + "/";
@@ -186,7 +186,7 @@ static inline void create_movie_file(Atoms* System, Components& SystemComponents
 
   textrestartFile = std::ofstream(fileName, std::ios::out);
 
-  WriteBox_LAMMPS(System, SystemComponents, SystemComponents.FF, HostBox, textrestartFile, AtomNames);
+  WriteBox_LAMMPS(System, SystemComponents, SystemComponents.FF, HostBox, textrestartFile, AtomNames, AtomMass);
   WriteAtoms_LAMMPS(System, SystemComponents, HostBox, textrestartFile, AtomNames);
 }
 

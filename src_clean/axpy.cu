@@ -55,7 +55,7 @@ inline void GenerateRestartMovies(Components& SystemComponents, Simulations& Sim
   create_Restart_file(0, SystemComponents.HostSystem, SystemComponents, SystemComponents.FF, HostBox, PseudoAtom.Name, systemIdx);
   Write_All_Adsorbate_data(0, SystemComponents.HostSystem, SystemComponents, SystemComponents.FF, HostBox, PseudoAtom.Name, systemIdx);
   //Only generate LAMMPS data movie for production phase
-  if(SimulationMode == PRODUCTION)  create_movie_file(SystemComponents.HostSystem, SystemComponents, HostBox, PseudoAtom.Name, systemIdx);
+  if(SimulationMode == PRODUCTION)  create_movie_file(SystemComponents.HostSystem, SystemComponents, HostBox, PseudoAtom.Name, PseudoAtom.mass, systemIdx);
 }
 
 ///////////////////////////////////////////////////////////
