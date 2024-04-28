@@ -149,7 +149,11 @@ struct TMMC
         CMatrix[BinLocation].z += Pacc;     //Insertion is the third value//
         CMatrix[BinLocation].y += 1-Pacc;
         //if(OldN > CMatrix.size()) printf("At the limit, OldN: %zu, N: %zu, NewN: %zu\n", OldN, N, NewN);
-        if(RejectOutofBound && ((N + 1) > MaxMacrostate)) return;
+        if(RejectOutofBound && ((N + 1) > MaxMacrostate))
+        {
+          Histogram[N] ++; 
+          return;
+        }
         Histogram[NewBinLocation] ++;
         ln_g[NewBinLocation]  += WLFactor;
         WLBias[NewBinLocation] = -ln_g[N]; //WL Bias//
@@ -161,7 +165,12 @@ struct TMMC
         CMatrix[BinLocation].x += Pacc;  //Deletion is the first value//
         CMatrix[BinLocation].y += 1-Pacc;
         ln_g[BinLocation]      += WLFactor;
-        if(RejectOutofBound && ((N - 1) < MinMacrostate)) return;
+        int Update_State = static_cast<int>(BinLocation) - 1;
+        if(RejectOutofBound && (Update_State < static_cast<int>(MinMacrostate))) 
+        {
+          Histogram[BinLocation] ++;
+          return;
+        }
         Histogram[NewBinLocation] ++;
         ln_g[NewBinLocation]   += WLFactor;
         WLBias[NewBinLocation]  = -ln_g[N]; //WL Bias//
