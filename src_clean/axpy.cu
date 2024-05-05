@@ -324,6 +324,8 @@ void Run_Simulation_MultipleBoxes(int Cycles, std::vector<Components>& SystemCom
       BlockAverageSize[sim] = Cycles / SystemComponents[sim].Nblock;
       if(Cycles % SystemComponents[sim].Nblock != 0)
         printf("Warning! Number of Cycles cannot be divided by Number of blocks. Residue values go to the last block\n");
+      SystemComponents[sim].BookKeepEnergy.resize(SystemComponents[sim].Nblock);
+      SystemComponents[sim].BookKeepEnergy_SQ.resize(SystemComponents[sim].Nblock);
     }
   }
 
@@ -451,6 +453,7 @@ void Run_Simulation_MultipleBoxes(int Cycles, std::vector<Components>& SystemCom
         //Record values for Number of atoms//
         for(size_t comp = 0; comp < SystemComponents[sim].Total_Components; comp++)
           Gather_Averages_Types(SystemComponents[sim].Moves[comp].MolAverage, SystemComponents[sim].NumberOfMolecule_for_Component[comp], 0.0, i, BlockAverageSize[sim], SystemComponents[sim].Nblock);
+        Gather_Averages_MoveEnergy(SystemComponents[sim], i, BlockAverageSize[sim], SystemComponents[sim].deltaE);
       }
     }
   }
@@ -461,6 +464,8 @@ void Run_Simulation_MultipleBoxes(int Cycles, std::vector<Components>& SystemCom
     {
       if(SimulationMode == EQUILIBRATION) printf("Sampled %zu WangLandau, Adjusted WL %zu times\n", WLSampled, WLAdjusted);
       PrintAllStatistics(SystemComponents[sim], Sims[sim], Cycles, SimulationMode, BlockAverageSize[sim]);
+      if(SimulationMode == PRODUCTION)
+        Calculate_Overall_Averages_MoveEnergy(SystemComponents[sim], BlockAverageSize[sim]);
     }
     if(GibbsStatistics.DoGibbs)
     {
@@ -502,8 +507,14 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
   /////////////////////////////////////////////
   // FINALIZE (PRODUCTION) CBCF BIASING TERM //
   /////////////////////////////////////////////
+  //////////////////////////////////////
+  // ALSO INITIALIZE AVERAGE ENERGIES //
+  //////////////////////////////////////
   if(SimulationMode == PRODUCTION)
   {
+    SystemComponents.BookKeepEnergy.resize(SystemComponents.Nblock);
+    SystemComponents.BookKeepEnergy_SQ.resize(SystemComponents.Nblock);
+
     for(size_t icomp = 0; icomp < SystemComponents.Total_Components; icomp++)
       if(SystemComponents.hasfractionalMolecule[icomp] && !SystemComponents.Tmmc[icomp].DoTMMC)
         Finalize_WangLandauIteration(SystemComponents.Lambda[icomp]);
@@ -591,6 +602,7 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
       //Record values for Number of atoms//
       for(size_t comp = 0; comp < SystemComponents.Total_Components; comp++)
         Gather_Averages_Types(SystemComponents.Moves[comp].MolAverage, SystemComponents.NumberOfMolecule_for_Component[comp], 0.0, i, BlockAverageSize, SystemComponents.Nblock);
+      Gather_Averages_MoveEnergy(SystemComponents, i, BlockAverageSize, SystemComponents.deltaE);
     }
     if(SimulationMode != INITIALIZATION && i > 0)
     {
@@ -606,6 +618,8 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
   {
     if(SimulationMode == EQUILIBRATION) printf("Sampled %zu WangLandau, Adjusted WL %zu times\n", WLSampled, WLAdjusted);
     PrintAllStatistics(SystemComponents, Sims, Cycles, SimulationMode, BlockAverageSize);
+    if(SimulationMode == PRODUCTION)
+        Calculate_Overall_Averages_MoveEnergy(SystemComponents, BlockAverageSize);
     //Print_Widom_Statistics(SystemComponents, Sims.Box, Constants, 1);
   }
   //At the end of the sim, print a last-step restart and last-step movie

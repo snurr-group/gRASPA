@@ -403,6 +403,8 @@ inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units
     case CREATEMOL_DELTA_CHECK: {stage_name = "CHECK DELTA_E (CREATE MOLECULE - INITIAL)"; E = SystemComponents.CreateMol_Energy - SystemComponents.Initial_Energy; break;}
     case DELTA_CHECK: {stage_name = "CHECK DELTA_E (FINAL - CREATE MOLECULE)"; E = SystemComponents.Final_Energy - SystemComponents.CreateMol_Energy; break;}
     case DRIFT: {stage_name = "ENERGY DRIFT"; E = SystemComponents.CreateMol_Energy + SystemComponents.deltaE - SystemComponents.Final_Energy; break;}
+    case AVERAGE: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY"; E = SystemComponents.AverageEnergy;break;}
+    case AVERAGE_ERR: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY ERRORBAR"; E = SystemComponents.AverageEnergy_Errorbar; break;}
   }
   printf(" *** %s *** \n", stage_name.c_str());
   printf("========================================================================\n");
@@ -443,6 +445,10 @@ inline void ENERGY_SUMMARY(std::vector<Components>& SystemComponents, Units& Con
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA_CHECK, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], DRIFT, Constants);
+    printf("================================================================================\n");
+    printf("======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation %zu) =========================\n", i);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE, Constants);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE_ERR, Constants);
     printf("================================================================================\n");
 
     printf("DNN Rejection Summary:\nTranslation+Rotation: %zu\nReinsertion: %zu\nInsertion: %zu\nDeletion: %zu\nSingleSwap: %zu\n", SystemComponents[i].TranslationRotationDNNReject, SystemComponents[i].ReinsertionDNNReject, SystemComponents[i].InsertionDNNReject, SystemComponents[i].DeletionDNNReject, SystemComponents[i].SingleSwapDNNReject);
