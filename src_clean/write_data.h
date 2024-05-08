@@ -33,14 +33,14 @@ static inline void WriteBox_LAMMPS(Atoms* System, Components SystemComponents, F
   textrestartFile << "Masses" << '\n' << '\n';
   for(size_t i = 0; i < FF.size; i++)
   { 
-    double mass = 0.0;
+    double mass = SystemComponents.PseudoAtoms.mass[i];
     textrestartFile << i+1 << " " << mass << " # " << AtomNames[i] << '\n';
   }
   textrestartFile << '\n' << "Pair Coeffs" << '\n' << '\n'; 
   for(size_t i = 0; i < FF.size; i++)
   { 
     const size_t row = i*FF.size+i;
-    textrestartFile << i+1 << " " << FF.epsilon[row]/120.2/4.184*1.2 << " " << FF.sigma[row] << " # " << AtomNames[i] << '\n';
+    textrestartFile << i+1 << " " << FF.epsilon[row]*0.00239006 << " " << FF.sigma[row] << " # " << AtomNames[i] << '\n';
   }
 }
 

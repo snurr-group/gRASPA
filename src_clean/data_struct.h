@@ -31,7 +31,7 @@ enum ROTATION_AXIS {X = 0, Y, Z, SELF_DEFINED};
 enum INTERACTION_TYPES {HH = 0, HG, GG};
 
 //Zhao's note: For the stage of evaluating total energy of the system//
-enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT};
+enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT, AVERAGE, AVERAGE_ERR};
 
 struct EnergyComplex
 {
@@ -149,7 +149,11 @@ struct TMMC
         CMatrix[BinLocation].z += Pacc;     //Insertion is the third value//
         CMatrix[BinLocation].y += 1-Pacc;
         //if(OldN > CMatrix.size()) printf("At the limit, OldN: %zu, N: %zu, NewN: %zu\n", OldN, N, NewN);
-        if(RejectOutofBound && ((N + 1) > MaxMacrostate)) return;
+        if(RejectOutofBound && ((N + 1) > MaxMacrostate))
+        {
+          Histogram[N] ++; 
+          return;
+        }
         Histogram[NewBinLocation] ++;
         ln_g[NewBinLocation]  += WLFactor;
         WLBias[NewBinLocation] = -ln_g[N]; //WL Bias//
@@ -161,7 +165,12 @@ struct TMMC
         CMatrix[BinLocation].x += Pacc;  //Deletion is the first value//
         CMatrix[BinLocation].y += 1-Pacc;
         ln_g[BinLocation]      += WLFactor;
-        if(RejectOutofBound && ((N - 1) < MinMacrostate)) return;
+        int Update_State = static_cast<int>(BinLocation) - 1;
+        if(RejectOutofBound && (Update_State < static_cast<int>(MinMacrostate))) 
+        {
+          Histogram[BinLocation] ++;
+          return;
+        }
         Histogram[NewBinLocation] ++;
         ln_g[NewBinLocation]   += WLFactor;
         WLBias[NewBinLocation]  = -ln_g[N]; //WL Bias//
@@ -670,7 +679,67 @@ struct MoveEnergy
     return correction;
   };
 };
+/*
+__host__ MoveEnergy MoveEnergy_Multiply(MoveEnergy A, MoveEnergy B)
+{
+  MoveEnergy X;
+  X.storedHGVDW    = A.storedHGVDW * B.storedHGVDW;
+  X.storedHGReal   = A.storedHGReal * B.storedHGReal;
+  X.storedHGEwaldE = A.storedHGEwaldE * B.storedHGEwaldE;
 
+  X.HHVDW    = A.HHVDW    * B.HHVDW;
+  X.HGVDW    = A.HGVDW    * B.HGVDW;
+  X.GGVDW    = A.GGVDW    * B.GGVDW;
+  X.HHReal   = A.HHReal   * B.HHReal;
+  X.HGReal   = A.HGReal   * B.HGReal;
+  X.GGReal   = A.GGReal   * B.GGReal;
+  X.HHEwaldE = A.HHEwaldE * B.HHEwaldE;
+  X.HGEwaldE = A.HGEwaldE * B.HGEwaldE;
+  X.GGEwaldE = A.GGEwaldE * B.GGEwaldE;
+  X.TailE    = A.TailE    * B.TailE;
+  X.DNN_E    = A.DNN_E    * B.DNN_E;
+  return X;
+}
+__host__ MoveEnergy MoveEnergy_DIVIDE_DOUBLE(MoveEnergy A, double B)
+{
+  MoveEnergy X;
+  double OneOverB = 1.0 / B;
+  X.storedHGVDW     = A.storedHGVDW    * OneOverB;
+  X.storedHGReal    = A.storedHGReal   * OneOverB;
+  X.storedHGEwaldE  = A.storedHGEwaldE * OneOverB;
+
+  X.HHVDW    = A.HHVDW * OneOverB;
+  X.HGVDW    = A.HGVDW * OneOverB;
+  X.GGVDW    = A.GGVDW * OneOverB;
+  X.HHReal   = A.HHReal * OneOverB;
+  X.HGReal   = A.HGReal * OneOverB;
+  X.GGReal   = A.GGReal * OneOverB;
+  X.HHEwaldE = A.HHEwaldE * OneOverB;
+  X.HGEwaldE = A.HGEwaldE * OneOverB;
+  X.GGEwaldE = A.HHEwaldE * OneOverB;
+  X.TailE    = A.TailE * OneOverB;
+  X.DNN_E    = A.DNN_E * OneOverB;
+  return X;
+}
+__host__ void operator +=(MoveEnergy& A, MoveEnergy B)
+{
+  A.storedHGVDW     += B.storedHGVDW;
+  A.storedHGReal    += B.storedHGReal;
+  A.storedHGEwaldE  += B.storedHGEwaldE;
+
+  A.HHVDW    += B.HHVDW;
+  A.HGVDW    += B.HGVDW;
+  A.GGVDW    += B.GGVDW;
+  A.HHReal   += B.HHReal;
+  A.HGReal   += B.HGReal;
+  A.GGReal   += B.GGReal;
+  A.HHEwaldE += B.HHEwaldE;
+  A.HGEwaldE += B.HGEwaldE;
+  A.GGEwaldE += B.GGEwaldE;
+  A.TailE    += B.TailE;
+  A.DNN_E    += B.DNN_E;
+}
+*/
 struct Atoms
 {
   double3* pos;
@@ -796,6 +865,37 @@ struct Components
   MoveEnergy Initial_Energy;
   MoveEnergy CreateMol_Energy;
   MoveEnergy Final_Energy;
+  //Zhao's note: for average and standard deviations for energies
+  std::vector<MoveEnergy> BookKeepEnergy;
+  std::vector<MoveEnergy> BookKeepEnergy_SQ;
+  MoveEnergy AverageEnergy;
+  MoveEnergy AverageEnergy_Errorbar;
+  /*
+  //Zhao's note: do not use pass by ref for DeltaE
+  void Gather_Averages_MoveEnergy(int Cycles, int Blocksize, MoveEnergy DeltaE)
+  {
+    size_t blockID = Cycles/Blocksize;
+    if(blockID >= Nblock) blockID --;
+    if(blockID == Nblock-1)
+    {
+      if(Cycles % Blocksize != 0) Blocksize += Cycles % Blocksize;
+    }
+    //Get total energy//
+    //MoveEnergy UpdateDeltaE = ;
+    BookKeepEnergy[blockID]    += MoveEnergy_DIVIDE_DOUBLE(DeltaE, static_cast<double>(Blocksize));
+    BookKeepEnergy_SQ[blockID] += MoveEnergy_Multiply(MoveEnergy_DIVIDE_DOUBLE(DeltaE, static_cast<double>(Blocksize)), DeltaE);
+  }
+  void Calculate_Overall_Averages_MoveEnergy(int Blocksize)
+  {
+    //Calculate just the overall, now//
+    for(size_t i = 0; i < Nblock; i++)
+    {
+      AverageEnergy          += MoveEnergy_DIVIDE_DOUBLE(BookKeepEnergy[i], static_cast<double>(Nblock));
+      AverageEnergy_Errorbar += MoveEnergy_Multiply(MoveEnergy_DIVIDE_DOUBLE(BookKeepEnergy[i], static_cast<double>(Nblock)), BookKeepEnergy[i]);
+    }
+  }
+  */
+
   Atoms*  HostSystem;                                 //CPU pointers for storing Atoms (d_a in Simulations is the GPU Counterpart)//
   Atoms   TempSystem;                                 //For temporary data storage//
   void Copy_GPU_Data_To_Temp(Atoms GPU_System, size_t start, size_t size)

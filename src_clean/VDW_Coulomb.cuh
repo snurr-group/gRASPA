@@ -30,6 +30,10 @@ __host__ __device__ void operator *=(double3 &a, double b);
 
 __host__ __device__ double dot(double3 a, double3 b);
 
+__host__ MoveEnergy sqrt_MoveEnergy(MoveEnergy A);
+__host__ MoveEnergy operator *(MoveEnergy A, MoveEnergy B);
+__host__ MoveEnergy operator *(MoveEnergy A, double B);
+__host__ MoveEnergy operator /(MoveEnergy A, double B);
 __host__ void operator +=(MoveEnergy& A, MoveEnergy B);
 __host__ void operator -=(MoveEnergy& A, MoveEnergy B);
 __host__ MoveEnergy operator +(MoveEnergy A, MoveEnergy B);

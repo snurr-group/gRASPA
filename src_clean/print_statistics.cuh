@@ -16,20 +16,20 @@ static inline void Print_Cycle_Statistics(size_t Cycle, Components& SystemCompon
 
 static inline void Print_Translation_Statistics(Move_Statistics MoveStats, double3 MaxTranslation)
 {
-  if(MoveStats.TranslationTotal == 0) return;
+  if(MoveStats.CumTranslationTotal == 0) return;
   printf("=====================TRANSLATION MOVES=====================\n");
-  printf("Translation Performed: %zu\n", MoveStats.TranslationTotal);
-  printf("Translation Accepted: %zu\n", MoveStats.TranslationAccepted);
+  printf("Translation Performed: %zu\n", MoveStats.CumTranslationTotal);
+  printf("Translation Accepted: %zu\n", MoveStats.CumTranslationAccepted);
   printf("Max Translation: %.10f, %.10f, %.10f\n", MaxTranslation.x, MaxTranslation.y, MaxTranslation.z);
   printf("===========================================================\n");
 }
  
 static inline void Print_Rotation_Statistics(Move_Statistics MoveStats, double3 MaxRotation)
 {
-  if(MoveStats.RotationTotal == 0) return;
+  if(MoveStats.CumRotationTotal == 0) return;
   printf("=====================ROTATION MOVES========================\n");
-  printf("Rotation Performed: %zu\n", MoveStats.RotationTotal);
-  printf("Rotation Accepted: %zu\n", MoveStats.RotationAccepted);
+  printf("Rotation Performed: %zu\n", MoveStats.CumRotationTotal);
+  printf("Rotation Accepted: %zu\n", MoveStats.CumRotationAccepted);
   printf("Max Rotation: %.10f, %.10f, %.10f\n", MaxRotation.x, MaxRotation.y, MaxRotation.z);
   printf("===========================================================\n");
 }
@@ -314,6 +314,33 @@ static inline void Gather_Averages(std::vector<double2>& Array, double init_ener
   double total_energy = init_energy + running_energy;
   Array[blockID].x += total_energy;
   Array[blockID].y += total_energy * total_energy;
+}
+
+//Zhao's note: do not use pass by ref for DeltaE
+void Gather_Averages_MoveEnergy(Components& SystemComponents, int Cycles, int Blocksize, MoveEnergy DeltaE)
+{
+  size_t blockID = Cycles/Blocksize;
+  if(blockID >= SystemComponents.Nblock) blockID --;
+  if(blockID == SystemComponents.Nblock-1)
+  {
+    if(Cycles % Blocksize != 0) Blocksize += Cycles % Blocksize;
+  }
+  //Get total energy//
+  //MoveEnergy UpdateDeltaE = ;
+  SystemComponents.BookKeepEnergy[blockID]    += DeltaE / static_cast<double>(Blocksize);
+  //SystemComponents.BookKeepEnergy_SQ[blockID] += DeltaE / static_cast<double>(Blocksize) * DeltaE;
+}
+
+void Calculate_Overall_Averages_MoveEnergy(Components& SystemComponents, int Blocksize)
+{
+  //Calculate just the overall, now//
+  MoveEnergy AverageEnergy_SQ;
+  for(size_t i = 0; i < SystemComponents.Nblock; i++)
+  {
+    SystemComponents.AverageEnergy          += SystemComponents.BookKeepEnergy[i]/ static_cast<double>(SystemComponents.Nblock);
+    AverageEnergy_SQ                        += SystemComponents.BookKeepEnergy[i]/ static_cast<double>(SystemComponents.Nblock) * SystemComponents.BookKeepEnergy[i];
+  }
+  SystemComponents.AverageEnergy_Errorbar = sqrt_MoveEnergy(AverageEnergy_SQ - SystemComponents.AverageEnergy * SystemComponents.AverageEnergy) * 2.0;
 }
 
 static inline void Print_Values(std::vector<double2>& Array, int Cycles, int Blocksize, size_t Nblock)
