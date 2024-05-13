@@ -34,6 +34,7 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 | Widom test particle insertion | :heavy_check_mark: | :heavy_check_mark: |
 | Insertion/Deletion<br>(without CBMC) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Insertion/Deletion<br>(with CBMC) | :heavy_check_mark: | :heavy_check_mark: |
+| Identity Swap | :heavy_check_mark: |
 | NVT-Gibbs volume change move | :heavy_check_mark: | :heavy_check_mark: |
 | Gibbs particle transfer | :heavy_check_mark: | :heavy_check_mark: |
 | Configurational Bias/<br>Continuous Fractional Components<br>(CB/CFC) MC | :heavy_check_mark: | :heavy_check_mark: |
