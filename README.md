@@ -13,6 +13,35 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
   * gRASPA paper is not published yet.
   * Part of gRASPA is documented in [Zhao Li's dissertation](https://www.proquest.com/docview/2856224877/406AD117D18F4215PQ/1?accountid=12861). Please kindly cite this if you used it in your publication. Thanks.
 
+# TABLE of Code Capabilities
+| Functionalities | gRASPA | gRASPA-fast | gRASPA-HTC |
+| :---------------: | :---------------------: | :-----------------------: | :-----------------------: |
+| ***Simulation Types*** |||
+| Canonical Monte Carlo<br>(NVT-MC) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Grand Canonical Monte Carlo<br>(GCMC) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Transition-Matrix Monte Carlo<br>in grand canonical ensemble<br>(GC-TMMC) | :heavy_check_mark: | :heavy_check_mark: |  |
+| Mixture Adsorption via GCMC | :heavy_check_mark: |
+| NVT-Gibbs MC | :heavy_check_mark: |:heavy_check_mark: |
+| **Interactions** |
+| Lennard-Jones (12-6) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Short-Range Coulomb | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Long-Range Coulomb: Ewald Summation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Analytical Tail Correction | :heavy_check_mark: | :heavy_check_mark: |  |
+| Machine-Learning Potential<br>(via LibTorch and cppFlow) | :heavy_check_mark: |  |  |
+| **Moves** |
+| Translation/Rotation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Configurational-Bias Monte Carlo (CBMC) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Widom test particle insertion | :heavy_check_mark: | :heavy_check_mark: |
+| Insertion/Deletion<br>(without CBMC) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Insertion/Deletion<br>(with CBMC) | :heavy_check_mark: | :heavy_check_mark: |  |
+| NVT-Gibbs volume change move | :heavy_check_mark: | :heavy_check_mark: |  |
+| Gibbs particle transfer | :heavy_check_mark: | :heavy_check_mark: |  |
+| Configurational Bias/<br>Continuous Fractional Components<br>(CB/CFC) MC | :heavy_check_mark: | :heavy_check_mark: |  |
+| **Functionalities** |
+| Movies: LAMMPS data file | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
+
+
 # Action Items
   * Fugacity Coefficient calculation using PR-EOS (Xiaoyi)
   * LAMMPS-style Setup for Ewald Summation [DONE: Check commit here](https://github.com/snurr-group/gRASPA/commit/929f1e15e367a12617bcae6bbee0c06413ea2769)
