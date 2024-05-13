@@ -22,13 +22,13 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 | Transition-Matrix Monte Carlo<br>in grand canonical ensemble<br>(GC-TMMC) | :heavy_check_mark: | :heavy_check_mark: |  |
 | Mixture Adsorption via GCMC | :heavy_check_mark: |
 | NVT-Gibbs MC | :heavy_check_mark: |:heavy_check_mark: |
-| **Interactions** |
+| ***Interactions*** |
 | Lennard-Jones (12-6) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Short-Range Coulomb | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Long-Range Coulomb: Ewald Summation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Analytical Tail Correction | :heavy_check_mark: | :heavy_check_mark: |  |
 | Machine-Learning Potential<br>(via LibTorch and cppFlow) | :heavy_check_mark: |  |  |
-| **Moves** |
+| ***Moves*** |
 | Translation/Rotation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Configurational-Bias Monte Carlo (CBMC) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Widom test particle insertion | :heavy_check_mark: | :heavy_check_mark: |
@@ -37,7 +37,7 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 | NVT-Gibbs volume change move | :heavy_check_mark: | :heavy_check_mark: |  |
 | Gibbs particle transfer | :heavy_check_mark: | :heavy_check_mark: |  |
 | Configurational Bias/<br>Continuous Fractional Components<br>(CB/CFC) MC | :heavy_check_mark: | :heavy_check_mark: |  |
-| **Functionalities** |
+| ***Extra Functionalities*** |
 | Movies: LAMMPS data file | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
 
