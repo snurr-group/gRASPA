@@ -30,14 +30,17 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 | Machine-Learning Potential<br>(via LibTorch and cppFlow) | :heavy_check_mark: |  |  |
 | ***Moves*** |
 | Translation/Rotation | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Configurational-Bias Monte Carlo (CBMC) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Configurational-Bias Monte Carlo (CBMC) | :heavy_check_mark: | :heavy_check_mark: |
 | Widom test particle insertion | :heavy_check_mark: | :heavy_check_mark: |
 | Insertion/Deletion<br>(without CBMC) | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
-| Insertion/Deletion<br>(with CBMC) | :heavy_check_mark: | :heavy_check_mark: |  |
-| NVT-Gibbs volume change move | :heavy_check_mark: | :heavy_check_mark: |  |
-| Gibbs particle transfer | :heavy_check_mark: | :heavy_check_mark: |  |
-| Configurational Bias/<br>Continuous Fractional Components<br>(CB/CFC) MC | :heavy_check_mark: | :heavy_check_mark: |  |
+| Insertion/Deletion<br>(with CBMC) | :heavy_check_mark: | :heavy_check_mark: |
+| Identity Swap | :heavy_check_mark: |
+| NVT-Gibbs volume change move | :heavy_check_mark: | :heavy_check_mark: |
+| Gibbs particle transfer | :heavy_check_mark: | :heavy_check_mark: |
+| Configurational Bias/<br>Continuous Fractional Components<br>(CB/CFC) MC | :heavy_check_mark: | :heavy_check_mark: |
 | ***Extra Functionalities*** |
+| Restart files<br>(Compatible with RASPA-2) | :heavy_check_mark: | :heavy_check_mark: |
+| Peng-Robinson Equation of State | :heavy_check_mark: |
 | Movies: LAMMPS data file | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
 
