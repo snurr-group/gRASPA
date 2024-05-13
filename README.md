@@ -39,6 +39,8 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 | Gibbs particle transfer | :heavy_check_mark: | :heavy_check_mark: |
 | Configurational Bias/<br>Continuous Fractional Components<br>(CB/CFC) MC | :heavy_check_mark: | :heavy_check_mark: |
 | ***Extra Functionalities*** |
+| Restart files<br>(Compatible with RASPA-2) | :heavy_check_mark: | :heavy_check_mark: |
+| Peng-Robinson Equation of State | :heavy_check_mark: |
 | Movies: LAMMPS data file | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
 
