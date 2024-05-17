@@ -2175,7 +2175,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   std::cout << "-------------- END OF READING " << start_string << " (" << MolName << ")" << " --------------\n";
 }
 
-void RestartFileParser(Simulations& Sims, Components& SystemComponents)
+void RestartFileParser(Simulations& Sims, Boxsize& Box, Components& SystemComponents)
 {
   bool UseChargesFromCIFFile = true;  //Zhao's note: if not, use charge from pseudo atoms file, not implemented (if reading poscar, then self-defined charges probably need a separate file //
   std::string scannedLine; std::string str;
@@ -2320,6 +2320,21 @@ void RestartFileParser(Simulations& Sims, Components& SystemComponents)
         //printf("Reading Positions, atom: %zu, xyz: %.5f %.5f %.5f, Type: %zu, MolID: %zu\n", atom, pos[atom].x, pos[atom].y, pos[atom].z, Type[atom], MolID[atom]);
         //Zhao's note: adjust the MolID from absolute to relative to component//
         MolID[atom] -= PreviousCompNMol;
+        //Zhao's note, 051724, Consider adding a wrap/unwrap here//
+        //Calculate atom distance between atom A and the first atom in the molecule//
+        //I know, many code will consider using the oxygen atom as the reference for wrapping, no, this is not general enough//
+        //We will use the first atom//
+        double3 first_bead_pos;
+        if(atomid == 0)
+        {
+          first_bead_pos = pos[atom];
+        }
+        else if(atomid != 0)
+        {
+          double3 dist_vec = pos[atom] - first_bead_pos;
+          PBC(dist_vec, Box.Cell, Box.InverseCell, Box.Cubic);
+          pos[atom] = first_bead_pos + dist_vec;
+        }
       }
       //Read charge//
       if((counter >= start + interval * 3) && (counter < start + interval * 4))

@@ -24,7 +24,7 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
 
 void read_component_values_from_simulation_input(Components& SystemComponents, Move_Statistics& MoveStats, size_t AdsorbateComponent, Atoms& Mol, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space);
 
-void RestartFileParser(Simulations& Sims, Components& SystemComponents);
+void RestartFileParser(Simulations& Sims, Boxsize& Box, Components& SystemComponents);
 
 void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double precision);
 

@@ -225,7 +225,7 @@ int main(void)
     cudaMalloc(&Sims[a].d_a, sizeof(Atoms)*NComponents.x);
     if(RunSingleSim)
     {
-      if(a == SelectedSim && ReadRestart) {RestartFileParser(Sims[a], SystemComponents[a]); AlreadyHasFractionalMolecule = true;}
+      if(a == SelectedSim && ReadRestart) {RestartFileParser(Sims[a], Box[a], SystemComponents[a]); AlreadyHasFractionalMolecule = true;}
     }
     Copy_Atom_data_to_device((size_t) NComponents.x, device_System, SystemComponents[a].HostSystem);
     Prepare_TempSystem_On_Host(SystemComponents[a].TempSystem);
