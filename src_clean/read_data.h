@@ -26,9 +26,9 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
 
 void ReadRestartInputFileType(Components& SystemComponents);
 
-void LMPDataFileParser(Simulations& Sims, Boxsize& Box, Components& SystemComponents);
+void LMPDataFileParser(Boxsize& Box, Components& SystemComponents);
 
-void RestartFileParser(Simulations& Sims, Boxsize& Box, Components& SystemComponents);
+void RestartFileParser(Boxsize& Box, Components& SystemComponents);
 
 void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double precision);
 

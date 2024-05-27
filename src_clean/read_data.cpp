@@ -2287,7 +2287,7 @@ static inline size_t ReadLMPDataStartComponent(Components& SystemComponents)
 //1. Determine the molecule size, try to match the component //
 //2. keyword about whether to read box sizes//
 //3. keyword about which component to start with (sometimes we can skip the framework atoms//
-void LMPDataFileParser(Simulations& Sims, Boxsize& Box, Components& SystemComponents)
+void LMPDataFileParser(Boxsize& Box, Components& SystemComponents)
 {
   printf("/*----------- READING INITIAL LAMMPS DATA FILE AS INPUT!!! -----------*/\n");
   printf("/*WARNING: Please make sure that your ATOM TYPES ARE CONSISTENT in Lammps data file and pseudo_atoms.def!!!*/\n");
@@ -2476,7 +2476,7 @@ void LMPDataFileParser(Simulations& Sims, Boxsize& Box, Components& SystemCompon
   //throw std::runtime_error("DONE!!!");
 }
 
-void RestartFileParser(Simulations& Sims, Boxsize& Box, Components& SystemComponents)
+void RestartFileParser(Boxsize& Box, Components& SystemComponents)
 {
   bool UseChargesFromCIFFile = true;  //Zhao's note: if not, use charge from pseudo atoms file, not implemented (if reading poscar, then self-defined charges probably need a separate file //
   std::string scannedLine; std::string str;
@@ -2508,6 +2508,7 @@ void RestartFileParser(Simulations& Sims, Boxsize& Box, Components& SystemCompon
     }
     file.clear();
     file.seekg(0);
+    printf("RASPA Restart: Now reading Component Info\n");
     //Start reading//
     while (std::getline(file, str))
     {

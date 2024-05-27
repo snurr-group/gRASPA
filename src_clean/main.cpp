@@ -241,6 +241,7 @@ int main(void)
     bool AlreadyHasFractionalMolecule = false;
     Atoms device_System[NComponents.x];
     cudaMalloc(&Sims[a].d_a, sizeof(Atoms)*NComponents.x);
+    InitializeMaxTranslationRotation(SystemComponents[a]);
     //Read initial configurations either from restart file or from lammps data file//
     if(RunSingleSim)
     {
@@ -249,11 +250,11 @@ int main(void)
         ReadRestartInputFileType(SystemComponents[a]);
         if(SystemComponents[a].RestartInputFileType == RASPA_RESTART) 
         {
-          RestartFileParser(Sims[a], Box[a], SystemComponents[a]); AlreadyHasFractionalMolecule = true;
+          RestartFileParser(Box[a], SystemComponents[a]); AlreadyHasFractionalMolecule = true;
         }
         else if(SystemComponents[a].RestartInputFileType == LAMMPS_DATA)
         {
-          LMPDataFileParser(Sims[a], Box[a], SystemComponents[a]);
+          LMPDataFileParser(Box[a], SystemComponents[a]);
         }
       }
     }

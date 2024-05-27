@@ -159,6 +159,18 @@ inline void Prepare_ForceField(ForceField& FF, ForceField& device_FF, PseudoAtom
   //PseudoAtomParser(FF, PseudoAtom);
 }
 
+inline void InitializeMaxTranslationRotation(Components& SystemComponents)
+{
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
+  {
+    double3 MaxTranslation = {1.0, 1.0, 1.0};
+    double3 MaxRotation    = {30.0/(180/3.1415), 30.0/(180/3.1415), 30.0/(180/3.1415)};
+    SystemComponents.MaxTranslation.push_back(MaxTranslation);
+    SystemComponents.MaxRotation.push_back(MaxRotation);
+    SystemComponents.MaxSpecialRotation.push_back(MaxRotation);
+  }
+}
+
 inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Components& SystemComponents, Atoms* System)
 {
   //Zhao's note: NumberWidomTrials is for first bead. NumberWidomTrialsOrientations is for the rest, here we consider single component, not mixture //
@@ -198,9 +210,9 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
   {
     double3 MaxTranslation = {Box.Cell[0]*0.1, Box.Cell[4]*0.1, Box.Cell[8]*0.1};
     double3 MaxRotation    = {30.0/(180/3.1415), 30.0/(180/3.1415), 30.0/(180/3.1415)};
-    SystemComponents.MaxTranslation.push_back(MaxTranslation);
-    SystemComponents.MaxRotation.push_back(MaxRotation);
-    SystemComponents.MaxSpecialRotation.push_back(MaxRotation);
+    SystemComponents.MaxTranslation[i]    =MaxTranslation;
+    SystemComponents.MaxRotation[i]       =MaxRotation;
+    SystemComponents.MaxSpecialRotation[i]=MaxRotation;
   }
   Sims.start_position = 0;
   //Sims.Nblocks = 0;
