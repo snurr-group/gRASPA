@@ -2175,6 +2175,307 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   std::cout << "-------------- END OF READING " << start_string << " (" << MolName << ")" << " --------------\n";
 }
 
+//Sort vector A, and return a reorder lambda function//
+auto generate_reorder_lambda(std::vector<int>& indices, std::vector<int>& A)
+{
+  std::sort(indices.begin(), indices.end(),
+            [&](int i1, int i2) { return A[i1] < A[i2]; });
+
+  // Helper lambda to reorder any vector according to indices
+  auto reorder = [&](auto& vec) 
+  {
+      auto temp = vec;
+      for (size_t i = 0; i < indices.size(); ++i)
+          vec[i] = temp[indices[i]];
+  };
+  return reorder;
+}
+
+//Filter based on equal
+//Has to be integer
+auto generate_filter_lambda(std::vector<int>& A, int Criterion, std::vector<int>& filteredIndices)
+{
+  // Collect indices of elements in A that are > 0
+  //std::vector<int> filteredIndices;
+  for (int i = 0; i < A.size(); ++i) 
+  {
+    if (A[i] == Criterion)
+    {
+      filteredIndices.push_back(i);
+    }
+  }
+  // Helper function to create filtered vector based on indices
+  auto createFilteredVector = [&](auto& original)
+  {
+    typename std::remove_reference<decltype(original)>::type filtered;
+    for (size_t i = 0; i < filteredIndices.size(); i++) 
+    {
+      size_t index = filteredIndices[i];
+      //std::cout << "filtered index: " << index << '\n';
+      filtered.push_back(original[index]);
+    }
+    return filtered;
+  };
+  return createFilteredVector;
+}
+
+void ReadRestartInputFileType(Components& SystemComponents)
+{
+  std::vector<std::string> termsScannedLined{};
+  std::string str;
+  std::ifstream file("simulation.input");
+  while (std::getline(file, str))
+  {
+    if (str.find("RestartInputFileType", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      if(caseInSensStringCompare(termsScannedLined[1], "RASPA"))
+      {
+        SystemComponents.RestartInputFileType = RASPA_RESTART;
+        printf("Using RASPA RESTART FILE as RESTART INPUT STRUCTURE\n");
+        break;
+      }
+      else if(caseInSensStringCompare(termsScannedLined[1], "LAMMPS"))
+      {
+        SystemComponents.RestartInputFileType = LAMMPS_DATA;
+        printf("Using LAMMPS DATA FILE as RESTART INPUT STRUCTURE\n");
+        break;
+      }
+      else
+      {
+        throw std::runtime_error("Unrecognized input file type for restart file! gRASPA accepts 1. RASPA-2 type restart file (keyword: RASPA); 2. LAMMPS DATA file (keyword: LAMMPS). Plase Check!!!");
+      }
+    }
+  }
+  
+}
+
+static inline size_t ReadLMPDataStartComponent(Components& SystemComponents)
+{
+  std::vector<std::string> termsScannedLined{};
+  std::string str;
+  std::ifstream file("simulation.input");
+  size_t StartComponent = 0;
+  while (std::getline(file, str))
+  {
+    if (str.find("LMPData_Comp_to_Start_with", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      int TempComponent = std::stoi(termsScannedLined[1]);
+      if(TempComponent >= SystemComponents.NComponents.x || TempComponent < 0)
+      {
+        throw std::runtime_error("Your specified Starting Component to read in LMP Data file exceeds the limit of components (0 or total number of components)! CHECK!\n");
+      }
+      StartComponent = static_cast<size_t>(TempComponent);
+    }
+    if (str.find("Read_Boxsize", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      if(caseInSensStringCompare(termsScannedLined[1], "yes"))
+      {
+        SystemComponents.Read_BoxsizeRestart = true;
+      }
+    }
+  }
+  file.clear();
+  file.seekg(0);
+  return StartComponent;
+}
+
+//Zhao's note: 
+//Tasks: 
+//1. Determine the molecule size, try to match the component //
+//2. keyword about whether to read box sizes//
+//3. keyword about which component to start with (sometimes we can skip the framework atoms//
+void LMPDataFileParser(Simulations& Sims, Boxsize& Box, Components& SystemComponents)
+{
+  printf("/*----------- READING INITIAL LAMMPS DATA FILE AS INPUT!!! -----------*/\n");
+  printf("/*WARNING: Please make sure that your ATOM TYPES ARE CONSISTENT in Lammps data file and pseudo_atoms.def!!!*/\n");
+  bool ReadBoxsize = false;
+  //Read the starting component to read from the LMPData file, if zero, then the framework 0 component is read, if one, then you start with one and skip zero//
+  size_t StartComponent = ReadLMPDataStartComponent(SystemComponents);
+
+  std::string scannedLine; std::string str;
+  std::vector<std::string> termsScannedLined{};
+  //Determine framework name (file name)//
+  std::string Filename = "LMPDataInitial/System_0/init.data";
+  std::ifstream file(Filename);
+  std::filesystem::path pathfile = std::filesystem::path(Filename);
+  if (!std::filesystem::exists(pathfile))
+  {
+    throw std::runtime_error("LMPData Initial file not found... You need a folder/file called: *LMPDataInitial/System_0/init.data*\n");
+  }
+  //Check unique components//
+  std::vector<double3>pos;
+  std::vector<int>type;
+  std::vector<double>charge;
+  std::vector<int>MolID;
+  std::vector<int>CompID; //Component ID, shown by component name (after # sign) for each atom//
+  std::vector<int>AtomID; //number appears as the first index in the line for each atom//
+  std::vector<int>ID;     //number appears as it is in the data file//
+  //Read the position/type/charge first//
+  //Assume the atom types in LMP data file MATCH the pseudo-atom types in gRASPA//
+  //Note that lammps index starts from 1//
+  size_t counter = 0; size_t atom_count = 0;
+  size_t total_atoms = 0;
+  size_t start_read_line = 0;
+  if(SystemComponents.Read_BoxsizeRestart)
+  {
+    printf("Reading boxsizes from LMPData Initial file.\n");
+    printf("***WARNING***All box sizes are shifted to start from zero!\n");
+    bool foundx = false; bool foundy = false; bool foundz = false; bool found_xy_xz_yz = false;
+    bool reached_atom_types = false;
+    while (std::getline(file, str))
+    {
+      if((str.find("xlo", 0) != std::string::npos) && (str.find("xhi", 0) != std::string::npos))
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        Box.Cell[0] = std::stod(termsScannedLined[1]) - std::stod(termsScannedLined[0]);
+        foundx = true;
+      }
+      if((str.find("ylo", 0) != std::string::npos) && (str.find("yhi", 0) != std::string::npos))
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        Box.Cell[4] = std::stod(termsScannedLined[1]) - std::stod(termsScannedLined[0]);
+        foundy = true;
+      }     
+      if((str.find("zlo", 0) != std::string::npos) && (str.find("zhi", 0) != std::string::npos))
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        Box.Cell[8] = std::stod(termsScannedLined[1]) - std::stod(termsScannedLined[0]);
+        foundz = true;
+      }
+      if((str.find("xy", 0) != std::string::npos) && (str.find("xz", 0) != std::string::npos) && (str.find("yz", 0) != std::string::npos))
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        Box.Cell[3] = std::stod(termsScannedLined[0]);
+        Box.Cell[6] = std::stod(termsScannedLined[1]);
+        Box.Cell[7] = std::stod(termsScannedLined[2]);
+        found_xy_xz_yz = true;
+      }
+      if((str.find("atom types", 0) != std::string::npos))
+      {
+        reached_atom_types = true; break;
+      }
+    }
+    if(!(foundx && foundy && foundz) && reached_atom_types) throw std::runtime_error("Error: didn't find box size region in LMPDATA Initial file! CHECK!!!\n");
+    Box.Cell[1] = 0.0; Box.Cell[2] = 0.0; Box.Cell[5] = 0.0;
+    if(!found_xy_xz_yz)
+    {
+      Box.Cell[3] = 0.0; Box.Cell[6] = 0.0; Box.Cell[7] = 0.0;
+    }
+    inverse_matrix(Box.Cell, &Box.InverseCell);
+    Box.Volume = matrix_determinant(Box.Cell);
+    //DETERMINE Whether Box is cubic/cuboid or not//
+    Box.Cubic = true; // Start with cubic box shape, if any value (non-diagonal) is greater than 0, then set to false //
+    if((fabs(Box.Cell[3]) + fabs(Box.Cell[6]) + fabs(Box.Cell[7])) > 1e-10) Box.Cubic = false;
+    if(Box.Cubic)  printf("The Simulation Box is Cubic\n");
+    if(!Box.Cubic) printf("The Simulation Box is NOT Cubic\n");
+    file.clear();
+    file.seekg(0);
+  }
+  while (std::getline(file, str))
+  {
+    if (counter < 3 && str.find("toms", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      total_atoms = static_cast<size_t>(std::stoi(termsScannedLined[0]));
+      printf("Found Number of atoms: %zu\n", total_atoms);
+    }
+    if (str.find("Atoms", 0) != std::string::npos)
+    {
+      start_read_line = counter + 2; 
+      printf("Start from line %zu\n", start_read_line);
+    }
+    else if(start_read_line > 0 && counter >= start_read_line && (atom_count) < total_atoms)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      //if(termsScannedLined.size() == 0) continue;
+      //Zhao's note: you need to provide component names for each atom to be correctly read by gRASPA//
+      //So We will check for length of the separated vector, if not equal, quit//
+      if(termsScannedLined.size() != 10)
+        throw std::runtime_error("Check the atom information at line " + std::to_string(counter + 1) + "(start from 1) ! You need 10 elements in total. \nHash symbol is counted as 1 element, after the hash, you need COMPONENT information and ATOM TYPE information!!! Abort!\n");
+      AtomID.push_back(std::stoi(termsScannedLined[0]) - 1);
+      MolID.push_back(std::stoi(termsScannedLined[1]) - 1);
+      type.push_back(std::stoi(termsScannedLined[2]) - 1);
+      charge.push_back(std::stod(termsScannedLined[3]));
+      pos.push_back({std::stod(termsScannedLined[4]), std::stod(termsScannedLined[5]), std::stod(termsScannedLined[6])});
+      ID.push_back(atom_count);
+      CompID.push_back(SystemComponents.MatchMoleculeNameToComponentID(termsScannedLined[8]));
+      atom_count ++;
+    }
+    counter ++;
+  }
+  printf("Read %zu atoms from LAMMPS\n", pos.size());
+  //Try first sort with atomid//
+  auto reorder = generate_reorder_lambda(ID, AtomID);
+  reorder(AtomID);
+  reorder(MolID);
+  reorder(type);
+  reorder(charge);
+  reorder(pos);
+  //for(size_t i = 0; i < 3; i++)
+  //  printf("index: %zu, atomID: %d, pos.x: %.5f\n", i, AtomID[i], pos[i].x);
+  //Next step: loop over each component, extract info, fill SystemComponents.HostSystem variable//
+  for(size_t comp = StartComponent; comp < SystemComponents.NComponents.x; comp++)
+  {
+    //Declare an empty filteredIndices vector, which will be passed by ref in the next function//
+    //This filteredIndices vector is required by the lambda function//
+    std::vector<int>filteredIndices;
+    auto filter = generate_filter_lambda(CompID, comp, filteredIndices);
+    auto filtered_MolID = filter(MolID);
+    auto filtered_type  = filter(type);
+    auto filtered_charge= filter(charge);
+    auto filtered_pos   = filter(pos);
+    std::vector<double>filtered_scale(filtered_MolID.size(), 1.0);
+    for(size_t i = 0; i < 3; i++)
+      printf("component: %zu, index: %zu, atomID: %d\n", comp, i, filtered_MolID[i]);
+    //Change the MolID, MolID for each component, all starts from zero!//
+    size_t NAtomPerComponent = filtered_MolID.size();
+    if(NAtomPerComponent % SystemComponents.Moleculesize[comp] != 0) throw std::runtime_error("Check your data file for component " + std::to_string(comp) + ", it is not divisible!!!");
+    //size_t NMolPerComponent = NAtomPerComponent / SystemComponent.Molsize[comp];
+    //Write to SystemComponents.HostSystem
+    double3 firstAtomPos;
+    for(size_t i = 0; i < filtered_pos.size(); i++)
+    {
+      //Component 0 is always the framework (or a part that is not moving, since not moving, no need to wrap according to PBC)
+      //Starting from component 1 (this can sometimes be part of framework), it has to be subjected to wrapping of PBC
+      //Consider the distance between it and the first atom//
+      //wrap the first atom inside the box, then calculate the distance, if greater than 1 box, wrap//
+      if(i % SystemComponents.Moleculesize[comp] == 0)
+      {
+        WrapInBox(filtered_pos[i], Box.Cell, Box.InverseCell, Box.Cubic);
+        firstAtomPos = filtered_pos[i];
+      }
+      else
+      {
+        double3 dist = filtered_pos[i] - firstAtomPos;
+        PBC(dist, Box.Cell, Box.InverseCell, Box.Cubic);
+        filtered_pos[i] = dist + firstAtomPos;
+      }
+      SystemComponents.HostSystem[comp].pos[i] = filtered_pos[i];
+      SystemComponents.HostSystem[comp].Type[i] = filtered_type[i];
+      SystemComponents.HostSystem[comp].charge[i] = filtered_charge[i];
+      SystemComponents.HostSystem[comp].MolID[i] = i / SystemComponents.Moleculesize[comp];
+      SystemComponents.HostSystem[comp].scale[i] = filtered_scale[i];
+      SystemComponents.HostSystem[comp].scaleCoul[i] = filtered_scale[i];
+    }
+    bool PreviouslyNotWritten = false; //Zhao's note: a flag for distinguishing whether the component is already recorded
+    //For example, the framework component is already taken care for, no need to for example, UpdatePseudoAtoms for this component//
+    if(SystemComponents.NumberOfMolecule_for_Component[comp] == 0) PreviouslyNotWritten = true;
+    if(PreviouslyNotWritten)
+    {
+      SystemComponents.NumberOfMolecule_for_Component[comp] = NAtomPerComponent / SystemComponents.Moleculesize[comp];
+      SystemComponents.TotalNumberOfMolecules += SystemComponents.NumberOfMolecule_for_Component[comp];
+      for(size_t Nmol = 0; Nmol < SystemComponents.NumberOfMolecule_for_Component[comp]; Nmol++)
+        SystemComponents.UpdatePseudoAtoms(INSERTION, comp);
+      SystemComponents.HostSystem[comp].size = filtered_pos.size();
+      SystemComponents.HostSystem[comp].Molsize = SystemComponents.Moleculesize[comp];
+    }
+  }
+  //throw std::runtime_error("DONE!!!");
+}
+
 void RestartFileParser(Simulations& Sims, Boxsize& Box, Components& SystemComponents)
 {
   bool UseChargesFromCIFFile = true;  //Zhao's note: if not, use charge from pseudo atoms file, not implemented (if reading poscar, then self-defined charges probably need a separate file //

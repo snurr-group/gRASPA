@@ -30,6 +30,8 @@ enum ROTATION_AXIS {X = 0, Y, Z, SELF_DEFINED};
 
 enum INTERACTION_TYPES {HH = 0, HG, GG};
 
+enum RESTART_FILE_TYPES {RASPA_RESTART = 0, LAMMPS_DATA};
+
 //Zhao's note: For the stage of evaluating total energy of the system//
 enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT, AVERAGE, AVERAGE_ERR};
 
@@ -910,27 +912,29 @@ struct Components
   MoveEnergy tempdeltaE;
   MoveEnergy CreateMoldeltaE;
   MoveEnergy deltaE;
-  double  FrameworkEwald={0.0};
-  bool    HasTailCorrection = {false};                // An overall flag for tail correction 
-  bool    ReadRestart = {false};                      // Whether to use restart files (RestartInitial)
-  bool    SingleSwap={false};
+  double  FrameworkEwald=0.0;
+  bool    HasTailCorrection = false;                // An overall flag for tail correction 
+  bool    ReadRestart = false;                      // Whether to use restart files //Zhao's note: this can be either RASPA-2-type Restart file or LAMMPS data file //
+  int     RestartInputFileType = RASPA_RESTART;          // can choose from: RASPA_RESTART or LAMMPS_DATA (see enum at the beginning of this file)
+  bool    Read_BoxsizeRestart = false;        // Whether to read boxsize from initial configuration file //
+  bool    SingleSwap=false;
   ///////////////////////////
   // DNN Related Variables //
   ///////////////////////////
   //General DNN Flags//
-  bool UseDNNforHostGuest = {false};
-  size_t TranslationRotationDNNReject={0};
-  size_t ReinsertionDNNReject={0};
-  size_t InsertionDNNReject={0};
-  size_t DeletionDNNReject={0};
-  size_t SingleSwapDNNReject={0};
+  bool UseDNNforHostGuest = false;
+  size_t TranslationRotationDNNReject=0;
+  size_t ReinsertionDNNReject=0;
+  size_t InsertionDNNReject=0;
+  size_t DeletionDNNReject=0;
+  size_t SingleSwapDNNReject=0;
   //DNN and Host-Guest Drift//
-  double SingleMoveDNNDrift={0.0};
-  double ReinsertionDNNDrift={0.0};
-  double InsertionDNNDrift={0.0};
-  double DeletionDNNDrift={0.0};
-  double SingleSwapDNNDrift={0.0};
-  double DNNDrift = {100000.0};
+  double SingleMoveDNNDrift=0.0;
+  double ReinsertionDNNDrift=0.0;
+  double InsertionDNNDrift=0.0;
+  double DeletionDNNDrift=0.0;
+  double SingleSwapDNNDrift=0.0;
+  double DNNDrift = 100000.0;
   double DNNEnergyConversion;
   bool UseAllegro = false;
   bool UseLCLin = false;
@@ -980,6 +984,15 @@ struct Components
   std::vector<std::complex<double>> AdsorbateEik;        // Stored Ewald Vectors for Adsorbate
   std::vector<std::complex<double>> FrameworkEik;        // Stored Ewald Vectors for Framework
   std::vector<std::complex<double>> tempEik;             // Ewald Vector for temporary storage
+  size_t MatchMoleculeNameToComponentID(std::string Name)
+  {
+    for(size_t i = 0; i < MoleculeName.size(); i++)
+    if(MoleculeName[i] == Name)
+    {
+      return i;
+    }
+    throw std::runtime_error("CANNOT find Molecule Names match " + Name + " !!!! CHECK YOUR FILE!");
+  }
   void UpdatePseudoAtoms(int MoveType, size_t component)
   {
     switch(MoveType)

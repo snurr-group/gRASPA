@@ -66,7 +66,7 @@ static inline void WriteAtoms_LAMMPS(Atoms* System, Components SystemComponents,
       {
         pos += Wrap_shift;
       }
-      textrestartFile << Atomcount+1 << " " << Molcount+Data.MolID[j]+1 << " " << Data.Type[j]+1 << " " << Data.charge[j] << " " << pos.x << " " << pos.y << " " << pos.z << " # " << AtomNames[Data.Type[j]] << '\n';
+      textrestartFile << Atomcount+1 << " " << Molcount+Data.MolID[j]+1 << " " << Data.Type[j]+1 << " " << Data.charge[j] << " " << pos.x << " " << pos.y << " " << pos.z << " # " << SystemComponents.MoleculeName[i] << " " << AtomNames[Data.Type[j]] << '\n';
       Atomcount++;
     }
     Molcount+=SystemComponents.NumberOfMolecule_for_Component[i];
@@ -190,12 +190,34 @@ static inline void create_movie_file(Atoms* System, Components& SystemComponents
   WriteAtoms_LAMMPS(System, SystemComponents, HostBox, textrestartFile, AtomNames);
 }
 
+static inline void copyFile(const std::string& sourcePath, const std::string& destinationPath) 
+{
+  std::ifstream source(sourcePath, std::ios::binary);
+  std::ofstream destination(destinationPath, std::ios::binary);
+
+  if (!source.is_open() || !destination.is_open()) 
+  {
+    std::cerr << "Error opening file." << std::endl;
+    return; // false;
+  }
+
+  destination << source.rdbuf();
+
+  source.close();
+  destination.close();
+  //return true;
+}
+
 static inline void create_Restart_file(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames, size_t SystemIndex)
 {
   std::ofstream textrestartFile{};
   std::string dirname="Restart/System_" + std::to_string(SystemIndex) + "/";
   std::string fname  = dirname + "/" + "restartfile";
+  std::string backup_fname = dirname + "/" + "previous_restartfile";
   std::filesystem::path cwd = std::filesystem::current_path();
+  
+  //Keep a previous copy of the current restart file//
+  copyFile(fname, backup_fname);
 
   std::filesystem::path directoryName = cwd /dirname;
   std::filesystem::path fileName = cwd /fname;
