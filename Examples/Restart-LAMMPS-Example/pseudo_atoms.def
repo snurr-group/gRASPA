@@ -1,0 +1,7 @@
+#number of pseudo atoms
+3
+#type      print as chem oxi mass       charge  polarization B-factor radii  connectivity anisotropic anisotropic-type   tinker-type
+Ow         yes   O  O    0   15.9994    0.0     0.0          1.0      1.00   1            0           relative           0
+Hw         yes   H  H    0   1.000794   0.52    0.0          1.0      1.00   1            0           relative           0
+Lw         yes   L  L    0   0.0       -1.04    0.0          1.0      1.00   1            0           relative           0
+

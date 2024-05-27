@@ -18,6 +18,35 @@
 
 #include <unistd.h>
 #include <limits.h>
+
+void printMemoryUsage() 
+{
+  std::ifstream file("/proc/self/statm");
+  if (file.is_open()) 
+  {
+    long totalProgramSize, residentSet, sharedPages, text, data, unused, library;
+    file >> totalProgramSize >> residentSet >> sharedPages >> text >> unused >> data >> library;
+
+    // Convert the sizes from pages to bytes
+    long pageSize = sysconf(_SC_PAGE_SIZE);
+    totalProgramSize *= pageSize;
+    residentSet *= pageSize;
+    sharedPages *= pageSize;
+    text *= pageSize;
+    data *= pageSize;
+
+    std::cout << "Total Program Size: " << totalProgramSize / (1024 * 1024) << " MB" << std::endl;
+    std::cout << "Resident Set Size: " << residentSet / (1024 * 1024) << " MB" << std::endl;
+    std::cout << "Shared Pages: " << sharedPages / (1024 * 1024) << " MB" << std::endl;
+    std::cout << "Text (code): " << text / (1024 * 1024) << " MB" << std::endl;
+    std::cout << "Data + Stack: " << data / (1024 * 1024) << " MB" << std::endl;
+  } 
+  else 
+  {
+    std::cerr << "Unable to open /proc/self/statm" << std::endl;
+  }
+}
+
 int main(void)
 {
   //Zhao's note: Before everything starts, see if all the lines in Input file can be found in read_data.cpp//
@@ -197,25 +226,14 @@ int main(void)
 
       SystemComponents.push_back(TempComponents);
     //}
-    Setup_Box_Temperature_Pressure(Constants, SystemComponents[a], Box[a]);
-    Sims[a].Box.Pressure = Box[a].Pressure; Sims[a].Box.Volume = Box[a].Volume;
-    Sims[a].Box.Cubic    = Box[a].Cubic;    Sims[a].Box.ReciprocalCutOff = Box[a].ReciprocalCutOff;
-    Sims[a].Box.Alpha    = Box[a].Alpha;    Sims[a].Box.Prefactor        = Box[a].Prefactor;
-    Sims[a].Box.tol1     = Box[a].tol1;     Sims[a].Box.ExcludeHostGuestEwald = Box[a].ExcludeHostGuestEwald;
-
+    
     //Calculate Fugacity Coefficient//
     //Note pressure in Box variable is already converted to internal units//
     ComputeFugacity(SystemComponents[a], PRESSURE, SystemComponents[a].Temperature);
     //throw std::runtime_error("EXIT, just test Fugacity Coefficient\n");
     
-
     cudaMalloc(&Sims[a].Box.Cell, sizeof(double) * 9); cudaMalloc(&Sims[a].Box.InverseCell, sizeof(double) * 9);
-    cudaMemcpy(Sims[a].Box.Cell, Box[a].Cell, 9 * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(Sims[a].Box.InverseCell, Box[a].InverseCell, 9 * sizeof(double), cudaMemcpyHostToDevice);
-    Sims[a].Box.kmax = Box[a].kmax;
-    // PREPARE VALUES FOR THE WIDOM STRUCT, DECLARE THE RESULT POINTERS IN WIDOM //
-    WidomArray.push_back(Widom);
-    Prepare_Widom(WidomArray[a], Box[a], Sims[a], SystemComponents[a], SystemComponents[a].HostSystem);
+
     ///////////////////////////////////
     // Read Restart file for Systems //
     ///////////////////////////////////
@@ -223,10 +241,38 @@ int main(void)
     bool AlreadyHasFractionalMolecule = false;
     Atoms device_System[NComponents.x];
     cudaMalloc(&Sims[a].d_a, sizeof(Atoms)*NComponents.x);
+    InitializeMaxTranslationRotation(SystemComponents[a]);
+    //Read initial configurations either from restart file or from lammps data file//
     if(RunSingleSim)
     {
-      if(a == SelectedSim && ReadRestart) {RestartFileParser(Sims[a], Box[a], SystemComponents[a]); AlreadyHasFractionalMolecule = true;}
+      if(a == SelectedSim && ReadRestart)
+      { 
+        ReadRestartInputFileType(SystemComponents[a]);
+        if(SystemComponents[a].RestartInputFileType == RASPA_RESTART) 
+        {
+          RestartFileParser(Box[a], SystemComponents[a]); AlreadyHasFractionalMolecule = true;
+        }
+        else if(SystemComponents[a].RestartInputFileType == LAMMPS_DATA)
+        {
+          LMPDataFileParser(Box[a], SystemComponents[a]);
+        }
+      }
     }
+    //Zhao's note: move copying cell information to GPU after reading restart
+    // PREPARE VALUES FOR THE WIDOM STRUCT, DECLARE THE RESULT POINTERS IN WIDOM //
+    WidomArray.push_back(Widom);
+    Prepare_Widom(WidomArray[a], Box[a], Sims[a], SystemComponents[a], SystemComponents[a].HostSystem);
+
+    Setup_Box_Temperature_Pressure(Constants, SystemComponents[a], Box[a]);
+    Sims[a].Box.Pressure = Box[a].Pressure; Sims[a].Box.Volume = Box[a].Volume;
+    Sims[a].Box.Cubic    = Box[a].Cubic;    Sims[a].Box.ReciprocalCutOff = Box[a].ReciprocalCutOff;
+    Sims[a].Box.Alpha    = Box[a].Alpha;    Sims[a].Box.Prefactor        = Box[a].Prefactor;
+    Sims[a].Box.tol1     = Box[a].tol1;     Sims[a].Box.ExcludeHostGuestEwald = Box[a].ExcludeHostGuestEwald;
+
+    cudaMemcpy(Sims[a].Box.Cell, Box[a].Cell, 9 * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(Sims[a].Box.InverseCell, Box[a].InverseCell, 9 * sizeof(double), cudaMemcpyHostToDevice);
+    Sims[a].Box.kmax = Box[a].kmax;
+
     Copy_Atom_data_to_device((size_t) NComponents.x, device_System, SystemComponents[a].HostSystem);
     Prepare_TempSystem_On_Host(SystemComponents[a].TempSystem);
     cudaMemcpy(Sims[a].d_a, device_System, sizeof(Atoms)*NComponents.x, cudaMemcpyHostToDevice);
@@ -352,6 +398,8 @@ int main(void)
   // PRINT MOVIE FILE //
   //////////////////////
   GenerateSummaryAtEnd(0, SystemComponents, Sims, FF, Box, PseudoAtom);
+  //Check CPU mem used//
+  printMemoryUsage();
   /*
   if(SystemComponents[a].UseDNNforHostGuest)
   {

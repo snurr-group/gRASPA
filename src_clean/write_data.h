@@ -66,7 +66,7 @@ static inline void WriteAtoms_LAMMPS(Atoms* System, Components SystemComponents,
       {
         pos += Wrap_shift;
       }
-      textrestartFile << Atomcount+1 << " " << Molcount+Data.MolID[j]+1 << " " << Data.Type[j]+1 << " " << Data.charge[j] << " " << pos.x << " " << pos.y << " " << pos.z << " # " << AtomNames[Data.Type[j]] << '\n';
+      textrestartFile << Atomcount+1 << " " << Molcount+Data.MolID[j]+1 << " " << Data.Type[j]+1 << " " << Data.charge[j] << " " << pos.x << " " << pos.y << " " << pos.z << " # " << SystemComponents.MoleculeName[i] << " " << AtomNames[Data.Type[j]] << '\n';
       Atomcount++;
     }
     Molcount+=SystemComponents.NumberOfMolecule_for_Component[i];
@@ -175,7 +175,7 @@ static inline void WriteCellInfo_Restart(Atoms* System, Components SystemCompone
 
 static inline void create_movie_file(Atoms* System, Components& SystemComponents, Boxsize& HostBox, std::vector<std::string> AtomNames, size_t SystemIndex)
 {
-  std::ofstream textrestartFile{};
+  //std::ofstream textrestartFile{};
   std::string dirname="Movies/System_" + std::to_string(SystemIndex) + "/";
   std::string fname  = dirname + "/" + "result_" + std::to_string(SystemComponents.CURRENTCYCLE) + ".data";
   std::filesystem::path cwd = std::filesystem::current_path();
@@ -184,10 +184,29 @@ static inline void create_movie_file(Atoms* System, Components& SystemComponents
   std::filesystem::path fileName = cwd /fname;
   std::filesystem::create_directories(directoryName);
 
-  textrestartFile = std::ofstream(fileName, std::ios::out);
+  std::ofstream textrestartFile = std::ofstream(fileName, std::ios::out);
 
   WriteBox_LAMMPS(System, SystemComponents, SystemComponents.FF, HostBox, textrestartFile, AtomNames);
   WriteAtoms_LAMMPS(System, SystemComponents, HostBox, textrestartFile, AtomNames);
+  textrestartFile.close();
+}
+
+static inline void copyFile(const std::string& sourcePath, const std::string& destinationPath) 
+{
+  std::ifstream source(sourcePath, std::ios::binary);
+  std::ofstream destination(destinationPath, std::ios::binary);
+
+  if (!source.is_open() || !destination.is_open()) 
+  {
+    std::cerr << "Error opening file." << std::endl;
+    return; // false;
+  }
+
+  destination << source.rdbuf();
+
+  source.close();
+  destination.close();
+  //return true;
 }
 
 static inline void create_Restart_file(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames, size_t SystemIndex)
@@ -195,7 +214,11 @@ static inline void create_Restart_file(size_t Cycle, Atoms* System, Components S
   std::ofstream textrestartFile{};
   std::string dirname="Restart/System_" + std::to_string(SystemIndex) + "/";
   std::string fname  = dirname + "/" + "restartfile";
+  std::string backup_fname = dirname + "/" + "previous_restartfile";
   std::filesystem::path cwd = std::filesystem::current_path();
+  
+  //Keep a previous copy of the current restart file//
+  copyFile(fname, backup_fname);
 
   std::filesystem::path directoryName = cwd /dirname;
   std::filesystem::path fileName = cwd /fname;
@@ -203,6 +226,7 @@ static inline void create_Restart_file(size_t Cycle, Atoms* System, Components S
   textrestartFile = std::ofstream(fileName, std::ios::out);
   WriteCellInfo_Restart(System, SystemComponents, textrestartFile, Box);
   WriteAtoms_Restart(System, SystemComponents, textrestartFile, AtomNames);
+  textrestartFile.close();
 }
 
 static inline void WriteAllData(Atoms* System, Components SystemComponents, std::ofstream& textrestartFile, std::vector<std::string> AtomNames, size_t i)
@@ -219,7 +243,7 @@ static inline void WriteAllData(Atoms* System, Components SystemComponents, std:
 
 static inline void Write_All_Adsorbate_data(size_t Cycle, Atoms* System, Components SystemComponents, ForceField FF, Boxsize Box, std::vector<std::string> AtomNames, size_t SystemIndex)
 {
-  std::ofstream textrestartFile{};
+  //std::ofstream textrestartFile{};
   std::filesystem::path cwd = std::filesystem::current_path();
 
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
@@ -230,8 +254,9 @@ static inline void Write_All_Adsorbate_data(size_t Cycle, Atoms* System, Compone
     std::filesystem::path directoryName = cwd /dirname;
     std::filesystem::path fileName = cwd /fname;
     std::filesystem::create_directories(directoryName);
-    textrestartFile = std::ofstream(fileName, std::ios::out);
+    std::ofstream textrestartFile = std::ofstream(fileName, std::ios::out);
     WriteAllData(System, SystemComponents, textrestartFile, AtomNames, i);
+    textrestartFile.close();
   }
 }
 

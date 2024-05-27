@@ -159,6 +159,18 @@ inline void Prepare_ForceField(ForceField& FF, ForceField& device_FF, PseudoAtom
   //PseudoAtomParser(FF, PseudoAtom);
 }
 
+inline void InitializeMaxTranslationRotation(Components& SystemComponents)
+{
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
+  {
+    double3 MaxTranslation = {1.0, 1.0, 1.0};
+    double3 MaxRotation    = {30.0/(180/3.1415), 30.0/(180/3.1415), 30.0/(180/3.1415)};
+    SystemComponents.MaxTranslation.push_back(MaxTranslation);
+    SystemComponents.MaxRotation.push_back(MaxRotation);
+    SystemComponents.MaxSpecialRotation.push_back(MaxRotation);
+  }
+}
+
 inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Components& SystemComponents, Atoms* System)
 {
   //Zhao's note: NumberWidomTrials is for first bead. NumberWidomTrialsOrientations is for the rest, here we consider single component, not mixture //
@@ -198,9 +210,9 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
   {
     double3 MaxTranslation = {Box.Cell[0]*0.1, Box.Cell[4]*0.1, Box.Cell[8]*0.1};
     double3 MaxRotation    = {30.0/(180/3.1415), 30.0/(180/3.1415), 30.0/(180/3.1415)};
-    SystemComponents.MaxTranslation.push_back(MaxTranslation);
-    SystemComponents.MaxRotation.push_back(MaxRotation);
-    SystemComponents.MaxSpecialRotation.push_back(MaxRotation);
+    SystemComponents.MaxTranslation[i]    =MaxTranslation;
+    SystemComponents.MaxRotation[i]       =MaxRotation;
+    SystemComponents.MaxSpecialRotation[i]=MaxRotation;
   }
   Sims.start_position = 0;
   //Sims.Nblocks = 0;
@@ -370,14 +382,18 @@ inline void Copy_AtomData_from_Device(Atoms* System, Atoms* Host_System, Atoms* 
   for(size_t ijk=0; ijk < SystemComponents.Total_Components; ijk++)
   {
     // if the host allocate_size is different from the device, allocate more space on the host
-    Host_System[ijk].pos       = (double3*) malloc(System[ijk].Allocate_size*sizeof(double3));
-    Host_System[ijk].scale     = (double*)  malloc(System[ijk].Allocate_size*sizeof(double));
-    Host_System[ijk].charge    = (double*)  malloc(System[ijk].Allocate_size*sizeof(double));
-    Host_System[ijk].scaleCoul = (double*)  malloc(System[ijk].Allocate_size*sizeof(double));
-    Host_System[ijk].Type      = (size_t*)  malloc(System[ijk].Allocate_size*sizeof(size_t));
-    Host_System[ijk].MolID     = (size_t*)  malloc(System[ijk].Allocate_size*sizeof(size_t));
-    Host_System[ijk].size      = System[ijk].size;
-    Host_System[ijk].Allocate_size = System[ijk].Allocate_size;
+    size_t current_allocated_size = System[ijk].Allocate_size;
+    if(current_allocated_size != Host_System[ijk].Allocate_size) //Need to update host
+    {
+      Host_System[ijk].pos       = (double3*) malloc(System[ijk].Allocate_size*sizeof(double3));
+      Host_System[ijk].scale     = (double*)  malloc(System[ijk].Allocate_size*sizeof(double));
+      Host_System[ijk].charge    = (double*)  malloc(System[ijk].Allocate_size*sizeof(double));
+      Host_System[ijk].scaleCoul = (double*)  malloc(System[ijk].Allocate_size*sizeof(double));
+      Host_System[ijk].Type      = (size_t*)  malloc(System[ijk].Allocate_size*sizeof(size_t));
+      Host_System[ijk].MolID     = (size_t*)  malloc(System[ijk].Allocate_size*sizeof(size_t));
+      Host_System[ijk].Allocate_size = System[ijk].Allocate_size;
+    }
+    Host_System[ijk].size      = System[ijk].size; //Zhao's note: no matter what, the size (not allocated size) needs to be updated
 
     cudaMemcpy(Host_System[ijk].pos, System[ijk].pos, sizeof(double3)*System[ijk].Allocate_size, cudaMemcpyDeviceToHost);
     cudaMemcpy(Host_System[ijk].scale, System[ijk].scale, sizeof(double)*System[ijk].Allocate_size, cudaMemcpyDeviceToHost);

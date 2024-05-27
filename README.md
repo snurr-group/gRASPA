@@ -39,15 +39,15 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 | Gibbs particle transfer | :heavy_check_mark: | :heavy_check_mark: |
 | Configurational Bias/<br>Continuous Fractional Components<br>(CB/CFC) MC | :heavy_check_mark: | :heavy_check_mark: |
 | ***Extra Functionalities*** |
-| Restart files<br>(Compatible with RASPA-2) | :heavy_check_mark: | :heavy_check_mark: |
+| Write: LAMMPS data file | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Read: LAMMPS data file | :heavy_check_mark: |
+| Write: Restart files<br>(Compatible with RASPA-2) | :heavy_check_mark: | :heavy_check_mark: |
+| Read: Restart files | :heavy_check_mark: | :heavy_check_mark: |
 | Peng-Robinson Equation of State | :heavy_check_mark: |
-| Movies: LAMMPS data file | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
 
 
 # Action Items
-  * Fugacity Coefficient calculation using PR-EOS (Xiaoyi)
-  * LAMMPS-style Setup for Ewald Summation [DONE: Check commit here](https://github.com/snurr-group/gRASPA/commit/929f1e15e367a12617bcae6bbee0c06413ea2769)
   * restart-able TMMC calculations [DONE: Check commit here](https://github.com/snurr-group/gRASPA/commit/cce339a801961b2d48e97b759eabc63bc919fc27)
   * Better output files (distinguish between Initialization/Equilibration/Production phases) [DONE: Check commit here](https://github.com/snurr-group/CUDA-RASPA-DeepPotential/commit/791b796132c1429c48dd4549820a12f69ab0f353)
   * **hash-tag** in input files for commenting (Really?!)
