@@ -48,8 +48,6 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 
 
 # Action Items
-  * Fugacity Coefficient calculation using PR-EOS (Xiaoyi)
-  * LAMMPS-style Setup for Ewald Summation [DONE: Check commit here](https://github.com/snurr-group/gRASPA/commit/929f1e15e367a12617bcae6bbee0c06413ea2769)
   * restart-able TMMC calculations [DONE: Check commit here](https://github.com/snurr-group/gRASPA/commit/cce339a801961b2d48e97b759eabc63bc919fc27)
   * Better output files (distinguish between Initialization/Equilibration/Production phases) [DONE: Check commit here](https://github.com/snurr-group/CUDA-RASPA-DeepPotential/commit/791b796132c1429c48dd4549820a12f69ab0f353)
   * **hash-tag** in input files for commenting (Really?!)
