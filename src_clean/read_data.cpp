@@ -109,6 +109,7 @@ void FindIfInputIsThere(std::string& InputCommand, std::string& exepath)
     printf("%s Input Command Not Found!!!!\n", InputCommand.c_str());
     throw std::runtime_error("Program Abort due to Unfound Input Command!");
   }
+  file.close();
 }
 
 void Check_Inputs_In_read_data_cpp(std::string& exepath)
@@ -172,6 +173,7 @@ void Check_Inputs_In_read_data_cpp(std::string& exepath)
       throw std::runtime_error("Required Keyword Not Found! Abort!!!!");
     }
   }
+  file.close();
 }
 
 bool caseInSensStringCompare(const std::string& str1, const std::string& str2)
@@ -225,6 +227,7 @@ void read_number_of_sims_from_input(size_t *NumSims, bool *SingleSim)
     }
   }
   *NumSims = tempnum; *SingleSim = tempsingle;
+  file.close();
 }
 
 void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges, int *InitializationCycles, int *EquilibrationCycles, int *ProductionCycles, size_t *NumberOfTrialPositions, size_t *NumberOfTrialOrientations, double *Pressure, double *Temperature, size_t *AllocateSize, bool *ReadRestart, int *RANDOMSEED, bool *SameFrameworkEverySimulation, int3& NumberOfComponents)
@@ -398,6 +401,7 @@ void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges
   NumberOfComponents.z = tempNComp; //z component is the adsorbate components//
   NumberOfComponents.x = tempNComp + NumberOfComponents.y;
   //printf("Finished Checking Number of Components, There are %zu framework, %zu Adsorbates, %zu total Components\n", NumberOfComponents.y, NumberOfComponents.z, NumberOfComponents.x);
+  file.close();
 }
 
 void read_Gibbs_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepPerCycle)
@@ -457,6 +461,7 @@ void read_Gibbs_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepP
   }
   GibbsStatistics.GibbsBoxStats  = {0.0, 0.0};
   GibbsStatistics.GibbsXferStats = {0.0, 0.0};
+  file.close();
 }
 
 void read_FFParams_from_input(ForceField& FF, double& precision)
@@ -514,6 +519,7 @@ void read_FFParams_from_input(ForceField& FF, double& precision)
   FF.CutOffVDW         = tempvdwcut*tempvdwcut;
   FF.CutOffCoul        = tempcoulcut*tempcoulcut;
   precision            = tempprecision;
+  file.close();
 }
 
 void ReadFrameworkComponentMoves(Move_Statistics& MoveStats, Components& SystemComponents, size_t comp)
@@ -586,6 +592,7 @@ void ReadFrameworkComponentMoves(Move_Statistics& MoveStats, Components& SystemC
   }
   MoveStats.NormalizeProbabilities();
   MoveStats.PrintProbabilities();
+  file.close();
 }
 
 void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double precision)
@@ -687,6 +694,7 @@ void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double pr
   printf("ALpha is %.5f, Prefactor: %.5f\n", Box.Alpha, Box.Prefactor);
   printf("kmax: %d %d %d, ReciprocalCutOff: %.5f\n", Box.kmax.x, Box.kmax.y, Box.kmax.z, Box.ReciprocalCutOff);
   printf("------------------------------------------------------\n");
+  file.close();
 }
 
 inline std::string& tolower(std::string& s)
@@ -743,7 +751,7 @@ void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
   std::string scannedLine; std::string str;
   std::vector<std::string> termsScannedLined{};
   size_t counter = 0;
-  std::ifstream PseudoAtomfile("force_field_mixing_rules.def");
+  std::ifstream FFMixfile("force_field_mixing_rules.def");
   size_t NumberOfDefinitions = 0;
   bool shifted = false; bool tail = false;
   //Temporary vectors for storing the data
@@ -752,7 +760,7 @@ void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
   double ep = 0.0; double sig = 0.0;
   printf("------------------PARSING FORCE FIELD MIXING RULES----------------\n");
   // First read the pseudo atom file
-  while (std::getline(PseudoAtomfile, str))
+  while (std::getline(FFMixfile, str))
   {
     if(counter == 1) //read shifted/truncated
     {
@@ -825,6 +833,7 @@ void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
   FF.shift   = convert1DVectortoArray(Mix_Shift);
   FF.FFType  = convert1DVectortoArray(Mix_Type);
   FF.size    = NumberOfDefinitions;
+  FFMixfile.close();
 }
 
 static inline size_t GetTypeForPseudoAtom(PseudoAtomDefinitions& PseudoAtom, std::string& AtomName)
@@ -915,6 +924,7 @@ void OverWriteFFTerms(Components& SystemComponents, ForceField& FF, PseudoAtomDe
   //Eliminate the terms that do not have tail corrections//
   for(size_t i = 0; i < TempTail.size(); i++)
     SystemComponents.TailCorrection.push_back(TempTail[i]);
+  OverWritefile.close();
 }
 
 void read_movies_stats_print(Components& SystemComponents)
@@ -938,6 +948,7 @@ void read_movies_stats_print(Components& SystemComponents)
   }
   printf("Writing Movies every %zu MC step(s) or cycle(s)\n", SystemComponents.MoviesEvery);
   printf("Printing Loadings and energies every %zu MC step(s) or cycle(s)\n", SystemComponents.PrintStatsEvery);
+  file.close();
 }
 
 
@@ -979,6 +990,7 @@ void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
   for (size_t i = 0; i < NumberOfPseudoAtoms; i++)
     printf("Name: %s, %.5f, %.5f, %.5f, %.5f\n", PseudoAtom.Name[i].c_str(), PseudoAtom.oxidation[i], PseudoAtom.mass[i], PseudoAtom.charge[i], PseudoAtom.polar[i]);
   printf("---------------------------------------------------\n");
+  PseudoAtomfile.close();
 }
 
 void remove_number(std::string& s)
@@ -1435,6 +1447,7 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
   SystemComponents.NumberOfFrameworks = NMol_Framework;
   printf("----------------------------------------------------\n");
   //throw std::runtime_error("BREAK!!!!\n");
+  simfile.close();
 }
 
 void ReadFrameworkSpeciesDefinitions(Components& SystemComponents)
@@ -1502,6 +1515,7 @@ void ReadFrameworkSpeciesDefinitions(Components& SystemComponents)
           throw std::runtime_error("Number of atoms for Framework Component != Number of Atom Indices!!!!\n");
       }
     }
+    file.close();
     printf("================Framework Component [%zu] Summary================\n", i);
     printf("Name: %s\n", SystemComponents.MoleculeName[i].c_str());
     printf("Number of Molecules: %zu\n", SystemComponents.FrameworkComponentDef[i].Number_of_Molecules_for_Framework_component);
@@ -1605,6 +1619,7 @@ void ReadFramework(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, size_t Frame
   if(Box.Cubic)  printf("The Simulation Box is Cubic\n");
   if(!Box.Cubic) printf("The Simulation Box is NOT Cubic\n");
   printf("----------------------END OF PARSING FRAMEWORK DATA----------------------\n");
+  simfile.close();
 }
 
 size_t get_type_from_name(std::string Name, std::vector<std::string> PseudoAtomNames)
@@ -1760,6 +1775,7 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
   printf("current adsorbate mass is: %f \n", masssum);
   SystemComponents.NumberOfPseudoAtomsForSpecies.push_back(TEMPINTTWO);
   SystemComponents.MolecularWeight.push_back(masssum);
+  file.close();
 }
 
 double process_str_double_DBLMIN(const std::string& str)
@@ -1859,6 +1875,7 @@ static inline void Read_TMMC_Initial(TMMC& tmmc, std::string& MolName)
     }
     counter ++;
   }
+  file.close();
 }
 
 void read_component_values_from_simulation_input(Components& SystemComponents, Move_Statistics& MoveStats, size_t AdsorbateComponent, Atoms& Mol, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space)
@@ -2173,6 +2190,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   //Initialize single values for Mol//
   Mol.size = 0;
   std::cout << "-------------- END OF READING " << start_string << " (" << MolName << ")" << " --------------\n";
+  file.close();
 }
 
 //Sort vector A, and return a reorder lambda function//
@@ -2247,7 +2265,7 @@ void ReadRestartInputFileType(Components& SystemComponents)
       }
     }
   }
-  
+  file.close();
 }
 
 static inline size_t ReadLMPDataStartComponent(Components& SystemComponents)
@@ -2279,6 +2297,7 @@ static inline size_t ReadLMPDataStartComponent(Components& SystemComponents)
   }
   file.clear();
   file.seekg(0);
+  file.close();
   return StartComponent;
 }
 
@@ -2474,6 +2493,7 @@ void LMPDataFileParser(Boxsize& Box, Components& SystemComponents)
     }
   }
   //throw std::runtime_error("DONE!!!");
+  file.close();
 }
 
 void RestartFileParser(Boxsize& Box, Components& SystemComponents)
@@ -2695,6 +2715,7 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents)
 
     PreviousCompNMol += SystemComponents.NumberOfMolecule_for_Component[i];
   }
+  file.close();
 }
 
 
@@ -2764,6 +2785,7 @@ void ReadDNNModelSetup(Components& SystemComponents)
     throw std::runtime_error("CANNOT USE Li-Chiang Lin's and Allegro at the same time!!!!");
   if(!foundMethod)
     throw std::runtime_error("CANNOT FIND the DNNMethod INPUT COMMAND in simulation.input file");
+  file.close();
 }
 
 //###PATCH_LCLIN_READDATA###//

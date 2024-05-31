@@ -356,7 +356,8 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
     EwEnd = omp_get_wtime();
     GPUEwaldTime = EwEnd - EwStart;
   }
-
+  printf("Ewald Summation (total energy) on the CPU took %.5f secs\n", CPUEwaldTime);
+  printf("Ewald Summation (total energy) on the GPU took %.5f secs\n", GPUEwaldTime);
   //Calculate Tail Correction Energy//
   ENERGY.TailE = TotalTailCorrection(SystemComponents, FF.size, Sim.Box.Volume);
   if(SystemComponents.UseDNNforHostGuest) ENERGY.DNN_E = DNN_Prediction_Total(SystemComponents, Sim);
@@ -505,6 +506,7 @@ static inline void Write_Lambda(size_t Cycle, Components SystemComponents, size_
         textrestartFile << SystemComponents.Lambda[i].biasFactor[j] << " ";
     }
   }
+  textrestartFile.close();
 }
 
 static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t SystemIndex)
@@ -546,6 +548,7 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
       }
     }
   }
+  textTMMCFile.close();
 }
 
 inline void GenerateSummaryAtEnd(int Cycle, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField& FF, std::vector<Boxsize>& Box, PseudoAtomDefinitions& PseudoAtom)

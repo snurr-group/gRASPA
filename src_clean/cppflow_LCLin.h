@@ -85,14 +85,17 @@ void PrepareOutliersFiles()
   textrestartFile = std::ofstream(TRfileName, std::ios::out);
   textrestartFile << "THIS FILE IS RECORDING THE DELTA ENERGIES BETWEEN THE NEW AND OLD STATES (New - Old)" << "\n";
   textrestartFile << "x y z Type Move HostGuest_DNN Host_Guest_Classical_MINUS_Host_Guest_Classical" <<"\n";
+  textrestartFile.close();
 
   textrestartFile = std::ofstream(IfileName, std::ios::out);
   textrestartFile << "THIS FILE IS RECORDING THE ENERGIES RELATED TO EITHER THE NEW/INSERTION" << "\n";
   textrestartFile << "x y z Type Move HostGuest_DNN Host_Guest_Classical_MINUS_Host_Guest_Classical" <<"\n";
+  textrestartFile.close();
 
   textrestartFile = std::ofstream(DfileName, std::ios::out);
   textrestartFile << "THIS FILE IS RECORDING THE ENERGIES RELATED TO OLD/DELETION (TAKE THE OPPOSITE)" << "\n";
   textrestartFile << "x y z Type Move HostGuest_DNN Host_Guest_Classical_MINUS_Host_Guest_Classical" <<"\n";
+  textrestartFile.close();
 }
 
 static inline cppflow::model load_model(std::string& NAME)
@@ -403,6 +406,7 @@ static inline void WriteDistances(Components& SystemComponents, std::vector<std:
       textrestartFile << Distances[i][j] << "\n";
     }
   }
+  textrestartFile.close();
 }
 
 static inline void WriteFeatures(Components& SystemComponents, std::vector<double> Features)
@@ -420,7 +424,7 @@ static inline void WriteFeatures(Components& SystemComponents, std::vector<doubl
   textrestartFile << "Features" <<"\n";
   for(size_t i = 0; i < Features.size(); i++)
     textrestartFile << Features[i] << "\n";
-
+  textrestartFile.close();
 }
 
 std::vector<float> Convert_Precision(std::vector<double>& Features)

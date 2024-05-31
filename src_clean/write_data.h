@@ -295,6 +295,7 @@ static inline void Write_Lambda(size_t Cycle, Components SystemComponents, size_
         textrestartFile << SystemComponents.Lambda[i].biasFactor[j] << " ";
     }
   }
+  textrestartFile.close();
 }
 
 static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t SystemIndex)
@@ -326,5 +327,6 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
       }
     }
   }
+  textrestartFile.close();
 }
 */

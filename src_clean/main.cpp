@@ -45,6 +45,7 @@ void printMemoryUsage()
   {
     std::cerr << "Unable to open /proc/self/statm" << std::endl;
   }
+  file.close();
 }
 
 int main(void)

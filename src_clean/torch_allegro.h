@@ -125,6 +125,7 @@ struct Allegro
     textrestartFile << "i x y z type\n";
     for(size_t i = 0; i < ntotal; i++)
       textrestartFile << i << " " << pos[i][0] << " " << pos[i][1] << " " << pos[i][2] << " " << ij2type[i] << "\n";
+    textrestartFile.close();
   }
   void write_edges(auto& edges, auto& ij2type, size_t nedges, size_t nstep)
   {
@@ -139,6 +140,7 @@ struct Allegro
     textrestartFile << "i j ij2type edge_counter\n";
     for(size_t i = 0; i < nedges; i++)
         textrestartFile << edges[0][i] << " " << edges[1][i] << " " << ij2type[edges[0][i]] << " " << i << "\n";
+    textrestartFile.close();
   }
   */
   void AllocateUCSpace(size_t comp)

@@ -202,6 +202,8 @@ void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceFiel
   E.HHVDW = Total_VDW[HH]; E.HHReal= Total_Real[HH];
   E.HGVDW = Total_VDW[HG]; E.HGReal= Total_Real[HG];
   E.GGVDW = Total_VDW[GG]; E.GGReal= Total_Real[GG];
+
+  textrestartFile.close();
 }
 
 ////////////////////////////// GPU CODE //////////////////////////
