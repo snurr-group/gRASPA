@@ -914,6 +914,8 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
 __global__ double Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, double* BlockSum, size_t SelectedComponent)
 {
   double E = 0.0; double prefactor_self = Box.Prefactor * Box.Alpha / std::sqrt(M_PI);
+  extern __shared__ double sdata[]; 
+  sdata[threadIdx.x] = 0.0; int cache_id = threadIdx.x;
   //Intra
   //Option 1: Unwrap upper triangle for pairwise interaction
   //https://stackoverflow.com/questions/27086195/linear-index-upper-triangular-matrix
@@ -924,14 +926,15 @@ __global__ double Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, dou
   size_t Molsize   = System[SelectedComponent].Molsize;
   size_t AtomIdx   = THREADIdx * Molsize;
 
-
+  size_t totalmol  = System[SelectedComponent].size / Molsize;
   if(AtomIdx < System[SelectedComponent].size)
   { 
-    if(THREADIdx == 0) printf("Molsize: %lu, AtomIdx: %lu\n", Molsize, AtomIdx);
+    //if(THREADIdx == 0) printf("Molsize: %lu, AtomIdx: %lu\n", Molsize, AtomIdx);
   for(size_t i = AtomIdx; i != Molsize + AtomIdx; i++)
   { 
     double  factorA = System[SelectedComponent].scaleCoul[i] * System[SelectedComponent].charge[i];
     double3 posA = System[SelectedComponent].pos[i];
+    //for(size_t j = i; j != Molsize; j++)
     for(size_t j = i; j != Molsize + AtomIdx; j++)
     {
       if(i == j)
@@ -939,6 +942,7 @@ __global__ double Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, dou
       { 
         E += prefactor_self * factorA * factorA;
       }
+      
       else//if(j < i)
       //Intra: within a molecule
       {
@@ -950,9 +954,25 @@ __global__ double Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, dou
         double r = std::sqrt(rr_dot);
         E += Box.Prefactor * factorA * factorB * std::erf(Box.Alpha * r) / r;
       }
+      
     }
   }
-  BlockSum[AtomIdx] -= E;
+  }
+  //if(THREADIdx == 0) printf("ThreadID 0, ThreadE: %.5f", E);
+  sdata[threadIdx.x] = -E;
+  __syncthreads();
+  //Partial block sum//
+  int i=blockDim.x / 2;
+  while(i != 0)
+  {
+    if(cache_id < i) {sdata[cache_id] += sdata[cache_id + i];}
+    __syncthreads();
+    i /= 2;
+  }
+  if(threadIdx.x == 0) 
+  {
+    BlockSum[blockIdx.x] += sdata[0];
+    
   }
 }
 
@@ -1018,20 +1038,31 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
       E.GGEwaldE-= ExclusionE;
     }
     */
+    double GGFourier = 0.0; cudaMemcpy(HostTotEwald, Sim.Blocksum, Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+    //DEBUG//
+    //for(size_t i = 0; i < Nblock; i++) GGFourier += HostTotEwald[i]; 
+    //printf("After fourier, GGFourier: %.5f,Fourier blocks: %zu\n", GGFourier, Nblock);
+
+    //for(size_t i = 0; i < Nblock; i++) HostTotEwald[i] = 0.0;
+    //cudaMemcpy(Sim.Blocksum, HostTotEwald, Nblock * sizeof(double), cudaMemcpyHostToDevice);
+    //DEBUG END//
 
     //Recalculate exclusion part of Ewald summation//
+    size_t maxblock = Nblock;
     for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
     {
       if(SystemComponents.NumberOfMolecule_for_Component[i] == 0) continue;
       size_t Exclusion_Nblock = 0; size_t Exclusion_Nthread = 0;
       Setup_threadblock(SystemComponents.NumberOfMolecule_for_Component[i], &Exclusion_Nblock, &Exclusion_Nthread);
       printf("Component %zu, Nblock: %zu, Nthread: %zu\n", i, Exclusion_Nblock, Exclusion_Nthread);
-      Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread>>>(Box, d_a, Sim.Blocksum, i); checkCUDAErrorEwald("error Calculating Intra Self Exclusion for Ewald Summation for Total Ewald summation!!!");
+      Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread, Exclusion_Nthread * sizeof(double)>>>(Box, d_a, Sim.Blocksum, i); checkCUDAErrorEwald("error Calculating Intra Self Exclusion for Ewald Summation for Total Ewald summation!!!");
+      //if(Exclusion_Nblock > maxblock) maxblock = Exclusion_Nblock; //Zhao's note: you might run into special cases, but still there are special treatments that needs to be done (currently not done)
+      //Curently we are assuming that the number of blocks for self+exclusion is smaller than total number of kspace points (99.99999% true)
     }
+    
     //Zhao's note: assume that you use less blocks for intra-self exclusion
-    cudaMemcpy(HostTotEwald, Sim.Blocksum, Nblock * sizeof(double), cudaMemcpyDeviceToHost);
-    for(size_t i = 0; i < Nblock; i++) E.GGEwaldE += HostTotEwald[i];
-
+    cudaMemcpy(HostTotEwald, Sim.Blocksum, maxblock * sizeof(double), cudaMemcpyDeviceToHost);
+    for(size_t i = 0; i < maxblock; i++) E.GGEwaldE += HostTotEwald[i];
     printf("GPU Ewald: %.5f\n", E.GGEwaldE);
   }
   return E;

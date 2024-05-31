@@ -28,7 +28,6 @@ static inline MoveEnergy Insertion_Body(Components& SystemComponents, Simulation
   //Determine whether to accept or reject the insertion
   preFactor = GetPrefactor(SystemComponents, Sims, SelectedComponent, INSERTION);
   //Ewald Correction, done on HOST (CPU) //
-  bool EwaldCPU = false;
   int MoveType = INSERTION; //Normal Insertion, including fractional insertion, no previous step (do not use temprorary tempEik)//
   if(previous_step) //Fractional Insertion after a lambda change move that makes the old fractional molecule full//
   {

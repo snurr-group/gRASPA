@@ -269,4 +269,5 @@ void WriteOutliers(Components& SystemComponents, Simulations& Sim, int MoveType,
   }
   for(size_t i = 0; i < size; i++)
     textrestartFile << SystemComponents.TempSystem.pos[i].x << " " << SystemComponents.TempSystem.pos[i].y << " " << SystemComponents.TempSystem.pos[i].z << " " << SystemComponents.TempSystem.Type[i] << " " << Move << " " << E.DNN_E << " " << Correction << '\n';
+  textrestartFile.close();
 }
