@@ -20,7 +20,8 @@ PATCH_ALLEGRO_MAIN_PREP
         for(size_t comp = 0; comp < SystemComponents[a].NComponents.x; comp++)        
         {           
           int3 Ncells = {1,1,1}; 
-          //If we copy adsorbates, we copy the first template atom (no need to divide number of atoms by unit cells)            if(comp == 0)
+          //If we copy adsorbates, we copy the first template atom (no need to divide number of atoms by unit cells)            
+          if(comp == 0)
           {  
             Ncells = SystemComponents[a].NumberofUnitCells;
             if(!SystemComponents[a].rigid[comp] || SystemComponents[a].NComponents.y != 1)
