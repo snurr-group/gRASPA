@@ -287,9 +287,17 @@ int main(void)
       SystemComponents[a].ModelName = Comp_for_DNN_Model[a].ModelName;
       SystemComponents[a].DNNEnergyConversion = Comp_for_DNN_Model[a].DNNEnergyConversion;
       //Zhao's note: Hard-coded component here//
+      //Assuming component `1` is just the 1st adsorbate species//
+      std::vector<bool>ConsiderThisAdsorbateAtom(SystemComponents[a].Moleculesize[1], false);
+      for(size_t y = 0; y < SystemComponents[a].Moleculesize[1]; y++)
+      {
+        ConsiderThisAdsorbateAtom[y] = SystemComponents[a].ConsiderThisAdsorbateAtom[y];
+      }
+      //Declare a new, cuda managed mem (accessible on both CPU/GPU) to overwrite the original  bool mem
       cudaMallocManaged(&SystemComponents[a].ConsiderThisAdsorbateAtom, sizeof(bool) * SystemComponents[a].Moleculesize[1]);
       for(size_t y = 0; y < SystemComponents[a].Moleculesize[1]; y++)
       {
+        SystemComponents[a].ConsiderThisAdsorbateAtom[y] = ConsiderThisAdsorbateAtom[y];
         printf("Atom %zu, Consider? %s\n", y, SystemComponents[a].ConsiderThisAdsorbateAtom[y] ? "true" : "false");
       }
       //Test reading Tensorflow model//
