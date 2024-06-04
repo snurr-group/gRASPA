@@ -8,10 +8,10 @@ NumberOfProductionCycles     100000
 UseMaxStep  yes
 MaxStepPerCycle 1
 
+UseChargesFromCIFFile yes
+
 RestartFile no
 RandomSeed  2
-
-BMCBiasingMethod LJ_Biasing
 
 Widom_Trials 10
 Widom_Orientation 10
@@ -33,9 +33,6 @@ OverlapCriteria 1e5
 CutOffVDW 12.8
 CutOffCoulomb 12.0
 EwaldPrecision 1e-6
-
-GibbsVolumeChangeProbability 0.1
-GibbsSwapProbability 0.1
 
 Component 0 MoleculeName             CO2
             IdealGasRosenbluthWeight 1.0
