@@ -61,29 +61,26 @@ def WritePatchTofile(fin, patch_list):
     
     shutil.move(temp, fin)
 
-tf_or_torch = ['libtorch']
-patch_model= ['Allegro']
+#provide patch path here
+#it will read whatever after the '/' as the model name
+patch_path= ['cppflow-patch/LCLIN'] # libtorch_patch/Allegro or cppflow-patch/LCLIN
 clean_src = 'src_clean/'
 #patch_keyword = 'PATCH_LCLIN_SINGLE'
-
-for ind in range(0, len(tf_or_torch)):#model in patch_model:
-    method= tf_or_torch[ind]
-    model = patch_model[ind]
-    patch_dir = method + '-patch/' + model + '/'
-    if(len(patch_model) > 1 or len(tf_or_torch) > 1): 
-        raise Exception("DO ONE MODEL AT A TIME!!!")
-    final_dir = 'patch_' + method + '_' + model + '/'
-    if(not os.path.isdir(final_dir)):
-        os.mkdir(final_dir)
+for model in patch_path:
+    if(len(patch_path) > 1):
+        raise Exception("DO ONE PATH AT A TIME!!!")
+    model_name = model.split('/')[-1]
+    final_dir = 'patch_' + model_name + '/'
+    os.makedirs(final_dir, exist_ok=True)
     src_files = os.listdir(clean_src)
     src_files = [f for f in src_files if os.path.isfile(clean_src + '/' + f)]
     for f in src_files:
         shutil.copy(clean_src + f, final_dir + f)
-    files = os.listdir(patch_dir)
-    patch_file = [f for f in files if os.path.isfile(patch_dir + '/' + f)]
+    files = os.listdir(model)
+    patch_file = [f for f in files if os.path.isfile(model + '/' + f)]
     for f in patch_file:
         first_half = f.split('.txt')[0]
-        srcfile    = first_half.split('PATCH_' + model.upper() + '_')[1]
-        print("Processing " + model + " patch" + " for " + srcfile)
-        patches = Read_File_into_array_string(patch_dir + '/' + f)
+        srcfile    = first_half.split('PATCH_' + model_name.upper() + '_')[1]
+        print("Processing " + model_name + " patch" + " for " + srcfile)
+        patches = Read_File_into_array_string(model + '/' + f)
         WritePatchTofile(final_dir + srcfile, patches)
