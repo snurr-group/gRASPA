@@ -1905,6 +1905,8 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   file.clear();
   file.seekg(0); 
   std::string MolName;
+
+  bool AlreadyProcessedMLPseudoAtoms = false;
   
   while (std::getline(file, str))
   {
@@ -2060,15 +2062,25 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
           printf("TMMC: Bias Updated from component %s every %zu MC Step(s)!\n", MolName.c_str(), temp_tmmc.UpdateTMEvery);
         }
       }
-      //This should be a general DNN setup//
-      //Consider the positions of water TIP4P, you don't need to feed the position of the fictional charge to the model//
-      if(SystemComponents.UseDNNforHostGuest)
-      { 
-        cudaMallocManaged(&SystemComponents.ConsiderThisAdsorbateAtom, sizeof(bool) * SystemComponents.Moleculesize[SystemComponents.NComponents.y]);
 
-        //Zhao's note: Read the types of atoms that needs to be considered for the DNN Model//
+      if(SystemComponents.UseDNNforHostGuest)
+      {
+       //Zhao's note: Read the types of atoms that needs to be considered for the DNN Model//
         if (str.find("DNNPseudoAtoms", 0) != std::string::npos)
         {
+          if(AlreadyProcessedMLPseudoAtoms)
+            throw std::runtime_error("You are reading ***DNNPseudoAtoms*** twice for one component! This is not allowed. Use only one line!!!!\n");
+          AlreadyProcessedMLPseudoAtoms = true;
+          //This should be a general DNN setup//
+          //Consider the positions of water TIP4P, 
+          //you don't need to feed the position of the fictional charge to the model//
+          //Since it will be re-declared later as managed mem, 
+          //we just do a simple CPU mem here//
+          //Initialize//
+          SystemComponents.ConsiderThisAdsorbateAtom = (bool*) malloc(SystemComponents.Moleculesize[SystemComponents.NComponents.y] * sizeof(bool));
+          for(size_t b = 0; b < Mol.Molsize; b++)
+            SystemComponents.ConsiderThisAdsorbateAtom[b] = false;
+
           Split_Tab_Space(termsScannedLined, str);
           for(size_t a = 1; a < termsScannedLined.size(); a++)
           {
@@ -2077,6 +2089,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
             //Find location of the pseudo atoms
             for(size_t b = 0; b < Mol.Molsize; b++)
             {
+
               if(Type == Mol.Type[b])
               {
                 SystemComponents.ConsiderThisAdsorbateAtom[b] = true;
@@ -2086,6 +2099,7 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
           }
         }
       }
+
       if (str.find("CreateNumberOfMolecules", 0) != std::string::npos) // Number of Molecules to create
       {
         Split_Tab_Space(termsScannedLined, str); 

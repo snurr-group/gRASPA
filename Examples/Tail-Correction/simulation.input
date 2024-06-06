@@ -1,6 +1,3 @@
-UseGPUReduction no
-Useflag yes
-
 NumberOfInitializationCycles 100000
 NumberOfEquilibrationCycles  200000
 NumberOfProductionCycles     200000
@@ -10,8 +7,6 @@ MaxStepPerCycle 1
 
 RestartFile no
 RandomSeed  0
-
-BMCBiasingMethod LJ_Biasing
 
 Widom_Trials 10
 Widom_Orientation 10

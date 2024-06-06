@@ -11,6 +11,8 @@ struct Allegro
   NeighList NL;
   int3 NReplicacell = {1,1,1};
 
+  size_t DNN_Molsize = 0; //Atom size to be considered for DNN, since there might be fictional atom sites for a classical sim molecule
+
   size_t nstep = 0;
 
   void GetSQ_From_Cutoff()
@@ -162,18 +164,36 @@ struct Allegro
 
   //Assuming the framework atoms are reproduced, and the order of atoms in a unit cell matches the order in the cif//
   //This assumes rigid framework//
-  void CopyAtomsFromFirstUnitcell(Atoms& HostAtoms, size_t comp, int3 NSupercell, PseudoAtomDefinitions& PseudoAtoms)
+  //Since it is framework (assuming all the atoms are DNN-used, consider them all)
+  //This will gaurentee that UCAtoms.size = DNN_consider_size, not NAtoms or HostAtoms.Molsize;
+  //Consider a TIP4P molecule, there is a fictional charge site that needs to be excluded//
+  //So the DNN will consider 2*hydrogen + 1*oxygen, but not the fictional charge site//
+  //TIP4P HostAtoms.Molsize = 4, here we want UCAtoms.size = 3//
+  void CopyAtomsFromFirstUnitcell(Atoms& HostAtoms, size_t comp, int3 NSupercell, PseudoAtomDefinitions& PseudoAtoms, bool* ConsiderThisAdsorbateAtom)
   {
     size_t NAtoms = HostAtoms.Molsize / (NSupercell.x * NSupercell.y * NSupercell.z);
     if(HostAtoms.size % NAtoms != 0) throw std::runtime_error("SuperCell size cannot be divided by number of supercell atoms!!!!");
     UCAtoms[comp].size = NAtoms;
+    //During the initialization phase, for adsorbate atoms, exclude those that are NOT considered in DNN.
+    //Still assuming one adsorbate species, do it only for adsorbate
+    if(comp != 0)
+      for(size_t i = 0; i < NAtoms; i++)
+        if(ConsiderThisAdsorbateAtom[i])
+          DNN_Molsize += 1;
+
+    if(comp != 0) UCAtoms[comp].size = DNN_Molsize;
     AllocateUCSpace(comp);
+
+    size_t update_i = 0;
     for(size_t i = 0; i < NAtoms; i++)
     {
-      UCAtoms[comp].pos[i]  = HostAtoms.pos[i];
+      if(comp != 0)
+        if(!ConsiderThisAdsorbateAtom[i]) continue;
+      UCAtoms[comp].pos[update_i]  = HostAtoms.pos[i];
       size_t SymbolIdx = PseudoAtoms.GetSymbolIdxFromPseudoAtomTypeIdx(HostAtoms.Type[i]);
-      UCAtoms[comp].Type[i] = SymbolIdx;
+      UCAtoms[comp].Type[update_i] = SymbolIdx;
       //printf("Component %zu, Atom %zu, xyz %f %f %f, Type %zu, SymbolIndex %zu\n", comp, i, UCAtoms[comp].pos[i].x, UCAtoms[comp].pos[i].y, UCAtoms[comp].pos[i].z, HostAtoms.Type[i], UCAtoms[comp].Type[i]);
+      update_i ++;
     }
   }
   /*
@@ -525,6 +545,7 @@ struct Allegro
       */
     }
   }
+  //This function is called after the position of the trial adsorbate molecule is prepared in UCAtoms//
   double MCEnergyWrapper(size_t comp, bool Initialize, double DNNEnergyConversion)
   {
     WrapSuperCellAtomIntoUCBox(comp);

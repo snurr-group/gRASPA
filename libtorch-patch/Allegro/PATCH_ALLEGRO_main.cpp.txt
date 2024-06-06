@@ -16,24 +16,26 @@ PATCH_ALLEGRO_MAIN_PREP
         //Copy Boxsize to DNN UCBox//
         SystemComponents[a].DNN.GenerateUCBox(Box[a].Cell, SystemComponents[a].NumberofUnitCells);
         printf("Generated UC Box\n");
-        //Copy First unit cell of framework atoms to UCAtoms//                
-        for(size_t comp = 0; comp < SystemComponents[a].NComponents.x; comp++)        
-        {           
+        //Copy First unit cell of atoms to UCAtoms//                
+        //Also Initialize for Adsorbate//
+        for(size_t comp = 0; comp < SystemComponents[a].NComponents.x; comp++)
+        {
           int3 Ncells = {1,1,1}; 
-          //If we copy adsorbates, we copy the first template atom (no need to divide number of atoms by unit cells)            if(comp == 0)
+          //If we copy adsorbates, we copy the first template atom (no need to divide number of atoms by unit cells)            
+          if(comp == 0)
           {  
             Ncells = SystemComponents[a].NumberofUnitCells;
             if(!SystemComponents[a].rigid[comp] || SystemComponents[a].NComponents.y != 1)
               throw std::runtime_error("Currently only allows rigid framework and no semi-flexible framework model!!!! If you want, write your own!!!!");          
           }          
-          SystemComponents[a].DNN.CopyAtomsFromFirstUnitcell(SystemComponents[a].HostSystem[comp], comp, Ncells, SystemComponents[a].PseudoAtoms);
+          SystemComponents[a].DNN.CopyAtomsFromFirstUnitcell(SystemComponents[a].HostSystem[comp], comp, Ncells, SystemComponents[a].PseudoAtoms, SystemComponents[a].ConsiderThisAdsorbateAtom);
         }
-        printf("DONE COpying\n");
+        printf("DONE Copying Framework + template adsorbate atom into UCAtoms for Allegro\n");
         //As a test, replace UCatoms by preset values//
         //Initialize the atom sizes
         size_t comp = 1;
-        for(size_t i = 0; i < SystemComponents[a].Moleculesize[comp]; i++)
-          SystemComponents[a].DNN.UCAtoms[comp].pos[i] = SystemComponents[a].HostSystem[comp].pos[i];
+        //Copy some molecule positions into UCAtoms//
+        //Use the initialization setup (position in SystemComponents[a].HostSystem[comp], already copied)//
         printf("DONE Setting Test Adsorbate positions\n");
 
         SystemComponents[a].DNN.NReplicacell = {3,3,3}; //Default//
@@ -43,7 +45,7 @@ PATCH_ALLEGRO_MAIN_PREP
         printf("%s, sum (from Unitcell values): %f\n", Initialize ? "Initialize Model": "Re-using Model", DNN_E);
         //DO another position for the test molecules//
         double3 d_val = {1.0, 1.0, 1.0};
-        for(size_t i = 0; i < SystemComponents[a].Moleculesize[comp]; i++)
+        for(size_t i = 0; i < SystemComponents[a].DNN.UCAtoms[comp].size; i++)
           SystemComponents[a].DNN.UCAtoms[comp].pos[i] += d_val;
 
         Initialize = false;
