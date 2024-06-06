@@ -1,50 +1,83 @@
+PATCH_ALLEGRO_CONSIDER_DNN_ATOMS
+void Check_DNNAtom_and_copy_pos_to_UCAtoms(double3* temp_pos, Atoms& UCAtoms, bool* ConsiderThisAdsorbateAtom, size_t Molsize)
+{
+  size_t update_i = 0;
+  for(size_t i = 0; i < Molsize; i++)
+  {
+    if(ConsiderThisAdsorbateAtom[i])
+      UCAtoms.pos[update_i] = temp_pos[i];
+    update_i ++;
+  }
+}
+
 PATCH_ALLEGRO_INSERTION
     if(SystemComponents.UseAllegro)
     {
       bool Initialize = false;
-      cudaMemcpy(SystemComponents.DNN.UCAtoms[SelectedComponent].pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
-      if(SystemComponents.CURRENTCYCLE <= 5)
+      double3* temp_pos; temp_pos = (double3*) malloc(sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent]);
+      cudaMemcpy(temp_pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+      Check_DNNAtom_and_copy_pos_to_UCAtoms(temp_pos, SystemComponents.DNN.UCAtoms[SelectedComponent], SystemComponents.ConsiderThisAdsorbateAtom, SystemComponents.Moleculesize[SelectedComponent]);
+      if(SystemComponents.CURRENTCYCLE <= 30)
+      {
+        printf("DNN INSERTION BEFORE CHECK DNN PseudoAtoms\n");
         for(size_t i = 0; i < SystemComponents.Moleculesize[SelectedComponent]; i++)
-          printf("Cycle: %zu, pos: %f %f %f\n", SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].x, SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].y, SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].z);
+          printf("pos: %f %f %f\n", temp_pos[i].x, temp_pos[i].y, temp_pos[i].z);
 
+        printf("DNN INSERTION AFTER CHECK DNN PseudoAtoms\n");
+        for(size_t i = 0; i < SystemComponents.DNN.UCAtoms[SelectedComponent].size; i++)
+          printf("pos: %f %f %f\n", SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].x, SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].y, SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].z);
+      }
         DNN_New = SystemComponents.DNN.MCEnergyWrapper(SelectedComponent, Initialize, SystemComponents.DNNEnergyConversion);
+      free(temp_pos);
     }
 
 PATCH_ALLEGRO_DELETION
     if(SystemComponents.UseAllegro)
     {
       bool Initialize = false;
-      cudaMemcpy(SystemComponents.DNN.UCAtoms[SelectedComponent].pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+      double3* temp_pos; temp_pos = (double3*) malloc(sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent]);
+      cudaMemcpy(temp_pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+      Check_DNNAtom_and_copy_pos_to_UCAtoms(temp_pos, SystemComponents.DNN.UCAtoms[SelectedComponent], SystemComponents.ConsiderThisAdsorbateAtom, SystemComponents.Moleculesize[SelectedComponent]);
       DNN_New = SystemComponents.DNN.MCEnergyWrapper(SelectedComponent, Initialize, SystemComponents.DNNEnergyConversion);
+      free(temp_pos);
     }
 
 PATCH_ALLEGRO_SINGLE
     if(SystemComponents.UseAllegro)
     {
       bool Initialize = false;
-
+      double3* temp_pos; temp_pos = (double3*) malloc(sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent]);
       if(Do_New)
       {
-        cudaMemcpy(SystemComponents.DNN.UCAtoms[SelectedComponent].pos, Sims.New.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+        cudaMemcpy(temp_pos, Sims.New.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+        Check_DNNAtom_and_copy_pos_to_UCAtoms(temp_pos, SystemComponents.DNN.UCAtoms[SelectedComponent], SystemComponents.ConsiderThisAdsorbateAtom, SystemComponents.Moleculesize[SelectedComponent]);
         DNN_New = SystemComponents.DNN.MCEnergyWrapper(SelectedComponent, Initialize, SystemComponents.DNNEnergyConversion);
         //printf("DNN_New %f\n", DNN_New);
       }
       if(Do_Old)
       {
-        cudaMemcpy(SystemComponents.DNN.UCAtoms[SelectedComponent].pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+        cudaMemcpy(temp_pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+        Check_DNNAtom_and_copy_pos_to_UCAtoms(temp_pos, SystemComponents.DNN.UCAtoms[SelectedComponent], SystemComponents.ConsiderThisAdsorbateAtom, SystemComponents.Moleculesize[SelectedComponent]);
         DNN_Old = SystemComponents.DNN.MCEnergyWrapper(SelectedComponent, Initialize, SystemComponents.DNNEnergyConversion);
         //printf("DNN_New %f\n", DNN_Old);
       }
+      free(temp_pos);
     }
 
 PATCH_ALLEGRO_REINSERTION
   if(SystemComponents.UseAllegro)
   {
     bool Initialize = false;
-    cudaMemcpy(SystemComponents.DNN.UCAtoms[SelectedComponent].pos, temp, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+    double3* temp_pos; temp_pos = (double3*) malloc(sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent]);
+    //NEW//
+    cudaMemcpy(temp_pos, temp, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+    Check_DNNAtom_and_copy_pos_to_UCAtoms(temp_pos, SystemComponents.DNN.UCAtoms[SelectedComponent], SystemComponents.ConsiderThisAdsorbateAtom, SystemComponents.Moleculesize[SelectedComponent]);
     DNN_New = SystemComponents.DNN.MCEnergyWrapper(SelectedComponent, Initialize, SystemComponents.DNNEnergyConversion);
-    cudaMemcpy(SystemComponents.DNN.UCAtoms[SelectedComponent].pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+    //OLD//
+    cudaMemcpy(temp_pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
+    Check_DNNAtom_and_copy_pos_to_UCAtoms(temp_pos, SystemComponents.DNN.UCAtoms[SelectedComponent], SystemComponents.ConsiderThisAdsorbateAtom, SystemComponents.Moleculesize[SelectedComponent]);
     DNN_Old = SystemComponents.DNN.MCEnergyWrapper(SelectedComponent, Initialize, SystemComponents.DNNEnergyConversion);
+    free(temp_pos);
   }
 
 PATCH_ALLEGRO_FXNMAIN
@@ -54,10 +87,13 @@ PATCH_ALLEGRO_FXNMAIN
     size_t comp = 1;
     for(size_t i = 0; i < SystemComponents.NumberOfMolecule_for_Component[comp]; i++)
     {
+      size_t update_i = 0;
       for(size_t j = 0; j < SystemComponents.Moleculesize[comp]; j++)
       {
+        if(!SystemComponents.ConsiderThisAdsorbateAtom[j]) continue;
         size_t AtomIdx = i * SystemComponents.Moleculesize[comp] + j;
-        SystemComponents.DNN.UCAtoms[comp].pos[j] = SystemComponents.HostSystem[comp].pos[AtomIdx];
+        SystemComponents.DNN.UCAtoms[comp].pos[update_i] = SystemComponents.HostSystem[comp].pos[AtomIdx];
+        update_i ++;
       }
       DNN_E += SystemComponents.DNN.MCEnergyWrapper(comp, Initialize, SystemComponents.DNNEnergyConversion);
     }
