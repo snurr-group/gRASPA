@@ -151,6 +151,7 @@ void Prepare_DNN_InitialPositions_Reinsertion(Atoms*& d_a, Atoms& Old, double3* 
   numberOfAtoms  += Oldsize;
   Initialize_DNN_Positions_Reinsertion<<<1,1>>>(temp, d_a, Old, Oldsize, Newsize, Location, SelectedComponent);
 }
+//###PATCH_ALLEGRO_CONSIDER_DNN_ATOMS###//
 
 double DNN_Prediction_Move(Components& SystemComponents, Simulations& Sims, size_t SelectedComponent, int MoveType)
 {

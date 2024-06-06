@@ -1,0 +1,54 @@
+PATCH_ALLEGRO_MAIN_READMODEL
+      if(Comp_for_DNN_Model[i].UseAllegro)
+      {
+        ReadAllegroModelParameters(Comp_for_DNN_Model[i]);
+      }
+
+PATCH_ALLEGRO_MAIN_PREP
+      if(SystemComponents[a].UseAllegro)
+      {
+        printf("Setting up Allegro model\n");
+        SystemComponents[a].DNN.ReadModel(SystemComponents[a].ModelName[0]);
+        printf("DONE Reading the model, model name %s\n", SystemComponents[a].ModelName[0].c_str());
+        SystemComponents[a].DNN.UCAtoms.resize(SystemComponents[a].NComponents.x);
+        SystemComponents[a].DNN.ReplicaAtoms.resize(SystemComponents[a].NComponents.x);
+
+        //Copy Boxsize to DNN UCBox//
+        SystemComponents[a].DNN.GenerateUCBox(Box[a].Cell, SystemComponents[a].NumberofUnitCells);
+        printf("Generated UC Box\n");
+        //Copy First unit cell of atoms to UCAtoms//                
+        //Also Initialize for Adsorbate//
+        for(size_t comp = 0; comp < SystemComponents[a].NComponents.x; comp++)
+        {
+          int3 Ncells = {1,1,1}; 
+          //If we copy adsorbates, we copy the first template atom (no need to divide number of atoms by unit cells)            
+          if(comp == 0)
+          {  
+            Ncells = SystemComponents[a].NumberofUnitCells;
+            if(!SystemComponents[a].rigid[comp] || SystemComponents[a].NComponents.y != 1)
+              throw std::runtime_error("Currently only allows rigid framework and no semi-flexible framework model!!!! If you want, write your own!!!!");          
+          }          
+          SystemComponents[a].DNN.CopyAtomsFromFirstUnitcell(SystemComponents[a].HostSystem[comp], comp, Ncells, SystemComponents[a].PseudoAtoms, SystemComponents[a].ConsiderThisAdsorbateAtom);
+        }
+        printf("DONE Copying Framework + template adsorbate atom into UCAtoms for Allegro\n");
+        //As a test, replace UCatoms by preset values//
+        //Initialize the atom sizes
+        size_t comp = 1;
+        //Copy some molecule positions into UCAtoms//
+        //Use the initialization setup (position in SystemComponents[a].HostSystem[comp], already copied)//
+        printf("DONE Setting Test Adsorbate positions\n");
+
+        SystemComponents[a].DNN.NReplicacell = {3,3,3}; //Default//
+        bool Initialize = true;
+
+        double DNN_E = SystemComponents[a].DNN.MCEnergyWrapper(1, Initialize, SystemComponents[a].DNNEnergyConversion);
+        printf("%s, sum (from Unitcell values): %f\n", Initialize ? "Initialize Model": "Re-using Model", DNN_E);
+        //DO another position for the test molecules//
+        double3 d_val = {1.0, 1.0, 1.0};
+        for(size_t i = 0; i < SystemComponents[a].DNN.UCAtoms[comp].size; i++)
+          SystemComponents[a].DNN.UCAtoms[comp].pos[i] += d_val;
+
+        Initialize = false;
+        DNN_E = SystemComponents[a].DNN.MCEnergyWrapper(1, Initialize, SystemComponents[a].DNNEnergyConversion);
+        printf("%s, sum (from Unitcell values): %f\n", Initialize ? "Initialize Model": "Re-using Model", DNN_E);
+      }
