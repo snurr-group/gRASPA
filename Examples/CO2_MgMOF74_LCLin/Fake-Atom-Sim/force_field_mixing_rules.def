@@ -1,0 +1,16 @@
+# general rule for shifted vs truncated
+truncated
+# general rule tailcorrections
+no
+# number of defined interactions
+7
+# type interaction, parameters.    IMPORTANT: define shortest matches first, so that more specific ones overwrites these
+Mg              lennard-jones         55.85    2.69
+O               lennard-jones         30.19    3.12
+C               lennard-jones         52.83    3.43
+H               lennard-jones         22.14    2.57
+C_co2          lennard-jones    27.0   2.800
+O_co2          lennard-jones    79.0   3.050
+F              lennard-jones    0.0    0.0
+# general mixing rule for Lennard-Jones
+Lorentz-Berthelot

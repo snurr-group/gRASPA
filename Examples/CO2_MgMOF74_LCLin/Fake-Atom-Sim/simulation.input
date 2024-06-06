@@ -1,0 +1,49 @@
+NumberOfInitializationCycles 1000
+NumberOfEquilibrationCycles  0
+NumberOfProductionCycles     0
+
+UseMaxStep  yes
+MaxStepPerCycle 1
+
+UseChargesFromCIFFile yes
+
+RestartFile no
+RandomSeed  0
+
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+NumberOfBlocks 1
+AdsorbateAllocateSpace 10240
+NumberOfSimulations 1
+SingleSimulation yes
+
+DifferentFrameworks yes
+InputFileType cif
+FrameworkName MgMOF74-small_unitcell
+UnitCells 0 5 3 3
+
+ChargeMethod Ewald
+Temperature 195
+Pressure    1000.0
+
+OverlapCriteria 1e5
+CutOffVDW 14.0
+CutOffCoulomb 14.0
+EwaldPrecision 1e-6
+
+UseDNNforHostGuest yes
+DNNMethod LCLin
+DNNEnergyUnit eV
+DNNModelName  DP_model_CO2_MgMOF74_LinModel_float32
+DNNInputLayer serving_default_dense_input:0
+MaxDNNDrift 1000000.0
+
+Component 0 MoleculeName             CO2_mod
+            IdealGasRosenbluthWeight 1.0
+            FugacityCoefficient      1.0
+            TranslationProbability   1.0
+            RotationProbability      1.0
+            ReinsertionProbability   1.0
+            SwapProbability          1.0
+            DNNPseudoAtoms C_co2 O_co2
+            CreateNumberOfMolecules  0
