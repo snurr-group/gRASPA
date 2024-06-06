@@ -1,3 +1,0 @@
-09/13/22
-Latest code of the CUDA-RASPA. Need to write the functions for reading framework files and molecule definitions. 
-To make: ./NVC_COMPILE, the compiler uses nvc++, so some of the c++20 functions cannot be supported. 
