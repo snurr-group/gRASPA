@@ -50,4 +50,5 @@ Component 0 MoleculeName             CO2
             RotationProbability      1.0
             ReinsertionProbability   1.0
             SwapProbability          1.0
+            DNNPseudoAtoms C_co2 O_co2
             CreateNumberOfMolecules  0
