@@ -10,8 +10,7 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 # NOTES:
   * To install gRASPA on various clusters, check out [Cluster-Setup](Cluster-Setup/)
 # Reference:
-  * gRASPA paper is not published yet.
-  * Part of gRASPA is documented in [Zhao Li's dissertation](https://www.proquest.com/docview/2856224877/406AD117D18F4215PQ/1?accountid=12861). Please kindly cite this if you used it in your publication. Thanks.
+  * gRASPA paper is currently in progress. Please kindly cite it when it is published.
 
 # TABLE of Code Capabilities
 | Functionalities | gRASPA | gRASPA-fast | gRASPA-HTC |
