@@ -47,9 +47,3 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
 
 
-# Action Items
-  * restart-able TMMC calculations [DONE: Check commit here](https://github.com/snurr-group/gRASPA/commit/cce339a801961b2d48e97b759eabc63bc919fc27)
-  * Better output files (distinguish between Initialization/Equilibration/Production phases) [DONE: Check commit here](https://github.com/snurr-group/CUDA-RASPA-DeepPotential/commit/791b796132c1429c48dd4549820a12f69ab0f353)
-  * **hash-tag** in input files for commenting (Really?!)
-  * **mathematical equations** for idealized pore geometries and easy inputs in the simulation.input file.
-  * **Cell list (linked list)** for framework atoms (See if Zhao has time for this...)
