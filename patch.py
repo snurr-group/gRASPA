@@ -63,7 +63,7 @@ def WritePatchTofile(fin, patch_list):
 
 #provide patch path here
 #it will read whatever after the '/' as the model name
-patch_path= ['cppflow-patch/LCLIN'] # libtorch_patch/Allegro or cppflow-patch/LCLIN
+patch_path= ['cppflow-patch/LCLIN'] # libtorch-patch/Allegro or cppflow-patch/LCLIN
 clean_src = 'src_clean/'
 #patch_keyword = 'PATCH_LCLIN_SINGLE'
 for model in patch_path:
