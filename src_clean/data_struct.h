@@ -913,7 +913,7 @@ struct Components
   MoveEnergy CreateMoldeltaE;
   MoveEnergy deltaE;
   double  FrameworkEwald=0.0;
-  bool    HasTailCorrection = false;                // An overall flag for tail correction 
+  bool    HasTailCorrection = false;                // An overall flag for tail correction
   bool    ReadRestart = false;                      // Whether to use restart files //Zhao's note: this can be either RASPA-2-type Restart file or LAMMPS data file //
   int     RestartInputFileType = RASPA_RESTART;          // can choose from: RASPA_RESTART or LAMMPS_DATA (see enum at the beginning of this file)
   bool    Read_BoxsizeRestart = false;        // Whether to read boxsize from initial configuration file //

@@ -747,7 +747,6 @@ double Mixing_rule_Sigma(double sig1, double sig2)
 //The type numbering is determined in here, then used in pseudo_atoms.def
 void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
 {
-  double CutOffSquared = 144.0; 
   std::string scannedLine; std::string str;
   std::vector<std::string> termsScannedLined{};
   size_t counter = 0;
@@ -811,8 +810,14 @@ void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
       temp_sig= Mixing_rule_Sigma(Sigma[i], Sigma[j]);
       Mix_Epsilon.push_back(temp_ep);
       Mix_Sigma.push_back(temp_sig);
-      if(shifted){
-        Mix_Shift.push_back(Get_Shifted_Value(temp_ep, temp_sig, CutOffSquared));}else{Mix_Shift.push_back(0.0);}
+      if(shifted)
+      {
+        Mix_Shift.push_back(Get_Shifted_Value(temp_ep, temp_sig, FF.CutOffVDW));
+      }
+      else
+      {
+        Mix_Shift.push_back(0.0);
+      }
       if(tail){
       throw std::runtime_error("Tail correction not implemented YET in force_field_mixing_rules.def, use the overwritting file force_field.def instead...");} 
       Mix_Z.push_back(0.0);
@@ -820,13 +825,13 @@ void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
     }
   }
   //For checking if mixing rule terms are correct//
-  /*
+  
   for(size_t i = 0; i < Mix_Shift.size(); i++)
   {
     size_t ii = i/NumberOfDefinitions; size_t jj = i%NumberOfDefinitions; printf("i: %zu, ii: %zu, jj: %zu", i,ii,jj);
     printf("i: %zu, ii: %zu, jj: %zu, Name_i: %s, Name_j: %s, ep: %.10f, sig: %.10f, shift: %.10f\n", i,ii,jj,PseudoAtom.Name[ii].c_str(), PseudoAtom.Name[jj].c_str(), Mix_Epsilon[i], Mix_Sigma[i], Mix_Shift[i]);
   }
-  */
+  
   FF.epsilon = convert1DVectortoArray(Mix_Epsilon);
   FF.sigma   = convert1DVectortoArray(Mix_Sigma);
   FF.z       = convert1DVectortoArray(Mix_Z);
@@ -877,12 +882,28 @@ static inline void PrepareTailCorrection(size_t i, size_t j, std::vector<Tail>& 
 }
 //Function for Overwritten tail corrections
 //For now, it only considers tail correction//
+//Add overwritting LJ//
 void OverWriteFFTerms(Components& SystemComponents, ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
 {
-  size_t FFsize = FF.size;
   std::string scannedLine; std::string str;
   std::vector<std::string> termsScannedLined{};
+  std::ifstream FFMixfile("force_field_mixing_rules.def");
+  bool shifted = false;
   size_t counter = 0;
+  while (std::getline(FFMixfile, str))
+  {
+    if(counter == 1) //read shifted/truncated
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      if(termsScannedLined[0] == "shifted")
+        shifted = true;
+      break;
+    }
+  }
+  FFMixfile.close();
+
+  size_t FFsize = FF.size;
+  counter = 0;
   size_t OverWriteSize = 0;
   size_t typeI; size_t typeJ;
   std::vector<Tail>TempTail(FFsize * FFsize);
@@ -899,7 +920,7 @@ void OverWriteFFTerms(Components& SystemComponents, ForceField& FF, PseudoAtomDe
   {
     SystemComponents.HasTailCorrection = true;
   } 
-  printf("----------------FORCE FIELD OVERWRITTEN (TAIL CORRECTION) PARAMETERS----------------\n");
+  printf("----------------FORCE FIELD OVERWRITTEN (TAIL CORRECTION+VDW) PARAMETERS----------------\n");
   while (std::getline(OverWritefile, str))
   {
     if(counter == 1) //read OverWriteSize
@@ -910,11 +931,32 @@ void OverWriteFFTerms(Components& SystemComponents, ForceField& FF, PseudoAtomDe
     else if(counter >= 3 && counter < (3 + OverWriteSize)) //read Terms to OverWrite
     {
       Split_Tab_Space(termsScannedLined, str);
-      if(termsScannedLined[3] == "yes") //Use Tail Correction or not//
+      if(termsScannedLined[3] == "yes" && termsScannedLined.size() == 4) //Use Tail Correction or not//
       {
+        //Ow Ow   truncated yes
+        printf("Overwritting parameters for Tail correction: %s and %s\n", termsScannedLined[0].c_str(), termsScannedLined[1].c_str());
         typeI = GetTypeForPseudoAtom(PseudoAtom, termsScannedLined[0]);
         typeJ = GetTypeForPseudoAtom(PseudoAtom, termsScannedLined[1]);
         PrepareTailCorrection(typeI, typeJ, TempTail, PseudoAtom, FF);
+      }
+      else if(termsScannedLined.size() == 5) //5 entries = LJ mixing rule parameter length
+      {
+        //Ow Hw lennard-jones 1.0 1.0
+        printf("Overwritting parameters for VDW (lennard-jones): %s and %s\n", termsScannedLined[0].c_str(), termsScannedLined[1].c_str());
+        typeI = GetTypeForPseudoAtom(PseudoAtom, termsScannedLined[0]);
+        typeJ = GetTypeForPseudoAtom(PseudoAtom, termsScannedLined[1]);
+        
+        double temp_ep = std::stod(termsScannedLined[3])/1.20272430057; //K -> 10J/mol
+        double temp_sig= std::stod(termsScannedLined[4]);               //Angstroem
+        FF.epsilon[typeI * FF.size + typeJ] = temp_ep;
+        FF.epsilon[typeJ * FF.size + typeI] = temp_ep;
+        FF.sigma[typeI * FF.size + typeJ] = temp_sig;
+        FF.sigma[typeJ * FF.size + typeI] = temp_sig;
+        if(shifted)
+        {
+          FF.shift[typeI * FF.size + typeJ] = Get_Shifted_Value(temp_ep, temp_sig, FF.CutOffVDW);
+          FF.shift[typeJ * FF.size + typeI] = Get_Shifted_Value(temp_ep, temp_sig, FF.CutOffVDW);
+        }
       }
     }
     counter ++;

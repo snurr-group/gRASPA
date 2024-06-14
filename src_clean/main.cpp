@@ -86,11 +86,11 @@ int main(void)
   PseudoAtomDefinitions PseudoAtom;
   ForceField FF; ForceField device_FF;
   // read in force field and pseudo atom
-  ForceFieldParser(FF, PseudoAtom);
-  PseudoAtomParser(FF, PseudoAtom);
 
   double EwaldPrecision = 1e-6;
   read_FFParams_from_input(FF, EwaldPrecision);
+  ForceFieldParser(FF, PseudoAtom);
+  PseudoAtomParser(FF, PseudoAtom);
 
   // FORMULATE WIDOM VARIABLE, and STATISTICS FOR EVERY MOVE //
   WidomStruct Widom; 
