@@ -630,7 +630,7 @@ __global__ void Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal(Boxsize 
   BlockEnergy[blockIdx.x] = 0.0; 
   BlockEnergy[blockIdx.x + Total_Nblock] = 0.0;
 
-  __shared__ bool Blockflag = false;
+  //__shared__ bool Blockflag = false;
 
   const size_t NTotalComp = NComps.x;
   const size_t NHostComp  = NComps.y;
@@ -746,8 +746,8 @@ __global__ void Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal(Boxsize 
       const size_t row = typeA*FF.size+typeB;
       const double FFarg[4] = {FF.epsilon[row], FF.sigma[row], FF.z[row], FF.shift[row]};
       VDW(FFarg, rr_dot, scaling, result);
-      if(result[0] > FF.OverlapCriteria) { Blockflag = true; flag[0] = true; }
-      if(rr_dot < 0.01)                  { Blockflag = true; flag[0] = true; } //DistanceCheck//
+      if(result[0] > FF.OverlapCriteria) { /*Blockflag = true;*/ flag[0] = true; }
+      if(rr_dot < 0.01)                  { /*Blockflag = true;*/ flag[0] = true; } //DistanceCheck//
       tempy.x  += result[0];
       tempdU   += result[1];
     }
@@ -847,7 +847,7 @@ __global__ void Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal_LambdaCh
   BlockEnergy[blockIdx.x] = 0.0; 
   BlockEnergy[blockIdx.x + Total_Nblock] = 0.0;
 
-  __shared__ bool Blockflag = false;
+  //__shared__ bool Blockflag = false;
 
   const size_t NTotalComp = NComps.x;
   const size_t NHostComp  = NComps.y;
@@ -971,8 +971,8 @@ __global__ void Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal_LambdaCh
       VDW(FFarg, rr_dot, Newscaling, result);
       tempy.x  += result[0];
       tempdU   += result[1];
-      if(result[0] > FF.OverlapCriteria) { Blockflag = true; flag[0] = true; }
-      if(rr_dot < 0.01)                  { Blockflag = true; flag[0] = true; } //DistanceCheck//
+      if(result[0] > FF.OverlapCriteria) { /*Blockflag = true;*/ flag[0] = true; }
+      if(rr_dot < 0.01)                  { /*Blockflag = true;*/ flag[0] = true; } //DistanceCheck//
     }
     if (!FF.noCharges && rr_dot < FF.CutOffCoul)
     {

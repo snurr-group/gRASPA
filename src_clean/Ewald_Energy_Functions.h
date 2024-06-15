@@ -779,7 +779,7 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
   size_t ij_within_block = total_ij - blockIdx.x * blockDim.x;
 
   size_t kxyz = blockIdx.x; //Each block takes over one grid point//
-  size_t    kx_max  = Box.kmax.x;
+  //size_t    kx_max  = Box.kmax.x;
   size_t    ky_max  = Box.kmax.y;
   size_t    kz_max  = Box.kmax.z;
   //size_t    nvec    = (kx_max + 1) * (2 * ky_max + 1) * (2 * kz_max + 1);
@@ -911,7 +911,7 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
   }
 }
 
-__global__ double Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, double* BlockSum, size_t SelectedComponent)
+__global__ void Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, double* BlockSum, size_t SelectedComponent)
 {
   double E = 0.0; double prefactor_self = Box.Prefactor * Box.Alpha / std::sqrt(M_PI);
   extern __shared__ double sdata[]; 
@@ -926,7 +926,7 @@ __global__ double Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, dou
   size_t Molsize   = System[SelectedComponent].Molsize;
   size_t AtomIdx   = THREADIdx * Molsize;
 
-  size_t totalmol  = System[SelectedComponent].size / Molsize;
+  //size_t totalmol  = System[SelectedComponent].size / Molsize;
   if(AtomIdx < System[SelectedComponent].size)
   { 
     //if(THREADIdx == 0) printf("Molsize: %lu, AtomIdx: %lu\n", Molsize, AtomIdx);
@@ -1038,7 +1038,8 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
       E.GGEwaldE-= ExclusionE;
     }
     */
-    double GGFourier = 0.0; cudaMemcpy(HostTotEwald, Sim.Blocksum, Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+    //double GGFourier = 0.0;
+    cudaMemcpy(HostTotEwald, Sim.Blocksum, Nblock * sizeof(double), cudaMemcpyDeviceToHost);
     //DEBUG//
     //for(size_t i = 0; i < Nblock; i++) GGFourier += HostTotEwald[i]; 
     //printf("After fourier, GGFourier: %.5f,Fourier blocks: %zu\n", GGFourier, Nblock);

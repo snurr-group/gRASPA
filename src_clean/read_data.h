@@ -32,7 +32,9 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents);
 
 void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double precision);
 
-void OverWriteFFTerms(Components& SystemComponents, ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
+void OverWrite_Mixing_Rule(ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
+
+void OverWriteTailCorrection(Components& SystemComponents, ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
 
 void read_movies_stats_print(Components& SystemComponents);
 

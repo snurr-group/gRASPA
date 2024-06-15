@@ -66,7 +66,17 @@ static inline void WriteAtoms_LAMMPS(Atoms* System, Components SystemComponents,
       {
         pos += Wrap_shift;
       }
-      textrestartFile << Atomcount+1 << " " << Molcount+Data.MolID[j]+1 << " " << Data.Type[j]+1 << " " << Data.charge[j] << " " << pos.x << " " << pos.y << " " << pos.z << " # " << SystemComponents.MoleculeName[i] << " " << AtomNames[Data.Type[j]] << '\n';
+      int oldPrecision = std::cout.precision(); // Store current precision
+      int newPrecision = 10;
+      std::cout.precision(oldPrecision); // Reset to previous precision
+
+      textrestartFile << Atomcount+1 << " " << Molcount+Data.MolID[j]+1 << " " << Data.Type[j]+1 << " " ;
+      textrestartFile << std::setprecision(newPrecision) << Data.charge[j] << " ";
+      textrestartFile << std::setprecision(newPrecision) << pos.x << " ";
+      textrestartFile << std::setprecision(newPrecision) << pos.y << " ";
+      textrestartFile << std::setprecision(newPrecision) << pos.z;
+      std::cout.precision(oldPrecision);
+      textrestartFile << " # " << SystemComponents.MoleculeName[i] << " " << AtomNames[Data.Type[j]] << '\n';
       Atomcount++;
     }
     Molcount+=SystemComponents.NumberOfMolecule_for_Component[i];

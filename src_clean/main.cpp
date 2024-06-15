@@ -134,6 +134,7 @@ int main(void)
   printf("-------------------------------------------------------\n");
   // PREPARE VALUES FOR THE FORCEFIELD STRUCT //
   //file in fxn_main.h//
+  OverWrite_Mixing_Rule(FF, PseudoAtom);
   Prepare_ForceField(FF, device_FF, PseudoAtom);
 
   ////////////////////////
@@ -183,7 +184,7 @@ int main(void)
     {
       TempComponents.NumberOfPseudoAtoms.resize(PseudoAtom.Name.size());
       std::fill(TempComponents.NumberOfPseudoAtoms.begin(), TempComponents.NumberOfPseudoAtoms.end(), 0);
-      OverWriteFFTerms(TempComponents, FF, PseudoAtom);
+      OverWriteTailCorrection(TempComponents, FF, PseudoAtom);
       if(a > 0 && !SameFrameworkEverySimulation) printf("Processing %zu, new framework\n", a);
       //Read framework data from cif/poscar file//
       ReadFramework(Box[a], PseudoAtom, a, TempComponents);
