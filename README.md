@@ -1,15 +1,6 @@
 # gRASPA
 gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation software built for molecular adsorption in nanoporous materials, such as zeolites and metal-organic frameworks (MOFs). 
 
-## Authors
-* Zhao Li (Northwestern University, currently at Purdue University)
-* Kaihang Shi (Northwestern University, currently at University at Buffalo)
-* David Dubbeldam (University of Amsterdam)
-* Mark Dewing (Argonne National Laboratory)
-* Christopher Knight (Argonne National Laboratory)
-* Alvaro Vazquez Mayagoitia (Argonne National Laboratory)
-* Randall Q. Snurr (Northwestern University)
-
 ## Installation
 ### Installation in clusters
 To install gRASPA on NERSC (DOE) and QUEST (Northwestern) clusters, check out [Cluster-Setup](Cluster-Setup/)
@@ -57,4 +48,13 @@ gRASPA paper is currently in progress. Please kindly cite it when it is publishe
 | Read: Restart files | :heavy_check_mark: | :heavy_check_mark: |
 | Peng-Robinson Equation of State | :heavy_check_mark: |
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
+
+## Authors
+* Zhao Li (Northwestern University, currently at Purdue University)
+* Kaihang Shi (Northwestern University, currently at University at Buffalo)
+* David Dubbeldam (University of Amsterdam)
+* Mark Dewing (Argonne National Laboratory)
+* Christopher Knight (Argonne National Laboratory)
+* Alvaro Vazquez Mayagoitia (Argonne National Laboratory)
+* Randall Q. Snurr (Northwestern University)
 
