@@ -2,8 +2,8 @@
 gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation software built for molecular adsorption in nanoporous materials, such as zeolites and metal-organic frameworks (MOFs). 
 
 ## Authors
-* Zhao Li (Northwestern University, Purdue University)
-* Kaihang Shi (Northwestern University, University at Buffalo)
+* Zhao Li (Northwestern University, currently at Purdue University)
+* Kaihang Shi (Northwestern University, currently at University at Buffalo)
 * David Dubbeldam (University of Amsterdam)
 * Mark Dewing (Argonne National Laboratory)
 * Christopher Knight (Argonne National Laboratory)
