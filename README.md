@@ -10,11 +10,12 @@ To install gRASPA on NERSC (DOE) and QUEST (Northwestern) clusters, check out [C
 * gRASPA code has been tested on the following NVIDIA GPUs:
   * A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
 * gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
-## gRASPA Online Manual
-gRASPA online manual is available [here](https://zhaoli2042.github.io/gRASPA-mkdoc)
+## gRASPA Manual
+gRASPA manual is available online at [here](https://zhaoli2042.github.io/gRASPA-mkdoc)
 
 ## Reference
-gRASPA paper is currently in progress. Please kindly cite it when it is published.
+* gRASPA paper is currently in progress. Please kindly cite it when it is published.
+* Part of gRASPA is available in [Zhao Li's dissertation](https://www.proquest.com/openview/900e3899582bbe385d240586668e6f90/1?pq-origsite=gscholar&cbl=18750&diss=y)
 
 ## Table of Code Capabilities
 | Functionalities | gRASPA | gRASPA-fast | gRASPA-HTC |
