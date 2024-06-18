@@ -1,15 +1,29 @@
-# gRASPA-DeepPotential version 
-This is an implementation of ML potential in gRASPA. Depending on ML models, it requires TensorFlow C++ API, CppFlow package, and LibTorch.
+# gRASPA
+gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation software built for molecular adsorption in nanoporous materials, such as zeolites and metal-organic frameworks (MOFs). 
 
-# Documentation is available at 
-  * [https://zhaoli2042.github.io/gRASPA-mkdoc](https://zhaoli2042.github.io/gRASPA-mkdoc)
+## Authors
+* Zhao Li (Northwestern University, Purdue University)
+* Kaihang Shi (Northwestern University, University at Buffalo)
+* David Dubbeldam (University of Amsterdam)
+* Mark Dewing (Argonne National Laboratory)
+* Christopher Knight (Argonne National Laboratory)
+* Alvaro Vazquez Mayagoitia (Argonne National Laboratory)
+* Randall Q. Snurr (Northwestern University)
 
-# NOTES:
-  * To install gRASPA on various clusters, check out [Cluster-Setup](Cluster-Setup/)
-# Reference:
-  * gRASPA paper is currently in progress. Please kindly cite it when it is published.
+## Installation
+### Installation in clusters
+To install gRASPA on NERSC (DOE) and QUEST (Northwestern) clusters, check out [Cluster-Setup](Cluster-Setup/)
 
-# TABLE of Code Capabilities
+### Compatible GPUs
+* For NVIDIA GPUs, gRASPA is currently compatible with NVHPC 22.5 & 22.7. gRASPA code has been tested on the following NVIDIA GPUs: A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
+
+## gRASPA Online Manual
+gRASPA online manual is available [here](https://zhaoli2042.github.io/gRASPA-mkdoc)
+
+## Reference
+gRASPA paper is currently in progress. Please kindly cite it when it is published.
+
+## Table of Code Capabilities
 | Functionalities | gRASPA | gRASPA-fast | gRASPA-HTC |
 | :---------------: | :---------------------: | :-----------------------: | :-----------------------: |
 | ***Simulation Types*** |||
@@ -41,5 +55,4 @@ This is an implementation of ML potential in gRASPA. Depending on ML models, it 
 | Read: Restart files | :heavy_check_mark: | :heavy_check_mark: |
 | Peng-Robinson Equation of State | :heavy_check_mark: |
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
-
 
