@@ -5,8 +5,11 @@ gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation 
 ### Installation in clusters
 To install gRASPA on NERSC (DOE) and QUEST (Northwestern) clusters, check out [Cluster-Setup](Cluster-Setup/)
 
+### Installation on local machines
+A detailed installation note for gRASPA on Ubuntu 24.04 (with latest CUDA/NVHPC) is documented in the manual [here](https://zhaoli2042.github.io/gRASPA-mkdoc/Install.html)
+
 ### Compatible GPUs
-* For NVIDIA GPUs, gRASPA is currently compatible with NVHPC 22.5 & 22.7.
+* For NVIDIA GPUs, gRASPA is currently compatible with NVHPC 22.5 & 22.7 & 24.5.
 * gRASPA code has been tested on the following NVIDIA GPUs:
   * A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
 * gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
