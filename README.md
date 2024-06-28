@@ -11,6 +11,7 @@ A detailed installation note for gRASPA on Ubuntu 24.04 (with latest CUDA/NVHPC)
 ### Compatible GPUs
 * For NVIDIA GPUs, gRASPA code has been tested on the following NVIDIA GPUs:
   * A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
+  * 🤯: RTX 3090/4090 is faster than A40/A100 for gRASPA
 * gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
 ## gRASPA Manual
 gRASPA manual is available online at [here](https://zhaoli2042.github.io/gRASPA-mkdoc)
