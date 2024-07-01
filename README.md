@@ -14,8 +14,8 @@ A detailed installation note for gRASPA on Ubuntu 24.04 (with latest CUDA/NVHPC)
   * 🤯: RTX 3090/4090 is faster than A40/A100 for gRASPA
 * gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
 ## gRASPA Manual
-gRASPA manual is available online at [here](https://zhaoli2042.github.io/gRASPA-mkdoc)
-
+* gRASPA manual is available online @ https://zhaoli2042.github.io/gRASPA-mkdoc
+* a doxygen documentation is also available @ https://zhaoli2042.github.io/gRASPA
 ## Reference
 * gRASPA paper is currently in progress. Please kindly cite it when it is published.
 * Part of gRASPA is available in [Zhao Li's dissertation](https://www.proquest.com/openview/900e3899582bbe385d240586668e6f90/1?pq-origsite=gscholar&cbl=18750&diss=y)
