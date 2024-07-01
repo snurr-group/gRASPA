@@ -1,0 +1,1659 @@
+/home/z/Desktop/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
+True path of exe is /home/z/Desktop/gRASPA_fork/src_clean/
+There are 1 simulations
+running only one simulation
+------------------PARSING FORCE FIELD MIXING RULES----------------
+C              lennard-jones    52.83     3.43
+H              lennard-jones    22.14     2.57
+N              lennard-jones    34.72     3.26
+O              lennard-jones    30.19     3.12
+Zn             lennard-jones    62.39     2.46
+Cu             lennard-jones    2.52      3.11
+P              lennard-jones    153.46    3.69
+Ni             lennard-jones    7.55      2.52
+Ht             lennard-jones    0.0       0.0
+OT             lennard-jones    93.0      3.02
+Op             lennard-jones    78.0      3.154
+Ow             lennard-jones    78.0      3.154
+Hw             lennard-jones    0.0       0.0
+Lw             lennard-jones    0.0       0.0
+Zr             lennard-jones    34.7221   2.78317
+Cl             lennard-jones    50.3413   4.300
+Si             lennard-Jones    22.0      2.30
+CH4_sp3        lennard-jones    148.0     3.73
+C_co2          lennard-jones    29.933    2.745
+O_co2          lennard-jones    85.671    3.017
+Ar             lennard-jones    115.0     3.407
+------------------------------------------------------------------
+----- MIXED VDW PARAMETERS -----
+i: 0, ii: 0, jj: 0, Name_i: C, Name_j: C, ep: 43.9252786154, sig: 3.4300000000, shift: 0.0000000000
+i: 1, ii: 0, jj: 1, Name_i: C, Name_j: H, ep: 28.4356413395, sig: 3.0000000000, shift: 0.0000000000
+i: 2, ii: 0, jj: 2, Name_i: C, Name_j: N, ep: 35.6093525823, sig: 3.3450000000, shift: 0.0000000000
+i: 3, ii: 0, jj: 3, Name_i: C, Name_j: O, ep: 33.2051752004, sig: 3.2750000000, shift: 0.0000000000
+i: 4, ii: 0, jj: 4, Name_i: C, Name_j: Zn, ep: 47.7344268519, sig: 2.9450000000, shift: 0.0000000000
+i: 5, ii: 0, jj: 5, Name_i: C, Name_j: Cu, ep: 9.5934427883, sig: 3.2700000000, shift: 0.0000000000
+i: 6, ii: 0, jj: 6, Name_i: C, Name_j: P, ep: 74.8637911818, sig: 3.5600000000, shift: 0.0000000000
+i: 7, ii: 0, jj: 7, Name_i: C, Name_j: Ni, ep: 16.6053370558, sig: 2.9750000000, shift: 0.0000000000
+i: 8, ii: 0, jj: 8, Name_i: C, Name_j: Ht, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
+i: 9, ii: 0, jj: 9, Name_i: C, Name_j: OT, ep: 58.2794834488, sig: 3.2250000000, shift: 0.0000000000
+i: 10, ii: 0, jj: 10, Name_i: C, Name_j: Op, ep: 53.3729885071, sig: 3.2920000000, shift: 0.0000000000
+i: 11, ii: 0, jj: 11, Name_i: C, Name_j: Ow, ep: 53.3729885071, sig: 3.2920000000, shift: 0.0000000000
+i: 12, ii: 0, jj: 12, Name_i: C, Name_j: Hw, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
+i: 13, ii: 0, jj: 13, Name_i: C, Name_j: Lw, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
+i: 14, ii: 0, jj: 14, Name_i: C, Name_j: Zr, ep: 35.6104294617, sig: 3.1065850000, shift: 0.0000000000
+i: 15, ii: 0, jj: 15, Name_i: C, Name_j: Cl, ep: 42.8781888542, sig: 3.8650000000, shift: 0.0000000000
+i: 16, ii: 0, jj: 16, Name_i: C, Name_j: Si, ep: 28.3455938438, sig: 2.8650000000, shift: 0.0000000000
+i: 17, ii: 0, jj: 17, Name_i: C, Name_j: CH4_sp3, ep: 73.5199287061, sig: 3.5800000000, shift: 0.0000000000
+i: 18, ii: 0, jj: 18, Name_i: C, Name_j: C_co2, ep: 33.0635394083, sig: 3.0875000000, shift: 0.0000000000
+i: 19, ii: 0, jj: 19, Name_i: C, Name_j: O_co2, ep: 55.9359653596, sig: 3.2235000000, shift: 0.0000000000
+i: 20, ii: 0, jj: 20, Name_i: C, Name_j: Ar, ep: 64.8071823289, sig: 3.4185000000, shift: 0.0000000000
+i: 22, ii: 1, jj: 1, Name_i: H, Name_j: H, ep: 18.4082087553, sig: 2.5700000000, shift: 0.0000000000
+i: 23, ii: 1, jj: 2, Name_i: H, Name_j: N, ep: 23.0522107151, sig: 2.9150000000, shift: 0.0000000000
+i: 24, ii: 1, jj: 3, Name_i: H, Name_j: O, ep: 21.4958329776, sig: 2.8450000000, shift: 0.0000000000
+i: 25, ii: 1, jj: 4, Name_i: H, Name_j: Zn, ep: 30.9015465421, sig: 2.5150000000, shift: 0.0000000000
+i: 26, ii: 1, jj: 5, Name_i: H, Name_j: Cu, ep: 6.2104489018, sig: 2.8400000000, shift: 0.0000000000
+i: 27, ii: 1, jj: 6, Name_i: H, Name_j: P, ep: 48.4641186684, sig: 3.1300000000, shift: 0.0000000000
+i: 28, ii: 1, jj: 7, Name_i: H, Name_j: Ni, ep: 10.7496963872, sig: 2.5450000000, shift: 0.0000000000
+i: 29, ii: 1, jj: 8, Name_i: H, Name_j: Ht, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
+i: 30, ii: 1, jj: 9, Name_i: H, Name_j: OT, ep: 37.7280359064, sig: 2.7950000000, shift: 0.0000000000
+i: 31, ii: 1, jj: 10, Name_i: H, Name_j: Op, ep: 34.5517480195, sig: 2.8620000000, shift: 0.0000000000
+i: 32, ii: 1, jj: 11, Name_i: H, Name_j: Ow, ep: 34.5517480195, sig: 2.8620000000, shift: 0.0000000000
+i: 33, ii: 1, jj: 12, Name_i: H, Name_j: Hw, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
+i: 34, ii: 1, jj: 13, Name_i: H, Name_j: Lw, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
+i: 35, ii: 1, jj: 14, Name_i: H, Name_j: Zr, ep: 23.0529078480, sig: 2.6765850000, shift: 0.0000000000
+i: 36, ii: 1, jj: 15, Name_i: H, Name_j: Cl, ep: 27.7577931883, sig: 3.4350000000, shift: 0.0000000000
+i: 37, ii: 1, jj: 16, Name_i: H, Name_j: Si, ep: 18.3499152539, sig: 2.4350000000, shift: 0.0000000000
+i: 38, ii: 1, jj: 17, Name_i: H, Name_j: CH4_sp3, ep: 47.5941505641, sig: 3.1500000000, shift: 0.0000000000
+i: 39, ii: 1, jj: 18, Name_i: H, Name_j: C_co2, ep: 21.4041430735, sig: 2.6575000000, shift: 0.0000000000
+i: 40, ii: 1, jj: 19, Name_i: H, Name_j: O_co2, ep: 36.2109268076, sig: 2.7935000000, shift: 0.0000000000
+i: 41, ii: 1, jj: 20, Name_i: H, Name_j: Ar, ep: 41.9538327592, sig: 2.9885000000, shift: 0.0000000000
+i: 44, ii: 2, jj: 2, Name_i: N, Name_j: N, ep: 28.8677962053, sig: 3.2600000000, shift: 0.0000000000
+i: 45, ii: 2, jj: 3, Name_i: N, Name_j: O, ep: 26.9187772631, sig: 3.1900000000, shift: 0.0000000000
+i: 46, ii: 2, jj: 4, Name_i: N, Name_j: Zn, ep: 38.6973535437, sig: 2.8600000000, shift: 0.0000000000
+i: 47, ii: 2, jj: 5, Name_i: N, Name_j: Cu, ep: 7.7772138844, sig: 3.1850000000, shift: 0.0000000000
+i: 48, ii: 2, jj: 6, Name_i: N, Name_j: P, ep: 60.6905913832, sig: 3.4750000000, shift: 0.0000000000
+i: 49, ii: 2, jj: 7, Name_i: N, Name_j: Ni, ep: 13.4616175607, sig: 2.8900000000, shift: 0.0000000000
+i: 50, ii: 2, jj: 8, Name_i: N, Name_j: Ht, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
+i: 51, ii: 2, jj: 9, Name_i: N, Name_j: OT, ep: 47.2460218776, sig: 3.1400000000, shift: 0.0000000000
+i: 52, ii: 2, jj: 10, Name_i: N, Name_j: Op, ep: 43.2684236966, sig: 3.2070000000, shift: 0.0000000000
+i: 53, ii: 2, jj: 11, Name_i: N, Name_j: Ow, ep: 43.2684236966, sig: 3.2070000000, shift: 0.0000000000
+i: 54, ii: 2, jj: 12, Name_i: N, Name_j: Hw, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
+i: 55, ii: 2, jj: 13, Name_i: N, Name_j: Lw, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
+i: 56, ii: 2, jj: 14, Name_i: N, Name_j: Zr, ep: 28.8686692101, sig: 3.0215850000, shift: 0.0000000000
+i: 57, ii: 2, jj: 15, Name_i: N, Name_j: Cl, ep: 34.7604976708, sig: 3.7800000000, shift: 0.0000000000
+i: 58, ii: 2, jj: 16, Name_i: N, Name_j: Si, ep: 22.9792109955, sig: 2.7800000000, shift: 0.0000000000
+i: 59, ii: 2, jj: 17, Name_i: N, Name_j: CH4_sp3, ep: 59.6011487154, sig: 3.4950000000, shift: 0.0000000000
+i: 60, ii: 2, jj: 18, Name_i: N, Name_j: C_co2, ep: 26.8039559343, sig: 3.0025000000, shift: 0.0000000000
+i: 61, ii: 2, jj: 19, Name_i: N, Name_j: O_co2, ep: 45.3461782215, sig: 3.1385000000, shift: 0.0000000000
+i: 62, ii: 2, jj: 20, Name_i: N, Name_j: Ar, ep: 52.5378979522, sig: 3.3335000000, shift: 0.0000000000
+i: 66, ii: 3, jj: 3, Name_i: O, Name_j: O, ep: 25.1013469884, sig: 3.1200000000, shift: 0.0000000000
+i: 67, ii: 3, jj: 4, Name_i: O, Name_j: Zn, ep: 36.0846887412, sig: 2.7900000000, shift: 0.0000000000
+i: 68, ii: 3, jj: 5, Name_i: O, Name_j: Cu, ep: 7.2521326808, sig: 3.1150000000, shift: 0.0000000000
+i: 69, ii: 3, jj: 6, Name_i: O, Name_j: P, ep: 56.5930457521, sig: 3.4050000000, shift: 0.0000000000
+i: 70, ii: 3, jj: 7, Name_i: O, Name_j: Ni, ep: 12.5527519365, sig: 2.8200000000, shift: 0.0000000000
+i: 71, ii: 3, jj: 8, Name_i: O, Name_j: Ht, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
+i: 72, ii: 3, jj: 9, Name_i: O, Name_j: OT, ep: 44.0561908656, sig: 3.0700000000, shift: 0.0000000000
+i: 73, ii: 3, jj: 10, Name_i: O, Name_j: Op, ep: 40.3471415597, sig: 3.1370000000, shift: 0.0000000000
+i: 74, ii: 3, jj: 11, Name_i: O, Name_j: Ow, ep: 40.3471415597, sig: 3.1370000000, shift: 0.0000000000
+i: 75, ii: 3, jj: 12, Name_i: O, Name_j: Hw, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
+i: 76, ii: 3, jj: 13, Name_i: O, Name_j: Lw, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
+i: 77, ii: 3, jj: 14, Name_i: O, Name_j: Zr, ep: 26.9195913267, sig: 2.9515850000, shift: 0.0000000000
+i: 78, ii: 3, jj: 15, Name_i: O, Name_j: Cl, ep: 32.4136310129, sig: 3.7100000000, shift: 0.0000000000
+i: 79, ii: 3, jj: 16, Name_i: O, Name_j: Si, ep: 21.4277618586, sig: 2.7100000000, shift: 0.0000000000
+i: 80, ii: 3, jj: 17, Name_i: O, Name_j: CH4_sp3, ep: 55.5771571714, sig: 3.4250000000, shift: 0.0000000000
+i: 81, ii: 3, jj: 18, Name_i: O, Name_j: C_co2, ep: 24.9942778601, sig: 2.9325000000, shift: 0.0000000000
+i: 82, ii: 3, jj: 19, Name_i: O, Name_j: O_co2, ep: 42.2846157911, sig: 3.0685000000, shift: 0.0000000000
+i: 83, ii: 3, jj: 20, Name_i: O, Name_j: Ar, ep: 48.9907841523, sig: 3.2635000000, shift: 0.0000000000
+i: 88, ii: 4, jj: 4, Name_i: Zn, Name_j: Zn, ep: 51.8738999207, sig: 2.4600000000, shift: 0.0000000000
+i: 89, ii: 4, jj: 5, Name_i: Zn, Name_j: Cu, ep: 10.4253748063, sig: 2.7850000000, shift: 0.0000000000
+i: 90, ii: 4, jj: 6, Name_i: Zn, Name_j: P, ep: 81.3558906551, sig: 3.0750000000, shift: 0.0000000000
+i: 91, ii: 4, jj: 7, Name_i: Zn, Name_j: Ni, ep: 18.0453322558, sig: 2.4900000000, shift: 0.0000000000
+i: 92, ii: 4, jj: 8, Name_i: Zn, Name_j: Ht, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
+i: 93, ii: 4, jj: 9, Name_i: Zn, Name_j: OT, ep: 63.3334113601, sig: 2.7400000000, shift: 0.0000000000
+i: 94, ii: 4, jj: 10, Name_i: Zn, Name_j: Op, ep: 58.0014309772, sig: 2.8070000000, shift: 0.0000000000
+i: 95, ii: 4, jj: 11, Name_i: Zn, Name_j: Ow, ep: 58.0014309772, sig: 2.8070000000, shift: 0.0000000000
+i: 96, ii: 4, jj: 12, Name_i: Zn, Name_j: Hw, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
+i: 97, ii: 4, jj: 13, Name_i: Zn, Name_j: Lw, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
+i: 98, ii: 4, jj: 14, Name_i: Zn, Name_j: Zr, ep: 38.6985238089, sig: 2.6215850000, shift: 0.0000000000
+i: 99, ii: 4, jj: 15, Name_i: Zn, Name_j: Cl, ep: 46.5965347045, sig: 3.3800000000, shift: 0.0000000000
+i: 100, ii: 4, jj: 16, Name_i: Zn, Name_j: Si, ep: 30.8036902341, sig: 2.3800000000, shift: 0.0000000000
+i: 101, ii: 4, jj: 17, Name_i: Zn, Name_j: CH4_sp3, ep: 79.8954900142, sig: 3.0950000000, shift: 0.0000000000
+i: 102, ii: 4, jj: 18, Name_i: Zn, Name_j: C_co2, ep: 35.9307704607, sig: 2.6025000000, shift: 0.0000000000
+i: 103, ii: 4, jj: 19, Name_i: Zn, Name_j: O_co2, ep: 60.7866661526, sig: 2.7385000000, shift: 0.0000000000
+i: 104, ii: 4, jj: 20, Name_i: Zn, Name_j: Ar, ep: 70.4271845707, sig: 2.9335000000, shift: 0.0000000000
+i: 110, ii: 5, jj: 5, Name_i: Cu, Name_j: Cu, ep: 2.0952432730, sig: 3.1100000000, shift: 0.0000000000
+i: 111, ii: 5, jj: 6, Name_i: Cu, Name_j: P, ep: 16.3505279933, sig: 3.4000000000, shift: 0.0000000000
+i: 112, ii: 5, jj: 7, Name_i: Cu, Name_j: Ni, ep: 3.6266668316, sig: 2.8150000000, shift: 0.0000000000
+i: 113, ii: 5, jj: 8, Name_i: Cu, Name_j: Ht, ep: 0.0000000000, sig: 1.5550000000, shift: 0.0000000000
+i: 114, ii: 5, jj: 9, Name_i: Cu, Name_j: OT, ep: 12.7284540433, sig: 3.0650000000, shift: 0.0000000000
+i: 115, ii: 5, jj: 10, Name_i: Cu, Name_j: Op, ep: 11.6568574594, sig: 3.1320000000, shift: 0.0000000000
+i: 116, ii: 5, jj: 11, Name_i: Cu, Name_j: Ow, ep: 11.6568574594, sig: 3.1320000000, shift: 0.0000000000
+i: 117, ii: 5, jj: 12, Name_i: Cu, Name_j: Hw, ep: 0.0000000000, sig: 1.5550000000, shift: 0.0000000000
+i: 118, ii: 5, jj: 13, Name_i: Cu, Name_j: Lw, ep: 0.0000000000, sig: 1.5550000000, shift: 0.0000000000
+i: 119, ii: 5, jj: 14, Name_i: Cu, Name_j: Zr, ep: 7.7774490789, sig: 2.9465850000, shift: 0.0000000000
+i: 120, ii: 5, jj: 15, Name_i: Cu, Name_j: Cl, ep: 9.3647545241, sig: 3.7050000000, shift: 0.0000000000
+i: 121, ii: 5, jj: 16, Name_i: Cu, Name_j: Si, ep: 6.1907821968, sig: 2.7050000000, shift: 0.0000000000
+i: 122, ii: 5, jj: 17, Name_i: Cu, Name_j: CH4_sp3, ep: 16.0570234743, sig: 3.4200000000, shift: 0.0000000000
+i: 123, ii: 5, jj: 18, Name_i: Cu, Name_j: C_co2, ep: 7.2211989016, sig: 2.9275000000, shift: 0.0000000000
+i: 124, ii: 5, jj: 19, Name_i: Cu, Name_j: O_co2, ep: 12.2166210528, sig: 3.0635000000, shift: 0.0000000000
+i: 125, ii: 5, jj: 20, Name_i: Cu, Name_j: Ar, ep: 14.1541275443, sig: 3.2585000000, shift: 0.0000000000
+i: 132, ii: 6, jj: 6, Name_i: P, Name_j: P, ep: 127.5936637576, sig: 3.6900000000, shift: 0.0000000000
+i: 133, ii: 6, jj: 7, Name_i: P, Name_j: Ni, ep: 28.3012088946, sig: 3.1050000000, shift: 0.0000000000
+i: 134, ii: 6, jj: 8, Name_i: P, Name_j: Ht, ep: 0.0000000000, sig: 1.8450000000, shift: 0.0000000000
+i: 135, ii: 6, jj: 9, Name_i: P, Name_j: OT, ep: 99.3282960661, sig: 3.3550000000, shift: 0.0000000000
+i: 136, ii: 6, jj: 10, Name_i: P, Name_j: Op, ep: 90.9659401670, sig: 3.4220000000, shift: 0.0000000000
+i: 137, ii: 6, jj: 11, Name_i: P, Name_j: Ow, ep: 90.9659401670, sig: 3.4220000000, shift: 0.0000000000
+i: 138, ii: 6, jj: 12, Name_i: P, Name_j: Hw, ep: 0.0000000000, sig: 1.8450000000, shift: 0.0000000000
+i: 139, ii: 6, jj: 13, Name_i: P, Name_j: Lw, ep: 0.0000000000, sig: 1.8450000000, shift: 0.0000000000
+i: 140, ii: 6, jj: 14, Name_i: P, Name_j: Zr, ep: 60.6924267564, sig: 3.2365850000, shift: 0.0000000000
+i: 141, ii: 6, jj: 15, Name_i: P, Name_j: Cl, ep: 73.0791898838, sig: 3.9950000000, shift: 0.0000000000
+i: 142, ii: 6, jj: 16, Name_i: P, Name_j: Si, ep: 48.3106467469, sig: 2.9950000000, shift: 0.0000000000
+i: 143, ii: 6, jj: 17, Name_i: P, Name_j: CH4_sp3, ep: 125.3032596230, sig: 3.7100000000, shift: 0.0000000000
+i: 144, ii: 6, jj: 18, Name_i: P, Name_j: C_co2, ep: 56.3516496200, sig: 3.2175000000, shift: 0.0000000000
+i: 145, ii: 6, jj: 19, Name_i: P, Name_j: O_co2, ep: 95.3341347451, sig: 3.3535000000, shift: 0.0000000000
+i: 146, ii: 6, jj: 20, Name_i: P, Name_j: Ar, ep: 110.4537413965, sig: 3.5485000000, shift: 0.0000000000
+i: 154, ii: 7, jj: 7, Name_i: Ni, Name_j: Ni, ep: 6.2774153615, sig: 2.5200000000, shift: 0.0000000000
+i: 155, ii: 7, jj: 8, Name_i: Ni, Name_j: Ht, ep: 0.0000000000, sig: 1.2600000000, shift: 0.0000000000
+i: 156, ii: 7, jj: 9, Name_i: Ni, Name_j: OT, ep: 22.0317433744, sig: 2.7700000000, shift: 0.0000000000
+i: 157, ii: 7, jj: 10, Name_i: Ni, Name_j: Op, ep: 20.1769116047, sig: 2.8370000000, shift: 0.0000000000
+i: 158, ii: 7, jj: 11, Name_i: Ni, Name_j: Ow, ep: 20.1769116047, sig: 2.8370000000, shift: 0.0000000000
+i: 159, ii: 7, jj: 12, Name_i: Ni, Name_j: Hw, ep: 0.0000000000, sig: 1.2600000000, shift: 0.0000000000
+i: 160, ii: 7, jj: 13, Name_i: Ni, Name_j: Lw, ep: 0.0000000000, sig: 1.2600000000, shift: 0.0000000000
+i: 161, ii: 7, jj: 14, Name_i: Ni, Name_j: Zr, ep: 13.4620246599, sig: 2.6515850000, shift: 0.0000000000
+i: 162, ii: 7, jj: 15, Name_i: Ni, Name_j: Cl, ep: 16.2094994206, sig: 3.4100000000, shift: 0.0000000000
+i: 163, ii: 7, jj: 16, Name_i: Ni, Name_j: Si, ep: 10.7156551913, sig: 2.4100000000, shift: 0.0000000000
+i: 164, ii: 7, jj: 17, Name_i: Ni, Name_j: CH4_sp3, ep: 27.7931804867, sig: 3.1250000000, shift: 0.0000000000
+i: 165, ii: 7, jj: 18, Name_i: Ni, Name_j: C_co2, ep: 12.4992085068, sig: 2.6325000000, shift: 0.0000000000
+i: 166, ii: 7, jj: 19, Name_i: Ni, Name_j: O_co2, ep: 21.1458091472, sig: 2.7685000000, shift: 0.0000000000
+i: 167, ii: 7, jj: 20, Name_i: Ni, Name_j: Ar, ep: 24.4994486121, sig: 2.9635000000, shift: 0.0000000000
+i: 176, ii: 8, jj: 8, Name_i: Ht, Name_j: Ht, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+i: 177, ii: 8, jj: 9, Name_i: Ht, Name_j: OT, ep: 0.0000000000, sig: 1.5100000000, shift: 0.0000000000
+i: 178, ii: 8, jj: 10, Name_i: Ht, Name_j: Op, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+i: 179, ii: 8, jj: 11, Name_i: Ht, Name_j: Ow, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+i: 180, ii: 8, jj: 12, Name_i: Ht, Name_j: Hw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+i: 181, ii: 8, jj: 13, Name_i: Ht, Name_j: Lw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+i: 182, ii: 8, jj: 14, Name_i: Ht, Name_j: Zr, ep: 0.0000000000, sig: 1.3915850000, shift: 0.0000000000
+i: 183, ii: 8, jj: 15, Name_i: Ht, Name_j: Cl, ep: 0.0000000000, sig: 2.1500000000, shift: 0.0000000000
+i: 184, ii: 8, jj: 16, Name_i: Ht, Name_j: Si, ep: 0.0000000000, sig: 1.1500000000, shift: 0.0000000000
+i: 185, ii: 8, jj: 17, Name_i: Ht, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
+i: 186, ii: 8, jj: 18, Name_i: Ht, Name_j: C_co2, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
+i: 187, ii: 8, jj: 19, Name_i: Ht, Name_j: O_co2, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
+i: 188, ii: 8, jj: 20, Name_i: Ht, Name_j: Ar, ep: 0.0000000000, sig: 1.7035000000, shift: 0.0000000000
+i: 198, ii: 9, jj: 9, Name_i: OT, Name_j: OT, ep: 77.3244541213, sig: 3.0200000000, shift: 0.0000000000
+i: 199, ii: 9, jj: 10, Name_i: OT, Name_j: Op, ep: 70.8145809967, sig: 3.0870000000, shift: 0.0000000000
+i: 200, ii: 9, jj: 11, Name_i: OT, Name_j: Ow, ep: 70.8145809967, sig: 3.0870000000, shift: 0.0000000000
+i: 201, ii: 9, jj: 12, Name_i: OT, Name_j: Hw, ep: 0.0000000000, sig: 1.5100000000, shift: 0.0000000000
+i: 202, ii: 9, jj: 13, Name_i: OT, Name_j: Lw, ep: 0.0000000000, sig: 1.5100000000, shift: 0.0000000000
+i: 203, ii: 9, jj: 14, Name_i: OT, Name_j: Zr, ep: 47.2474506671, sig: 2.9015850000, shift: 0.0000000000
+i: 204, ii: 9, jj: 15, Name_i: OT, Name_j: Cl, ep: 56.8902184895, sig: 3.6600000000, shift: 0.0000000000
+i: 205, ii: 9, jj: 16, Name_i: OT, Name_j: Si, ep: 37.6085620704, sig: 2.6600000000, shift: 0.0000000000
+i: 206, ii: 9, jj: 17, Name_i: OT, Name_j: CH4_sp3, ep: 97.5452769624, sig: 3.3750000000, shift: 0.0000000000
+i: 207, ii: 9, jj: 18, Name_i: OT, Name_j: C_co2, ep: 43.8682703547, sig: 2.8825000000, shift: 0.0000000000
+i: 208, ii: 9, jj: 19, Name_i: OT, Name_j: O_co2, ep: 74.2151050632, sig: 3.0185000000, shift: 0.0000000000
+i: 209, ii: 9, jj: 20, Name_i: OT, Name_j: Ar, ep: 85.9853193642, sig: 3.2135000000, shift: 0.0000000000
+i: 220, ii: 10, jj: 10, Name_i: Op, Name_j: Op, ep: 64.8527679727, sig: 3.1540000000, shift: 0.0000000000
+i: 221, ii: 10, jj: 11, Name_i: Op, Name_j: Ow, ep: 64.8527679727, sig: 3.1540000000, shift: 0.0000000000
+i: 222, ii: 10, jj: 12, Name_i: Op, Name_j: Hw, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+i: 223, ii: 10, jj: 13, Name_i: Op, Name_j: Lw, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+i: 224, ii: 10, jj: 14, Name_i: Op, Name_j: Zr, ep: 43.2697321976, sig: 2.9685850000, shift: 0.0000000000
+i: 225, ii: 10, jj: 15, Name_i: Op, Name_j: Cl, ep: 52.1006844591, sig: 3.7270000000, shift: 0.0000000000
+i: 226, ii: 10, jj: 16, Name_i: Op, Name_j: Si, ep: 34.4423325735, sig: 2.7270000000, shift: 0.0000000000
+i: 227, ii: 10, jj: 17, Name_i: Op, Name_j: CH4_sp3, ep: 89.3330317660, sig: 3.4420000000, shift: 0.0000000000
+i: 228, ii: 10, jj: 18, Name_i: Op, Name_j: C_co2, ep: 40.1750419000, sig: 2.9495000000, shift: 0.0000000000
+i: 229, ii: 10, jj: 19, Name_i: Op, Name_j: O_co2, ep: 67.9670051137, sig: 3.0855000000, shift: 0.0000000000
+i: 230, ii: 10, jj: 20, Name_i: Op, Name_j: Ar, ep: 78.7462961341, sig: 3.2805000000, shift: 0.0000000000
+i: 242, ii: 11, jj: 11, Name_i: Ow, Name_j: Ow, ep: 64.8527679727, sig: 3.1540000000, shift: 0.0000000000
+i: 243, ii: 11, jj: 12, Name_i: Ow, Name_j: Hw, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+i: 244, ii: 11, jj: 13, Name_i: Ow, Name_j: Lw, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+i: 245, ii: 11, jj: 14, Name_i: Ow, Name_j: Zr, ep: 43.2697321976, sig: 2.9685850000, shift: 0.0000000000
+i: 246, ii: 11, jj: 15, Name_i: Ow, Name_j: Cl, ep: 52.1006844591, sig: 3.7270000000, shift: 0.0000000000
+i: 247, ii: 11, jj: 16, Name_i: Ow, Name_j: Si, ep: 34.4423325735, sig: 2.7270000000, shift: 0.0000000000
+i: 248, ii: 11, jj: 17, Name_i: Ow, Name_j: CH4_sp3, ep: 89.3330317660, sig: 3.4420000000, shift: 0.0000000000
+i: 249, ii: 11, jj: 18, Name_i: Ow, Name_j: C_co2, ep: 40.1750419000, sig: 2.9495000000, shift: 0.0000000000
+i: 250, ii: 11, jj: 19, Name_i: Ow, Name_j: O_co2, ep: 67.9670051137, sig: 3.0855000000, shift: 0.0000000000
+i: 251, ii: 11, jj: 20, Name_i: Ow, Name_j: Ar, ep: 78.7462961341, sig: 3.2805000000, shift: 0.0000000000
+i: 264, ii: 12, jj: 12, Name_i: Hw, Name_j: Hw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+i: 265, ii: 12, jj: 13, Name_i: Hw, Name_j: Lw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+i: 266, ii: 12, jj: 14, Name_i: Hw, Name_j: Zr, ep: 0.0000000000, sig: 1.3915850000, shift: 0.0000000000
+i: 267, ii: 12, jj: 15, Name_i: Hw, Name_j: Cl, ep: 0.0000000000, sig: 2.1500000000, shift: 0.0000000000
+i: 268, ii: 12, jj: 16, Name_i: Hw, Name_j: Si, ep: 0.0000000000, sig: 1.1500000000, shift: 0.0000000000
+i: 269, ii: 12, jj: 17, Name_i: Hw, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
+i: 270, ii: 12, jj: 18, Name_i: Hw, Name_j: C_co2, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
+i: 271, ii: 12, jj: 19, Name_i: Hw, Name_j: O_co2, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
+i: 272, ii: 12, jj: 20, Name_i: Hw, Name_j: Ar, ep: 0.0000000000, sig: 1.7035000000, shift: 0.0000000000
+i: 286, ii: 13, jj: 13, Name_i: Lw, Name_j: Lw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+i: 287, ii: 13, jj: 14, Name_i: Lw, Name_j: Zr, ep: 0.0000000000, sig: 1.3915850000, shift: 0.0000000000
+i: 288, ii: 13, jj: 15, Name_i: Lw, Name_j: Cl, ep: 0.0000000000, sig: 2.1500000000, shift: 0.0000000000
+i: 289, ii: 13, jj: 16, Name_i: Lw, Name_j: Si, ep: 0.0000000000, sig: 1.1500000000, shift: 0.0000000000
+i: 290, ii: 13, jj: 17, Name_i: Lw, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
+i: 291, ii: 13, jj: 18, Name_i: Lw, Name_j: C_co2, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
+i: 292, ii: 13, jj: 19, Name_i: Lw, Name_j: O_co2, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
+i: 293, ii: 13, jj: 20, Name_i: Lw, Name_j: Ar, ep: 0.0000000000, sig: 1.7035000000, shift: 0.0000000000
+i: 308, ii: 14, jj: 14, Name_i: Zr, Name_j: Zr, ep: 28.8695422413, sig: 2.7831700000, shift: 0.0000000000
+i: 309, ii: 14, jj: 15, Name_i: Zr, Name_j: Cl, ep: 34.7615488796, sig: 3.5415850000, shift: 0.0000000000
+i: 310, ii: 14, jj: 16, Name_i: Zr, Name_j: Si, ep: 22.9799059208, sig: 2.5415850000, shift: 0.0000000000
+i: 311, ii: 14, jj: 17, Name_i: Zr, Name_j: CH4_sp3, ep: 59.6029511423, sig: 3.2565850000, shift: 0.0000000000
+i: 312, ii: 14, jj: 18, Name_i: Zr, Name_j: C_co2, ep: 26.8047665255, sig: 2.7640850000, shift: 0.0000000000
+i: 313, ii: 14, jj: 19, Name_i: Zr, Name_j: O_co2, ep: 45.3475495569, sig: 2.9000850000, shift: 0.0000000000
+i: 314, ii: 14, jj: 20, Name_i: Zr, Name_j: Ar, ep: 52.5394867759, sig: 3.0950850000, shift: 0.0000000000
+i: 330, ii: 15, jj: 15, Name_i: Cl, Name_j: Cl, ep: 41.8560595942, sig: 4.3000000000, shift: 0.0000000000
+i: 331, ii: 15, jj: 16, Name_i: Cl, Name_j: Si, ep: 27.6698922427, sig: 3.3000000000, shift: 0.0000000000
+i: 332, ii: 15, jj: 17, Name_i: Cl, Name_j: CH4_sp3, ep: 71.7673623703, sig: 4.0150000000, shift: 0.0000000000
+i: 333, ii: 15, jj: 18, Name_i: Cl, Name_j: C_co2, ep: 32.2753715315, sig: 3.5225000000, shift: 0.0000000000
+i: 334, ii: 15, jj: 19, Name_i: Cl, Name_j: O_co2, ep: 54.6025651296, sig: 3.6585000000, shift: 0.0000000000
+i: 335, ii: 15, jj: 20, Name_i: Cl, Name_j: Ar, ep: 63.2623102369, sig: 3.8535000000, shift: 0.0000000000
+i: 352, ii: 16, jj: 16, Name_i: Si, Name_j: Si, ep: 18.2918063513, sig: 2.3000000000, shift: 0.0000000000
+i: 353, ii: 16, jj: 17, Name_i: Si, Name_j: CH4_sp3, ep: 47.4434335813, sig: 3.0150000000, shift: 0.0000000000
+i: 354, ii: 16, jj: 18, Name_i: Si, Name_j: C_co2, ep: 21.3363623100, sig: 2.5225000000, shift: 0.0000000000
+i: 355, ii: 16, jj: 19, Name_i: Si, Name_j: O_co2, ep: 36.0962572196, sig: 2.6585000000, shift: 0.0000000000
+i: 356, ii: 16, jj: 20, Name_i: Si, Name_j: Ar, ep: 41.8209770402, sig: 2.8535000000, shift: 0.0000000000
+i: 374, ii: 17, jj: 17, Name_i: CH4_sp3, Name_j: CH4_sp3, ep: 123.0539699995, sig: 3.7300000000, shift: 0.0000000000
+i: 375, ii: 17, jj: 18, Name_i: CH4_sp3, Name_j: C_co2, ep: 55.3400942850, sig: 3.2375000000, shift: 0.0000000000
+i: 376, ii: 17, jj: 19, Name_i: CH4_sp3, Name_j: O_co2, ep: 93.6228139008, sig: 3.3735000000, shift: 0.0000000000
+i: 377, ii: 17, jj: 20, Name_i: CH4_sp3, Name_j: Ar, ep: 108.4710120155, sig: 3.5685000000, shift: 0.0000000000
+i: 396, ii: 18, jj: 18, Name_i: C_co2, Name_j: C_co2, ep: 24.8876654324, sig: 2.7450000000, shift: 0.0000000000
+i: 397, ii: 18, jj: 19, Name_i: C_co2, Name_j: O_co2, ep: 42.1042518866, sig: 2.8810000000, shift: 0.0000000000
+i: 398, ii: 18, jj: 20, Name_i: C_co2, Name_j: Ar, ep: 48.7818152649, sig: 3.0760000000, shift: 0.0000000000
+i: 418, ii: 19, jj: 19, Name_i: O_co2, Name_j: O_co2, ep: 71.2307882691, sig: 3.0170000000, shift: 0.0000000000
+i: 419, ii: 19, jj: 20, Name_i: O_co2, Name_j: Ar, ep: 82.5277020449, sig: 3.2120000000, shift: 0.0000000000
+i: 440, ii: 20, jj: 20, Name_i: Ar, Name_j: Ar, ep: 95.6162604726, sig: 3.4070000000, shift: 0.0000000000
+----- END OF MIXED VDW PARAMETERS -----
+-------------PARSING PSEUDO ATOMS FILE-------------
+Name: C, 0.00000, 12.00000, 0.00000, 0.00000
+Name: H, 0.00000, 1.00000, 0.00000, 0.00000
+Name: N, 0.00000, 14.00000, 0.00000, 0.00000
+Name: O, 0.00000, 15.99900, -1.02500, 0.00000
+Name: Zn, 0.00000, 56.00000, 0.00000, 0.00000
+Name: Cu, 0.00000, 65.00000, 0.00000, 0.00000
+Name: P, 0.00000, 30.97000, 0.00000, 0.00000
+Name: Ni, 0.00000, 58.69340, 0.00000, 0.00000
+Name: Ht, 0.00000, 1.00079, 0.00000, 0.00000
+Name: OT, 0.00000, 15.99940, 0.00000, 0.00000
+Name: Op, 0.00000, 15.99940, 0.00000, 0.00000
+Name: Ow, 0.00000, 15.99940, 0.00000, 0.00000
+Name: Hw, 0.00000, 1.00079, 0.52000, 0.00000
+Name: Lw, 0.00000, 0.00000, -1.04000, 0.00000
+Name: Zr, 0.00000, 65.00000, 0.00000, 0.00000
+Name: Cl, 0.00000, 14.00000, 0.00000, 0.00000
+Name: Si, 0.00000, 28.08550, 2.05000, 0.00000
+Name: CH4_sp3, 0.00000, 16.04246, 0.00000, 0.00000
+Name: C_co2, 0.00000, 12.00000, 0.65120, 0.00000
+Name: O_co2, 0.00000, 15.99940, -0.32560, 0.00000
+Name: Ar, 0.00000, 39.94800, 0.00000, 0.00000
+---------------------------------------------------
+------------------GENERAL SIMULATION SETUP-------------
+Random Seed is 0
+Allocate space for adsorbate is 10240
+Finished Checking Number of Components, There are 1 framework, 1 Adsorbates, 2 total Components
+DONE Reading Model Info from simulation.input file
+Setting Maximum Number of Steps for a Cycle, Max Step = 1
+-------------------------------------------------------
+----- OVERWRITTING VDW PARAMETERS -----
+There are 1 overwritting entries, starting from line 6
+counter: 0, false, shifted: false
+counter: 1, false, shifted: false
+counter: 2, false, shifted: false
+counter: 3, false, shifted: false
+counter: 4, false, shifted: false
+counter: 5, false, shifted: false
+counter: 6, false, shifted: false
+counter: 7, false, shifted: false
+counter: 8, false, shifted: false
+counter: 9, true, shifted: false
+cutting string: Ar Ar lennard-jones 0.0     3.407
+Overwritting parameters for VDW (lennard-jones): Ar and Ar
+----- MIXED VDW PARAMETERS (WITH OVERWRITTEN TERMS) -----
+ii: 0, jj: 0, Name_i: C, Name_j: C, ep: 43.9252786154, sig: 3.4300000000, shift: 0.0000000000
+ii: 0, jj: 1, Name_i: C, Name_j: H, ep: 28.4356413395, sig: 3.0000000000, shift: 0.0000000000
+ii: 0, jj: 2, Name_i: C, Name_j: N, ep: 35.6093525823, sig: 3.3450000000, shift: 0.0000000000
+ii: 0, jj: 3, Name_i: C, Name_j: O, ep: 33.2051752004, sig: 3.2750000000, shift: 0.0000000000
+ii: 0, jj: 4, Name_i: C, Name_j: Zn, ep: 47.7344268519, sig: 2.9450000000, shift: 0.0000000000
+ii: 0, jj: 5, Name_i: C, Name_j: Cu, ep: 9.5934427883, sig: 3.2700000000, shift: 0.0000000000
+ii: 0, jj: 6, Name_i: C, Name_j: P, ep: 74.8637911818, sig: 3.5600000000, shift: 0.0000000000
+ii: 0, jj: 7, Name_i: C, Name_j: Ni, ep: 16.6053370558, sig: 2.9750000000, shift: 0.0000000000
+ii: 0, jj: 8, Name_i: C, Name_j: Ht, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
+ii: 0, jj: 9, Name_i: C, Name_j: OT, ep: 58.2794834488, sig: 3.2250000000, shift: 0.0000000000
+ii: 0, jj: 10, Name_i: C, Name_j: Op, ep: 53.3729885071, sig: 3.2920000000, shift: 0.0000000000
+ii: 0, jj: 11, Name_i: C, Name_j: Ow, ep: 53.3729885071, sig: 3.2920000000, shift: 0.0000000000
+ii: 0, jj: 12, Name_i: C, Name_j: Hw, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
+ii: 0, jj: 13, Name_i: C, Name_j: Lw, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
+ii: 0, jj: 14, Name_i: C, Name_j: Zr, ep: 35.6104294617, sig: 3.1065850000, shift: 0.0000000000
+ii: 0, jj: 15, Name_i: C, Name_j: Cl, ep: 42.8781888542, sig: 3.8650000000, shift: 0.0000000000
+ii: 0, jj: 16, Name_i: C, Name_j: Si, ep: 28.3455938438, sig: 2.8650000000, shift: 0.0000000000
+ii: 0, jj: 17, Name_i: C, Name_j: CH4_sp3, ep: 73.5199287061, sig: 3.5800000000, shift: 0.0000000000
+ii: 0, jj: 18, Name_i: C, Name_j: C_co2, ep: 33.0635394083, sig: 3.0875000000, shift: 0.0000000000
+ii: 0, jj: 19, Name_i: C, Name_j: O_co2, ep: 55.9359653596, sig: 3.2235000000, shift: 0.0000000000
+ii: 0, jj: 20, Name_i: C, Name_j: Ar, ep: 64.8071823289, sig: 3.4185000000, shift: 0.0000000000
+ii: 1, jj: 1, Name_i: H, Name_j: H, ep: 18.4082087553, sig: 2.5700000000, shift: 0.0000000000
+ii: 1, jj: 2, Name_i: H, Name_j: N, ep: 23.0522107151, sig: 2.9150000000, shift: 0.0000000000
+ii: 1, jj: 3, Name_i: H, Name_j: O, ep: 21.4958329776, sig: 2.8450000000, shift: 0.0000000000
+ii: 1, jj: 4, Name_i: H, Name_j: Zn, ep: 30.9015465421, sig: 2.5150000000, shift: 0.0000000000
+ii: 1, jj: 5, Name_i: H, Name_j: Cu, ep: 6.2104489018, sig: 2.8400000000, shift: 0.0000000000
+ii: 1, jj: 6, Name_i: H, Name_j: P, ep: 48.4641186684, sig: 3.1300000000, shift: 0.0000000000
+ii: 1, jj: 7, Name_i: H, Name_j: Ni, ep: 10.7496963872, sig: 2.5450000000, shift: 0.0000000000
+ii: 1, jj: 8, Name_i: H, Name_j: Ht, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
+ii: 1, jj: 9, Name_i: H, Name_j: OT, ep: 37.7280359064, sig: 2.7950000000, shift: 0.0000000000
+ii: 1, jj: 10, Name_i: H, Name_j: Op, ep: 34.5517480195, sig: 2.8620000000, shift: 0.0000000000
+ii: 1, jj: 11, Name_i: H, Name_j: Ow, ep: 34.5517480195, sig: 2.8620000000, shift: 0.0000000000
+ii: 1, jj: 12, Name_i: H, Name_j: Hw, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
+ii: 1, jj: 13, Name_i: H, Name_j: Lw, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
+ii: 1, jj: 14, Name_i: H, Name_j: Zr, ep: 23.0529078480, sig: 2.6765850000, shift: 0.0000000000
+ii: 1, jj: 15, Name_i: H, Name_j: Cl, ep: 27.7577931883, sig: 3.4350000000, shift: 0.0000000000
+ii: 1, jj: 16, Name_i: H, Name_j: Si, ep: 18.3499152539, sig: 2.4350000000, shift: 0.0000000000
+ii: 1, jj: 17, Name_i: H, Name_j: CH4_sp3, ep: 47.5941505641, sig: 3.1500000000, shift: 0.0000000000
+ii: 1, jj: 18, Name_i: H, Name_j: C_co2, ep: 21.4041430735, sig: 2.6575000000, shift: 0.0000000000
+ii: 1, jj: 19, Name_i: H, Name_j: O_co2, ep: 36.2109268076, sig: 2.7935000000, shift: 0.0000000000
+ii: 1, jj: 20, Name_i: H, Name_j: Ar, ep: 41.9538327592, sig: 2.9885000000, shift: 0.0000000000
+ii: 2, jj: 2, Name_i: N, Name_j: N, ep: 28.8677962053, sig: 3.2600000000, shift: 0.0000000000
+ii: 2, jj: 3, Name_i: N, Name_j: O, ep: 26.9187772631, sig: 3.1900000000, shift: 0.0000000000
+ii: 2, jj: 4, Name_i: N, Name_j: Zn, ep: 38.6973535437, sig: 2.8600000000, shift: 0.0000000000
+ii: 2, jj: 5, Name_i: N, Name_j: Cu, ep: 7.7772138844, sig: 3.1850000000, shift: 0.0000000000
+ii: 2, jj: 6, Name_i: N, Name_j: P, ep: 60.6905913832, sig: 3.4750000000, shift: 0.0000000000
+ii: 2, jj: 7, Name_i: N, Name_j: Ni, ep: 13.4616175607, sig: 2.8900000000, shift: 0.0000000000
+ii: 2, jj: 8, Name_i: N, Name_j: Ht, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
+ii: 2, jj: 9, Name_i: N, Name_j: OT, ep: 47.2460218776, sig: 3.1400000000, shift: 0.0000000000
+ii: 2, jj: 10, Name_i: N, Name_j: Op, ep: 43.2684236966, sig: 3.2070000000, shift: 0.0000000000
+ii: 2, jj: 11, Name_i: N, Name_j: Ow, ep: 43.2684236966, sig: 3.2070000000, shift: 0.0000000000
+ii: 2, jj: 12, Name_i: N, Name_j: Hw, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
+ii: 2, jj: 13, Name_i: N, Name_j: Lw, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
+ii: 2, jj: 14, Name_i: N, Name_j: Zr, ep: 28.8686692101, sig: 3.0215850000, shift: 0.0000000000
+ii: 2, jj: 15, Name_i: N, Name_j: Cl, ep: 34.7604976708, sig: 3.7800000000, shift: 0.0000000000
+ii: 2, jj: 16, Name_i: N, Name_j: Si, ep: 22.9792109955, sig: 2.7800000000, shift: 0.0000000000
+ii: 2, jj: 17, Name_i: N, Name_j: CH4_sp3, ep: 59.6011487154, sig: 3.4950000000, shift: 0.0000000000
+ii: 2, jj: 18, Name_i: N, Name_j: C_co2, ep: 26.8039559343, sig: 3.0025000000, shift: 0.0000000000
+ii: 2, jj: 19, Name_i: N, Name_j: O_co2, ep: 45.3461782215, sig: 3.1385000000, shift: 0.0000000000
+ii: 2, jj: 20, Name_i: N, Name_j: Ar, ep: 52.5378979522, sig: 3.3335000000, shift: 0.0000000000
+ii: 3, jj: 3, Name_i: O, Name_j: O, ep: 25.1013469884, sig: 3.1200000000, shift: 0.0000000000
+ii: 3, jj: 4, Name_i: O, Name_j: Zn, ep: 36.0846887412, sig: 2.7900000000, shift: 0.0000000000
+ii: 3, jj: 5, Name_i: O, Name_j: Cu, ep: 7.2521326808, sig: 3.1150000000, shift: 0.0000000000
+ii: 3, jj: 6, Name_i: O, Name_j: P, ep: 56.5930457521, sig: 3.4050000000, shift: 0.0000000000
+ii: 3, jj: 7, Name_i: O, Name_j: Ni, ep: 12.5527519365, sig: 2.8200000000, shift: 0.0000000000
+ii: 3, jj: 8, Name_i: O, Name_j: Ht, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
+ii: 3, jj: 9, Name_i: O, Name_j: OT, ep: 44.0561908656, sig: 3.0700000000, shift: 0.0000000000
+ii: 3, jj: 10, Name_i: O, Name_j: Op, ep: 40.3471415597, sig: 3.1370000000, shift: 0.0000000000
+ii: 3, jj: 11, Name_i: O, Name_j: Ow, ep: 40.3471415597, sig: 3.1370000000, shift: 0.0000000000
+ii: 3, jj: 12, Name_i: O, Name_j: Hw, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
+ii: 3, jj: 13, Name_i: O, Name_j: Lw, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
+ii: 3, jj: 14, Name_i: O, Name_j: Zr, ep: 26.9195913267, sig: 2.9515850000, shift: 0.0000000000
+ii: 3, jj: 15, Name_i: O, Name_j: Cl, ep: 32.4136310129, sig: 3.7100000000, shift: 0.0000000000
+ii: 3, jj: 16, Name_i: O, Name_j: Si, ep: 21.4277618586, sig: 2.7100000000, shift: 0.0000000000
+ii: 3, jj: 17, Name_i: O, Name_j: CH4_sp3, ep: 55.5771571714, sig: 3.4250000000, shift: 0.0000000000
+ii: 3, jj: 18, Name_i: O, Name_j: C_co2, ep: 24.9942778601, sig: 2.9325000000, shift: 0.0000000000
+ii: 3, jj: 19, Name_i: O, Name_j: O_co2, ep: 42.2846157911, sig: 3.0685000000, shift: 0.0000000000
+ii: 3, jj: 20, Name_i: O, Name_j: Ar, ep: 48.9907841523, sig: 3.2635000000, shift: 0.0000000000
+ii: 4, jj: 4, Name_i: Zn, Name_j: Zn, ep: 51.8738999207, sig: 2.4600000000, shift: 0.0000000000
+ii: 4, jj: 5, Name_i: Zn, Name_j: Cu, ep: 10.4253748063, sig: 2.7850000000, shift: 0.0000000000
+ii: 4, jj: 6, Name_i: Zn, Name_j: P, ep: 81.3558906551, sig: 3.0750000000, shift: 0.0000000000
+ii: 4, jj: 7, Name_i: Zn, Name_j: Ni, ep: 18.0453322558, sig: 2.4900000000, shift: 0.0000000000
+ii: 4, jj: 8, Name_i: Zn, Name_j: Ht, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
+ii: 4, jj: 9, Name_i: Zn, Name_j: OT, ep: 63.3334113601, sig: 2.7400000000, shift: 0.0000000000
+ii: 4, jj: 10, Name_i: Zn, Name_j: Op, ep: 58.0014309772, sig: 2.8070000000, shift: 0.0000000000
+ii: 4, jj: 11, Name_i: Zn, Name_j: Ow, ep: 58.0014309772, sig: 2.8070000000, shift: 0.0000000000
+ii: 4, jj: 12, Name_i: Zn, Name_j: Hw, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
+ii: 4, jj: 13, Name_i: Zn, Name_j: Lw, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
+ii: 4, jj: 14, Name_i: Zn, Name_j: Zr, ep: 38.6985238089, sig: 2.6215850000, shift: 0.0000000000
+ii: 4, jj: 15, Name_i: Zn, Name_j: Cl, ep: 46.5965347045, sig: 3.3800000000, shift: 0.0000000000
+ii: 4, jj: 16, Name_i: Zn, Name_j: Si, ep: 30.8036902341, sig: 2.3800000000, shift: 0.0000000000
+ii: 4, jj: 17, Name_i: Zn, Name_j: CH4_sp3, ep: 79.8954900142, sig: 3.0950000000, shift: 0.0000000000
+ii: 4, jj: 18, Name_i: Zn, Name_j: C_co2, ep: 35.9307704607, sig: 2.6025000000, shift: 0.0000000000
+ii: 4, jj: 19, Name_i: Zn, Name_j: O_co2, ep: 60.7866661526, sig: 2.7385000000, shift: 0.0000000000
+ii: 4, jj: 20, Name_i: Zn, Name_j: Ar, ep: 70.4271845707, sig: 2.9335000000, shift: 0.0000000000
+ii: 5, jj: 5, Name_i: Cu, Name_j: Cu, ep: 2.0952432730, sig: 3.1100000000, shift: 0.0000000000
+ii: 5, jj: 6, Name_i: Cu, Name_j: P, ep: 16.3505279933, sig: 3.4000000000, shift: 0.0000000000
+ii: 5, jj: 7, Name_i: Cu, Name_j: Ni, ep: 3.6266668316, sig: 2.8150000000, shift: 0.0000000000
+ii: 5, jj: 8, Name_i: Cu, Name_j: Ht, ep: 0.0000000000, sig: 1.5550000000, shift: 0.0000000000
+ii: 5, jj: 9, Name_i: Cu, Name_j: OT, ep: 12.7284540433, sig: 3.0650000000, shift: 0.0000000000
+ii: 5, jj: 10, Name_i: Cu, Name_j: Op, ep: 11.6568574594, sig: 3.1320000000, shift: 0.0000000000
+ii: 5, jj: 11, Name_i: Cu, Name_j: Ow, ep: 11.6568574594, sig: 3.1320000000, shift: 0.0000000000
+ii: 5, jj: 12, Name_i: Cu, Name_j: Hw, ep: 0.0000000000, sig: 1.5550000000, shift: 0.0000000000
+ii: 5, jj: 13, Name_i: Cu, Name_j: Lw, ep: 0.0000000000, sig: 1.5550000000, shift: 0.0000000000
+ii: 5, jj: 14, Name_i: Cu, Name_j: Zr, ep: 7.7774490789, sig: 2.9465850000, shift: 0.0000000000
+ii: 5, jj: 15, Name_i: Cu, Name_j: Cl, ep: 9.3647545241, sig: 3.7050000000, shift: 0.0000000000
+ii: 5, jj: 16, Name_i: Cu, Name_j: Si, ep: 6.1907821968, sig: 2.7050000000, shift: 0.0000000000
+ii: 5, jj: 17, Name_i: Cu, Name_j: CH4_sp3, ep: 16.0570234743, sig: 3.4200000000, shift: 0.0000000000
+ii: 5, jj: 18, Name_i: Cu, Name_j: C_co2, ep: 7.2211989016, sig: 2.9275000000, shift: 0.0000000000
+ii: 5, jj: 19, Name_i: Cu, Name_j: O_co2, ep: 12.2166210528, sig: 3.0635000000, shift: 0.0000000000
+ii: 5, jj: 20, Name_i: Cu, Name_j: Ar, ep: 14.1541275443, sig: 3.2585000000, shift: 0.0000000000
+ii: 6, jj: 6, Name_i: P, Name_j: P, ep: 127.5936637576, sig: 3.6900000000, shift: 0.0000000000
+ii: 6, jj: 7, Name_i: P, Name_j: Ni, ep: 28.3012088946, sig: 3.1050000000, shift: 0.0000000000
+ii: 6, jj: 8, Name_i: P, Name_j: Ht, ep: 0.0000000000, sig: 1.8450000000, shift: 0.0000000000
+ii: 6, jj: 9, Name_i: P, Name_j: OT, ep: 99.3282960661, sig: 3.3550000000, shift: 0.0000000000
+ii: 6, jj: 10, Name_i: P, Name_j: Op, ep: 90.9659401670, sig: 3.4220000000, shift: 0.0000000000
+ii: 6, jj: 11, Name_i: P, Name_j: Ow, ep: 90.9659401670, sig: 3.4220000000, shift: 0.0000000000
+ii: 6, jj: 12, Name_i: P, Name_j: Hw, ep: 0.0000000000, sig: 1.8450000000, shift: 0.0000000000
+ii: 6, jj: 13, Name_i: P, Name_j: Lw, ep: 0.0000000000, sig: 1.8450000000, shift: 0.0000000000
+ii: 6, jj: 14, Name_i: P, Name_j: Zr, ep: 60.6924267564, sig: 3.2365850000, shift: 0.0000000000
+ii: 6, jj: 15, Name_i: P, Name_j: Cl, ep: 73.0791898838, sig: 3.9950000000, shift: 0.0000000000
+ii: 6, jj: 16, Name_i: P, Name_j: Si, ep: 48.3106467469, sig: 2.9950000000, shift: 0.0000000000
+ii: 6, jj: 17, Name_i: P, Name_j: CH4_sp3, ep: 125.3032596230, sig: 3.7100000000, shift: 0.0000000000
+ii: 6, jj: 18, Name_i: P, Name_j: C_co2, ep: 56.3516496200, sig: 3.2175000000, shift: 0.0000000000
+ii: 6, jj: 19, Name_i: P, Name_j: O_co2, ep: 95.3341347451, sig: 3.3535000000, shift: 0.0000000000
+ii: 6, jj: 20, Name_i: P, Name_j: Ar, ep: 110.4537413965, sig: 3.5485000000, shift: 0.0000000000
+ii: 7, jj: 7, Name_i: Ni, Name_j: Ni, ep: 6.2774153615, sig: 2.5200000000, shift: 0.0000000000
+ii: 7, jj: 8, Name_i: Ni, Name_j: Ht, ep: 0.0000000000, sig: 1.2600000000, shift: 0.0000000000
+ii: 7, jj: 9, Name_i: Ni, Name_j: OT, ep: 22.0317433744, sig: 2.7700000000, shift: 0.0000000000
+ii: 7, jj: 10, Name_i: Ni, Name_j: Op, ep: 20.1769116047, sig: 2.8370000000, shift: 0.0000000000
+ii: 7, jj: 11, Name_i: Ni, Name_j: Ow, ep: 20.1769116047, sig: 2.8370000000, shift: 0.0000000000
+ii: 7, jj: 12, Name_i: Ni, Name_j: Hw, ep: 0.0000000000, sig: 1.2600000000, shift: 0.0000000000
+ii: 7, jj: 13, Name_i: Ni, Name_j: Lw, ep: 0.0000000000, sig: 1.2600000000, shift: 0.0000000000
+ii: 7, jj: 14, Name_i: Ni, Name_j: Zr, ep: 13.4620246599, sig: 2.6515850000, shift: 0.0000000000
+ii: 7, jj: 15, Name_i: Ni, Name_j: Cl, ep: 16.2094994206, sig: 3.4100000000, shift: 0.0000000000
+ii: 7, jj: 16, Name_i: Ni, Name_j: Si, ep: 10.7156551913, sig: 2.4100000000, shift: 0.0000000000
+ii: 7, jj: 17, Name_i: Ni, Name_j: CH4_sp3, ep: 27.7931804867, sig: 3.1250000000, shift: 0.0000000000
+ii: 7, jj: 18, Name_i: Ni, Name_j: C_co2, ep: 12.4992085068, sig: 2.6325000000, shift: 0.0000000000
+ii: 7, jj: 19, Name_i: Ni, Name_j: O_co2, ep: 21.1458091472, sig: 2.7685000000, shift: 0.0000000000
+ii: 7, jj: 20, Name_i: Ni, Name_j: Ar, ep: 24.4994486121, sig: 2.9635000000, shift: 0.0000000000
+ii: 8, jj: 8, Name_i: Ht, Name_j: Ht, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+ii: 8, jj: 9, Name_i: Ht, Name_j: OT, ep: 0.0000000000, sig: 1.5100000000, shift: 0.0000000000
+ii: 8, jj: 10, Name_i: Ht, Name_j: Op, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+ii: 8, jj: 11, Name_i: Ht, Name_j: Ow, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+ii: 8, jj: 12, Name_i: Ht, Name_j: Hw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+ii: 8, jj: 13, Name_i: Ht, Name_j: Lw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+ii: 8, jj: 14, Name_i: Ht, Name_j: Zr, ep: 0.0000000000, sig: 1.3915850000, shift: 0.0000000000
+ii: 8, jj: 15, Name_i: Ht, Name_j: Cl, ep: 0.0000000000, sig: 2.1500000000, shift: 0.0000000000
+ii: 8, jj: 16, Name_i: Ht, Name_j: Si, ep: 0.0000000000, sig: 1.1500000000, shift: 0.0000000000
+ii: 8, jj: 17, Name_i: Ht, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
+ii: 8, jj: 18, Name_i: Ht, Name_j: C_co2, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
+ii: 8, jj: 19, Name_i: Ht, Name_j: O_co2, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
+ii: 8, jj: 20, Name_i: Ht, Name_j: Ar, ep: 0.0000000000, sig: 1.7035000000, shift: 0.0000000000
+ii: 9, jj: 9, Name_i: OT, Name_j: OT, ep: 77.3244541213, sig: 3.0200000000, shift: 0.0000000000
+ii: 9, jj: 10, Name_i: OT, Name_j: Op, ep: 70.8145809967, sig: 3.0870000000, shift: 0.0000000000
+ii: 9, jj: 11, Name_i: OT, Name_j: Ow, ep: 70.8145809967, sig: 3.0870000000, shift: 0.0000000000
+ii: 9, jj: 12, Name_i: OT, Name_j: Hw, ep: 0.0000000000, sig: 1.5100000000, shift: 0.0000000000
+ii: 9, jj: 13, Name_i: OT, Name_j: Lw, ep: 0.0000000000, sig: 1.5100000000, shift: 0.0000000000
+ii: 9, jj: 14, Name_i: OT, Name_j: Zr, ep: 47.2474506671, sig: 2.9015850000, shift: 0.0000000000
+ii: 9, jj: 15, Name_i: OT, Name_j: Cl, ep: 56.8902184895, sig: 3.6600000000, shift: 0.0000000000
+ii: 9, jj: 16, Name_i: OT, Name_j: Si, ep: 37.6085620704, sig: 2.6600000000, shift: 0.0000000000
+ii: 9, jj: 17, Name_i: OT, Name_j: CH4_sp3, ep: 97.5452769624, sig: 3.3750000000, shift: 0.0000000000
+ii: 9, jj: 18, Name_i: OT, Name_j: C_co2, ep: 43.8682703547, sig: 2.8825000000, shift: 0.0000000000
+ii: 9, jj: 19, Name_i: OT, Name_j: O_co2, ep: 74.2151050632, sig: 3.0185000000, shift: 0.0000000000
+ii: 9, jj: 20, Name_i: OT, Name_j: Ar, ep: 85.9853193642, sig: 3.2135000000, shift: 0.0000000000
+ii: 10, jj: 10, Name_i: Op, Name_j: Op, ep: 64.8527679727, sig: 3.1540000000, shift: 0.0000000000
+ii: 10, jj: 11, Name_i: Op, Name_j: Ow, ep: 64.8527679727, sig: 3.1540000000, shift: 0.0000000000
+ii: 10, jj: 12, Name_i: Op, Name_j: Hw, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+ii: 10, jj: 13, Name_i: Op, Name_j: Lw, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+ii: 10, jj: 14, Name_i: Op, Name_j: Zr, ep: 43.2697321976, sig: 2.9685850000, shift: 0.0000000000
+ii: 10, jj: 15, Name_i: Op, Name_j: Cl, ep: 52.1006844591, sig: 3.7270000000, shift: 0.0000000000
+ii: 10, jj: 16, Name_i: Op, Name_j: Si, ep: 34.4423325735, sig: 2.7270000000, shift: 0.0000000000
+ii: 10, jj: 17, Name_i: Op, Name_j: CH4_sp3, ep: 89.3330317660, sig: 3.4420000000, shift: 0.0000000000
+ii: 10, jj: 18, Name_i: Op, Name_j: C_co2, ep: 40.1750419000, sig: 2.9495000000, shift: 0.0000000000
+ii: 10, jj: 19, Name_i: Op, Name_j: O_co2, ep: 67.9670051137, sig: 3.0855000000, shift: 0.0000000000
+ii: 10, jj: 20, Name_i: Op, Name_j: Ar, ep: 78.7462961341, sig: 3.2805000000, shift: 0.0000000000
+ii: 11, jj: 11, Name_i: Ow, Name_j: Ow, ep: 64.8527679727, sig: 3.1540000000, shift: 0.0000000000
+ii: 11, jj: 12, Name_i: Ow, Name_j: Hw, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+ii: 11, jj: 13, Name_i: Ow, Name_j: Lw, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
+ii: 11, jj: 14, Name_i: Ow, Name_j: Zr, ep: 43.2697321976, sig: 2.9685850000, shift: 0.0000000000
+ii: 11, jj: 15, Name_i: Ow, Name_j: Cl, ep: 52.1006844591, sig: 3.7270000000, shift: 0.0000000000
+ii: 11, jj: 16, Name_i: Ow, Name_j: Si, ep: 34.4423325735, sig: 2.7270000000, shift: 0.0000000000
+ii: 11, jj: 17, Name_i: Ow, Name_j: CH4_sp3, ep: 89.3330317660, sig: 3.4420000000, shift: 0.0000000000
+ii: 11, jj: 18, Name_i: Ow, Name_j: C_co2, ep: 40.1750419000, sig: 2.9495000000, shift: 0.0000000000
+ii: 11, jj: 19, Name_i: Ow, Name_j: O_co2, ep: 67.9670051137, sig: 3.0855000000, shift: 0.0000000000
+ii: 11, jj: 20, Name_i: Ow, Name_j: Ar, ep: 78.7462961341, sig: 3.2805000000, shift: 0.0000000000
+ii: 12, jj: 12, Name_i: Hw, Name_j: Hw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+ii: 12, jj: 13, Name_i: Hw, Name_j: Lw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+ii: 12, jj: 14, Name_i: Hw, Name_j: Zr, ep: 0.0000000000, sig: 1.3915850000, shift: 0.0000000000
+ii: 12, jj: 15, Name_i: Hw, Name_j: Cl, ep: 0.0000000000, sig: 2.1500000000, shift: 0.0000000000
+ii: 12, jj: 16, Name_i: Hw, Name_j: Si, ep: 0.0000000000, sig: 1.1500000000, shift: 0.0000000000
+ii: 12, jj: 17, Name_i: Hw, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
+ii: 12, jj: 18, Name_i: Hw, Name_j: C_co2, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
+ii: 12, jj: 19, Name_i: Hw, Name_j: O_co2, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
+ii: 12, jj: 20, Name_i: Hw, Name_j: Ar, ep: 0.0000000000, sig: 1.7035000000, shift: 0.0000000000
+ii: 13, jj: 13, Name_i: Lw, Name_j: Lw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
+ii: 13, jj: 14, Name_i: Lw, Name_j: Zr, ep: 0.0000000000, sig: 1.3915850000, shift: 0.0000000000
+ii: 13, jj: 15, Name_i: Lw, Name_j: Cl, ep: 0.0000000000, sig: 2.1500000000, shift: 0.0000000000
+ii: 13, jj: 16, Name_i: Lw, Name_j: Si, ep: 0.0000000000, sig: 1.1500000000, shift: 0.0000000000
+ii: 13, jj: 17, Name_i: Lw, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
+ii: 13, jj: 18, Name_i: Lw, Name_j: C_co2, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
+ii: 13, jj: 19, Name_i: Lw, Name_j: O_co2, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
+ii: 13, jj: 20, Name_i: Lw, Name_j: Ar, ep: 0.0000000000, sig: 1.7035000000, shift: 0.0000000000
+ii: 14, jj: 14, Name_i: Zr, Name_j: Zr, ep: 28.8695422413, sig: 2.7831700000, shift: 0.0000000000
+ii: 14, jj: 15, Name_i: Zr, Name_j: Cl, ep: 34.7615488796, sig: 3.5415850000, shift: 0.0000000000
+ii: 14, jj: 16, Name_i: Zr, Name_j: Si, ep: 22.9799059208, sig: 2.5415850000, shift: 0.0000000000
+ii: 14, jj: 17, Name_i: Zr, Name_j: CH4_sp3, ep: 59.6029511423, sig: 3.2565850000, shift: 0.0000000000
+ii: 14, jj: 18, Name_i: Zr, Name_j: C_co2, ep: 26.8047665255, sig: 2.7640850000, shift: 0.0000000000
+ii: 14, jj: 19, Name_i: Zr, Name_j: O_co2, ep: 45.3475495569, sig: 2.9000850000, shift: 0.0000000000
+ii: 14, jj: 20, Name_i: Zr, Name_j: Ar, ep: 52.5394867759, sig: 3.0950850000, shift: 0.0000000000
+ii: 15, jj: 15, Name_i: Cl, Name_j: Cl, ep: 41.8560595942, sig: 4.3000000000, shift: 0.0000000000
+ii: 15, jj: 16, Name_i: Cl, Name_j: Si, ep: 27.6698922427, sig: 3.3000000000, shift: 0.0000000000
+ii: 15, jj: 17, Name_i: Cl, Name_j: CH4_sp3, ep: 71.7673623703, sig: 4.0150000000, shift: 0.0000000000
+ii: 15, jj: 18, Name_i: Cl, Name_j: C_co2, ep: 32.2753715315, sig: 3.5225000000, shift: 0.0000000000
+ii: 15, jj: 19, Name_i: Cl, Name_j: O_co2, ep: 54.6025651296, sig: 3.6585000000, shift: 0.0000000000
+ii: 15, jj: 20, Name_i: Cl, Name_j: Ar, ep: 63.2623102369, sig: 3.8535000000, shift: 0.0000000000
+ii: 16, jj: 16, Name_i: Si, Name_j: Si, ep: 18.2918063513, sig: 2.3000000000, shift: 0.0000000000
+ii: 16, jj: 17, Name_i: Si, Name_j: CH4_sp3, ep: 47.4434335813, sig: 3.0150000000, shift: 0.0000000000
+ii: 16, jj: 18, Name_i: Si, Name_j: C_co2, ep: 21.3363623100, sig: 2.5225000000, shift: 0.0000000000
+ii: 16, jj: 19, Name_i: Si, Name_j: O_co2, ep: 36.0962572196, sig: 2.6585000000, shift: 0.0000000000
+ii: 16, jj: 20, Name_i: Si, Name_j: Ar, ep: 41.8209770402, sig: 2.8535000000, shift: 0.0000000000
+ii: 17, jj: 17, Name_i: CH4_sp3, Name_j: CH4_sp3, ep: 123.0539699995, sig: 3.7300000000, shift: 0.0000000000
+ii: 17, jj: 18, Name_i: CH4_sp3, Name_j: C_co2, ep: 55.3400942850, sig: 3.2375000000, shift: 0.0000000000
+ii: 17, jj: 19, Name_i: CH4_sp3, Name_j: O_co2, ep: 93.6228139008, sig: 3.3735000000, shift: 0.0000000000
+ii: 17, jj: 20, Name_i: CH4_sp3, Name_j: Ar, ep: 108.4710120155, sig: 3.5685000000, shift: 0.0000000000
+ii: 18, jj: 18, Name_i: C_co2, Name_j: C_co2, ep: 24.8876654324, sig: 2.7450000000, shift: 0.0000000000
+ii: 18, jj: 19, Name_i: C_co2, Name_j: O_co2, ep: 42.1042518866, sig: 2.8810000000, shift: 0.0000000000
+ii: 18, jj: 20, Name_i: C_co2, Name_j: Ar, ep: 48.7818152649, sig: 3.0760000000, shift: 0.0000000000
+ii: 19, jj: 19, Name_i: O_co2, Name_j: O_co2, ep: 71.2307882691, sig: 3.0170000000, shift: 0.0000000000
+ii: 19, jj: 20, Name_i: O_co2, Name_j: Ar, ep: 82.5277020449, sig: 3.2120000000, shift: 0.0000000000
+ii: 20, jj: 20, Name_i: Ar, Name_j: Ar, ep: 0.0000000000, sig: 3.4070000000, shift: 0.0000000000
+----- END OF MIXED VDW PARAMETERS (WITH OVERWRITTEN TERMS) -----
+==========================================
+====== Preparing Simulation box 0 ======
+==========================================
+----------------FORCE FIELD OVERWRITTEN (TAIL CORRECTION) PARAMETERS----------------
+TypeI: 20, TypeJ: 20, FF.size: 21, Energy: -0.00000
+------------------------------------------------------------------------------------
+------------------------PARSING FRAMEWORK DATA------------------------
+Reading Partial Charges from pseudo_atoms.def file
+Reading Framework 0, FrameworkName: BAZGAM_clean
+Reading Framework 0, UnitCells: 1.00 1.00 1.00
+atom_site starts at line 16, and ends at 23
+label location: 0, xyz location: 2 3 4, charge: -1
+Atom Count 0, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 1, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 2, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 3, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 4, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 5, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 6, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 7, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 8, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 9, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 10, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 11, Component 0, AtomType 5 (Cu), MoleculeID 0, AtomMass 65.000000
+Atom Count 12, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 13, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 14, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 15, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 16, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 17, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 18, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 19, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 20, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 21, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 22, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 23, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 24, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 25, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 26, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 27, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 28, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 29, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 30, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 31, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 32, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 33, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 34, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 35, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 36, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 37, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 38, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 39, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 40, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 41, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 42, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 43, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 44, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 45, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 46, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 47, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 48, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 49, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 50, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 51, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 52, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 53, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 54, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 55, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 56, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 57, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 58, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 59, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 60, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 61, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 62, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 63, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 64, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 65, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 66, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 67, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 68, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 69, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 70, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 71, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 72, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 73, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 74, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 75, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 76, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 77, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 78, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 79, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 80, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 81, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 82, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 83, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 84, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 85, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 86, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 87, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 88, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 89, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 90, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 91, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 92, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 93, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 94, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 95, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 96, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 97, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 98, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 99, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 100, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 101, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 102, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 103, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 104, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 105, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 106, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 107, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 108, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 109, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 110, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 111, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 112, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 113, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 114, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 115, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 116, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 117, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 118, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 119, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 120, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 121, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 122, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 123, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 124, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 125, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 126, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 127, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 128, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 129, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 130, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 131, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 132, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 133, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 134, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 135, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 136, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 137, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 138, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 139, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 140, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 141, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 142, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 143, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 144, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 145, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 146, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 147, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 148, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 149, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 150, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 151, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 152, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 153, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 154, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 155, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 156, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 157, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 158, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 159, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 160, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 161, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 162, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 163, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 164, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 165, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 166, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 167, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 168, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 169, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 170, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 171, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 172, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 173, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 174, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 175, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 176, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 177, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 178, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 179, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 180, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 181, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 182, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 183, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 184, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 185, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 186, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 187, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 188, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 189, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 190, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 191, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 192, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 193, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 194, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 195, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 196, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 197, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 198, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 199, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 200, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 201, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 202, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 203, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 204, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 205, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 206, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 207, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 208, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 209, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 210, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 211, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 212, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 213, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 214, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 215, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 216, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 217, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 218, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 219, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 220, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 221, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 222, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 223, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 224, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 225, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 226, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 227, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
+Atom Count 228, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 229, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 230, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 231, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 232, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 233, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 234, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 235, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 236, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 237, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 238, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 239, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 240, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 241, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 242, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 243, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 244, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 245, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 246, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 247, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 248, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 249, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 250, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 251, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 252, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 253, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 254, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 255, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 256, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 257, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 258, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 259, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 260, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 261, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 262, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 263, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 264, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 265, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 266, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 267, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 268, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 269, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 270, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 271, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 272, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 273, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 274, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 275, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 276, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 277, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 278, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 279, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 280, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 281, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 282, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 283, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 284, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 285, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 286, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 287, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 288, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 289, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 290, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 291, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 292, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 293, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 294, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 295, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 296, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 297, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 298, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 299, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 300, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 301, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 302, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 303, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 304, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 305, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 306, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 307, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 308, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 309, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 310, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 311, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 312, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 313, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 314, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 315, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 316, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 317, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 318, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 319, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 320, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 321, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 322, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 323, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 324, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 325, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 326, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 327, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 328, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 329, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 330, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 331, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 332, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 333, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 334, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 335, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 336, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 337, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 338, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 339, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 340, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 341, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 342, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 343, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 344, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 345, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 346, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 347, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 348, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 349, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 350, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 351, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 352, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 353, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 354, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 355, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 356, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 357, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 358, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 359, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 360, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 361, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 362, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 363, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 364, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 365, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 366, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 367, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 368, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 369, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 370, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 371, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 372, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 373, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 374, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 375, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 376, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 377, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 378, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 379, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 380, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 381, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 382, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 383, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 384, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 385, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 386, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 387, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 388, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 389, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 390, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 391, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 392, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 393, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 394, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 395, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 396, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 397, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 398, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 399, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 400, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 401, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 402, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 403, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 404, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 405, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 406, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 407, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 408, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 409, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 410, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 411, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 412, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 413, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 414, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 415, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 416, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 417, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 418, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 419, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 420, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 421, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 422, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 423, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 424, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 425, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 426, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 427, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 428, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 429, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 430, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 431, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 432, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 433, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 434, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 435, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 436, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 437, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 438, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 439, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 440, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 441, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 442, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 443, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 444, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 445, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 446, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 447, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 448, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 449, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 450, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 451, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 452, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 453, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 454, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 455, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 456, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 457, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 458, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 459, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 460, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 461, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 462, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 463, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 464, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 465, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 466, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 467, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 468, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 469, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 470, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 471, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 472, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 473, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 474, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 475, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 476, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 477, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 478, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 479, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 480, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 481, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 482, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 483, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 484, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 485, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 486, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 487, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 488, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 489, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 490, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 491, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 492, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 493, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 494, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 495, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 496, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 497, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 498, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 499, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 500, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 501, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 502, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 503, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 504, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 505, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 506, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 507, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 508, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 509, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 510, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 511, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 512, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 513, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 514, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 515, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 516, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 517, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 518, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 519, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 520, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 521, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 522, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 523, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 524, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 525, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 526, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 527, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 528, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 529, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 530, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 531, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 532, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 533, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 534, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 535, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 536, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 537, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 538, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 539, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 540, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 541, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 542, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 543, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 544, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 545, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 546, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 547, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 548, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 549, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 550, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 551, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 552, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 553, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 554, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 555, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 556, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 557, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 558, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 559, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 560, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 561, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 562, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 563, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 564, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 565, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 566, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 567, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 568, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 569, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 570, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 571, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 572, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 573, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 574, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 575, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 576, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 577, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 578, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 579, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 580, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 581, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 582, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 583, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 584, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 585, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 586, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 587, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
+Atom Count 588, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 589, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 590, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 591, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 592, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 593, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 594, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 595, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 596, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 597, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 598, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 599, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 600, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 601, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 602, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 603, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 604, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 605, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 606, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 607, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 608, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 609, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 610, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 611, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 612, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 613, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 614, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 615, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 616, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 617, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 618, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 619, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 620, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 621, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 622, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 623, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 624, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 625, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 626, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 627, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 628, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 629, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 630, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 631, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 632, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 633, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 634, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+Atom Count 635, Component 0, AtomType 3 (O), MoleculeID 0, AtomMass 15.999000
+component 0, totalmass: 6083.95200
+Finished Reading Atoms
+NMol = 1, pos_size: 636, NMol in FrameworkDef: 1
+Framework Comp [0], size: 636, Molsize: 636, Allocate_size: 636, component mass: 6083.952000
+------------------CIF FILE SUMMARY------------------
+CIF FILE IS: BAZGAM_clean.cif
+Number of Unit Cells: 1.00 1.00 1.00
+Box size: 
+48.30330 0.00000 0.00000
+24.15165 41.83188 0.00000
+24.15165 13.94396 39.43948
+Framework Pseudo Atom[0], Name: C, #: 360
+Framework Pseudo Atom[1], Name: H, #: 216
+Framework Pseudo Atom[3], Name: O, #: 48
+Framework Pseudo Atom[5], Name: Cu, #: 12
+NumberOfPseudoAtoms size: 4
+Framework Component [0], Pseudo Atom [0], Name: C, #: 360
+Framework Component [0], Pseudo Atom [1], Name: H, #: 216
+Framework Component [0], Pseudo Atom [3], Name: O, #: 48
+Framework Component [0], Pseudo Atom [5], Name: Cu, #: 12
+Overall Mass: 6083.952000 
+----------------------------------------------------
+Reading CIF File
+The Simulation Box is NOT Cubic
+----------------------END OF PARSING FRAMEWORK DATA----------------------
+----------------EWALD SUMMATION SETUP-----------------
+Using RASPA-2 way, need to specify the Precision of Ewald
+tol: 3.36610, tol1: 3.18942
+ALpha is 0.26506, Prefactor: 138935.48350
+kmax: 13 12 11, ReciprocalCutOff: 186.32250
+------------------------------------------------------
+Writing Movies every 5000 MC step(s) or cycle(s)
+Printing Loadings and energies every 5000 MC step(s) or cycle(s)
+Only one Framework Component, No moves assigned
+Parsing [1] Component
+Component 0 starts at line number 33
+-------------- READING AdsorbateComponent 0 (argon) --------------
+Adsorbate Component is rigid
+Bonds not implemented. Break
+Atom [0]: Type [20], Name: Ar, Mass: 39.948000, position: 0.00000 0.00000 0.00000
+Adsorbate Type[20], Name: Ar, #: 1
+current adsorbate mass is: 39.948000 
+Ideal Chain Rosenbluth Weight: 1.00000
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      0.33333
+Rotation Probability:         0.33333
+Special Rotation Probability: 0.33333
+Widom Probability:            0.33333
+Reinsertion Probability:      0.66667
+Identity Swap Probability:    0.66667
+CBCF Swap Probability:        0.66667
+Swap Probability:             1.00000
+Sum of Probabilities:         1.00000
+==================================================
+Current processed 2 components
+-------------- END OF READING Component 0 (argon) --------------
+Only one Framework Component, No moves assigned
+================FUGACITY COEFFICIENT CALCULATION================
+Checking: Current Fugacity Coeff for 1 component: 1.00000
+Every Adsorbate Component has fugacity coefficient assigned, skip EOS calculation!
+----------------- MEMORY ALLOCAION STATUS -----------------
+System allocate_sizes are: 636, 10240
+Component allocate_sizes are: 636, 10240
+Allocated Blocksum size: 8001
+Allocated 8001 doubles for Blocksums
+------------------------------------------------------------
+------------------- SIMULATION BOX PARAMETERS -----------------
+Pressure:        0.00241
+Box Volume:      79692.12514
+Box Beta:        0.01383
+Box Temperature: 87.00000
+---------------------------------------------------------------
+======================== CALCULATING INITIAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+Ewald Summation (total energy) on the CPU took 0.00000 secs
+Ewald Summation (total energy) on the GPU took 0.00000 secs
+i: 20, j: 20, Ni: 0, Nj: 0, E: -0.00000
+====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
+Component 1, Need to create 0 full molecule
+======================== CALCULATING CREATE_MOLECULE STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+Ewald Summation (total energy) on the CPU took 0.00000 secs
+Ewald Summation (total energy) on the GPU took 0.00000 secs
+i: 20, j: 20, Ni: 0, Nj: 0, E: -0.00000
+====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00241, temp: 87.00000
+Number of Frameworks: 1
+INITIALIZATION Cycle: 0, 0 Adsorbate Molecules, Total Energy: 0.00000  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 0 Molecules  ||  
+Cycle [4], Printing DeltaE
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+INITIALIZATION Cycle: 5000, 267 Adsorbate Molecules, Total Energy: -176244.88875  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 267 Molecules  ||  
+======================== MOVE STATISTICS FOR COMPONENT [1] (argon) ========================
+=====================SWAP MOVES=====================
+Insertion Performed:   1672
+Insertion Accepted:    815
+Deletion Performed:    1702
+Deletion Accepted:     368
+Reinsertion Performed: 3375
+Reinsertion Accepted:  841
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+================================================================================================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00241, temp: 87.00000
+Number of Frameworks: 1
+EQUILIBRATION Cycle: 0, 447 Adsorbate Molecules, Total Energy: -303195.08229  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 447 Molecules  ||  
+Cycle [4], Printing DeltaE
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+EQUILIBRATION Cycle: 5000, 530 Adsorbate Molecules, Total Energy: -376444.42922  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 530 Molecules  ||  
+EQUILIBRATION Cycle: 10000, 632 Adsorbate Molecules, Total Energy: -460563.80229  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 632 Molecules  ||  
+EQUILIBRATION Cycle: 15000, 672 Adsorbate Molecules, Total Energy: -492711.55352  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 672 Molecules  ||  
+Sampled 0 WangLandau, Adjusted WL 0 times
+======================== MOVE STATISTICS FOR COMPONENT [1] (argon) ========================
+=====================SWAP MOVES=====================
+Insertion Performed:   4978
+Insertion Accepted:    1921
+Deletion Performed:    4995
+Deletion Accepted:     1199
+Reinsertion Performed: 10099
+Reinsertion Accepted:  2007
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+================================================================================================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00241, temp: 87.00000
+Number of Frameworks: 1
+PRODUCTION Cycle: 0, 722 Adsorbate Molecules, Total Energy: -540957.72791  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 722 Molecules  ||  
+Printing: Component: 0 [ BAZGAM_clean.cif ], NumMol: 1, Molsize: 636
+Printing: Component: 1 [ argon ], NumMol: 722, Molsize: 1
+Component 0, Molsize: 636
+Component 1, Molsize: 1
+Cycle [4], Printing DeltaE
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+PRODUCTION Cycle: 5000, 786 Adsorbate Molecules, Total Energy: -588825.22702  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 786 Molecules  ||  
+Printing: Component: 0 [ BAZGAM_clean.cif ], NumMol: 1, Molsize: 636
+Printing: Component: 1 [ argon ], NumMol: 786, Molsize: 1
+Component 0, Molsize: 636
+Component 1, Molsize: 1
+PRODUCTION Cycle: 10000, 821 Adsorbate Molecules, Total Energy: -627317.52512  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 821 Molecules  ||  
+Printing: Component: 0 [ BAZGAM_clean.cif ], NumMol: 1, Molsize: 636
+Printing: Component: 1 [ argon ], NumMol: 821, Molsize: 1
+Component 0, Molsize: 636
+Component 1, Molsize: 1
+PRODUCTION Cycle: 15000, 880 Adsorbate Molecules, Total Energy: -672499.72312  ||  Component 0 [BAZGAM_clean.cif], 1 Molecules  ||  Component 1 [argon], 880 Molecules  ||  
+Printing: Component: 0 [ BAZGAM_clean.cif ], NumMol: 1, Molsize: 636
+Printing: Component: 1 [ argon ], NumMol: 880, Molsize: 1
+Component 0, Molsize: 636
+Component 1, Molsize: 1
+======================== MOVE STATISTICS FOR COMPONENT [1] (argon) ========================
+=====================SWAP MOVES=====================
+Insertion Performed:   8326
+Insertion Accepted:    2930
+Deletion Performed:    8358
+Deletion Accepted:     2003
+Reinsertion Performed: 16864
+Reinsertion Accepted:  3035
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+================================================================================================
+=====================BLOCK AVERAGES (ENERGIES)================
+BLOCK [0], Blocksize: 4000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 4000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 4000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 4000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 4000, Average: 0.00000, ErrorBar: 0.00000
+Overall: Average: 0.00000, ErrorBar: 0.00000
+==============================================================
+=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============
+COMPONENT [0] (BAZGAM_clean.cif)
+BLOCK [0], Blocksize: 4000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 4000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 4000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 4000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 4000, Average: 1.00000, ErrorBar: 0.00000
+Overall: Average: 1.00000, ErrorBar: 0.00000
+----------------------------------------------------------
+COMPONENT [1] (argon)
+BLOCK [0], Blocksize: 4000, Average: 747.26550, ErrorBar: 20.00150
+BLOCK [1], Blocksize: 4000, Average: 774.48900, ErrorBar: 12.48685
+BLOCK [2], Blocksize: 4000, Average: 818.81775, ErrorBar: 32.83989
+BLOCK [3], Blocksize: 4000, Average: 865.61675, ErrorBar: 36.87269
+BLOCK [4], Blocksize: 4000, Average: 915.27025, ErrorBar: 29.98531
+Overall: Average: 824.29185, ErrorBar: 121.41883
+----------------------------------------------------------
+======================================================================
+=====================BLOCK AVERAGES (LOADING: mg/g)=============
+COMPONENT [0] (BAZGAM_clean.cif)
+Framework component 0, molar mass: 6083.95200
+Framework total mass: 6083.95200
+BLOCK [0], Blocksize: 4000, Average: 1000.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 4000, Average: 1000.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 4000, Average: 1000.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 4000, Average: 1000.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 4000, Average: 1000.00000, ErrorBar: 0.00000
+Overall: Average: 1000.00000, ErrorBar: -nan
+----------------------------------------------------------
+COMPONENT [1] (argon)
+Framework component 0, molar mass: 6083.95200
+Framework total mass: 6083.95200
+BLOCK [0], Blocksize: 4000, Average: 4906.63999, ErrorBar: 131.33239
+BLOCK [1], Blocksize: 4000, Average: 5085.39294, ErrorBar: 81.99026
+BLOCK [2], Blocksize: 4000, Average: 5376.46114, ErrorBar: 215.63086
+BLOCK [3], Blocksize: 4000, Average: 5683.74930, ErrorBar: 242.11078
+BLOCK [4], Blocksize: 4000, Average: 6009.78048, ErrorBar: 196.88735
+Overall: Average: 5412.40477, ErrorBar: 797.25142
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: mol/kg)=============
+COMPONENT [0] (BAZGAM_clean.cif)
+Framework component 0, molar mass: 6083.95200
+Framework total mass: 6083.95200
+BLOCK [0], Blocksize: 4000, Average: 0.16437, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 4000, Average: 0.16437, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 4000, Average: 0.16437, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 4000, Average: 0.16437, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 4000, Average: 0.16437, ErrorBar: 0.00000
+Overall: Average: 0.16437, ErrorBar: -nan
+----------------------------------------------------------
+COMPONENT [1] (argon)
+Framework component 0, molar mass: 6083.95200
+Framework total mass: 6083.95200
+BLOCK [0], Blocksize: 4000, Average: 122.82567, ErrorBar: 3.28758
+BLOCK [1], Blocksize: 4000, Average: 127.30031, ErrorBar: 2.05242
+BLOCK [2], Blocksize: 4000, Average: 134.58649, ErrorBar: 5.39779
+BLOCK [3], Blocksize: 4000, Average: 142.27869, ErrorBar: 6.06065
+BLOCK [4], Blocksize: 4000, Average: 150.44008, ErrorBar: 4.92859
+Overall: Average: 135.48625, ErrorBar: 19.95723
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: g/L)=============
+COMPONENT [0] (BAZGAM_clean.cif)
+Total Unit Cells 1 
+BLOCK [0], Blocksize: 4000, Average: 126.77087, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 4000, Average: 126.77087, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 4000, Average: 126.77087, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 4000, Average: 126.77087, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 4000, Average: 126.77087, ErrorBar: 0.00000
+Overall: Average: 126.77087, ErrorBar: -nan
+----------------------------------------------------------
+COMPONENT [1] (argon)
+Total Unit Cells 1 
+BLOCK [0], Blocksize: 4000, Average: 622.01901, ErrorBar: 16.64912
+BLOCK [1], Blocksize: 4000, Average: 644.67968, ErrorBar: 10.39398
+BLOCK [2], Blocksize: 4000, Average: 681.57865, ErrorBar: 27.33571
+BLOCK [3], Blocksize: 4000, Average: 720.53383, ErrorBar: 30.69259
+BLOCK [4], Blocksize: 4000, Average: 761.86509, ErrorBar: 24.95958
+Overall: Average: 686.13525, ErrorBar: 101.06825
+----------------------------------------------------------
+==============================================================
+Printing: Component: 0 [ BAZGAM_clean.cif ], NumMol: 1, Molsize: 636
+Printing: Component: 1 [ argon ], NumMol: 927, Molsize: 1
+Component 0, Molsize: 636
+Component 1, Molsize: 1
+Work took 1.646740 seconds
+======================================
+CHECKING FINAL ENERGY FOR SYSTEM [0]
+======================================
+======================== CALCULATING FINAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: -714726.88212; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+Ewald Summation (total energy) on the CPU took 0.00000 secs
+Ewald Summation (total energy) on the GPU took 0.00000 secs
+i: 20, j: 20, Ni: 927, Nj: 927, E: -0.00000
+====================== DONE CALCULATING FINAL STAGE ENERGY ======================
+======================================
+======================== ENERGY SUMMARY (Simulation 0) =========================
+ *** INITIAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** CREATE MOLECULE STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** RUNNING DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** CHECK DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** FINAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -714726.88212 (-859619.37805 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -714726.88212 (-859619.37805 [K])
+========================================================================
+ *** RUNNING DELTA_E (FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -714726.88212 (-859619.37805 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -714726.88212 (-859619.37805 [K])
+========================================================================
+ *** CHECK DELTA_E (FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -714726.88212 (-859619.37805 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -714726.88212 (-859619.37805 [K])
+========================================================================
+ *** ENERGY DRIFT *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+================================================================================
+======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================
+ *** PRODUCTION PHASE AVERAGE ENERGY *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -584006.66575 (-702398.99932 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -584006.66575 (-702398.99932 [K])
+========================================================================
+ *** PRODUCTION PHASE AVERAGE ENERGY ERRORBAR *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           122368.94143 (147176.09755 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               122368.94143 (147176.09755 [K])
+========================================================================
+================================================================================
+DNN Rejection Summary:
+Translation+Rotation: 0
+Reinsertion: 0
+Insertion: 0
+Deletion: 0
+SingleSwap: 0
+DNN Drift Summary:
+Translation+Rotation: 0.00000
+Reinsertion: 0.00000
+Insertion: 0.00000
+Deletion: 0.00000
+SingleSwap: 0.00000
+Random Numbers Regenerated 1 times, offset: 35456, randomsize: 333334
+DNN Feature Preparation Time: 0.00000, DNN Prediction Time: 0.00000
+DNN GPU Time: 0.00000, DNN Sort Time: 0.00000, std::sort Time: 0.00000, Featurization Time: 0.00000
+System 0
+PseudoAtom Type: C[0], #: 360
+PseudoAtom Type: H[1], #: 216
+PseudoAtom Type: N[2], #: 0
+PseudoAtom Type: O[3], #: 48
+PseudoAtom Type: Zn[4], #: 0
+PseudoAtom Type: Cu[5], #: 12
+PseudoAtom Type: P[6], #: 0
+PseudoAtom Type: Ni[7], #: 0
+PseudoAtom Type: Ht[8], #: 0
+PseudoAtom Type: OT[9], #: 0
+PseudoAtom Type: Op[10], #: 0
+PseudoAtom Type: Ow[11], #: 0
+PseudoAtom Type: Hw[12], #: 0
+PseudoAtom Type: Lw[13], #: 0
+PseudoAtom Type: Zr[14], #: 0
+PseudoAtom Type: Cl[15], #: 0
+PseudoAtom Type: Si[16], #: 0
+PseudoAtom Type: CH4_sp3[17], #: 0
+PseudoAtom Type: C_co2[18], #: 0
+PseudoAtom Type: O_co2[19], #: 0
+PseudoAtom Type: Ar[20], #: 927
+Total Program Size: 5578 MB
+Resident Set Size: 116 MB
+Shared Pages: 94 MB
+Text (code): 0 MB
+Data + Stack: 68 MB

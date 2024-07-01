@@ -21,4 +21,4 @@ jobs:
 
     - name: Run pytest
       run: |
-        cd Examples/; pytest # Assuming your tests are in the 'tests' directory
+        cd Examples/; pytest -s # Assuming your tests are in the 'tests' directory
