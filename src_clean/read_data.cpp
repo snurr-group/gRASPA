@@ -780,7 +780,8 @@ void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
     {
       Split_Tab_Space(termsScannedLined, str);
       sscanf(termsScannedLined[0].c_str(), "%zu", &NumberOfDefinitions);
-      if (NumberOfDefinitions <= 0 || NumberOfDefinitions>200) throw std::runtime_error("Incorrect amount of force field definitions");
+      if (NumberOfDefinitions <= 0) throw std::runtime_error("Incorrect amount of force field definitions");
+      if (NumberOfDefinitions > 100) printf("There are A LOT OF Definitions. Do you need all of them? Okay...\n");
     }
     else if(counter >= 7) // read data for each force field definition
     {
@@ -1072,7 +1073,8 @@ void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
     {
       Split_Tab_Space(termsScannedLined, str);
       sscanf(termsScannedLined[0].c_str(), "%zu", &NumberOfPseudoAtoms);
-      if (NumberOfPseudoAtoms <= 0 || NumberOfPseudoAtoms>200) throw std::runtime_error("Incorrect amount of pseudo-atoms");//DON'T DO TOO MANY
+      if (NumberOfPseudoAtoms <= 0) throw std::runtime_error("Incorrect amount of pseudo-atoms");//DON'T DO TOO FEW
+      if (NumberOfPseudoAtoms > 100) printf("You are using A LOT OF pseudo atom definitions. Do you need so many? Okay...\n");
       if (NumberOfPseudoAtoms != FF.size) throw std::runtime_error("Number of VDW and pseudo-atom definitions don't match!"); 
     }
     else if(counter >= 3) // read data for each pseudo atom
@@ -1103,6 +1105,13 @@ void remove_number(std::string& s)
 {
   s.erase(std::remove_if(std::begin(s), std::end(s), [](auto ch) { return std::isdigit(ch); }), s.end());
 }
+
+void remove_number_at_the_end(std::string& s)
+{
+  auto it = std::find_if(s.rbegin(), s.rend(), [](char ch) { return !std::isdigit(ch); });
+  s.erase(it.base(), s.end());
+}
+
 
 void DetermineFrameworkComponent(Components& SystemComponents, size_t AtomCountPerUnitcell, size_t& Atom_Comp, size_t& MolID)
 { //Default Atom_Comp = 0; MolID = 0;
@@ -1371,7 +1380,8 @@ void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::str
 
     std::string AtomName = termsScannedLined[label_location];
     //Zhao's note: try to remove numbers from the Atom labels//
-    remove_number(AtomName);
+    //remove_number(AtomName);
+    remove_number_at_the_end(AtomName); //Just remove the ending index
     size_t AtomTypeInt = 0;
     double AtomMass = 0.0;
     //Get the type (int) for this AtomName//
@@ -1838,6 +1848,7 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
       ANumberOfPseudoAtomsForSpecies[AType[atomcount]].x = AType[atomcount];
       ANumberOfPseudoAtomsForSpecies[AType[atomcount]].y ++;
       Acharge[atomcount] = PseudoAtom.charge[AType[atomcount]]; //Determine the charge after determining the type
+      printf("%s, type: %zu, Acharge = %.5f\n", AtomName.c_str(), AType[atomcount], Acharge[atomcount]);
       Amass[atomcount] = PseudoAtom.mass[AType[atomcount]];
       chargesum += PseudoAtom.charge[AType[atomcount]]; 
       masssum   += PseudoAtom.mass[AType[atomcount]];
@@ -1852,12 +1863,19 @@ void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::str
   }
 
   bool MolHasPartialCharge = false; double ChargeSum = 0.0;
-  for(size_t i = 0; i < Acharge.size(); i++) ChargeSum += std::abs(Acharge[i]);
+  for(size_t i = 0; i < Acharge.size(); i++) 
+  {
+    ChargeSum += std::abs(Acharge[i]);
+  }
   if(ChargeSum > 1e-6) MolHasPartialCharge = true;
   SystemComponents.hasPartialCharge.push_back(MolHasPartialCharge);
 
   SystemComponents.rigid.push_back(temprigid);
-  if(chargesum > 1e-50) throw std::runtime_error("Molecule not neutral, bad\n");
+  if(chargesum > 1e-10)
+  {
+    //printf("chargesum = %.50f, ChargeSum = %.5f\n", chargesum, ChargeSum);
+    throw std::runtime_error("Molecule not neutral, bad\n");
+  }
 
   Mol.pos       = convert1DVectortoArray(Apos);
   Mol.scale     = convert1DVectortoArray(Ascale);
