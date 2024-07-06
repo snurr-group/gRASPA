@@ -18,6 +18,7 @@ A detailed installation note for gRASPA on Ubuntu 24.04 (with latest CUDA/NVHPC)
 
 ## gRASPA Manual
 * gRASPA manual is available online @ https://zhaoli2042.github.io/gRASPA-mkdoc
+  * also available in [Chinese](https://zhaoli2042.github.io/gRASPA-mkdoc/Chinese)
 * a doxygen documentation is also available @ https://zhaoli2042.github.io/gRASPA
 ## Reference
 * gRASPA paper is currently in progress. Please kindly cite it when it is published.
