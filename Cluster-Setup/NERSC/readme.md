@@ -4,8 +4,8 @@
   * If you don't need the ML potential, download the code, `cd src_clean/`, and start from [step 6](#Step-6).
   * Installation on other clusters are similar to on Perlmutter of NERSC. Follow the instructions here, and if you encounter issues, please consult with your institution's IT. 
     * [Northwestern Quest IT](https://www.it.northwestern.edu/departments/it-services-support/research/computing/quest/)
-  * Check the [nvhpc](https://developer.nvidia.com/hpc-sdk) version. Currently the code works for **22.5 and 22.7**
-    * on NERSC, you can do ```module load nvhpc/22.7``` to use the 22.7 version of nvhpc.
+  * Check the [nvhpc](https://developer.nvidia.com/hpc-sdk) version. 
+    * on NERSC, you can do ```module load PrgEnv-nvhpc``` to use the latest version of nvhpc/cuda.
     * Also check out the [issue on this topic](https://github.com/snurr-group/gRASPA/issues/9)
 # Step 1
 We download TensorFlow2 C++ API to a local directory: (assuming in the HOME directory)
