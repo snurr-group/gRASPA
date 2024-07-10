@@ -1,9 +1,6 @@
-UseGPUReduction no
-Useflag yes
-
-NumberOfInitializationCycles 0
+NumberOfInitializationCycles 100000
 NumberOfEquilibrationCycles  0
-NumberOfProductionCycles     100000
+NumberOfProductionCycles     0
 
 UseMaxStep  yes
 MaxStepPerCycle 1
@@ -13,14 +10,14 @@ UseChargesFromCIFFile yes
 RestartFile no
 RandomSeed  0
 
-Widom_Trials 10
-Widom_Orientation 10
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+
 NumberOfBlocks 1
 AdsorbateAllocateSpace 10240
 NumberOfSimulations 1
 SingleSimulation yes
 
-DifferentFrameworks yes
 InputFileType cif
 FrameworkName MFI-2x2x2-P1
 UnitCells 0 1 1 1
@@ -41,8 +38,4 @@ Component 0 MoleculeName             CO2
             RotationProbability     1.0
             ReinsertionProbability   1.0
             SwapProbability          1.0
-            RunTMMC no
-            UseBiasOnMacrostate yes
-            TMMCMin 0
-            TMMCMax 420
             CreateNumberOfMolecules  0
