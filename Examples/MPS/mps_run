@@ -1,5 +1,5 @@
 #!/bin/bash
-runs=24
+runs=3
 currentdir=$(pwd)
 
 ./start_as_root.sh
@@ -12,7 +12,7 @@ for ((i = 0; i < $runs; i++)); do
   sed -i 's/xxx/'$i'/g' simulation.input
   #sed -i 's/aaa/'$i'/g' simulation.input
   #sed -i 's/bbb/'$nexti'/g' simulation.input
-  ../../../nvc_main.x > result &
+  ../../../src_clean/nvc_main.x > result &
   cd ../
 done
 
