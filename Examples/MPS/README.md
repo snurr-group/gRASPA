@@ -9,9 +9,11 @@
 
 # How to use?
 
-1. Start with the MPS Example (here in this folder!)
-2. `chmod 777 mps_run start_as_root.sh stop_as_root.sh`
-3. `./mps_run`
+* Start with the MPS Example (here in this folder!)
+```
+chmod 777 mps_run start_as_root.sh stop_as_root.sh
+./mps_run
+```
 * You can open `mps_run` and take a look:
 ```
 #!/bin/bash
