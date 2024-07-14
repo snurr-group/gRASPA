@@ -8,9 +8,11 @@
 * Using MPS, you can run multiple GCMC simulations (processes) on the same GPU card to **improve utility**
 
 # How to use?
+
 1. Start with the MPS Example (here in this folder!)
 2. `chmod 777 mps_run start_as_root.sh stop_as_root.sh`
-3. You can open `mps_run` and take a look:
+3. `./mps_run`
+* You can open `mps_run` and take a look:
 ```
 #!/bin/bash
 runs=3
