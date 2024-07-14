@@ -1,5 +1,5 @@
 # NVIDIA-MPS
-* MPS starts for **Multi-Process Service**
+* MPS stands for **Multi-Process Service**
 * Read more about this [here](https://docs.nvidia.com/deploy/mps/)
 
 # What does it do?
