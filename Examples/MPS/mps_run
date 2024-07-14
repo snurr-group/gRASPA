@@ -10,8 +10,6 @@ for ((i = 0; i < $runs; i++)); do
   cp $currentdir/*.def $i/; cp $currentdir/simulation.input $i/; cp $currentdir/*.cif $i/
   cd $currentdir/$i
   sed -i 's/xxx/'$i'/g' simulation.input
-  #sed -i 's/aaa/'$i'/g' simulation.input
-  #sed -i 's/bbb/'$nexti'/g' simulation.input
   ../../../src_clean/nvc_main.x > result &
   cd ../
 done
