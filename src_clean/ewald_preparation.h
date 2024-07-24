@@ -192,7 +192,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
       SelfE         += prefactor_self * scaling * charge * scaling * charge;
       if(comp < SystemComponents.NComponents.y && SystemComponents.NumberOfFrameworks > 0) E.HHEwaldE -= prefactor_self * scaling * charge * scaling * charge;
     }
-    printf("Component: %zu, SelfAtomE: %.5f\n", comp, SelfE);
+    printf("Component: %zu, SelfAtomE: %.5f (%.5f kJ/mol)\n", comp, SelfE, SelfE*1.2027242847);
   }
 
   // Subtract exclusion-energy, Zhao's note: taking out the pairs of energies that belong to the same molecule
@@ -228,7 +228,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
         }
       }
     }
-    printf("Component: %zu, Intra-Molecular ExclusionE: %.5f\n", l, exclusionE);
+    printf("Component: %zu, Intra-Molecular ExclusionE: %.5f (%.5f kJ/mol)\n", l, exclusionE, exclusionE*1.2027242847);
   }
   SystemComponents.FrameworkEwald = E.HHEwaldE;
 
@@ -285,7 +285,7 @@ double Calculate_Intra_Molecule_Exclusion(Boxsize& Box, Atoms* System, double al
       E += Prefactor * factorA * factorB * std::erf(alpha * r) / r;
     }
   }
-  printf("Component %zu, Intra Exclusion Energy: %.5f\n", SelectedComponent, E);
+  printf("Component %zu, Intra Exclusion Energy: %.5f (%.5f kJ/mol)\n", SelectedComponent, E, E*1.2027242847);
   return E;
 }
 
@@ -299,7 +299,7 @@ double Calculate_Self_Exclusion(Boxsize& Box, Atoms* System, double alpha, doubl
     double scaling = System[SelectedComponent].scaleCoul[i];
     E += prefactor_self * scaling * charge * scaling * charge;
   }
-  printf("Component %zu, Atom Self Exclusion Energy: %.5f\n", SelectedComponent, E);
+  printf("Component %zu, Atom Self Exclusion Energy: %.5f (%.5f kJ/mol)\n", SelectedComponent, E, E*1.2027242847);
   return E;
 }
 
