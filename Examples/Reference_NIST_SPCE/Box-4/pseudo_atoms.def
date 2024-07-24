@@ -1,0 +1,5 @@
+#number of pseudo atoms
+2
+#type     print     as     chem     oxi     mass     charge     pol
+O_spce     yes     O     Ow     0     16   -0.84760     0
+H_spce     yes     H     Hw     0     1     0.42380     0
