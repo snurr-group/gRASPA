@@ -49,4 +49,5 @@ Component 0 MoleculeName             argon
             TranslationProbability   1.0
             ReinsertionProbability   1.0
             SwapProbability          1.0
+            DNNPseudoAtoms           Ar
             CreateNumberOfMolecules  0
