@@ -1,0 +1,23 @@
+# critical constants: Temperature [T], Pressure [Pa], and Acentric factor [-]
+647.14
+22064000.0
+-0.217000
+# total number Of atoms
+3
+# Number of groups
+1
+# water-group
+rigid
+# number of atoms
+3
+# atomic positions
+0 O_spce       0.0                     0.0                 0.0
+1 H_spce       0.8164904               0.0                 0.5773590
+2 H_spce      -0.8164904               0.0                 0.5773590
+# Chiral centers Bond  BondDipoles Bend  UrayBradley InvBend  Torsion Imp. Torsion Bond/Bond Stretch/Bend Bend/Bend Stretch/Torsion Bend/Torsion IntraVDW IntraCoulomb
+               0    2            0    0            0       0        0            0         0            0         0               0            0        0            0
+# Bond stretch: atom n1-n2, type, parameters
+0 1 RIGID_BOND
+0 2 RIGID_BOND
+# Number of config moves
+0
