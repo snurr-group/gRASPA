@@ -43,7 +43,10 @@ def check_energy_drift(relative_file_path):
         energy_drift_pattern = re.compile(r'ENERGY DRIFT')
         total_energy_pattern = re.compile(r'Total Energy:\s+([-+]?[0-9]*\.?[0-9]+)')
 
+        gpu_drift_pattern = re.compile(r'GPU DRIFT')
+
         matches = list(energy_drift_pattern.finditer(content))
+        gpu_matches = list(gpu_drift_pattern.finditer(content))
         if not matches:
             return False
 
@@ -57,6 +60,14 @@ def check_energy_drift(relative_file_path):
                 print(f"This simulation in {folder_name} folder has a total energy drift of {energy_value} (internal unit, 10 J/mol)\n")
                 if energy_value < 1e-3:
                     finish = True
+
+        for match in gpu_matches:
+            search_start = match.end()
+            total_energy_match = total_energy_pattern.search(content, search_start)
+            if total_energy_match:
+                # Read the first float value in that line
+                energy_value = float(total_energy_match.group(1))
+                print(f"This simulation in {folder_name} folder has a GPU final energy drift of {energy_value} (internal unit, 10 J/mol)\n")
 
         # Search for "Work took" and "seconds" in the same line
         work_took_pattern = re.compile(r'Work took\s+([-+]?[0-9]*\.?[0-9]+)\s+seconds')

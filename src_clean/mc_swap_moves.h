@@ -186,6 +186,20 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
 }
 
 //Zhao's note: added feature for creating fractional molecules//
+static inline double WidomMove(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent, double2 newScale)
+{
+  bool SuccessConstruction = false;
+  double Rosenbluth = 0.0;
+  size_t SelectedTrial = 0;
+  double preFactor = 0.0;
+  
+  //Zhao's note: For creating the fractional molecule, there is no previous step, so set the flag to false//
+  MoveEnergy energy = Insertion_Body(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, Rosenbluth, SuccessConstruction, SelectedTrial, preFactor, false, newScale);
+  return Rosenbluth;
+}
+
+
+//Zhao's note: added feature for creating fractional molecules//
 static inline MoveEnergy CreateMolecule(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent, double2 newScale)
 {
   bool SuccessConstruction = false;

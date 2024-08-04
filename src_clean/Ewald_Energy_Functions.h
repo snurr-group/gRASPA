@@ -722,19 +722,19 @@ __global__ void Setup_Ewald_Vector(Boxsize Box, Complex* eik_x, Complex* eik_y, 
   size_t i = blockIdx.x * blockDim.x + threadIdx.x; //number of threads = number of atoms in the system
   if(i < numberOfAtoms)
   {
-    //size_t atom_i = i;
     size_t atom_i = i;
     Complex tempcomplex; tempcomplex.real = 1.0; tempcomplex.imag = 0.0;
-    size_t comp = 0; size_t totsize = 0;
+    size_t comp = 0;
     for(size_t ijk = 0; ijk < NumberOfComponents; ijk++)
     {
-      size_t Atom_ijk = System[ijk].size;
-      totsize        += Atom_ijk;
-      if(atom_i >= totsize)
+      //totalsize += d_a[ijk].size;
+      if(atom_i >= System[ijk].size)
       {
-        comp ++;
-        atom_i -= Atom_ijk;
+        comp++;
+        atom_i -= System[ijk].size;
       }
+      else
+      {break;}
     }
     if(UseOffSet)
     {
@@ -755,7 +755,6 @@ __global__ void Setup_Ewald_Vector(Boxsize Box, Complex* eik_x, Complex* eik_y, 
     {
         eik_x[i + kx * numberOfAtoms] = multiply(eik_x[i + (kx - 1) * numberOfAtoms], eik_x[i + 1 * numberOfAtoms]);
     }
-    //printf("BEFORE THE LOOP! eik_y[1] = %.5f %.5f\n", eik_y[1].real, eik_y[1].imag);
 
     for(size_t ky = 2; ky <= Box.kmax.y; ++ky)
     {
@@ -771,14 +770,37 @@ __global__ void Setup_Ewald_Vector(Boxsize Box, Complex* eik_x, Complex* eik_y, 
 
 //Zhao's note: Idea was that every block considers a grid point for Ewald (a set of kxyz)//
 //So the number of atoms each thread needs to consider = TotalAtoms / Nthreads per block (usually 128)//
-__global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* eik_x, Complex* eik_y, Complex* eik_z, Complex* Eik, size_t totAtom, size_t Ncomp, size_t NAtomPerThread, size_t residueAtoms)
+__global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* eik_x, Complex* eik_y, Complex* eik_z, Complex* FrameworkEik, Complex* Eik, size_t totAtom, int2 NAtomPerThread, int2 residueAtoms, int2 HostGuestthreads, int3 NComponents, size_t Nblock)
 {
-  __shared__ double3 sdata[128]; //maybe just need Complex//
+  __shared__ double3 sdata[256]; //maybe just need Complex//
+  //DEBUG
+  //__shared__ int count_data[128]; count_data[threadIdx.x] = 0;
+  int adsorbate_count = 0;
+
   int cache_id = threadIdx.x;
   size_t total_ij = blockIdx.x * blockDim.x + threadIdx.x;
   size_t ij_within_block = total_ij - blockIdx.x * blockDim.x;
 
   size_t kxyz = blockIdx.x; //Each block takes over one grid point//
+
+  size_t HostThreads = HostGuestthreads.x;
+  size_t GuestThreads= HostGuestthreads.y;
+
+  int RealThreads = HostThreads;
+ 
+  int RealNAtomPerThread = NAtomPerThread.x;
+  int RealresidueAtoms   = residueAtoms.x;
+
+  if(threadIdx.x >= HostThreads)
+  {
+    RealThreads        = GuestThreads;
+    RealNAtomPerThread = NAtomPerThread.y;
+    RealresidueAtoms   = residueAtoms.y;
+  }
+
+  sdata[threadIdx.x] = {0.0, 0.0, 0.0};
+  sdata[threadIdx.x + blockDim.x] = {0.0, 0.0, 0.0};
+
   //size_t    kx_max  = Box.kmax.x;
   size_t    ky_max  = Box.kmax.y;
   size_t    kz_max  = Box.kmax.z;
@@ -821,26 +843,38 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
     const double kvecx = kx*ux;
     const double kvecy = kx*uy + ky*vy;
     const double kvecz = kx*uz + ky*vz + kz*wz;
-    ksqr  = kvecx*kvecx + kvecy*kvecy + kvecz*kvecz;   
+    ksqr  = kvecx*kvecx + kvecy*kvecy + kvecz*kvecz;
   }
+  size_t offset = 0;
+  size_t atomoffset = 0;
+  //If adsorbate atom, offset number of atoms by number of framework atoms//
+  if(ij_within_block >= HostThreads)
+  {
+    offset = HostThreads;// * NAtomPerThread.x + residueAtoms.x; //offset in terms of # of thread
+    atomoffset = offset * NAtomPerThread.x + residueAtoms.x;     //offset in terms of # of atoms
+  }
+
   Complex cksum; cksum.real = 0.0; cksum.imag = 0.0;
+
   if((ksqr > 1e-10) && (ksqr < Box.ReciprocalCutOff))
   {
     temp = factor * std::exp((-0.25 / alpha_squared) * rksq) / rksq;
-    for(size_t a = 0; a < NAtomPerThread; a++)
+    for(size_t a = 0; a < RealNAtomPerThread; a++)
     {
-      size_t Atom = a + NAtomPerThread * ij_within_block;
-      size_t AbsoluteAtom = Atom; size_t comp = 0; size_t totsize = 0;
-      for(size_t it_comp = 0; it_comp < Ncomp; it_comp++)
+      size_t Atom = a + RealNAtomPerThread * (ij_within_block - offset) + atomoffset;
+      size_t AbsoluteAtom = Atom; size_t comp = 0;
+      for(size_t ijk = 0; ijk < NComponents.x; ijk++)
       {
-        size_t Atom_ijk = d_a[it_comp].size;
-        totsize        += Atom_ijk;
-        if(Atom >= totsize)
+        //totalsize += d_a[ijk].size;
+        if(Atom >= d_a[ijk].size)
         {
           comp++;
-          Atom -= d_a[it_comp].size;
+          Atom -= d_a[ijk].size;
         }
+        else
+        {break;}
       }
+      
       Complex eik_temp  = eik_y[AbsoluteAtom + totAtom * static_cast<size_t>(std::abs(ky))];
       eik_temp.imag     = ky>=0 ? eik_temp.imag : -eik_temp.imag;
       Complex eik_xy    = multiply(eik_x[AbsoluteAtom + totAtom * static_cast<size_t>(kx)], eik_temp);
@@ -852,24 +886,30 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
       Complex tempi     = multiply(eik_xy, eik_temp);
       cksum.real       += scaling * charge * tempi.real;
       cksum.imag       += scaling * charge * tempi.imag;
+      if(comp >= NComponents.y)
+        adsorbate_count ++;
     }
-    if(residueAtoms > 0)
+    if(RealresidueAtoms > 0)
     {
-      if(ij_within_block < residueAtoms) //the thread will read one more atom in the residueAtoms//
-      //The thread from zero to residueAtoms will each take another atom//
+      if((ij_within_block-offset) < RealresidueAtoms) //the thread will read one more atom in the RealresidueAtoms//
+      //The thread from zero to RealresidueAtoms will each take another atom//
       {
-        //Zhao's note: blockDim = number of threads in a block, blockDim.x * NAtomPerThread = the last atom position if there is no residue//
-        size_t Atom = blockDim.x * NAtomPerThread + ij_within_block;
-        size_t AbsoluteAtom = Atom; size_t comp = 0; size_t totsize = 0;
-        for(size_t it_comp = 0; it_comp < Ncomp; it_comp++)
+        //Zhao's note: RealThreads = number of threads for framework/adsorbate in a block, RealThreads * RealNAtomPerThread = the last atom position if there is no residue//
+        //for adsorbate, offset number of atoms by number of framework atoms//
+        //size_t Atom = RealThreads * RealNAtomPerThread + (ij_within_block - offset) + offset * NAtomPerThread.x + residueAtoms.x;
+        size_t Atom = RealThreads * RealNAtomPerThread + (ij_within_block - offset) + atomoffset;
+        // - offset) + offset * NAtomPerThread.x + residueAtoms.x;
+        size_t AbsoluteAtom = Atom; size_t comp = 0;
+        for(size_t ijk = 0; ijk < NComponents.x; ijk++)
         {
-          size_t Atom_ijk = d_a[it_comp].size;
-          totsize        += Atom_ijk;
-          if(Atom >= totsize)
+          //totalsize += d_a[ijk].size;
+          if(Atom >= d_a[ijk].size)
           {
             comp++;
-            Atom -= d_a[it_comp].size;
+            Atom -= d_a[ijk].size;
           }
+          else
+          {break;}
         }
         Complex eik_temp  = eik_y[AbsoluteAtom + totAtom * static_cast<size_t>(std::abs(ky))];
         eik_temp.imag     = ky>=0 ? eik_temp.imag : -eik_temp.imag;
@@ -881,13 +921,29 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
         double scaling    = d_a[comp].scaleCoul[Atom];
         Complex tempi     = multiply(eik_xy, eik_temp);
         cksum.real       += scaling * charge * tempi.real;
-        cksum.imag       += scaling * charge * tempi.imag;
+        cksum.imag       += scaling * charge * tempi.imag; 
+        //DEBUG
+        /*
+        if(blockIdx.x == 10)
+        {
+          printf("eikxyz locations: %lu, %lu, %lu\n", AbsoluteAtom + totAtom * static_cast<size_t>(kx), AbsoluteAtom + totAtom * static_cast<size_t>(std::abs(ky)), AbsoluteAtom + totAtom * static_cast<size_t>(std::abs(kz)));
+          printf("RESIDUAL COMP: %lu, ATOM %lu, tempi: %.5f %.5f\n", comp, Atom, tempi.real, tempi.imag);
+          printf("eik_x: %.5f %.5f\n", eik_x[AbsoluteAtom + totAtom * static_cast<size_t>(kx)].real, eik_x[AbsoluteAtom + totAtom * static_cast<size_t>(kx)].imag); 
+          printf("eik_y: %.5f %.5f\n", eik_y[AbsoluteAtom + totAtom * static_cast<size_t>(std::abs(ky))].real, eik_y[AbsoluteAtom + totAtom * static_cast<size_t>(std::abs(ky))].imag); 
+          printf("eik_xy: %.5f %.5f\n", eik_xy.real, eik_xy.imag);
+          printf("eik_z: %.5f %.5f\n", eik_z[AbsoluteAtom + totAtom * static_cast<size_t>(std::abs(kz))].real, eik_z[AbsoluteAtom + totAtom * static_cast<size_t>(std::abs(kz))].imag);
+        }
+        */
       }
     }
-    //double2 TEMP; TEMP.x = cksum.real; TEMP.y = cksum.imag;
   }
-  sdata[ij_within_block].x = cksum.real;
-  sdata[ij_within_block].y = cksum.imag;
+  size_t OFFSET = 0;
+  if(threadIdx.x >= HostThreads)
+  {
+    OFFSET = blockDim.x;
+  }
+    sdata[ij_within_block+OFFSET].x = cksum.real;
+    sdata[ij_within_block+OFFSET].y = cksum.imag;
   __syncthreads();
   //Partial block sum//
   int i=blockDim.x / 2;
@@ -897,6 +953,12 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
     {
       sdata[cache_id].x += sdata[cache_id + i].x;
       sdata[cache_id].y += sdata[cache_id + i].y;
+
+      sdata[cache_id + blockDim.x].x += sdata[cache_id + i + blockDim.x].x;
+      sdata[cache_id + blockDim.x].y += sdata[cache_id + i + blockDim.x].y;
+
+      //DEBUG
+      //count_data[cache_id] += count_data[cache_id + i];
     }
     __syncthreads();
     i /= 2;
@@ -904,10 +966,84 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
   if(cache_id == 0)
   {
     Complex cksum; cksum.real = sdata[0].x; cksum.imag = sdata[0].y;
+    Complex cksum_ads = {sdata[blockDim.x].x,  sdata[blockDim.x].y};
+    //Complex cksum_ads; cksum_ads.real = sdata[blockDim.x].x - cksum.real; cksum_ads.imag = sdata[blockDim.x].y - cksum.imag;
     double NORM = ComplexNorm(cksum);
-    BlockSum[blockIdx.x] = temp * NORM;
-    Eik[blockIdx.x].real = sdata[0].x;
-    Eik[blockIdx.x].imag = sdata[0].y;
+    double NORM_ads = ComplexNorm(cksum_ads);
+    BlockSum[blockIdx.x] = temp * NORM; //framework-framework
+    BlockSum[blockIdx.x + Nblock] = temp * NORM_ads; //adsorbate-adsorbate
+    BlockSum[blockIdx.x + Nblock + Nblock] = temp * (cksum.real * cksum_ads.real + cksum.imag * cksum_ads.imag)*2.0; //framework-adsorbate, dont forget the 2.0!!!//
+    
+    /*//DEBUG
+    if(blockIdx.x == 200)
+    {
+      printf("COUNTED %u adsorbate atoms\n", count_data[0]);
+      printf("Block %u, HHFourier E: %.5f, GGFourier E: %.5f\n", blockIdx.x, BlockSum[blockIdx.x], BlockSum[blockIdx.x + Nblock]);
+    }
+    */
+    
+    FrameworkEik[blockIdx.x].real = sdata[0].x;
+    FrameworkEik[blockIdx.x].imag = sdata[0].y;
+    Eik[blockIdx.x].real = sdata[blockDim.x].x;
+    Eik[blockIdx.x].imag = sdata[blockDim.x].y;
+  }
+}
+
+__global__ void Framework_ComponentZero_Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, double* BlockSum, size_t IntraInteractions, size_t InteractionPerThread, size_t TotalThreadsNeeded)
+{
+  double E = 0.0; double prefactor_self = Box.Prefactor * Box.Alpha / std::sqrt(M_PI);
+  extern __shared__ double sdata[];
+  size_t SelectedComponent = 0;
+  sdata[threadIdx.x] = 0.0; int cache_id = threadIdx.x;
+  //put all the framework atoms threads in one block//
+  size_t THREADIdx = blockIdx.x * blockDim.x + threadIdx.x;
+  size_t NAtoms = System[SelectedComponent].size;
+  for(size_t i = 0; i != InteractionPerThread; i++)
+  {
+    size_t InteractionIdx = THREADIdx * InteractionPerThread + i;
+    //Unwrap Atoms from interactions (upper triangle)//
+    size_t AtomA = NAtoms - 2 - std::floor(std::sqrt(-8*InteractionIdx + 4*NAtoms*(NAtoms-1)-7)/2.0 - 0.5);
+    size_t AtomB = InteractionIdx + AtomA + 1 - NAtoms*(NAtoms-1)/2 + (NAtoms-AtomA)*((NAtoms-AtomA)-1)/2;
+
+    if(AtomA < NAtoms && AtomB < NAtoms)
+    {
+      double  factorA = System[SelectedComponent].scaleCoul[AtomA] * System[SelectedComponent].charge[AtomA];
+      double3 posA = System[SelectedComponent].pos[AtomA];
+ 
+      double  factorB = System[SelectedComponent].scaleCoul[AtomB] * System[SelectedComponent].charge[AtomB];
+      double3 posB    = System[SelectedComponent].pos[AtomB];
+      double3 posvec = posA - posB;
+      PBC(posvec, Box.Cell, Box.InverseCell, Box.Cubic);
+      double rr_dot = dot(posvec, posvec);
+      double r = std::sqrt(rr_dot);
+      E += Box.Prefactor * factorA * factorB * std::erf(Box.Alpha * r) / r;
+      //For self interactions///////////////////////////////////////////////////////////
+      //find those where AtomB > AtomA, AtomB - AtomA = 1 (along the diagonal)        //
+      //use AtomB for these                                                           //
+      //you will miss AtomB = 0, so if AtomB = 1 and AtomA = 0, use property of AtomA //
+      //////////////////////////////////////////////////////////////////////////////////
+      if(AtomB - AtomA == 1)
+      {
+        E += prefactor_self * factorB * factorB;
+        if(AtomA == 0)
+          E += prefactor_self * factorA * factorA;
+      }
+    }
+  }
+  //if(THREADIdx == 0) printf("ThreadID 0, ThreadE: %.5f", E);
+  sdata[threadIdx.x] = -E;
+  __syncthreads();
+  //Partial block sum//
+  int i=blockDim.x / 2;
+  while(i != 0)
+  {
+    if(cache_id < i) {sdata[cache_id] += sdata[cache_id + i];}
+    __syncthreads();
+    i /= 2;
+  }
+  if(threadIdx.x == 0)
+  {
+    BlockSum[blockIdx.x] = sdata[0];
   }
 }
 
@@ -971,7 +1107,7 @@ __global__ void Calculate_Intra_Self_Exclusion(Boxsize Box, Atoms* System, doubl
   }
   if(threadIdx.x == 0) 
   {
-    BlockSum[blockIdx.x] += sdata[0];
+    BlockSum[blockIdx.x] = sdata[0];
     
   }
 }
@@ -987,12 +1123,29 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
   Boxsize Box= Sim.Box;
   Atoms* d_a = Sim.d_a;
 
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
-    NTotalAtom += SystemComponents.NumberOfMolecule_for_Component[i] * SystemComponents.Moleculesize[i];
+  size_t NHostAtom = 0; size_t NGuestAtom = 0;
+  for(size_t i = 0; i < SystemComponents.NComponents.y; i++)
+    NHostAtom += SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
+  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
+    NGuestAtom+= SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
+
+  NTotalAtom = NHostAtom + NGuestAtom;
+
+  int2 NHostGuestthread; 
+  //Number of Host threads in a block//
+  NHostGuestthread.x = static_cast<int>(static_cast<double>(NHostAtom) / static_cast<double>(NTotalAtom) * Nthread);
+  NHostGuestthread.y = Nthread - NHostGuestthread.x;
+
   if(NTotalAtom > 0)
   {
-    size_t NAtomPerThread = NTotalAtom / Nthread;
-    size_t residueAtoms = NTotalAtom % Nthread;
+    int2 NAtomPerThread = {NHostAtom > 0 ? NHostAtom / NHostGuestthread.x : 0, NGuestAtom > 0 ? NGuestAtom / NHostGuestthread.y : 0};
+    int2 residueAtoms   = {NHostAtom > 0 ? NHostAtom % NHostGuestthread.x : 0, NGuestAtom > 0 ? NGuestAtom % NHostGuestthread.y : 0};
+
+    printf("GPU Ewald Summary: NHostAtom: %zu, NGuestAtom: %zu\n", NHostAtom, NGuestAtom);
+    printf("GPU Ewald Summary: Nthread: %zu, Host thread: %d, Guest thread: %d\n", Nthread, NHostGuestthread.x, NHostGuestthread.y);
+    printf("Host NAtomPerThread: %d, Guest NAtomPerThread: %d\n", NAtomPerThread.x, NAtomPerThread.y);
+    printf("Host residueAtoms: %d, Guest residueAtoms: %d\n", residueAtoms.x, residueAtoms.y);
+
     //Setup eikx, eiky, and eikz//
     Setup_threadblock(NTotalAtom, &Nblock, &Nthread);
 
@@ -1001,70 +1154,92 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
     Complex* eikz; cudaMalloc(&eikz, NTotalAtom * (Box.kmax.z + 1) * sizeof(Complex));
     Setup_Ewald_Vector<<<Nblock, Nthread>>>(Box, eikx, eiky, eikz, d_a, NTotalAtom, SystemComponents.Total_Components, UseOffSet);
 
+    Complex* host_eikx; Complex* host_eiky; Complex* host_eikz;
+    host_eikx = (Complex*) malloc(NTotalAtom * (Box.kmax.x + 1)*sizeof(Complex));
+    host_eiky = (Complex*) malloc(NTotalAtom * (Box.kmax.y + 1)*sizeof(Complex));
+    host_eikz = (Complex*) malloc(NTotalAtom * (Box.kmax.z + 1)*sizeof(Complex));
+
+    cudaMemcpy(host_eikx, eikx, NTotalAtom * (Box.kmax.x + 1)*sizeof(Complex), cudaMemcpyDeviceToHost);
+    cudaMemcpy(host_eiky, eiky, NTotalAtom * (Box.kmax.y + 1)*sizeof(Complex), cudaMemcpyDeviceToHost);
+    cudaMemcpy(host_eikz, eikz, NTotalAtom * (Box.kmax.z + 1)*sizeof(Complex), cudaMemcpyDeviceToHost);
+
     Nblock = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+    Complex* tempFrameworkEik; cudaMalloc(&tempFrameworkEik, Nblock * sizeof(Complex));
+
     //printf("Nblocks for Ewald Total: %zu, allocated %zu blocks\n", Nblock, Sim.Nblocks);
-    if(Nblock > Sim.Nblocks)
+    if(Nblock*3 > Sim.Nblocks)
     {
       printf("Need to Allocate more space for blocksum\n");
       cudaMalloc(&Sim.Blocksum, Nblock * sizeof(double));
     }
     Nthread= 128;
 
-    //printf("Parallel Total Ewald (Calculation), Nblock: %zu, Nthread: %zu, NAtomPerThread: %zu, residue: %zu\n", Nblock, Nthread, NAtomPerThread, residueAtoms);
-    //printf("kmax: %d %d %d, RecipCutoff: %.5f\n", Box.kmax.x, Box.kmax.y, Box.kmax.z, Box.ReciprocalCutOff);
-    TotalEwald<<<Nblock, Nthread, Nthread * sizeof(double)>>>(d_a, Box, Sim.Blocksum, eikx, eiky, eikz, Box.tempEik, NTotalAtom, SystemComponents.Total_Components, NAtomPerThread, residueAtoms);
+    TotalEwald<<<Nblock, Nthread, Nthread * sizeof(double)>>>(d_a, Box, Sim.Blocksum, eikx, eiky, eikz, tempFrameworkEik, Box.tempEik, NTotalAtom, NAtomPerThread, residueAtoms, NHostGuestthread, SystemComponents.NComponents, Nblock);
     cudaFree(eikx); cudaFree(eiky); cudaFree(eikz);
 
-    double HostTotEwald[Nblock];
-    /*
-    cudaMemcpy(HostTotEwald, Sim.Blocksum, Nblock * sizeof(double), cudaMemcpyDeviceToHost);
-    for(size_t i = 0; i < Nblock; i++) E.GGEwaldE += HostTotEwald[i];
-    //printf("Total Fourier: %.10f\n", TotEwald);
-    //Add exclusion part //
-    double ExclusionE = 0.0;
-    for(size_t i = 0; i < SystemComponents.Total_Components; i++)
-    {
-      double Nfull = (double) SystemComponents.NumberOfMolecule_for_Component[i];
-      if(SystemComponents.hasfractionalMolecule[i])
-      {
-        Nfull--;
-        double  delta  = SystemComponents.Lambda[i].delta;
-        size_t  Bin    = SystemComponents.Lambda[i].currentBin;
-        double  Lambda = delta * static_cast<double>(Bin);
-        double2 Scale  = SystemComponents.Lambda[i].SET_SCALE(Lambda);
-        Nfull += std::pow(Scale.y,2);
-      }
-      ExclusionE = (SystemComponents.ExclusionIntra[i] + SystemComponents.ExclusionAtom[i]) * Nfull;
-      E.GGEwaldE-= ExclusionE;
-    }
-    */
-    //double GGFourier = 0.0;
-    cudaMemcpy(HostTotEwald, Sim.Blocksum, Nblock * sizeof(double), cudaMemcpyDeviceToHost);
-    //DEBUG//
-    //for(size_t i = 0; i < Nblock; i++) GGFourier += HostTotEwald[i]; 
-    //printf("After fourier, GGFourier: %.5f,Fourier blocks: %zu\n", GGFourier, Nblock);
+    double HostTotEwald[Nblock*3]; //HH + HG + GG//
+    double HHFourier = 0.0;
+    double GGFourier = 0.0;
+    double HGFourier = 0.0;
 
-    //for(size_t i = 0; i < Nblock; i++) HostTotEwald[i] = 0.0;
-    //cudaMemcpy(Sim.Blocksum, HostTotEwald, Nblock * sizeof(double), cudaMemcpyHostToDevice);
-    //DEBUG END//
+    cudaMemcpy(HostTotEwald, Sim.Blocksum, 3*Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+    for(size_t i = 0; i < Nblock; i++) HHFourier += HostTotEwald[i];
+    for(size_t i = Nblock; i < Nblock*2; i++) GGFourier += HostTotEwald[i];
+    for(size_t i = Nblock*2; i < Nblock*3; i++) HGFourier += HostTotEwald[i];
+
+    double TOTFourier = 0.0;
+    for(size_t i = 0; i < Nblock*3; i++) TOTFourier += HostTotEwald[i];
+
+    printf("GPU fourier, HHFourier: %.5f, GGFourier: %.5f, HGFourier: %.5f, TOTFourier: %.5f\n", HHFourier, GGFourier, HGFourier, TOTFourier);
+    E.HHEwaldE = HHFourier;
+    E.HGEwaldE = HGFourier;
+    E.GGEwaldE = GGFourier;
 
     //Recalculate exclusion part of Ewald summation//
-    size_t maxblock = Nblock;
-    for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
+    size_t Exclusion_Nblock = 0; size_t Exclusion_Nthread = 0;
+    //Framework, component zero, assume the backbone of framework has only 1 molecule//
+    //Parallelized over atoms//
+    //Each block handles the Intra + self for one atom in framework, component zero//
+    size_t FrameworkCompZeroAtoms = SystemComponents.Moleculesize[0] * SystemComponents.NumberOfMolecule_for_Component[0];
+    if(FrameworkCompZeroAtoms > 0 && SystemComponents.NumberOfMolecule_for_Component[0] == 1)
+    {
+      size_t IntraInteractions = FrameworkCompZeroAtoms * (FrameworkCompZeroAtoms - 1) / 2;
+      size_t InteractionPerThread = 100;
+      size_t TotalThreadsNeeded = IntraInteractions / InteractionPerThread + (IntraInteractions % InteractionPerThread == 0 ? 0 : 1);
+      Setup_threadblock(TotalThreadsNeeded, &Exclusion_Nblock, &Exclusion_Nthread);
+      
+      //DEBUG//printf("Component %zu, Atoms: %zu, IntraInteractions: %zu, totalThreads: %zu, Nblock: %zu, Nthread: %zu\n", 0, FrameworkCompZeroAtoms, IntraInteractions, TotalThreadsNeeded, Exclusion_Nblock, Exclusion_Nthread);
+
+      Framework_ComponentZero_Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread, Exclusion_Nthread * sizeof(double)>>>(Box, d_a, Sim.Blocksum, IntraInteractions, InteractionPerThread, TotalThreadsNeeded); 
+      checkCUDAErrorEwald("error Calculating Intra Self Exclusion (FRAMEWORK) for Ewald Summation for Total Ewald summation!!!");
+      
+      double FrameworkExclusion = 0.0;
+      cudaMemcpy(HostTotEwald, Sim.Blocksum, Exclusion_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+      for(size_t i = 0; i < Exclusion_Nblock; i++) FrameworkExclusion += HostTotEwald[i];
+      printf("Framework Component 0 Exclusion: %.5f\n", FrameworkExclusion);
+      E.HHEwaldE += FrameworkExclusion;
+    }
+    //Framework component > 0 and Adsorbate//
+    //Parallelized over molecules//
+    for(size_t i = 1; i < SystemComponents.NComponents.x; i++)
     {
       if(SystemComponents.NumberOfMolecule_for_Component[i] == 0) continue;
-      size_t Exclusion_Nblock = 0; size_t Exclusion_Nthread = 0;
       Setup_threadblock(SystemComponents.NumberOfMolecule_for_Component[i], &Exclusion_Nblock, &Exclusion_Nthread);
       printf("Component %zu, Nblock: %zu, Nthread: %zu\n", i, Exclusion_Nblock, Exclusion_Nthread);
-      Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread, Exclusion_Nthread * sizeof(double)>>>(Box, d_a, Sim.Blocksum, i); checkCUDAErrorEwald("error Calculating Intra Self Exclusion for Ewald Summation for Total Ewald summation!!!");
-      //if(Exclusion_Nblock > maxblock) maxblock = Exclusion_Nblock; //Zhao's note: you might run into special cases, but still there are special treatments that needs to be done (currently not done)
+      Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread, Exclusion_Nthread * sizeof(double)>>>(Box, d_a, Sim.Blocksum, i); 
+      checkCUDAErrorEwald("error Calculating Intra Self Exclusion (ADSORBATE) for Ewald Summation for Total Ewald summation!!!");
       //Curently we are assuming that the number of blocks for self+exclusion is smaller than total number of kspace points (99.99999% true)
+      //Zhao's note: assume that you use less blocks for intra-self exclusion
+      cudaMemcpy(HostTotEwald, Sim.Blocksum, Exclusion_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+      double Component_Exclusion = 0.0;
+      for(size_t ii = 0; ii < Exclusion_Nblock; ii++) Component_Exclusion += HostTotEwald[ii];
+      printf("Component %zu, Exclusion (self + intra) = %.5f\n", i, Component_Exclusion);
+      if(i < SystemComponents.NComponents.y)
+      {
+        E.HHEwaldE += Component_Exclusion;
+      }
+      else E.GGEwaldE += Component_Exclusion;
     }
-    
-    //Zhao's note: assume that you use less blocks for intra-self exclusion
-    cudaMemcpy(HostTotEwald, Sim.Blocksum, maxblock * sizeof(double), cudaMemcpyDeviceToHost);
-    for(size_t i = 0; i < maxblock; i++) E.GGEwaldE += HostTotEwald[i];
-    printf("GPU Ewald: %.5f\n", E.GGEwaldE);
   }
   return E;
 }

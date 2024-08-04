@@ -266,7 +266,7 @@ inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components SystemCom
   printf("****** DONE Allocating Ewald WaveVectors (INITIAL STAGE ONLY) ******\n");
 }
 
-inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, ForceField device_FF, Components& SystemComponents, int SIMULATIONSTAGE, size_t Numsim, Simulations& Sim)
+inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, ForceField device_FF, Components& SystemComponents, int SIMULATIONSTAGE, size_t Numsim, Simulations& Sim, bool UseGPU)
 {
   std::string STAGE; 
   switch(SIMULATIONSTAGE)
@@ -280,6 +280,7 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
   }
   printf("======================== CALCULATING %s STAGE ENERGY ========================\n", STAGE.c_str());
   MoveEnergy ENERGY;
+
   Atoms device_System[SystemComponents.Total_Components];
   cudaMemcpy(device_System, Sim.d_a, SystemComponents.Total_Components * sizeof(Atoms), cudaMemcpyDeviceToHost);
   cudaMemcpy(Box.Cell,        Sim.Box.Cell,        9 * sizeof(double), cudaMemcpyDeviceToHost);
@@ -290,77 +291,35 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
   Box.Cubic = Sim.Box.Cubic;
   Box.kmax  = Sim.Box.kmax;
 
-  MoveEnergy GPU_Energy;
-
   double start = omp_get_wtime();
   VDWReal_Total_CPU(Box, System, device_System, FF, SystemComponents, ENERGY);
   double end = omp_get_wtime();
   double CPUSerialTime = end - start;
          start = omp_get_wtime();
-  double* xxx; xxx = (double*) malloc(sizeof(double)*2);
-  double* device_xxx; device_xxx = CUDA_copy_allocate_array(xxx, 2);
-  //Zhao's note: if the serial GPU energy test is too slow, comment it out//
-  //one_thread_GPU_test<<<1,1>>>(Sim.Box, Sim.d_a, device_FF, device_xxx);
-  cudaMemcpy(xxx, device_xxx, sizeof(double), cudaMemcpyDeviceToHost);
-         end = omp_get_wtime();
-  cudaDeviceSynchronize();
-  
-  double SerialGPUTime = end - start;
-  //For total energy, divide the parallelization into several parts//
-  //For framework, every thread treats the interaction between one framework atom with an adsorbate molecule//
-  //For adsorbate/adsorbate, every thread treats one adsorbate molecule with an adsorbate molecule//
-  start = omp_get_wtime();
-  size_t Host_threads  = 0;
-  size_t Guest_threads = 0;
-  size_t NFrameworkAtomsPerThread = 4;
-  size_t NAdsorbate = 0;
-  for(size_t i = 1; i < SystemComponents.Total_Components; i++) NAdsorbate += SystemComponents.NumberOfMolecule_for_Component[i];
-  Host_threads  = SystemComponents.Moleculesize[0] / NFrameworkAtomsPerThread; //Per adsorbate molecule//
-  if(SystemComponents.Moleculesize[0] % NFrameworkAtomsPerThread != 0) Host_threads ++;
-  Host_threads *= NAdsorbate; //Total = Host_thread_per_molecule * number of Adsorbate molecule
-  Guest_threads = NAdsorbate * (NAdsorbate-1)/2;
-  if(Host_threads + Guest_threads > 0)
-  {
-    bool   ConsiderHostHost = false;
-    bool   UseOffset        = false;
-    GPU_Energy += Total_VDW_Coulomb_Energy(Sim, device_FF, NAdsorbate, Host_threads, Guest_threads, NFrameworkAtomsPerThread, ConsiderHostHost, UseOffset);
-  }
-  end = omp_get_wtime();
 
-  //Do Parallel Total Ewald//
-  double CPUEwaldTime = 0.0;
-  double GPUEwaldTime = 0.0;
 
   if(!device_FF.noCharges)
   {
-    cudaDeviceSynchronize();
     double EwStart = omp_get_wtime();
     CPU_GPU_EwaldTotalEnergy(Box, Sim.Box, System, Sim.d_a, FF, device_FF, SystemComponents, ENERGY);
     ENERGY.GGEwaldE -= SystemComponents.FrameworkEwald;
-
     double EwEnd  = omp_get_wtime();
+    printf("Ewald Summation (total energy) on the CPU took %.5f secs\n", EwEnd - EwStart);
     //Zhao's note: if it is in the initial stage, calculate the intra and self exclusion energy for ewald summation//
     if(SIMULATIONSTAGE == INITIAL) Calculate_Exclusion_Energy_Rigid(Box, System, FF, SystemComponents);
-    CPUEwaldTime = EwEnd - EwStart;
 
     cudaDeviceSynchronize();
     //Zhao's note: if doing initial energy, initialize and copy host Ewald to device// 
     if(SIMULATIONSTAGE == INITIAL) Allocate_Copy_Ewald_Vector(Sim.Box, SystemComponents);
     Check_WaveVector_CPUGPU(Sim.Box, SystemComponents); //Check WaveVector on the CPU and GPU//
     cudaDeviceSynchronize();
-    EwStart = omp_get_wtime();
-    bool UseOffset = false;
-    GPU_Energy  += Ewald_TotalEnergy(Sim, SystemComponents, UseOffset);
-    GPU_Energy.GGEwaldE  -= SystemComponents.FrameworkEwald;
-    cudaDeviceSynchronize();
-    EwEnd = omp_get_wtime();
-    GPUEwaldTime = EwEnd - EwStart;
   }
-  printf("Ewald Summation (total energy) on the CPU took %.5f secs\n", CPUEwaldTime);
-  printf("Ewald Summation (total energy) on the GPU took %.5f secs\n", GPUEwaldTime);
   //Calculate Tail Correction Energy//
-  ENERGY.TailE = TotalTailCorrection(SystemComponents, FF.size, Sim.Box.Volume);
-  if(SystemComponents.UseDNNforHostGuest) ENERGY.DNN_E = DNN_Prediction_Total(SystemComponents, Sim);
+  //This is only on CPU, not GPU//
+  ENERGY.TailE     = TotalTailCorrection(SystemComponents, FF.size, Sim.Box.Volume);
+
+  //This energy uses GPU, but lets copy it as well, no need to compute 2times//
+  if(SystemComponents.UseDNNforHostGuest) ENERGY.DNN_E     = DNN_Prediction_Total(SystemComponents, Sim);
   if(SystemComponents.UseDNNforHostGuest) double Correction = ENERGY.DNN_Correction();
  
   if(SIMULATIONSTAGE == INITIAL) SystemComponents.Initial_Energy = ENERGY;
@@ -372,6 +331,44 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
   { 
     SystemComponents.Final_Energy = ENERGY;
   }
+
+  if(UseGPU)
+  {
+    MoveEnergy GPU_Energy;
+    bool   UseOffset = false;
+    double start = omp_get_wtime();
+    GPU_Energy += Total_VDW_Coulomb_Energy(Sim, SystemComponents, device_FF, UseOffset);
+    cudaDeviceSynchronize();
+    double end = omp_get_wtime();
+    printf("VDW + Real on the GPU took %.5f secs\n", end - start);
+
+    /*
+    //SINGLE-THREAD GPU VDW + Real, use just for debugging!!!//
+    double* xxx; xxx = (double*) malloc(sizeof(double)*2);
+    double* device_xxx; device_xxx = CUDA_copy_allocate_array(xxx, 2);
+    //Zhao's note: if the serial GPU energy test is too slow, comment it out//
+    //one_thread_GPU_test<<<1,1>>>(Sim.Box, Sim.d_a, device_FF, device_xxx);
+    cudaMemcpy(xxx, device_xxx, sizeof(double), cudaMemcpyDeviceToHost);
+           end = omp_get_wtime();
+    cudaDeviceSynchronize();
+    */
+
+    if(!device_FF.noCharges)
+    {
+      start = omp_get_wtime();
+      GPU_Energy  += Ewald_TotalEnergy(Sim, SystemComponents, UseOffset);
+      end = omp_get_wtime();
+      double GPUEwaldTime = end - start;
+      printf("Ewald Summation (total energy) on the GPU took %.5f secs\n", GPUEwaldTime);
+    }
+    GPU_Energy.TailE = TotalTailCorrection(SystemComponents, FF.size, Sim.Box.Volume);
+    if(SystemComponents.UseDNNforHostGuest) GPU_Energy.DNN_E = ENERGY.DNN_E;
+    if(SystemComponents.UseDNNforHostGuest) double GPU_Correction = GPU_Energy.DNN_Correction();
+
+    printf("Total GPU Energy: \n"); GPU_Energy.print();
+    if(SIMULATIONSTAGE == FINAL) SystemComponents.GPU_Energy = GPU_Energy;
+  }
+
   printf("====================== DONE CALCULATING %s STAGE ENERGY ======================\n", STAGE.c_str());
 }
 
@@ -418,8 +415,9 @@ inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units
     case CREATEMOL_DELTA:       {stage_name = "RUNNING DELTA_E (CREATE MOLECULE - INITIAL)"; E = SystemComponents.CreateMoldeltaE; break;}
     case DELTA:                 {stage_name = "RUNNING DELTA_E (FINAL - CREATE MOLECULE)";   E = SystemComponents.deltaE; break;}
     case CREATEMOL_DELTA_CHECK: {stage_name = "CHECK DELTA_E (CREATE MOLECULE - INITIAL)"; E = SystemComponents.CreateMol_Energy - SystemComponents.Initial_Energy; break;}
-    case DELTA_CHECK: {stage_name = "CHECK DELTA_E (FINAL - CREATE MOLECULE)"; E = SystemComponents.Final_Energy - SystemComponents.CreateMol_Energy; break;}
-    case DRIFT: {stage_name = "ENERGY DRIFT"; E = SystemComponents.CreateMol_Energy + SystemComponents.deltaE - SystemComponents.Final_Energy; break;}
+    case DELTA_CHECK: {stage_name = "CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE)"; E = SystemComponents.Final_Energy - SystemComponents.CreateMol_Energy; break;}
+    case DRIFT: {stage_name = "ENERGY DRIFT (CPU FINAL - RUNNING FINAL)"; E = SystemComponents.CreateMol_Energy + SystemComponents.deltaE - SystemComponents.Final_Energy; break;}
+    case GPU_DRIFT: {stage_name = "GPU DRIFT (GPU FINAL - CPU FINAL)"; E = SystemComponents.Final_Energy - SystemComponents.GPU_Energy; break;}
     case AVERAGE: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY"; E = SystemComponents.AverageEnergy;break;}
     case AVERAGE_ERR: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY ERRORBAR"; E = SystemComponents.AverageEnergy_Errorbar; break;}
   }
@@ -462,6 +460,7 @@ inline void ENERGY_SUMMARY(std::vector<Components>& SystemComponents, Units& Con
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA_CHECK, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], DRIFT, Constants);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], GPU_DRIFT, Constants);
     printf("================================================================================\n");
     printf("======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation %zu) =========================\n", i);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE, Constants);

@@ -14,7 +14,7 @@
 #define DEFAULTTHREAD 128
 double Get_Uniform_Random();
 
-enum MoveTypes {TRANSLATION = 0, ROTATION, SINGLE_INSERTION, SINGLE_DELETION, SPECIAL_ROTATION, INSERTION, DELETION, REINSERTION, CBCF_LAMBDACHANGE, CBCF_INSERTION, CBCF_DELETION, IDENTITY_SWAP};
+enum MoveTypes {TRANSLATION = 0, ROTATION, SINGLE_INSERTION, SINGLE_DELETION, SPECIAL_ROTATION, INSERTION, DELETION, REINSERTION, CBCF_LAMBDACHANGE, CBCF_INSERTION, CBCF_DELETION, IDENTITY_SWAP, WIDOM};
 
 enum CBMC_Types {CBMC_INSERTION = 0, CBMC_DELETION, REINSERTION_INSERTION, REINSERTION_RETRACE, IDENTITY_SWAP_NEW, IDENTITY_SWAP_OLD};
 
@@ -33,7 +33,7 @@ enum INTERACTION_TYPES {HH = 0, HG, GG};
 enum RESTART_FILE_TYPES {RASPA_RESTART = 0, LAMMPS_DATA};
 
 //Zhao's note: For the stage of evaluating total energy of the system//
-enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT, AVERAGE, AVERAGE_ERR};
+enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT, GPU_DRIFT, AVERAGE, AVERAGE_ERR};
 
 struct EnergyComplex
 {
@@ -55,6 +55,8 @@ struct Units
   double LengthUnit        = {1e-10};
   double energy_to_kelvin  = {1.2027242847};
   double BoltzmannConstant = {1.38e-23};
+  double Avogadro          = {6.02214076e23};  // NIST standards [1/mol]
+  double gas_constant      = {8.314462618}; // NIST standards [J/mol/K]
 };
 
 struct Gibbs
@@ -520,7 +522,7 @@ struct Move_Statistics
   }
   void RecordRosen(double R, int MoveType)
   {
-    if(MoveType != INSERTION && MoveType != DELETION) return;
+    if(MoveType != INSERTION && MoveType != DELETION && MoveType != WIDOM) return;
     double R2 = R * R;
     Rosen[BlockID].Total.x += R;
     Rosen[BlockID].Total.y += R * R;
@@ -536,6 +538,12 @@ struct Move_Statistics
       Rosen[BlockID].Deletion.x += R;
       Rosen[BlockID].Deletion.y += R * R;
       Rosen[BlockID].Deletion.z += 1.0;
+    }
+    else if(MoveType == WIDOM)
+    {
+      Rosen[BlockID].WidomInsertion.x += R;
+      Rosen[BlockID].WidomInsertion.y += R * R;
+      Rosen[BlockID].WidomInsertion.z += 1.0;
     }
   }
   void ClearRosen(size_t BlockID)
@@ -867,6 +875,7 @@ struct Components
   MoveEnergy Initial_Energy;
   MoveEnergy CreateMol_Energy;
   MoveEnergy Final_Energy;
+  MoveEnergy GPU_Energy;
   //Zhao's note: for average and standard deviations for energies
   std::vector<MoveEnergy> BookKeepEnergy;
   std::vector<MoveEnergy> BookKeepEnergy_SQ;

@@ -1,5 +1,5 @@
-/home/z/Desktop/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
-True path of exe is /home/z/Desktop/gRASPA_fork/src_clean/
+/home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
+True path of exe is /home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/
 There are 1 simulations
 running only one simulation
 ------------------PARSING FORCE FIELD MIXING RULES----------------
@@ -382,6 +382,18 @@ Parsing [2] Component
 Component 0 starts at line number 45
 -------------- READING AdsorbateComponent 0 (p-xylene) --------------
 Adsorbate Component is rigid
+CH3_xyl, type: 7, Acharge = 0.11500
+CH3_xyl, type: 7, Acharge = 0.11500
+C_xyl, type: 8, Acharge = -0.11500
+C_xyl, type: 8, Acharge = -0.11500
+C_xyl, type: 8, Acharge = -0.11500
+C_xyl, type: 8, Acharge = -0.11500
+C_xyl, type: 8, Acharge = -0.11500
+C_xyl, type: 8, Acharge = -0.11500
+H_xyl, type: 9, Acharge = 0.11500
+H_xyl, type: 9, Acharge = 0.11500
+H_xyl, type: 9, Acharge = 0.11500
+H_xyl, type: 9, Acharge = 0.11500
 Bonds not implemented. Break
 Atom [0]: Type [7], Name: CH3_xyl, Mass: 15.000000, position: -0.75500 -1.30770 -0.00000
 Atom [1]: Type [7], Name: CH3_xyl, Mass: 15.000000, position: 2.15500 3.73257 0.00000
@@ -434,23 +446,31 @@ Box Temperature: 298.00000
 Host-Host   VDW: 5523439918.41786; Real: -6257646.54087
 Host-Guest  VDW: 0.00000; Real: 0.00000
 Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 5523618451.87958, Real: -6724985.12633
+Compoent [0-2], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: -178533.45689, Real: 467338.58546
+Compoent [1-2], VDW: 0.00000, Real: 0.00000
+Compoent [2-2], VDW: 0.00000, Real: 0.00000
 ****** Calculating Ewald Energy (CPU) ******
-Guest-Guest Fourier: 0.00000, Host-Host Fourier: 7328.67519, Framework-Guest Fourier: 0.00000
-Component: 0, SelfAtomE: 7123268.40575
-Component: 1, SelfAtomE: 1479886.61726
-Component: 2, SelfAtomE: 0.00000
-Component: 0, Intra-Molecular ExclusionE: -32892160.48297
-Component: 1, Intra-Molecular ExclusionE: -243671.40556
-Component: 2, Intra-Molecular ExclusionE: 0.00000
-HostEwald took 0.05991 sec
-Component 0, Intra Exclusion Energy: 32892160.48297
-Component 0, Atom Self Exclusion Energy: 7123268.40575
+CPU Guest-Guest Fourier: 0.00000, Host-Host Fourier: 7328.67519, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 7123268.40575 (8567327.89803 kJ/mol)
+Component: 1, SelfAtomE: 1479886.61726 (1779895.57319 kJ/mol)
+Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: -32892160.48297 (-39560200.18912 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: -243671.40556 (-293069.51695 kJ/mol)
+Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+HostEwald took 0.05826 sec
+Ewald Summation (total energy) on the CPU took 0.05826 secs
+Component 0, Intra Exclusion Energy: 32892160.48297 (39560200.18912 kJ/mol)
+Component 0, Atom Self Exclusion Energy: 7123268.40575 (8567327.89803 kJ/mol)
 DEBUG: comp: 0, IntraE: 32892160.48297, SelfE: 7123268.40575
-Component 1, Intra Exclusion Energy: 3807.36571
-Component 1, Atom Self Exclusion Energy: 23123.22839
+Component 1, Intra Exclusion Energy: 3807.36571 (4579.21120 kJ/mol)
+Component 1, Atom Self Exclusion Energy: 23123.22839 (27810.86833 kJ/mol)
 DEBUG: comp: 1, IntraE: 3807.36571, SelfE: 23123.22839
-Component 2, Intra Exclusion Energy: -3038.44649
-Component 2, Atom Self Exclusion Energy: 3297.28572
+Component 2, Intra Exclusion Energy: -3038.44649 (-3654.41338 kJ/mol)
+Component 2, Atom Self Exclusion Energy: 3297.28572 (3965.72560 kJ/mol)
 DEBUG: comp: 2, IntraE: -3038.44649, SelfE: 3297.28572
 ******   Allocating Ewald WaveVectors (INITIAL STAGE ONLY)   ******
 Allocated 29696 29696 37120 space for eikxyz
@@ -487,9 +507,28 @@ Framework Wave Vector 6, real: 0.00000 imag: -0.00000
 Framework Wave Vector 7, real: -0.00000 imag: 0.00000
 Framework Wave Vector 8, real: 0.00000 imag: -0.00000
 Framework Wave Vector 9, real: -0.00000 imag: 0.00000
-GPU Ewald: 7328.67519
-Ewald Summation (total energy) on the CPU took 0.05991 secs
-Ewald Summation (total energy) on the GPU took 0.00027 secs
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 448, Other Comp Atoms: 1408
+NFrameworkZero_ExtraFramework interactions: 630784, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 990528
+Atoms: 1856 0
+Interactions: 1621312 0 0
+Nblock 127, blocks: 127 0 0, threads needed: 16214 0 0, Nthread: 128
+GPU VDW REAL ENERGY:
+HHVDW: 5523439918.42259, HHReal: -6257646.54087, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+VDW + Real on the GPU took 0.00556 secs
+GPU Ewald Summary: NHostAtom: 1856, NGuestAtom: 0
+GPU Ewald Summary: Nthread: 128, Host thread: 128, Guest thread: 0
+Host NAtomPerThread: 14, Guest NAtomPerThread: 0
+Host residueAtoms: 64, Guest residueAtoms: 0
+GPU fourier, HHFourier: 7328.67519, GGFourier: 0.00000, HGFourier: 0.00000, TOTFourier: 7328.67519
+Framework Component 0 Exclusion: -40015428.88872
+Component 1, Nblock: 1, Nthread: 128
+Component 1, Exclusion (self + intra) = -1723558.02282
+Ewald Summation (total energy) on the GPU took 0.00126 secs
+Total GPU Energy: 
+HHVDW: 5523439918.42259, HHReal: -6257646.54087, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: -41731658.23635, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
 Component 2, Need to create 0 full molecule
 ======================== CALCULATING CREATE_MOLECULE STAGE ENERGY ========================
@@ -497,15 +536,23 @@ Component 2, Need to create 0 full molecule
 Host-Host   VDW: 5523439918.41786; Real: -6257646.54087
 Host-Guest  VDW: 0.00000; Real: 0.00000
 Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 5523618451.87958, Real: -6724985.12633
+Compoent [0-2], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: -178533.45689, Real: 467338.58546
+Compoent [1-2], VDW: 0.00000, Real: 0.00000
+Compoent [2-2], VDW: 0.00000, Real: 0.00000
 ****** Calculating Ewald Energy (CPU) ******
-Guest-Guest Fourier: 0.00000, Host-Host Fourier: 7328.67519, Framework-Guest Fourier: 0.00000
-Component: 0, SelfAtomE: 7123268.40575
-Component: 1, SelfAtomE: 1479886.61726
-Component: 2, SelfAtomE: 0.00000
-Component: 0, Intra-Molecular ExclusionE: -32892160.48297
-Component: 1, Intra-Molecular ExclusionE: -243671.40556
-Component: 2, Intra-Molecular ExclusionE: 0.00000
-HostEwald took 0.05861 sec
+CPU Guest-Guest Fourier: 0.00000, Host-Host Fourier: 7328.67519, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 7123268.40575 (8567327.89803 kJ/mol)
+Component: 1, SelfAtomE: 1479886.61726 (1779895.57319 kJ/mol)
+Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: -32892160.48297 (-39560200.18912 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: -243671.40556 (-293069.51695 kJ/mol)
+Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+HostEwald took 0.05787 sec
+Ewald Summation (total energy) on the CPU took 0.05787 secs
  ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** 
 Wave Vector 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
@@ -528,18 +575,34 @@ Framework Wave Vector 6, real: 0.00000 imag: -0.00000
 Framework Wave Vector 7, real: -0.00000 imag: 0.00000
 Framework Wave Vector 8, real: 0.00000 imag: -0.00000
 Framework Wave Vector 9, real: -0.00000 imag: 0.00000
-GPU Ewald: 7328.67519
-Ewald Summation (total energy) on the CPU took 0.05861 secs
-Ewald Summation (total energy) on the GPU took 0.00025 secs
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 448, Other Comp Atoms: 1408
+NFrameworkZero_ExtraFramework interactions: 630784, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 990528
+Atoms: 1856 0
+Interactions: 1621312 0 0
+Nblock 127, blocks: 127 0 0, threads needed: 16214 0 0, Nthread: 128
+GPU VDW REAL ENERGY:
+HHVDW: 5523439918.42259, HHReal: -6257646.54087, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+VDW + Real on the GPU took 0.00048 secs
+GPU Ewald Summary: NHostAtom: 1856, NGuestAtom: 0
+GPU Ewald Summary: Nthread: 128, Host thread: 128, Guest thread: 0
+Host NAtomPerThread: 14, Guest NAtomPerThread: 0
+Host residueAtoms: 64, Guest residueAtoms: 0
+GPU fourier, HHFourier: 7328.67519, GGFourier: 0.00000, HGFourier: 0.00000, TOTFourier: 7328.67519
+Framework Component 0 Exclusion: -40015428.88872
+Component 1, Nblock: 1, Nthread: 128
+Component 1, Exclusion (self + intra) = -1723558.02282
+Ewald Summation (total energy) on the GPU took 0.00103 secs
+Total GPU Energy: 
+HHVDW: 5523439918.42259, HHReal: -6257646.54087, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: -41731658.23635, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
 Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00023, temp: 298.00000
 Number of Frameworks: 65
 Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00023, temp: 298.00000
 Number of Frameworks: 65
 EQUILIBRATION Cycle: 0, 0 Adsorbate Molecules, Total Energy: 5475450613.64063  ||  Component 0 [Al-Bicyclo-AddedH-P1-fix-PBC.cif], 1 Molecules  ||  Component 1 [BiCyclo-Linker], 64 Molecules  ||  Component 2 [p-xylene], 0 Molecules  ||  
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Sampled 0 WangLandau, Adjusted WL 0 times
 ======================== MOVE STATISTICS FOR COMPONENT [1] (BiCyclo-Linker) ========================
 =====================SPECIAL ROTATION MOVES========================
@@ -579,9 +642,6 @@ Printing: Component: 2 [ p-xylene ], NumMol: 2, Molsize: 12
 Component 0, Molsize: 448
 Component 1, Molsize: 22
 Component 2, Molsize: 12
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ======================== MOVE STATISTICS FOR COMPONENT [1] (BiCyclo-Linker) ========================
 =====================SPECIAL ROTATION MOVES========================
 Special Rotation Performed: 257
@@ -744,13 +804,30 @@ BLOCK [4], Blocksize: 1000, Average: 23.68986, ErrorBar: -nan
 Overall: Average: 23.41822, ErrorBar: 1.08658
 ----------------------------------------------------------
 ==============================================================
+=====================Rosenbluth Summary=====================
+There are 5 blocks
+=====BLOCK 0=====
+Widom Performed: 0.0
+=====BLOCK 1=====
+Widom Performed: 0.0
+=====BLOCK 2=====
+Widom Performed: 0.0
+=====BLOCK 3=====
+Widom Performed: 0.0
+=====BLOCK 4=====
+Widom Performed: 0.0
+=========================AVERAGE========================
+Averaged Rosenbluth Weight: 0.0000000000 +/- 0.0000000000
+Averaged Excess Chemical Potential: 0.0000000000 +/- 0.0000000000
+Averaged Henry Coefficient [mol/kg/Pa]: 0 +/- 0
+Averaged Fugacity: 0.0000000000 +/- 0.0000000000
 Printing: Component: 0 [ Al-Bicyclo-AddedH-P1-fix-PBC.cif ], NumMol: 1, Molsize: 448
 Printing: Component: 1 [ BiCyclo-Linker ], NumMol: 64, Molsize: 22
 Printing: Component: 2 [ p-xylene ], NumMol: 3, Molsize: 12
 Component 0, Molsize: 448
 Component 1, Molsize: 22
 Component 2, Molsize: 12
-Work took 1.536386 seconds
+Work took 1.529762 seconds
 ======================================
 CHECKING FINAL ENERGY FOR SYSTEM [0]
 ======================================
@@ -759,15 +836,23 @@ CHECKING FINAL ENERGY FOR SYSTEM [0]
 Host-Host   VDW: 5523450487.06026; Real: -6257686.00080
 Host-Guest  VDW: -22522.69448; Real: 173.17031
 Guest-Guest VDW: 20.02303; Real: 59.87284
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 5523629563.29998, Real: -6724432.88270
+Compoent [0-2], VDW: -5106.21022, Real: -4124.65798
+Compoent [1-1], VDW: -179076.23980, Real: 466746.88190
+Compoent [1-2], VDW: -17416.48426, Real: 4297.82829
+Compoent [2-2], VDW: 20.02303, Real: 59.87284
 ****** Calculating Ewald Energy (CPU) ******
-Guest-Guest Fourier: 759.64814, Host-Host Fourier: 7340.54056, Framework-Guest Fourier: -575.66969
-Component: 0, SelfAtomE: 7123268.40575
-Component: 1, SelfAtomE: 1479886.61726
-Component: 2, SelfAtomE: 9891.85715
-Component: 0, Intra-Molecular ExclusionE: -32892160.48297
-Component: 1, Intra-Molecular ExclusionE: -243671.40556
-Component: 2, Intra-Molecular ExclusionE: 9115.33946
-HostEwald took 0.05920 sec
+CPU Guest-Guest Fourier: 759.64814, Host-Host Fourier: 7340.54056, Framework-Guest Fourier: -575.66969
+Component: 0, SelfAtomE: 7123268.40575 (8567327.89803 kJ/mol)
+Component: 1, SelfAtomE: 1479886.61726 (1779895.57319 kJ/mol)
+Component: 2, SelfAtomE: 9891.85715 (11897.17681 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: -32892160.48297 (-39560200.18912 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: -243671.40556 (-293069.51695 kJ/mol)
+Component: 2, Intra-Molecular ExclusionE: 9115.33946 (10963.24013 kJ/mol)
+HostEwald took 0.05915 sec
+Ewald Summation (total energy) on the CPU took 0.05915 secs
  ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** 
 Wave Vector 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
@@ -790,10 +875,30 @@ Framework Wave Vector 6, real: 0.13671 imag: -0.09343
 Framework Wave Vector 7, real: 0.36067 imag: -0.05485
 Framework Wave Vector 8, real: 0.29686 imag: 0.07023
 Framework Wave Vector 9, real: 0.14060 imag: 0.05323
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 448, Other Comp Atoms: 1408
+NFrameworkZero_ExtraFramework interactions: 630784, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 990528
+Atoms: 1856 36
+Interactions: 1621312 66816 630
+Nblock 134, blocks: 127 6 1, threads needed: 16214 669 7, Nthread: 128
+GPU VDW REAL ENERGY:
+HHVDW: 5523450487.06017, HHReal: -6257686.00080, HGVDW: -22522.69448, HGReal: 173.17031, GGVDW: 20.02303, GGReal: 59.87284, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+VDW + Real on the GPU took 0.00072 secs
+GPU Ewald Summary: NHostAtom: 1856, NGuestAtom: 36
+GPU Ewald Summary: Nthread: 128, Host thread: 125, Guest thread: 3
+Host NAtomPerThread: 14, Guest NAtomPerThread: 12
+Host residueAtoms: 106, Guest residueAtoms: 0
+GPU fourier, HHFourier: 7340.54056, GGFourier: 759.64814, HGFourier: -575.66969, TOTFourier: 7524.51901
+Framework Component 0 Exclusion: -40015428.88872
+Component 1, Nblock: 1, Nthread: 128
+Component 1, Exclusion (self + intra) = -1723558.02282
 Component 2, Nblock: 1, Nthread: 128
-GPU Ewald: 6564.02287
-Ewald Summation (total energy) on the CPU took 0.05920 secs
-Ewald Summation (total energy) on the GPU took 0.00036 secs
+Component 2, Exclusion (self + intra) = -776.51769
+Ewald Summation (total energy) on the GPU took 0.00109 secs
+Total GPU Energy: 
+HHVDW: 5523450487.06017, HHReal: -6257686.00080, HGVDW: -22522.69448, HGReal: 173.17031, GGVDW: 20.02303, GGReal: 59.87284, HHEwaldE: -41731646.37098, HGEwaldE: -575.66969, GGEwaldE: -16.86955, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING FINAL STAGE ENERGY ======================
 ======================================
 ======================== ENERGY SUMMARY (Simulation 0) =========================
@@ -887,7 +992,7 @@ DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
 Total Energy:               -12321.12452 (-14818.91568 [K])
 ========================================================================
- *** CHECK DELTA_E (FINAL - CREATE MOLECULE) *** 
+ *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
 ========================================================================
 VDW [Host-Host]:            10568.64241 (12711.16288 [K])
 VDW [Host-Guest]:           -22522.69448 (-27088.59160 [K])
@@ -902,7 +1007,7 @@ DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
 Total Energy:               -12321.11970 (-14818.90987 [K])
 ========================================================================
- *** ENERGY DRIFT *** 
+ *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
 ========================================================================
 VDW [Host-Host]:            -0.00482 (-0.00580 [K])
 VDW [Host-Guest]:           0.00000 (0.00000 [K])
@@ -916,6 +1021,21 @@ Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
 Total Energy:               -0.00483 (-0.00581 [K])
+========================================================================
+ *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00009 (0.00011 [K])
+VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        -0.00000 (-0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00009 (0.00011 [K])
 ========================================================================
 ================================================================================
 ======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================
@@ -976,8 +1096,8 @@ PseudoAtom Type: H[6], #: 768
 PseudoAtom Type: CH3_xyl[7], #: 6
 PseudoAtom Type: C_xyl[8], #: 18
 PseudoAtom Type: H_xyl[9], #: 12
-Total Program Size: 5581 MB
-Resident Set Size: 119 MB
+Total Program Size: 5582 MB
+Resident Set Size: 121 MB
 Shared Pages: 95 MB
 Text (code): 0 MB
-Data + Stack: 71 MB
+Data + Stack: 72 MB
