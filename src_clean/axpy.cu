@@ -137,6 +137,7 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
     //////////////////////////////////
     //printf(" Widom Insertion\n");
     double2 newScale = SystemComponents.Lambda[comp].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0)//
+    /*
     size_t SelectedTrial=0; bool SuccessConstruction = false; MoveEnergy energy; double StoredR = 0.0;
     double Rosenbluth=Widom_Move_FirstBead_PARTIAL(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp, CBMC_INSERTION, StoredR, &SelectedTrial, &SuccessConstruction, &energy, newScale);
     if(SystemComponents.Moleculesize[comp] > 1 && Rosenbluth > 1e-150)
@@ -145,6 +146,9 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
       Rosenbluth*=Widom_Move_Chain_PARTIAL(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp, CBMC_INSERTION, &SelectedTrial, &SuccessConstruction, &energy, SelectedFirstBeadTrial, newScale); 
       //Zhao's note: need to add widom insertion data back//
     }
+    */
+    double Rosenbluth = WidomMove(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, comp, newScale);
+    SystemComponents.Moves[comp].RecordRosen(Rosenbluth, WIDOM);
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].ReinsertionProb)
   {
@@ -221,7 +225,7 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
       }
     }
   }
-  /*
+  /* //DEBUG//
   if(Cycle == 4)
   {
     printf("Cycle [%d], Printing DeltaE\n", Cycle);
@@ -621,8 +625,10 @@ double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simula
     if(SimulationMode == EQUILIBRATION) printf("Sampled %zu WangLandau, Adjusted WL %zu times\n", WLSampled, WLAdjusted);
     PrintAllStatistics(SystemComponents, Sims, Cycles, SimulationMode, BlockAverageSize);
     if(SimulationMode == PRODUCTION)
-        Calculate_Overall_Averages_MoveEnergy(SystemComponents, BlockAverageSize);
-    //Print_Widom_Statistics(SystemComponents, Sims.Box, Constants, 1);
+    {
+      Calculate_Overall_Averages_MoveEnergy(SystemComponents, BlockAverageSize);
+      Print_Widom_Statistics(SystemComponents, Sims.Box, Constants, 1);
+    }
   }
   //At the end of the sim, print a last-step restart and last-step movie
   GenerateRestartMovies(SystemComponents, Sims, SystemComponents.PseudoAtoms, 0, SimulationMode);

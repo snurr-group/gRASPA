@@ -1,5 +1,5 @@
-/home/z/Desktop/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
-True path of exe is /home/z/Desktop/gRASPA_fork/src_clean/
+/home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
+True path of exe is /home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/
 There are 1 simulations
 running only one simulation
 ------------------PARSING FORCE FIELD MIXING RULES----------------
@@ -403,6 +403,7 @@ Parsing [1] Component
 Component 0 starts at line number 37
 -------------- READING AdsorbateComponent 0 (methane) --------------
 Adsorbate Component is rigid
+CH4_sp3, type: 13, Acharge = 0.00000
 Bonds not implemented. Break
 Atom [0]: Type [13], Name: CH4_sp3, Mass: 16.000000, position: 0.00000 0.00000 0.00000
 Adsorbate Type[13], Name: CH4_sp3, #: 1
@@ -447,8 +448,17 @@ Box Temperature: 95.00000
 Host-Host   VDW: 0.00000; Real: 0.00000
 Host-Guest  VDW: 0.00000; Real: 0.00000
 Guest-Guest VDW: 0.00000; Real: 0.00000
-Ewald Summation (total energy) on the CPU took 0.00000 secs
-Ewald Summation (total energy) on the GPU took 0.00000 secs
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 207, Other Comp Atoms: 0
+NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
+VDW + Real on the GPU took 0.00001 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
 Component 1, Need to create 0 full molecule
 ======================== CALCULATING CREATE_MOLECULE STAGE ENERGY ========================
@@ -456,15 +466,21 @@ Component 1, Need to create 0 full molecule
 Host-Host   VDW: 0.00000; Real: 0.00000
 Host-Guest  VDW: 0.00000; Real: 0.00000
 Guest-Guest VDW: 0.00000; Real: 0.00000
-Ewald Summation (total energy) on the CPU took 0.00000 secs
-Ewald Summation (total energy) on the GPU took 0.00000 secs
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 207, Other Comp Atoms: 0
+NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
+VDW + Real on the GPU took 0.00000 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
 Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00041, temp: 95.00000
 Number of Frameworks: 1
 INITIALIZATION Cycle: 0, 0 Adsorbate Molecules, Total Energy: 0.00000  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 0 Molecules  ||  
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ======================== MOVE STATISTICS FOR COMPONENT [1] (methane) ========================
 =====================SWAP MOVES=====================
 Insertion Performed:   1678
@@ -480,9 +496,6 @@ Reinsertion Accepted:  389
 Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00041, temp: 95.00000
 Number of Frameworks: 1
 EQUILIBRATION Cycle: 0, 59 Adsorbate Molecules, Total Energy: -48094.15797  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 59 Molecules  ||  
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 EQUILIBRATION Cycle: 10000, 62 Adsorbate Molecules, Total Energy: -52121.68757  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 62 Molecules  ||  
 EQUILIBRATION Cycle: 20000, 56 Adsorbate Molecules, Total Energy: -45419.04810  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 56 Molecules  ||  
 EQUILIBRATION Cycle: 30000, 58 Adsorbate Molecules, Total Energy: -48166.04905  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 58 Molecules  ||  
@@ -507,9 +520,6 @@ Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
 Printing: Component: 1 [ methane ], NumMol: 60, Molsize: 1
 Component 0, Molsize: 207
 Component 1, Molsize: 1
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -87.54050, HGReal: 0.00000, GGVDW: -42.40380, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 PRODUCTION Cycle: 10000, 62 Adsorbate Molecules, Total Energy: -48220.01615  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 62 Molecules  ||  
 Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
 Printing: Component: 1 [ methane ], NumMol: 62, Molsize: 1
@@ -632,11 +642,73 @@ BLOCK [4], Blocksize: 10000, Average: 12.41149, ErrorBar: 9.85773
 Overall: Average: 34.71939, ErrorBar: 28.98501
 ----------------------------------------------------------
 ==============================================================
+=====================Rosenbluth Summary=====================
+There are 5 blocks
+=====BLOCK 0=====
+Widom Performed: 3369.0
+Framework Density: 116.33074 [kg/m^3]
+(Total) Averaged Rosenbluth Weight: 795.7580576518
+(Total) Averaged Excess Mu: -634.2347235877
+(Total) Averaged Henry Coefficient: 0.0086602168
+(Total) Converted to Fugacity: 344.8401406044 [Pascal], Temp: 95.00000 [K]
+Framework Density: 116.33074 [kg/m^3]
+(Insertion) Averaged Rosenbluth Weight: 795.7580576518
+(Insertion) Averaged Excess Mu: -634.2347235877
+(Insertion) Converted to Fugacity: 344.8401406044 [Pascal], Temp: 95.00000 [K]
+=====BLOCK 1=====
+Widom Performed: 3286.0
+Framework Density: 116.33074 [kg/m^3]
+(Total) Averaged Rosenbluth Weight: 655.3110108386
+(Total) Averaged Excess Mu: -615.7957984343
+(Total) Averaged Henry Coefficient: 0.0071317348
+(Total) Converted to Fugacity: 418.7466957660 [Pascal], Temp: 95.00000 [K]
+Framework Density: 116.33074 [kg/m^3]
+(Insertion) Averaged Rosenbluth Weight: 655.3110108386
+(Insertion) Averaged Excess Mu: -615.7957984343
+(Insertion) Converted to Fugacity: 418.7466957660 [Pascal], Temp: 95.00000 [K]
+=====BLOCK 2=====
+Widom Performed: 3349.0
+Framework Density: 116.33074 [kg/m^3]
+(Total) Averaged Rosenbluth Weight: 685.9186917949
+(Total) Averaged Excess Mu: -620.1304285532
+(Total) Averaged Henry Coefficient: 0.0074648375
+(Total) Converted to Fugacity: 400.0610039794 [Pascal], Temp: 95.00000 [K]
+Framework Density: 116.33074 [kg/m^3]
+(Insertion) Averaged Rosenbluth Weight: 685.9186917949
+(Insertion) Averaged Excess Mu: -620.1304285532
+(Insertion) Converted to Fugacity: 400.0610039794 [Pascal], Temp: 95.00000 [K]
+=====BLOCK 3=====
+Widom Performed: 3289.0
+Framework Density: 116.33074 [kg/m^3]
+(Total) Averaged Rosenbluth Weight: 448.0360138531
+(Total) Averaged Excess Mu: -579.6903295768
+(Total) Averaged Henry Coefficient: 0.0048759657
+(Total) Converted to Fugacity: 612.4715692558 [Pascal], Temp: 95.00000 [K]
+Framework Density: 116.33074 [kg/m^3]
+(Insertion) Averaged Rosenbluth Weight: 448.0360138531
+(Insertion) Averaged Excess Mu: -579.6903295768
+(Insertion) Converted to Fugacity: 612.4715692558 [Pascal], Temp: 95.00000 [K]
+=====BLOCK 4=====
+Widom Performed: 3325.0
+Framework Density: 116.33074 [kg/m^3]
+(Total) Averaged Rosenbluth Weight: 556.6735704443
+(Total) Averaged Excess Mu: -600.3056460581
+(Total) Averaged Henry Coefficient: 0.0060582658
+(Total) Converted to Fugacity: 492.9447616288 [Pascal], Temp: 95.00000 [K]
+Framework Density: 116.33074 [kg/m^3]
+(Insertion) Averaged Rosenbluth Weight: 556.6735704443
+(Insertion) Averaged Excess Mu: -600.3056460581
+(Insertion) Converted to Fugacity: 492.9447616288 [Pascal], Temp: 95.00000 [K]
+=========================AVERAGE========================
+Averaged Rosenbluth Weight: 628.3394689165 +/- 236.1646065721
+Averaged Excess Chemical Potential: -610.0313852420 +/- 37.2686504599
+Averaged Henry Coefficient [mol/kg/Pa]: 0.006838204138 +/- 0.002570174038
+Averaged Fugacity: 453.8128342469 +/- 184.8195730328
 Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
 Printing: Component: 1 [ methane ], NumMol: 6, Molsize: 1
 Component 0, Molsize: 207
 Component 1, Molsize: 1
-Work took 3.235230 seconds
+Work took 3.160120 seconds
 ======================================
 CHECKING FINAL ENERGY FOR SYSTEM [0]
 ======================================
@@ -645,8 +717,23 @@ CHECKING FINAL ENERGY FOR SYSTEM [0]
 Host-Host   VDW: 0.00000; Real: 0.00000
 Host-Guest  VDW: -4894.72762; Real: 0.00000
 Guest-Guest VDW: -51.91054; Real: 0.00000
-Ewald Summation (total energy) on the CPU took 0.00000 secs
-Ewald Summation (total energy) on the GPU took 0.00000 secs
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: -4894.72762, Real: 0.00000
+Compoent [1-1], VDW: -51.91054, Real: 0.00000
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 207, Other Comp Atoms: 0
+NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
+Atoms: 207 6
+Interactions: 0 1242 15
+Nblock 2, blocks: 0 1 1, threads needed: 0 13 1, Nthread: 128
+GPU VDW REAL ENERGY:
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -4894.72762, HGReal: 0.00000, GGVDW: -51.91054, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+VDW + Real on the GPU took 0.00018 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -4894.72762, HGReal: 0.00000, GGVDW: -51.91054, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING FINAL STAGE ENERGY ======================
 ======================================
 ======================== ENERGY SUMMARY (Simulation 0) =========================
@@ -740,7 +827,7 @@ DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
 Total Energy:               -4946.63815 (-5949.44183 [K])
 ========================================================================
- *** CHECK DELTA_E (FINAL - CREATE MOLECULE) *** 
+ *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
 VDW [Host-Guest]:           -4894.72762 (-5887.00777 [K])
@@ -755,7 +842,22 @@ DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
 Total Energy:               -4946.63815 (-5949.44183 [K])
 ========================================================================
- *** ENERGY DRIFT *** 
+ *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -0.00000 (-0.00000 [K])
+========================================================================
+ *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
 VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
@@ -833,8 +935,8 @@ PseudoAtom Type: Hw[10], #: 0
 PseudoAtom Type: Ow[11], #: 0
 PseudoAtom Type: CH3_sp3[12], #: 0
 PseudoAtom Type: CH4_sp3[13], #: 6
-Total Program Size: 5577 MB
-Resident Set Size: 115 MB
-Shared Pages: 94 MB
+Total Program Size: 5578 MB
+Resident Set Size: 116 MB
+Shared Pages: 95 MB
 Text (code): 0 MB
-Data + Stack: 67 MB
+Data + Stack: 68 MB

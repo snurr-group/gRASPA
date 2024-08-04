@@ -126,11 +126,11 @@ void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents);
 // Total energies //
 ////////////////////
 
-__global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* eik_x, Complex* eik_y, Complex* eik_z, Complex* Eik, size_t totAtom, size_t Ncomp, size_t NAtomPerThread, size_t residueAtoms);
+//__global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* eik_x, Complex* eik_y, Complex* eik_z, Complex* Eik, size_t totAtom, size_t Ncomp, size_t NAtomPerThread, size_t residueAtoms);
 
 MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, bool UseOffSet);
 
-MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, ForceField FF, size_t totMol, size_t Host_threads, size_t Guest_threads, size_t NFrameworkAtomsPerThread, bool ConsiderHostHost, bool UseOffset);
+MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponents, ForceField FF, bool UseOffset);
 
 //////////////////////
 // Tail Corrections //

@@ -1,5 +1,5 @@
-/home/z/Desktop/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
-True path of exe is /home/z/Desktop/gRASPA_fork/src_clean/
+/home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
+True path of exe is /home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/
 There are 1 simulations
 running only one simulation
 ------------------PARSING FORCE FIELD MIXING RULES----------------
@@ -2572,6 +2572,9 @@ Parsing [1] Component
 Component 0 starts at line number 33
 -------------- READING AdsorbateComponent 0 (CO2) --------------
 Adsorbate Component is rigid
+O_co2, type: 17, Acharge = -0.32560
+C_co2, type: 16, Acharge = 0.65120
+O_co2, type: 17, Acharge = -0.32560
 Bonds not implemented. Break
 Atom [0]: Type [17], Name: O_co2, Mass: 15.999400, position: 0.00000 0.00000 -1.16000
 Atom [1]: Type [16], Name: C_co2, Mass: 12.000000, position: 0.00000 0.00000 0.00000
@@ -2615,18 +2618,23 @@ Box Temperature: 298.00000
 Host-Host   VDW: 0.00000; Real: 0.00000
 Host-Guest  VDW: 0.00000; Real: 0.00000
 Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
 ****** Calculating Ewald Energy (CPU) ******
-Guest-Guest Fourier: 0.00000, Host-Host Fourier: 409293.46532, Framework-Guest Fourier: 0.00000
-Component: 0, SelfAtomE: 100586536.82400
-Component: 1, SelfAtomE: 0.00000
-Component: 0, Intra-Molecular ExclusionE: 115033008.45111
-Component: 1, Intra-Molecular ExclusionE: 0.00000
-HostEwald took 0.20101 sec
-Component 0, Intra Exclusion Energy: -115033008.45111
-Component 0, Atom Self Exclusion Energy: 100586536.82400
+CPU Guest-Guest Fourier: 0.00000, Host-Host Fourier: 409293.46532, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 100586536.82400 (120977870.55210 kJ/mol)
+Component: 1, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: 115033008.45111 (138352992.80625 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+HostEwald took 0.20098 sec
+Ewald Summation (total energy) on the CPU took 0.20098 secs
+Component 0, Intra Exclusion Energy: -115033008.45111 (-138352992.80625 kJ/mol)
+Component 0, Atom Self Exclusion Energy: 100586536.82400 (120977870.55210 kJ/mol)
 DEBUG: comp: 0, IntraE: -115033008.45111, SelfE: 100586536.82400
-Component 1, Intra Exclusion Energy: -13173.67573
-Component 1, Atom Self Exclusion Energy: 13215.98988
+Component 1, Intra Exclusion Energy: -13173.67573 (-15844.29972 kJ/mol)
+Component 1, Atom Self Exclusion Energy: 13215.98988 (15895.19197 kJ/mol)
 DEBUG: comp: 1, IntraE: -13173.67573, SelfE: 13215.98988
 ******   Allocating Ewald WaveVectors (INITIAL STAGE ONLY)   ******
 Allocated 110592 110592 73728 space for eikxyz
@@ -2663,9 +2671,20 @@ Framework Wave Vector 6, real: 0.00000 imag: 0.00000
 Framework Wave Vector 7, real: -0.00000 imag: -0.00000
 Framework Wave Vector 8, real: 0.00000 imag: 0.00000
 Framework Wave Vector 9, real: 0.00000 imag: -0.00000
-GPU Ewald: 409293.46532
-Ewald Summation (total energy) on the CPU took 0.20101 secs
-Ewald Summation (total energy) on the GPU took 0.00548 secs
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 2304, Other Comp Atoms: 0
+NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
+VDW + Real on the GPU took 0.00000 secs
+GPU Ewald Summary: NHostAtom: 2304, NGuestAtom: 0
+GPU Ewald Summary: Nthread: 128, Host thread: 128, Guest thread: 0
+Host NAtomPerThread: 18, Guest NAtomPerThread: 0
+Host residueAtoms: 0, Guest residueAtoms: 0
+GPU fourier, HHFourier: 409293.46532, GGFourier: 0.00000, HGFourier: 0.00000, TOTFourier: 409293.46532
+Framework Component 0 Exclusion: 14446471.62713
+Ewald Summation (total energy) on the GPU took 0.00657 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 14855765.09245, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
 Component 1, Need to create 0 full molecule
 ======================== CALCULATING CREATE_MOLECULE STAGE ENERGY ========================
@@ -2673,13 +2692,18 @@ Component 1, Need to create 0 full molecule
 Host-Host   VDW: 0.00000; Real: 0.00000
 Host-Guest  VDW: 0.00000; Real: 0.00000
 Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
 ****** Calculating Ewald Energy (CPU) ******
-Guest-Guest Fourier: 0.00000, Host-Host Fourier: 409293.46532, Framework-Guest Fourier: 0.00000
-Component: 0, SelfAtomE: 100586536.82400
-Component: 1, SelfAtomE: 0.00000
-Component: 0, Intra-Molecular ExclusionE: 115033008.45111
-Component: 1, Intra-Molecular ExclusionE: 0.00000
-HostEwald took 0.20025 sec
+CPU Guest-Guest Fourier: 0.00000, Host-Host Fourier: 409293.46532, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 100586536.82400 (120977870.55210 kJ/mol)
+Component: 1, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: 115033008.45111 (138352992.80625 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+HostEwald took 0.19995 sec
+Ewald Summation (total energy) on the CPU took 0.19995 secs
  ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** 
 Wave Vector 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
@@ -2702,97 +2726,48 @@ Framework Wave Vector 6, real: 0.00000 imag: 0.00000
 Framework Wave Vector 7, real: -0.00000 imag: -0.00000
 Framework Wave Vector 8, real: 0.00000 imag: 0.00000
 Framework Wave Vector 9, real: 0.00000 imag: -0.00000
-GPU Ewald: 409293.46532
-Ewald Summation (total energy) on the CPU took 0.20025 secs
-Ewald Summation (total energy) on the GPU took 0.00062 secs
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 2304, Other Comp Atoms: 0
+NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
+VDW + Real on the GPU took 0.00000 secs
+GPU Ewald Summary: NHostAtom: 2304, NGuestAtom: 0
+GPU Ewald Summary: Nthread: 128, Host thread: 128, Guest thread: 0
+Host NAtomPerThread: 18, Guest NAtomPerThread: 0
+Host residueAtoms: 0, Guest residueAtoms: 0
+GPU fourier, HHFourier: 409293.46532, GGFourier: 0.00000, HGFourier: 0.00000, TOTFourier: 409293.46532
+Framework Component 0 Exclusion: 14446471.62713
+Ewald Summation (total energy) on the GPU took 0.00139 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 14855765.09245, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
 Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00060, temp: 298.00000
 Number of Frameworks: 1
 INITIALIZATION Cycle: 0, 0 Adsorbate Molecules, Total Energy: 14855765.09240  ||  Component 0 [MFI-2x2x2-P1.cif], 1 Molecules  ||  Component 1 [CO2], 0 Molecules  ||  
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): -41.16653, (CrossType) 133.73591
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): 4.46649, (CrossType) 233.05328
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): 42.28071, (CrossType) -2.26394
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): -0.25454, (CrossType) 7.17092
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): -41.03848, (CrossType) 628.27624
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): 0.06912, (CrossType) -8.91197
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): 39.99852, (CrossType) -102.93955
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -1602.68346, HGReal: -424.89645, GGVDW: -1.75259, GGReal: -0.01345, HHEwaldE: 0.00000, HGEwaldE: -102.93955, GGEwaldE: -2.31563, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 160.33972, HGReal: -79.83133, GGVDW: 1.75259, GGReal: 0.01345, HHEwaldE: 0.00000, HGEwaldE: -311.13203, GGEwaldE: 2.48331, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): -41.22037, (CrossType) 133.73591
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): -0.58401, (CrossType) 12.22396
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): 42.61932, (CrossType) -500.70133
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -1811.70605, HGReal: 386.81340, GGVDW: -0.07679, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: -500.70133, GGEwaldE: 0.30517, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): 40.55780, (CrossType) -380.15849
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -1680.78224, HGReal: 15.71819, GGVDW: -1.22731, GGReal: 0.00058, HHEwaldE: 0.00000, HGEwaldE: -380.15849, GGEwaldE: -1.75635, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 Number of blocks: 33, Nthread: 128
 GPU Fourier Energy (SameType): -41.96438, (CrossType) 335.31598
-Cycle [4], Printing DeltaE
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ======================== MOVE STATISTICS FOR COMPONENT [1] (CO2) ========================
 =====================SWAP MOVES=====================
 Insertion Performed:   13735
@@ -2813,7 +2788,7 @@ Printing: Component: 0 [ MFI-2x2x2-P1.cif ], NumMol: 1, Molsize: 2304
 Printing: Component: 1 [ CO2 ], NumMol: 26, Molsize: 3
 Component 0, Molsize: 2304
 Component 1, Molsize: 3
-Work took 9.755640 seconds
+Work took 9.728188 seconds
 ======================================
 CHECKING FINAL ENERGY FOR SYSTEM [0]
 ======================================
@@ -2822,13 +2797,18 @@ CHECKING FINAL ENERGY FOR SYSTEM [0]
 Host-Host   VDW: 0.00000; Real: 0.00000
 Host-Guest  VDW: -51231.47920; Real: -2603.98941
 Guest-Guest VDW: -557.70387; Real: -48.54348
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: -51231.47920, Real: -2603.98941
+Compoent [1-1], VDW: -557.70387, Real: -48.54348
 ****** Calculating Ewald Energy (CPU) ******
-Guest-Guest Fourier: 1128.48178, Host-Host Fourier: 409293.46532, Framework-Guest Fourier: -11661.42009
-Component: 0, SelfAtomE: 100586536.82400
-Component: 1, SelfAtomE: 343615.73682
-Component: 0, Intra-Molecular ExclusionE: 115033008.45111
-Component: 1, Intra-Molecular ExclusionE: 342515.56894
-HostEwald took 0.20415 sec
+CPU Guest-Guest Fourier: 1128.48178, Host-Host Fourier: 409293.46532, Framework-Guest Fourier: -11661.42009
+Component: 0, SelfAtomE: 100586536.82400 (120977870.55210 kJ/mol)
+Component: 1, SelfAtomE: 343615.73682 (413274.99128 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: 115033008.45111 (138352992.80625 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 342515.56894 (411951.79266 kJ/mol)
+HostEwald took 0.20243 sec
+Ewald Summation (total energy) on the CPU took 0.20243 secs
  ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** 
 Wave Vector 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
@@ -2851,10 +2831,28 @@ Framework Wave Vector 6, real: 0.00000 imag: 0.00000
 Framework Wave Vector 7, real: -0.00000 imag: -0.00000
 Framework Wave Vector 8, real: 0.00000 imag: 0.00000
 Framework Wave Vector 9, real: 0.00000 imag: -0.00000
+THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
+Framework Comp Zero Atoms: 2304, Other Comp Atoms: 0
+NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
+Atoms: 2304 78
+Interactions: 0 179712 3003
+Nblock 16, blocks: 0 15 1, threads needed: 0 1798 31, Nthread: 128
+GPU VDW REAL ENERGY:
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -51231.47920, HGReal: -2603.98941, GGVDW: -557.70387, GGReal: -48.54348, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+VDW + Real on the GPU took 0.00040 secs
+GPU Ewald Summary: NHostAtom: 2304, NGuestAtom: 78
+GPU Ewald Summary: Nthread: 128, Host thread: 123, Guest thread: 5
+Host NAtomPerThread: 18, Guest NAtomPerThread: 15
+Host residueAtoms: 90, Guest residueAtoms: 3
+GPU fourier, HHFourier: 409293.46532, GGFourier: 1128.48178, HGFourier: -11661.42009, TOTFourier: 398760.52701
+Framework Component 0 Exclusion: 14446471.62713
 Component 1, Nblock: 1, Nthread: 128
-GPU Ewald: 397660.35913
-Ewald Summation (total energy) on the CPU took 0.20415 secs
-Ewald Summation (total energy) on the GPU took 0.00058 secs
+Component 1, Exclusion (self + intra) = -1100.16788
+Ewald Summation (total energy) on the GPU took 0.00131 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -51231.47920, HGReal: -2603.98941, GGVDW: -557.70387, GGReal: -48.54348, HHEwaldE: 14855765.09245, HGEwaldE: -11661.42009, GGEwaldE: 28.31390, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING FINAL STAGE ENERGY ======================
 ======================================
 ======================== ENERGY SUMMARY (Simulation 0) =========================
@@ -2948,7 +2946,7 @@ DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
 Total Energy:               -66074.82215 (-79469.79321 [K])
 ========================================================================
- *** CHECK DELTA_E (FINAL - CREATE MOLECULE) *** 
+ *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
 VDW [Host-Guest]:           -51231.47920 (-61617.34417 [K])
@@ -2963,7 +2961,7 @@ DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
 Total Energy:               -66074.82215 (-79469.79321 [K])
 ========================================================================
- *** ENERGY DRIFT *** 
+ *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
 VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
@@ -2977,6 +2975,21 @@ Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
 Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -0.00000 (-0.00000 [K])
+Ewald [Host-Host]:          -0.00004 (-0.00005 [K])
+Ewald [Host-Guest]:         -0.00000 (-0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -0.00004 (-0.00005 [K])
 ========================================================================
 ================================================================================
 ======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================

@@ -221,11 +221,8 @@ void NVTGibbsMove(std::vector<Components>& SystemComponents, Simulations*& Sims,
       // TOTAL VDW + REAL //
       ////////////////////// 
       size_t Host_threads  = 0; //In this move, there should be NO Framework Atom (Framework (component 0) should be an empty box)//
-      size_t  Guest_threads = totMol * (totMol - 1) / 2;
-      bool    ConsiderHostHost         = false;
       bool    UseOffset                = true;
-      size_t  NFrameworkAtomsPerThread = 1;
-      NewE[sim] = Total_VDW_Coulomb_Energy(Sims[sim], FF, totMol, Host_threads, Guest_threads, NFrameworkAtomsPerThread, ConsiderHostHost, UseOffset);
+      NewE[sim] = Total_VDW_Coulomb_Energy(Sims[sim], SystemComponents[sim], FF, UseOffset);
       //Check for Overlaps//
       cudaMemcpy(SystemComponents[sim].flag, Sims[sim].device_flag, sizeof(bool), cudaMemcpyDeviceToHost); 
       if(SystemComponents[sim].flag[0]) 

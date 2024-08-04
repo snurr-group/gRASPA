@@ -266,6 +266,7 @@ int main(void)
     Prepare_Widom(WidomArray[a], Box[a], Sims[a], SystemComponents[a], SystemComponents[a].HostSystem);
 
     Setup_Box_Temperature_Pressure(Constants, SystemComponents[a], Box[a]);
+    Sims[a].Box.UseLAMMPSEwald = Box[a].UseLAMMPSEwald;
     Sims[a].Box.Pressure = Box[a].Pressure; Sims[a].Box.Volume = Box[a].Volume;
     Sims[a].Box.Cubic    = Box[a].Cubic;    Sims[a].Box.ReciprocalCutOff = Box[a].ReciprocalCutOff;
     Sims[a].Box.Alpha    = Box[a].Alpha;    Sims[a].Box.Prefactor        = Box[a].Prefactor;
@@ -314,13 +315,13 @@ int main(void)
     ///////////////////////////////////////////////////////////////////
     // Calculate & Initialize Ewald for the Initial state of the box //
     ///////////////////////////////////////////////////////////////////
-    Check_Simulation_Energy(Box[a], SystemComponents[a].HostSystem, FF, device_FF, SystemComponents[a], INITIAL, a, Sims[a]);
+    Check_Simulation_Energy(Box[a], SystemComponents[a].HostSystem, FF, device_FF, SystemComponents[a], INITIAL, a, Sims[a], true);
     //////////////////////////////////////////////////////////
     // CREATE MOLECULES IN THE BOX BEFORE SIMULAITON STARTS //
     //////////////////////////////////////////////////////////
     Energy[a].running_energy = CreateMolecule_InOneBox(SystemComponents[a], Sims[a], device_FF, Random, Widom, AlreadyHasFractionalMolecule);
 
-    Check_Simulation_Energy(Box[a], SystemComponents[a].HostSystem, FF, device_FF, SystemComponents[a], CREATEMOL, a, Sims[a]);
+    Check_Simulation_Energy(Box[a], SystemComponents[a].HostSystem, FF, device_FF, SystemComponents[a], CREATEMOL, a, Sims[a], true);
   }
 
   ////////////////
@@ -392,7 +393,7 @@ int main(void)
     printf("======================================\n");
     printf("CHECKING FINAL ENERGY FOR SYSTEM [%zu]\n", i);
     printf("======================================\n");
-    Check_Simulation_Energy(Box[i], SystemComponents[i].HostSystem, FF, device_FF, SystemComponents[i], FINAL, i, Sims[i]);
+    Check_Simulation_Energy(Box[i], SystemComponents[i].HostSystem, FF, device_FF, SystemComponents[i], FINAL, i, Sims[i], true);
     printf("======================================\n");
   }
   /////////////////////////////////////////////////////////

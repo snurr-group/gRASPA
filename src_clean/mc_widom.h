@@ -31,7 +31,7 @@ static inline size_t SelectTrialPosition(std::vector <double> LogBoltzmannFactor
 }
 
 template<typename T>
-inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, T* energy_array, bool* flag, size_t HG_Nblock, size_t HGGG_Nblock, std::vector<MoveEnergy>& energies, std::vector<size_t>& Trialindex, std::vector<double>& Rosen, size_t Cycle)
+inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, T* energy_array, bool* flag, size_t HG_Nblock, size_t HGGG_Nblock, std::vector<MoveEnergy>& energies, std::vector<size_t>& Trialindex, std::vector<double>& Rosen, size_t Cycle, bool VDWRealBiasing)
 {
   std::vector<size_t>reasonable_trials;
   for(size_t i = 0; i < NumberWidomTrials; i++){
@@ -53,7 +53,8 @@ inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, 
     for(size_t ijk=HGGG_Nblock; ijk < HG_Nblock + HGGG_Nblock; ijk++) HG_real+=host_array[ijk];
     for(size_t ijk=HG_Nblock + HGGG_Nblock; ijk < HGGG_Nblock + HGGG_Nblock; ijk++) GG_real+=host_array[ijk];
 
-    double tot = static_cast<double>(HG_vdw + GG_vdw + HG_real + GG_real);
+    double tot = static_cast<double>(HG_vdw + GG_vdw);
+    if(VDWRealBiasing) tot += static_cast<double>(HG_real + GG_real);
    
     MoveEnergy E;
     E.HGVDW = static_cast<double>(HG_vdw); 
@@ -319,7 +320,7 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
   //printf("OldNBlock: %zu, HG_Nblock: %zu, GG_Nblock: %zu, HGGG_Nblock: %zu\n", Nblock, HG_Nblock, GG_Nblock, HGGG_Nblock);
 
   //printf("FIRST BEAD ENERGIES\n");
-  Host_sum_Widom_HGGG_SEPARATE(NumberOfTrials, SystemComponents.Beta, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE);
+  Host_sum_Widom_HGGG_SEPARATE(NumberOfTrials, SystemComponents.Beta, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE, FF.VDWRealBias);
 
   double averagedRosen = 0.0;
   size_t REALselected  = 0;
@@ -365,6 +366,13 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
   averagedRosen = Rosenbluth;
   if(MoveType != IDENTITY_SWAP_OLD && MoveType != IDENTITY_SWAP_NEW) 
     averagedRosen /= double(Widom.NumberWidomTrials);
+
+  //Calculate Rosenbluth correction if real-charge is not included when selecting the trials//
+  if(!FF.VDWRealBias)
+  {
+    double Real_Energy = energies[SelectedTrial].HGReal + energies[SelectedTrial].GGReal;
+    averagedRosen*=std::exp(-SystemComponents.Beta*Real_Energy);
+  }
 
   *REAL_Selected_Trial = REALselected;
   *SuccessConstruction = Goodconstruction;
@@ -444,7 +452,7 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
   }
   //printf("CHAIN ENERGIES\n");
 
-  Host_sum_Widom_HGGG_SEPARATE(Widom.NumberWidomTrialsOrientations, SystemComponents.Beta, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE);
+  Host_sum_Widom_HGGG_SEPARATE(Widom.NumberWidomTrialsOrientations, SystemComponents.Beta, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE, FF.VDWRealBias);
 
   double averagedRosen= 0.0; 
   size_t REALselected = 0;
@@ -475,8 +483,13 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
   if(!Goodconstruction) return 0.0;
   REALselected = Trialindex[SelectedTrial];
 
-
   averagedRosen = Rosenbluth/double(Widom.NumberWidomTrialsOrientations);
+  //Calculate Rosenbluth correction if real-charge is not included when selecting the trials//
+  if(!FF.VDWRealBias)
+  {
+    double Real_Energy = energies[SelectedTrial].HGReal + energies[SelectedTrial].GGReal;
+    averagedRosen*=std::exp(-SystemComponents.Beta*Real_Energy);
+  }
   *REAL_Selected_Trial = REALselected;
   *SuccessConstruction = Goodconstruction;
   *energy = energies[SelectedTrial];

@@ -175,7 +175,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
     kxcount++;
   }
 
-  printf("Guest-Guest Fourier: %.5f, Host-Host Fourier: %.5f, Framework-Guest Fourier: %.5f\n", E.GGEwaldE, E.HHEwaldE, E.HGEwaldE);
+  printf("CPU Guest-Guest Fourier: %.5f, Host-Host Fourier: %.5f, Framework-Guest Fourier: %.5f\n", E.GGEwaldE, E.HHEwaldE, E.HGEwaldE);
   if(Box.ExcludeHostGuestEwald) E.GGEwaldE += E.HHEwaldE;
 
   // Subtract self-energy
