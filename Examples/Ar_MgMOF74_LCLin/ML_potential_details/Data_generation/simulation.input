@@ -1,0 +1,34 @@
+SimulationType                  MonteCarlo
+NumberOfCycles                  10000
+NumberOfInitializationCycles    0
+RandomSeed                      4444
+
+PrintEvery                      1
+PrintPropertiesEvery            1
+WriteBinaryRestartFileEvery     1
+RemoveAtomNumberCodeFromLabel   yes
+
+Movies                          yes
+WriteMoviesEvery                1
+
+RestartFile                     no
+ContinueAfterCrash              no
+
+Forcefield                      local
+UseChargesFromCIFFile           no
+ChargeMethod                    None
+EwaldPrecision                  1e-6
+CutOffVDW                       6.0
+CutOffChargeCharge              6.0
+
+Framework                       0
+FrameworkName                   MgMOF-74-1x1x1-P1-VASP_charged
+UnitCells                       1 1 2 
+
+ExternalTemperature             80000.0
+
+Component 0 MoleculeName              argon
+            MoleculeDefinition        local
+            RandomTranslationProbability    1.0
+            CreateNumberOfMolecules   1
+        

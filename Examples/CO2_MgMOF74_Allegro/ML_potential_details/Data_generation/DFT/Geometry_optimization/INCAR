@@ -1,0 +1,29 @@
+ NCORE = 64
+ 
+ LCHARG = .FALSE.
+ LWAVE = .FALSE.
+
+ GGA      = MK
+ PARAM1   = 0.1234567 # 10/81~0.1234567
+ PARAM2   = 0.7114
+ AGGAC    = 0.0
+ LUSE_VDW = .TRUE.
+ ZAB_VDW  = -1.8867 # the default is -0.8491
+ LASPH    = .TRUE.
+ 
+ ISMEAR = 0
+ SIGMA = 0.05
+
+ PREC = Accurate
+ ALGO = Fast
+ LREAL = .FALSE.
+ ENCUT = 520
+ NELM  = 150
+ EDIFF = 1E-06
+ 
+ EDIFFG = -0.01
+ NSW = 1000
+ ISIF = 3
+ IBRION = 2
+ SYMPREC=1E-8
+ ISYM = 0

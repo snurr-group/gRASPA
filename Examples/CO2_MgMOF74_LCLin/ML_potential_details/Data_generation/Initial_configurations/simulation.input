@@ -1,0 +1,35 @@
+SimulationType                  MonteCarlo
+NumberOfCycles                  2500
+NumberOfInitializationCycles    0
+RandomSeed                      4444
+
+PrintEvery                      1
+PrintPropertiesEvery            1
+WriteBinaryRestartFileEvery     1
+RemoveAtomNumberCodeFromLabel   yes
+
+Movies                          yes
+WriteMoviesEvery                1
+
+RestartFile                     no
+ContinueAfterCrash              no
+
+Forcefield                      local
+UseChargesFromCIFFile           no
+ChargeMethod                    None
+EwaldPrecision                  1e-6
+CutOffVDW                       3.0
+CutOffChargeCharge              3.0
+
+Framework                       0
+FrameworkName                   CONTCAR
+UnitCells                       1 1 1
+
+ExternalTemperature             80000.0
+
+Component 0 MoleculeName              CO2
+            MoleculeDefinition        local
+            RandomTranslationProbability    1.0
+            RotationProbability         1.0
+            CreateNumberOfMolecules   1
+        
