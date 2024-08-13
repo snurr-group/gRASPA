@@ -1,1 +1,1 @@
-This folder contains example simulation input files for modeling CO2 adsorption in Mg-MOF-74 using machine learning potential (Allegro model)
+This folder contains example simulation input files for modeling CO2 adsorption in Mg-MOF-74 using machine learning potential (Allegro model). Details about Allegro model are available in `ML_potential_details` folder.
