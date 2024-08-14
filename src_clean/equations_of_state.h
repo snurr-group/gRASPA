@@ -6,7 +6,14 @@
 #include "data_struct.h"
 #include "equations_of_state.h"
 */
-
+/*
+Done By Xiaoyi Zhang at xiaoyizhang2028@u.northwestern.edu
+Purpose of the file: Takes in Pressure, Temperature and critical values and return P-R Fugacities for different components for calculation
+EOS included: P-R EOS
+References:
+https://onlinelibrary.wiley.com/doi/full/10.1002/adts.201900135
+https://pubs.acs.org/doi/10.1021/i160057a011
+*/
 // Assuming the definition of Components and MOLAR_GAS_CONSTANT are provided elsewhere
 const double MOLAR_GAS_CONSTANT = 8.314; // J/(mol*K), example value
 #include <vector>
