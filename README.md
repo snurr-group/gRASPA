@@ -1,12 +1,6 @@
 # gRASPA
 gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation software built for molecular adsorption in nanoporous materials, such as zeolites and metal-organic frameworks (MOFs). 
 
-<div align="center">
-  
-<a href=""> [![aaa](https://img.shields.io/badge/Slack-Join-blue)](https://join.slack.com/t/graspa/shared_invite/zt-2oy2aol5t-KtonxtiqGF_wTb2iFjaS_g)</a>
-
-</div>
-
 ## Installation
 ### Installation in clusters
 To install gRASPA on NERSC (DOE) and QUEST (Northwestern) clusters, check out [Cluster-Setup](Cluster-Setup/)
