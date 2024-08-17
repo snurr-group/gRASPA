@@ -1,6 +1,23 @@
 # gRASPA
 gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation software built for molecular adsorption in nanoporous materials, such as zeolites and metal-organic frameworks (MOFs). 
 
+<div align="center">
+  
+<a href=""> [![aaa](https://img.shields.io/badge/Slack-Join-blue?logo=slack)](https://join.slack.com/t/graspa/shared_invite/zt-2oy2aol5t-KtonxtiqGF_wTb2iFjaS_g)</a>
+<a href="#">![License](https://img.shields.io/github/license/Zhaoli2042/gRASPA_fork?logo=github)</a>
+
+<a href="#">[![Manual](https://img.shields.io/badge/User_Manual-red?logo=github)]( https://zhaoli2042.github.io/gRASPA-mkdoc)</a>
+<a href="#">[![Manual](https://img.shields.io/badge/用户手册-yellow?logo=github)]( https://zhaoli2042.github.io/gRASPA-mkdoc/Chinese/)</a>
+<a href="#">[![Doxygen](https://img.shields.io/badge/Doxygen_Manual-green?logo=doxygen)]( https://zhaoli2042.github.io/gRASPA)</a>
+
+<a href="#"><img src="https://img.shields.io/github/repo-size/Zhaoli2042/gRASPA_fork?logo=github" alt="GitHub repo size in bytes" /></a>
+<a href="#"> [![Lines](https://tokei.rs/b1/github/Zhaoli2042/gRASPA_fork?category=code)](https://github.com/XAMPPRocky/tokei)</a>
+
+<a href="#"> ![DOWNLOAD](https://img.shields.io/github/downloads/snurr-group/gRASPA/total?logo=github)</a>
+<a href="#"> ![STARS](https://img.shields.io/github/stars/snurr-group/gRASPA?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABLCAYAAADnAAD1AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPMSURBVHhe7ZxNbtNAFMfdjzSAyqoCia5YgQRixQV6ifYQcAjKIeAQ5BBwAVYIJFixohIfK6rSJP3yf/CLYsd2xvPeeN7Y/klR7USKpr/8Z95kxvHG2fnsOhlwRq3A+Z8PydXfz+Z4e+8g2RjfTzZ37plzTagUOP3+xghcZvTgMBnvH2VnetjM/qph+uPdijwwP5mY17ShTiBEVXGJbj37lZ3pQJXAdQmDvPnv99mZDlQJrEsfoS2FagTajm/aUqhGoE36CE0pVCGwaXWFvMtsjhgaFQKRqKbMU+kaUhhcINLnIkJLCoMLdEkfoSGFQQW6po/QkMKgAjnpI0KnMJhAbvqI0CkMJlAifUTIFAYRKJU+ImQKgwiUTB9x4eE9bWhdoFlp9tDdkMCydUTftC8w7b6+CJHCVgUiJT4H+xAp9L4nQtKupj/N2OdTIMDG09beQbJ996nZiKLnfCEikKogJCWQlT6u02PfsmyBwMWuXvqQlGstkCSZ4yxVmiS5spC7+8ScN5VbKhCiaECmLthHluVC7Fb6KLIi8N+340XSBvJA4Pjhy1wyc1UY3xAGedXATXE/JifQxzeErlF01PpEumvkBJYNkgN5qEITOYGj/SP2vKjroIgskxMIeZjFDxLLuf3oeMVN5TwQl5j1df5XBuSVDXGlRaRsvtNnquSByio8SPxPnTxQKRD0XeI6eaBWIOirRBt5oNFqzPnXV50vLAgKAmMjD6xNIIE3vvX4daeT2FQesBYIuizRRR5oJBB0UaKrPNBYIOiSRI48YF1Eyoi9sEDenWdvszM3nBJIxJxECXmAJRDEKFFKHmALBDFJlJQHRAQCNKy42KgR6TaKCQQxbEhJt1FMYEyVWLKtYgJxlUIsSKZQTOBFBN3XB3JjYExdWGMChzGQSQwVmEBbpSSKCIwpfdKICIwpfYRUm2USGNEUhpAqJDICT79kR/1j6MJM2AJjLSBot0TbRRLoE+1LZGyBvrov7pW1+3xi1u5Gnq4Yk2g7vwsLV2DIgrTlG41h0wcLttIiJSoxX6BQBV6IS2WVScJzeA0PKZESYyBrVw6cfjzMjtyADNwfsOm2Irrf7GTC6ob4ELjL++xtzbNPL7KzZkDYTjrOue7HElyREMhJc+sCpcQVgUCXq2ptr8KqgjUGNlmFRiPRWG6Dq8B7Ik14f4nx0Rb2GIgE1n3q+Gdw9T/GujbB74ZtbkaBqRIHtkD8PKzqzmtUMUNSJ1LivqxsgWC5kUZYmjptN4xFG/ELVAw72BtG5Zf4cEUE9hn134W1MwhkkSQ35F9FEWClhrQAAAAASUVORK5CYII=)</a>
+
+</div>
+
 ## Installation
 ### Installation in clusters
 To install gRASPA on NERSC (DOE) and QUEST (Northwestern) clusters, check out [Cluster-Setup](Cluster-Setup/)
