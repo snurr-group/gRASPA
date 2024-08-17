@@ -8,7 +8,7 @@ gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation 
 
 <a href="#">[![Manual](https://img.shields.io/badge/User_Manual-red?logo=github)]( https://zhaoli2042.github.io/gRASPA-mkdoc)</a>
 <a href="#">[![Manual](https://img.shields.io/badge/用户手册-yellow?logo=github)]( https://zhaoli2042.github.io/gRASPA-mkdoc/Chinese/)</a>
-<a href="#">[![Doxygen](https://img.shields.io/badge/Doxygen_Manual-green?logo=doxygen)]( https://zhaoli2042.github.io/gRASPA)</a>
+<a href="#">[![Doxygen](https://img.shields.io/badge/Doxygen_Manual-green?logo=doxygen)]( https://zhaoli2042.github.io/gRASPA/annotated.html)</a>
 
 <a href="#"><img src="https://img.shields.io/github/repo-size/snurr-group/gRASPA?logo=github" alt="GitHub repo size in bytes" /></a>
 <a href="#"> [![Lines](https://tokei.rs/b1/github/snurr-group/gRASPA?category=code)](https://github.com/XAMPPRocky/tokei)</a>
