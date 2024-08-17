@@ -3,7 +3,7 @@ gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation 
 
 <div align="center">
   
-<a href="">![Tests](https://github.com/Zhaoli2042/gRASPA_fork/actions/workflows/python-test.yml/badge.svg)</a>
+<a href="">![Tests](https://github.com/snurr-group/gRASPA/actions/workflows/python-test.yml/badge.svg)</a>
 <a href="">![License](https://img.shields.io/github/license/Zhaoli2042/gRASPA_fork?logo=github)</a>
 
 <a href="#">[![Manual](https://img.shields.io/badge/User_Manual-red?logo=github)]( https://zhaoli2042.github.io/gRASPA-mkdoc)</a>
