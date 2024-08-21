@@ -6,6 +6,8 @@ struct Allegro
   Boxsize ReplicaBox;
   std::vector<Atoms> UCAtoms;
   std::vector<Atoms> ReplicaAtoms;
+  std::vector<std::string> ElementSymbolUsed;
+  std::vector<int>Match_AllegroElement_PseudoAtom_order; //length = # of PseudoAtoms, value stored = order in the Allegro Model//
   double Cutoff = 6.0;
   double Cutoffsq = 0.0;
   NeighList NL;
@@ -14,6 +16,22 @@ struct Allegro
   size_t DNN_Molsize = 0; //Atom size to be considered for DNN, since there might be fictional atom sites for a classical sim molecule
 
   size_t nstep = 0;
+
+  void Match_Element_PseudoAtom_with_model(PseudoAtomDefinitions& PseudoAtoms)
+  {
+    printf("------- MATCHING ALLEGRO ELEMENTS WITH PSEUDO ATOM ELEMENT SYMBOLS -------\n");
+    Match_AllegroElement_PseudoAtom_order.resize(PseudoAtoms.Symbol.size(), -1);
+    for(size_t i = 0; i < PseudoAtoms.Symbol.size(); i++)
+    {
+      for(size_t j = 0; j < ElementSymbolUsed.size(); j++)
+        if(PseudoAtoms.Symbol[i] == ElementSymbolUsed[j])
+        {
+          Match_AllegroElement_PseudoAtom_order[i] = j;
+          printf("PseudoAtom Symbol[%zu]: %s, Allegro Symbol[%zu]: %s, MATCHED\n", i, PseudoAtoms.Symbol[i].c_str(), j, ElementSymbolUsed[j].c_str());
+          break;
+        }
+    }
+  }
 
   void GetSQ_From_Cutoff()
   {
@@ -190,9 +208,9 @@ struct Allegro
       if(comp != 0)
         if(!ConsiderThisAdsorbateAtom[i]) continue;
       UCAtoms[comp].pos[update_i]  = HostAtoms.pos[i];
-      size_t SymbolIdx = PseudoAtoms.GetSymbolIdxFromPseudoAtomTypeIdx(HostAtoms.Type[i]);
+      size_t SymbolIdx = Match_AllegroElement_PseudoAtom_order[HostAtoms.Type[i]];
       UCAtoms[comp].Type[update_i] = SymbolIdx;
-      //printf("Component %zu, Atom %zu, xyz %f %f %f, Type %zu, SymbolIndex %zu\n", comp, i, UCAtoms[comp].pos[i].x, UCAtoms[comp].pos[i].y, UCAtoms[comp].pos[i].z, HostAtoms.Type[i], UCAtoms[comp].Type[i]);
+      if(i < 5 || i > (NAtoms - 5)) printf("Component %zu, Atom %zu, xyz %f %f %f, Type %zu, SymbolIndex %zu\n", comp, i, UCAtoms[comp].pos[i].x, UCAtoms[comp].pos[i].y, UCAtoms[comp].pos[i].z, HostAtoms.Type[i], UCAtoms[comp].Type[i]);
       update_i ++;
     }
   }
@@ -239,6 +257,15 @@ struct Allegro
     Model.eval();
     //Freeze the model
     Model = torch::jit::freeze(Model);
+    std::cout << "MODEL TYPE NAMES " << metadata["type_names"] << "\n";
+    std::cout << "MODEL SPECIES "    << metadata["n_species"] << "\n";
+    //std::string name = std::to_string(metadata["type_names"]);
+    std::string name = metadata["type_names"];
+    std::vector<std::string> termsScannedLined{};
+    Split_Tab_Space(termsScannedLined, name);
+    ElementSymbolUsed = termsScannedLined;
+    printf("First element of type: %s, first: %s\n", name.c_str(), ElementSymbolUsed[0].c_str());
+    //printf("Model");
     //ReadCutOffFromModel(ModelName);
   }
   
@@ -265,7 +292,7 @@ struct Allegro
       pos[counter][2] = ReplicaAtoms[comp].pos[i].z;
       ij2type[counter]= ReplicaAtoms[comp].Type[i];
       //if(comp != 0)
-      //  printf("comp %zu, counter %zu, ij2type %zu\n", comp, counter, ij2type[counter]);
+      //printf("comp %zu, counter %zu, ij2type %zu\n", comp, counter, ij2type[counter]);
       counter ++;
     }
     size_t N_Replica_FrameworkAtoms = 0; size_t NFrameworkAtoms = 0;
@@ -551,6 +578,7 @@ struct Allegro
     WrapSuperCellAtomIntoUCBox(comp);
     GenerateReplicaCells(Initialize);
     Get_Neighbor_List_Replica(Initialize);
+    //printf("Doing Neighbor list\n");
     double DNN_E = Predict();
     //This generates the unit of eV, convert to 10J/mol.
     //https://www.weizmann.ac.il/oc/martin/tools/hartree.html
