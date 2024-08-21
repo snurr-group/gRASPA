@@ -17,17 +17,17 @@ PATCH_ALLEGRO_INSERTION
       double3* temp_pos; temp_pos = (double3*) malloc(sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent]);
       cudaMemcpy(temp_pos, Sims.Old.pos, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent], cudaMemcpyDeviceToHost);
       Check_DNNAtom_and_copy_pos_to_UCAtoms(temp_pos, SystemComponents.DNN.UCAtoms[SelectedComponent], SystemComponents.ConsiderThisAdsorbateAtom, SystemComponents.Moleculesize[SelectedComponent]);
-      if(SystemComponents.CURRENTCYCLE <= 30)
-      {
-        printf("DNN INSERTION BEFORE CHECK DNN PseudoAtoms\n");
-        for(size_t i = 0; i < SystemComponents.Moleculesize[SelectedComponent]; i++)
-          printf("pos: %f %f %f\n", temp_pos[i].x, temp_pos[i].y, temp_pos[i].z);
-
-        printf("DNN INSERTION AFTER CHECK DNN PseudoAtoms\n");
-        for(size_t i = 0; i < SystemComponents.DNN.UCAtoms[SelectedComponent].size; i++)
-          printf("pos: %f %f %f\n", SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].x, SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].y, SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].z);
-      }
-        DNN_New = SystemComponents.DNN.MCEnergyWrapper(SelectedComponent, Initialize, SystemComponents.DNNEnergyConversion);
+//      if(SystemComponents.CURRENTCYCLE <= 30)
+//      {
+//        printf("DNN INSERTION BEFORE CHECK DNN PseudoAtoms\n");
+//        for(size_t i = 0; i < SystemComponents.Moleculesize[SelectedComponent]; i++)
+//          printf("pos: %f %f %f\n", temp_pos[i].x, temp_pos[i].y, temp_pos[i].z);
+//
+//        printf("DNN INSERTION AFTER CHECK DNN PseudoAtoms\n");
+//        for(size_t i = 0; i < SystemComponents.DNN.UCAtoms[SelectedComponent].size; i++)
+//          printf("pos: %f %f %f\n", SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].x, SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].y, SystemComponents.DNN.UCAtoms[SelectedComponent].pos[i].z);
+//      }
+      DNN_New = SystemComponents.DNN.MCEnergyWrapper(SelectedComponent, Initialize, SystemComponents.DNNEnergyConversion);
       free(temp_pos);
     }
 
