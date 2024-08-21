@@ -33,7 +33,7 @@ enum INTERACTION_TYPES {HH = 0, HG, GG};
 enum RESTART_FILE_TYPES {RASPA_RESTART = 0, LAMMPS_DATA};
 
 //Zhao's note: For the stage of evaluating total energy of the system//
-enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT, GPU_DRIFT, AVERAGE, AVERAGE_ERR};
+enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT, AVERAGE, AVERAGE_ERR};
 
 struct EnergyComplex
 {
@@ -875,7 +875,6 @@ struct Components
   MoveEnergy Initial_Energy;
   MoveEnergy CreateMol_Energy;
   MoveEnergy Final_Energy;
-  MoveEnergy GPU_Energy;
   //Zhao's note: for average and standard deviations for energies
   std::vector<MoveEnergy> BookKeepEnergy;
   std::vector<MoveEnergy> BookKeepEnergy_SQ;

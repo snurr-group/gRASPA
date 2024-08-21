@@ -225,13 +225,13 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
       }
     }
   }
-  /* //DEBUG//
+  
   if(Cycle == 4)
   {
     printf("Cycle [%d], Printing DeltaE\n", Cycle);
     DeltaE.print();
   }
-  */
+  
   SystemComponents.deltaE += DeltaE;
 }
 
