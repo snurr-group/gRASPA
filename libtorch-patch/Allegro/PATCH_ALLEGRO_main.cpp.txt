@@ -10,6 +10,8 @@ PATCH_ALLEGRO_MAIN_PREP
         printf("Setting up Allegro model\n");
         SystemComponents[a].DNN.ReadModel(SystemComponents[a].ModelName[0]);
         printf("DONE Reading the model, model name %s\n", SystemComponents[a].ModelName[0].c_str());
+        SystemComponents[a].DNN.Match_Element_PseudoAtom_with_model(SystemComponents[a].PseudoAtoms);
+
         SystemComponents[a].DNN.UCAtoms.resize(SystemComponents[a].NComponents.x);
         SystemComponents[a].DNN.ReplicaAtoms.resize(SystemComponents[a].NComponents.x);
 

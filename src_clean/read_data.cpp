@@ -1081,9 +1081,12 @@ void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
     {
       Split_Tab_Space(termsScannedLined, str);
       if(termsScannedLined[0] != PseudoAtom.Name[counter-3]) throw std::runtime_error("Order of pseudo-atom and force field definition don't match!");
-      PseudoAtom.Symbol.push_back(termsScannedLined[2]);
+
       //Match 1-to-1 list of pseudo_atom type and symbol type//
-      size_t SymbolIdx = PseudoAtom.MatchSymbolTypeFromSymbolName(termsScannedLined[2]);
+      PseudoAtom.Symbol.push_back(termsScannedLined[2]);
+      size_t SymbolIdx = PseudoAtom.MatchUniqueSymbolTypeFromSymbolName(termsScannedLined[2]);
+      if(SymbolIdx >= PseudoAtom.UniqueSymbol.size()) PseudoAtom.UniqueSymbol.push_back(termsScannedLined[2]);
+
       PseudoAtom.SymbolIndex.push_back(SymbolIdx);
       PseudoAtom.oxidation.push_back(std::stod(termsScannedLined[4]));
       PseudoAtom.mass.push_back(std::stod(termsScannedLined[5]));

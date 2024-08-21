@@ -774,18 +774,19 @@ struct FRAMEWORK_COMPONENT_LISTS
 struct PseudoAtomDefinitions //Always a host struct, never on the device
 {
   std::vector<std::string> Name;
-  std::vector<std::string> Symbol;
+  std::vector<std::string> Symbol; //Symbol name for each pseudo-atom
+  std::vector<std::string> UniqueSymbol; //all the unique Symbol list //
   std::vector<size_t> SymbolIndex; //It has the size of the number of pseudo atoms, it tells the ID of the symbol for the pseudo-atoms, e.g., CO2->C->2
   std::vector<double> oxidation;
   std::vector<double> mass;
   std::vector<double> charge;
   std::vector<double> polar; //polarizability
-  size_t MatchSymbolTypeFromSymbolName(std::string& SymbolName)
+  size_t MatchUniqueSymbolTypeFromSymbolName(std::string& SymbolName)
   {
-    size_t SymbolIdx = 0;
-    for(size_t i = 0; i < Symbol.size(); i++)
+    size_t SymbolIdx = UniqueSymbol.size();
+    for(size_t i = 0; i < UniqueSymbol.size(); i++)
     {
-      if(SymbolName == Symbol[i]) 
+      if(SymbolName == UniqueSymbol[i])
       {
         SymbolIdx = i; break;
       }
