@@ -1165,13 +1165,14 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
 
     Nblock = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
     Complex* tempFrameworkEik; cudaMalloc(&tempFrameworkEik, Nblock * sizeof(Complex));
-
-    //printf("Nblocks for Ewald Total: %zu, allocated %zu blocks\n", Nblock, Sim.Nblocks);
-    if(Nblock*3 > Sim.Nblocks)
+    
+    if(3*Nblock > Sim.Nblocks)
     {
-      printf("Need to Allocate more space for blocksum\n");
-      cudaMalloc(&Sim.Blocksum, Nblock * sizeof(double));
+      printf("Total Ewald Fourier, Need to Allocate more space for blocksum, allocated: %zu, need: %zu\n", Sim.Nblocks, 3*Nblock);
+      Sim.Nblocks = 3*Nblock;
+      cudaMalloc(&Sim.Blocksum,     Sim.Nblocks * sizeof(double));
     }
+    cudaMemset(Sim.Blocksum, 0.0, Sim.Nblocks*sizeof(double));
     Nthread= 128;
 
     TotalEwald<<<Nblock, Nthread, Nthread * sizeof(double)>>>(d_a, Box, Sim.Blocksum, eikx, eiky, eikz, tempFrameworkEik, Box.tempEik, NTotalAtom, NAtomPerThread, residueAtoms, NHostGuestthread, SystemComponents.NComponents, Nblock);
