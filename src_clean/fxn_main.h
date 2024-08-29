@@ -182,7 +182,7 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
   //Might be good to add a flag or so//
   //size_t MaxResultsize = MaxTrialsize*(System[0].Allocate_size+System[1].Allocate_size);
   size_t MaxAllocatesize = max(System[0].Allocate_size, System[1].Allocate_size);
-  size_t MaxResultsize = MaxTrialsize * SystemComponents.Total_Components * MaxAllocatesize * 5; //For Volume move, it really needs a lot of blocks//
+  size_t MaxResultsize = MaxTrialsize * SystemComponents.NComponents.x * MaxAllocatesize * 5; //For Volume move, it really needs a lot of blocks//
 
 
   printf("----------------- MEMORY ALLOCAION STATUS -----------------\n");
@@ -281,8 +281,8 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
   printf("======================== CALCULATING %s STAGE ENERGY ========================\n", STAGE.c_str());
   MoveEnergy ENERGY;
 
-  Atoms device_System[SystemComponents.Total_Components];
-  cudaMemcpy(device_System, Sim.d_a, SystemComponents.Total_Components * sizeof(Atoms), cudaMemcpyDeviceToHost);
+  Atoms device_System[SystemComponents.NComponents.x];
+  cudaMemcpy(device_System, Sim.d_a, SystemComponents.NComponents.x * sizeof(Atoms), cudaMemcpyDeviceToHost);
   cudaMemcpy(Box.Cell,        Sim.Box.Cell,        9 * sizeof(double), cudaMemcpyDeviceToHost);
   cudaMemcpy(Box.InverseCell, Sim.Box.InverseCell, 9 * sizeof(double), cudaMemcpyDeviceToHost); 
   //Update every value that can be changed during a volume move//
@@ -374,10 +374,10 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
 
 inline void Copy_AtomData_from_Device(Atoms* System, Atoms* Host_System, Atoms* d_a, Components& SystemComponents)
 {
-  cudaMemcpy(System, d_a, SystemComponents.Total_Components * sizeof(Atoms), cudaMemcpyDeviceToHost);
+  cudaMemcpy(System, d_a, SystemComponents.NComponents.x * sizeof(Atoms), cudaMemcpyDeviceToHost);
   //printval<<<1,1>>>(System[0]);
   //printvald_a<<<1,1>>>(d_a);
-  for(size_t ijk=0; ijk < SystemComponents.Total_Components; ijk++)
+  for(size_t ijk=0; ijk < SystemComponents.NComponents.x; ijk++)
   {
     // if the host allocate_size is different from the device, allocate more space on the host
     size_t current_allocated_size = System[ijk].Allocate_size;
@@ -484,7 +484,7 @@ static inline void Write_Lambda(size_t Cycle, Components SystemComponents, size_
   std::filesystem::path fileName = cwd /fname;
   std::filesystem::create_directories(directoryName);
   textrestartFile = std::ofstream(fileName, std::ios::out);
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     if(SystemComponents.hasfractionalMolecule[i])
     {
@@ -520,7 +520,7 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
   std::filesystem::path fileName = cwd /fname;
   std::filesystem::create_directories(directoryName);
   textTMMCFile = std::ofstream(fileName, std::ios::out);
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     if(SystemComponents.Tmmc[i].DoTMMC)
     {
@@ -557,7 +557,7 @@ inline void GenerateSummaryAtEnd(int Cycle, std::vector<Components>& SystemCompo
   for(size_t i = 0; i < NumberOfSimulations; i++)
   {
     printf("System %zu\n", i);
-    Atoms device_System[SystemComponents[i].Total_Components];
+    Atoms device_System[SystemComponents[i].NComponents.x];
     Copy_AtomData_from_Device(device_System, SystemComponents[i].HostSystem, Sims[i].d_a, SystemComponents[i]);
 
     Write_Lambda(Cycle, SystemComponents[i], i);
@@ -571,14 +571,14 @@ inline void prepare_MixtureStats(Components& SystemComponents)
 {
   double tot = 0.0;
   printf("================= MOL FRACTIONS =================\n");
-  for(size_t j = 0; j < SystemComponents.Total_Components; j++)
+  for(size_t j = 0; j < SystemComponents.NComponents.x; j++)
   {
-    SystemComponents.Moves[j].IdentitySwap_Total_TO.resize(SystemComponents.Total_Components, 0);
-    SystemComponents.Moves[j].IdentitySwap_Acc_TO.resize(SystemComponents.Total_Components,   0);
+    SystemComponents.Moves[j].IdentitySwap_Total_TO.resize(SystemComponents.NComponents.x, 0);
+    SystemComponents.Moves[j].IdentitySwap_Acc_TO.resize(SystemComponents.NComponents.x,   0);
     if(j != 0) tot += SystemComponents.MolFraction[j];
   }
   //Prepare MolFraction for adsorbate components//
-  for(size_t j = 1; j < SystemComponents.Total_Components; j++)
+  for(size_t j = 1; j < SystemComponents.NComponents.x; j++)
   {
     SystemComponents.MolFraction[j] /= tot;
     printf("Component [%zu] (%s), Mol Fraction: %.5f\n", j, SystemComponents.MoleculeName[j].c_str(), SystemComponents.MolFraction[j]);

@@ -9,7 +9,7 @@ static inline void Print_Cycle_Statistics(size_t Cycle, Components& SystemCompon
   }
   */
   printf("%s Cycle: %zu, %zu Adsorbate Molecules, Total Energy: %.5f  ||  ", Mode.c_str(), Cycle, SystemComponents.TotalNumberOfMolecules - SystemComponents.NumberOfFrameworks, SystemComponents.CreateMol_Energy.total() + SystemComponents.deltaE.total());
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
     printf("Component %zu [%s], %zu Molecules  ||  ", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i]);
   printf("\n");
 }
@@ -172,7 +172,7 @@ static inline void Print_Swap_Statistics(Move_Statistics MoveStats)
 static inline void Print_IdentitySwap_Statistics(Components& SystemComponents, size_t i)
 {
   printf("=====================IDENTITY SWAP MOVES=====================\n");
-  for(size_t j = 0; j < SystemComponents.Total_Components; j++)
+  for(size_t j = 0; j < SystemComponents.NComponents.x; j++)
   {
     if(SystemComponents.Moves[i].TotalProb < 1e-10) continue;
     if(SystemComponents.Moves[i].IdentitySwapProb - SystemComponents.Moves[i].ReinsertionProb < 1e-10) continue;
@@ -364,24 +364,30 @@ void Gather_Averages_MoveEnergy(Components& SystemComponents, int Cycles, int Bl
 {
   size_t blockID = Cycles/Blocksize;
   if(blockID >= SystemComponents.Nblock) blockID --;
-  if(blockID == SystemComponents.Nblock-1)
-  {
-    if(Cycles % Blocksize != 0) Blocksize += Cycles % Blocksize;
-  }
+  //size_t blockID = SystemComponents.Moves[0].BlockID;
+  //if(blockID == SystemComponents.Nblock-1)
+  //{
+  //  if(Cycles % Blocksize != 0) Blocksize += Cycles % Blocksize;
+  //}
   //Get total energy//
   //MoveEnergy UpdateDeltaE = ;
-  SystemComponents.BookKeepEnergy[blockID]    += DeltaE / static_cast<double>(Blocksize);
+  SystemComponents.BookKeepEnergy[blockID]    += DeltaE;
   //SystemComponents.BookKeepEnergy_SQ[blockID] += DeltaE / static_cast<double>(Blocksize) * DeltaE;
 }
 
-void Calculate_Overall_Averages_MoveEnergy(Components& SystemComponents, int Blocksize)
+void Calculate_Overall_Averages_MoveEnergy(Components& SystemComponents, int Blocksize, int Cycles)
 {
   //Calculate just the overall, now//
   MoveEnergy AverageEnergy_SQ;
   for(size_t i = 0; i < SystemComponents.Nblock; i++)
   {
-    SystemComponents.AverageEnergy          += SystemComponents.BookKeepEnergy[i]/ static_cast<double>(SystemComponents.Nblock);
-    AverageEnergy_SQ                        += SystemComponents.BookKeepEnergy[i]/ static_cast<double>(SystemComponents.Nblock) * SystemComponents.BookKeepEnergy[i];
+    if(i == SystemComponents.Nblock-1)
+    {
+      if(Cycles % Blocksize != 0) Blocksize += Cycles % Blocksize;
+    }
+    MoveEnergy Average = SystemComponents.BookKeepEnergy[i] / static_cast<double>(Blocksize);
+    SystemComponents.AverageEnergy          += Average / static_cast<double>(SystemComponents.Nblock);
+    AverageEnergy_SQ                        += Average * Average / static_cast<double>(SystemComponents.Nblock);
   }
   SystemComponents.AverageEnergy_Errorbar = sqrt_MoveEnergy(AverageEnergy_SQ - SystemComponents.AverageEnergy * SystemComponents.AverageEnergy) * 2.0;
 }
@@ -408,14 +414,99 @@ static inline void Print_Values(std::vector<double2>& Array, int Cycles, int Blo
   printf("Overall: Average: %.5f, ErrorBar: %.5f\n", OverallAverage/Nblock, 2.0 * pow((OverallSQAverage/Nblock - OverallAverage/Nblock * OverallAverage/Nblock), 0.5));
 }
 
-static inline void Print_Averages(Components& SystemComponents, int Cycles, int Blocksize, Simulations& Sims)
+/////////////////////////////////////////////
+//Qst, for single/multiple components      //
+//Modified from RASPA-2                    //
+//and Kaihang's 1 component implementation //
+/////////////////////////////////////////////
+static inline void Print_HeatOfAdsorption(Components& SystemComponents, int Cycles, int Blocksize, size_t Nblock, Units& Constants)
 {
-  printf("=====================BLOCK AVERAGES (ENERGIES)================\n");
-  std::vector<double2>Temp = SystemComponents.EnergyAverage;
-  Print_Values(Temp, Cycles, Blocksize, SystemComponents.Nblock);
+  double Temperature = SystemComponents.Temperature;
+  size_t NumberOfAdsorbateComponents = SystemComponents.NComponents.x - SystemComponents.NComponents.y;
+
+  std::vector<std::vector<double>>HeatOfAdsorption(NumberOfAdsorbateComponents, std::vector<double>(Nblock, 0.0));
+  for(size_t i = 0; i < Nblock; i++)
+  {
+    if(i == Nblock-1)
+    {
+      if(Cycles % Blocksize != 0) Blocksize += Cycles % Blocksize;
+    }
+
+    // <E>
+    double Average_E   = SystemComponents.BookKeepEnergy[i].total();
+    Average_E -= SystemComponents.BookKeepEnergy[i].HHVDW;
+    Average_E -= SystemComponents.BookKeepEnergy[i].HHReal;
+    Average_E -= SystemComponents.BookKeepEnergy[i].HHEwaldE;
+    Average_E /= Blocksize;
+
+    std::vector<std::vector<double>>matrix(NumberOfAdsorbateComponents, std::vector<double>(NumberOfAdsorbateComponents, 0.0));
+    std::vector<std::vector<double>>temp_matrix(NumberOfAdsorbateComponents, std::vector<double>(NumberOfAdsorbateComponents, 0.0));
+
+    for(size_t compi = SystemComponents.NComponents.y; compi < SystemComponents.NComponents.x; compi++)
+    {
+      for(size_t compj = SystemComponents.NComponents.y; compj < SystemComponents.NComponents.x; compj++)
+      {
+        size_t adjust_compi = compi - SystemComponents.NComponents.y; //for matrix, shift by framework component
+        size_t adjust_compj = compj - SystemComponents.NComponents.y; //for matrix, shift by framework component
+        double Average_N    = SystemComponents.Moves[compi].MolAverage[i].x / Blocksize;
+        double Average_Nj   = SystemComponents.Moves[compj].MolAverage[i].x / Blocksize;
+        double Average_NxNj = SystemComponents.Moves[compi].MolSQPerComponent[compj][i] / Blocksize;
+
+        matrix[adjust_compi][adjust_compj] = Average_NxNj - Average_N * Average_Nj;
+      }
+    }
+    GaussJordan(matrix, temp_matrix); //inversed matrix is saved in the input matrix, temp_matrix is a temporary, not used
+
+    for(size_t compi = SystemComponents.NComponents.y; compi < SystemComponents.NComponents.x; compi++)
+    {
+      size_t adjust_compi = compi - SystemComponents.NComponents.y; //for matrix, shift by framework component
+      for(size_t compj = SystemComponents.NComponents.y; compj < SystemComponents.NComponents.x; compj++)
+      {
+        double Average_N   = SystemComponents.Moves[compj].MolAverage[i].x / Blocksize; // <N>
+        double SQAverage_N = SystemComponents.Moves[compj].MolAverage[i].y / Blocksize; // <N^2>
+        double Average_ExN = SystemComponents.EnergyTimesNumberOfMolecule[compj][i] / Blocksize; //<E*N>
+
+        size_t adjust_compj = compj - SystemComponents.NComponents.y; //for matrix, shift by framework component
+        double One_Over_Variance = 1.0 / (SQAverage_N - Average_N * Average_N);
+
+        //if(SystemComponents.NComponents.x - SystemComponents.NComponents.y > 1) 
+        One_Over_Variance = matrix[adjust_compj][adjust_compi]; //Inversed matrix, multiple components
+
+        // Calculate heat of adsorption [kJ/mol]
+        HeatOfAdsorption[adjust_compi][i] += ( Constants.energy_to_kelvin * (Average_ExN - Average_E * Average_N) * One_Over_Variance);
+      }
+      double kelvin_to_kjmol = 0.01 / Constants.energy_to_kelvin;
+      HeatOfAdsorption[adjust_compi][i] -= Temperature; 
+      HeatOfAdsorption[adjust_compi][i] *= kelvin_to_kjmol;
+    }
+  }
+  //print values//
+  for(size_t compi = SystemComponents.NComponents.y; compi < SystemComponents.NComponents.x; compi++)
+  {
+    double OverallHeatOfAdsorption    = 0.0;
+    double OverallSQHeatOfAdsorption  = 0.0;
+    size_t adjust_compi = compi - SystemComponents.NComponents.y; //for matrix, shift by framework component
+    printf("COMPONENT [%zu] (%s)\n", compi, SystemComponents.MoleculeName[compi].c_str());
+    for(size_t i = 0; i < Nblock; i++)
+    {
+      printf("BLOCK [%zu], Blocksize: %i, Average: %.5f\n", i, Blocksize, HeatOfAdsorption[adjust_compi][i]);
+      OverallHeatOfAdsorption   += HeatOfAdsorption[adjust_compi][i];
+      OverallSQHeatOfAdsorption += HeatOfAdsorption[adjust_compi][i] * HeatOfAdsorption[adjust_compi][i];
+    }
+    printf("Overall: Average: %.5f, ErrorBar: %.5f\n", OverallHeatOfAdsorption/Nblock, 2.0 * pow((OverallSQHeatOfAdsorption/Nblock - OverallHeatOfAdsorption/Nblock * OverallHeatOfAdsorption/Nblock), 0.5));
+    printf("-----------------------------\n");
+  }
+}
+
+static inline void Print_Averages(Components& SystemComponents, int Cycles, int Blocksize, Simulations& Sims, Units& Constants)
+{
+  printf("============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========\n");
+  size_t NumberOfAdsorbateComponent = SystemComponents.NComponents.x - SystemComponents.NComponents.y;
+  Print_HeatOfAdsorption(SystemComponents, Cycles, Blocksize, SystemComponents.Nblock, Constants);
   printf("==============================================================\n");
+
   printf("=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============\n");
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
@@ -425,7 +516,7 @@ static inline void Print_Averages(Components& SystemComponents, int Cycles, int 
   printf("======================================================================\n");
   
   printf("=====================BLOCK AVERAGES (LOADING: mg/g)=============\n");
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
@@ -435,7 +526,7 @@ static inline void Print_Averages(Components& SystemComponents, int Cycles, int 
   }
   printf("==============================================================\n");
   printf("=====================BLOCK AVERAGES (LOADING: mol/kg)=============\n");
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
@@ -445,7 +536,7 @@ static inline void Print_Averages(Components& SystemComponents, int Cycles, int 
   }
   printf("==============================================================\n");
   printf("=====================BLOCK AVERAGES (LOADING: g/L)=============\n");
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
@@ -467,12 +558,22 @@ static inline void Gather_Averages_Types(std::vector<double2>& Array, double ini
   Array[blockID].y += total_value * total_value;
 }
 
+// Kaihang Shi: Added for the purpose of heat of adsorption
+// Just to keep the average, not SQAverage
+static inline void Gather_Averages_double(std::vector<double>& Array, double value, int Cycles, int Blocksize, size_t Nblock)
+{
+  //Determine the block id//
+  size_t blockID = Cycles/Blocksize;
+  if(blockID >= Nblock) blockID --;
+  Array[blockID] += value;
+}
+
 ///////////////////////////////////////////////////////
 // Wrapper for the functions for printing statistics //
 ///////////////////////////////////////////////////////
-static inline void PrintAllStatistics(Components& SystemComponents, Simulations& Sims, size_t Cycles, int SimulationMode, size_t BlockAverageSize)
+static inline void PrintAllStatistics(Components& SystemComponents, Simulations& Sims, size_t Cycles, int SimulationMode, size_t BlockAverageSize, Units& Constants)
 {
-  for(size_t comp = 0; comp < SystemComponents.Total_Components; comp++)
+  for(size_t comp = 0; comp < SystemComponents.NComponents.x; comp++)
   {
     if(SystemComponents.Moves[comp].TotalProb < 1e-10) continue;
     printf("======================== MOVE STATISTICS FOR COMPONENT [%zu] (%s) ========================\n", comp,SystemComponents.MoleculeName[comp].c_str());
@@ -486,7 +587,7 @@ static inline void PrintAllStatistics(Components& SystemComponents, Simulations&
   }
   if(SimulationMode == PRODUCTION)
   {
-    Print_Averages(SystemComponents, Cycles, BlockAverageSize, Sims);
+    Print_Averages(SystemComponents, Cycles, BlockAverageSize, Sims, Constants);
   }
 }
 

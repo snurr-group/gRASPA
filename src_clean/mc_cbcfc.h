@@ -22,7 +22,7 @@ static inline MoveEnergy CBCF_LambdaChange(Components& SystemComponents, Simulat
   MoveEnergy tot;
   //double result = 0.0;
   size_t Atomsize = 0;
-  for(size_t ijk = 0; ijk < SystemComponents.Total_Components; ijk++)
+  for(size_t ijk = 0; ijk < SystemComponents.NComponents.x; ijk++)
   {
     Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
   }

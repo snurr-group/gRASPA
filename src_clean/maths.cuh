@@ -1,5 +1,5 @@
 #include <iostream>
-
+#define SWAP(x,y,z) {z=(x);x=(y);y=(z);} //RASPA2
 __host__ __device__ void WrapInBox(double3 posvec, double* Cell, double* InverseCell, bool Cubic)
 {
   if(Cubic)//cubic/cuboid
@@ -34,6 +34,7 @@ double matrix_determinant(double* x) //9*1 array
   return determinant;
 }
 
+//3x3 matrix//
 void inverse_matrix(double* x, double **inverse_x)
 {
   double m11 = x[0*3+0]; double m21 = x[1*3+0]; double m31 = x[2*3+0];
@@ -52,7 +53,82 @@ void inverse_matrix(double* x, double **inverse_x)
   result[8] = +(m11 * m22 - m21 * m12) / determinant;
   *inverse_x = result;
 }
+//Converted from RASPA2
+//inversed matrix is saved in the input matrix a, temp_matrix b is a temporary, not used
+void GaussJordan(std::vector<std::vector<double>>& a, std::vector<std::vector<double>>& b)
+{
+  size_t n = a.size();
+  size_t m = b.size();
+  std::vector<size_t> indxc(n, 0.0), indxr(n, 0.0), ipiv(n, 0.0);
+  size_t icol, irow;
+  icol = irow = 0;
+  double big, dum, pivinv, temp;
 
+  //for (size_t j = 0; j < n; j++) ipiv[j] = 0;
+  for (size_t i = 0; i < n; i++) 
+  {
+    big = 0.0;
+    for (size_t j = 0; j < n; j++) 
+    {
+      if (ipiv[j] != 1) 
+      {
+        for (size_t k = 0; k < n; k++) 
+        {
+          if (ipiv[k] == 0) 
+          {
+            if (std::fabs(a[j][k]) >= big)
+            {
+              big = std::fabs(a[j][k]);
+              irow = j;
+              icol = k;
+            }
+          }
+        }
+      }
+    }
+    ++(ipiv[icol]);
+
+    if (irow != icol) 
+    {
+      for (size_t l = 0; l < n; l++) SWAP(a[irow][l], a[icol][l], temp);
+      for (size_t l = 0; l < m; l++) SWAP(b[irow][l], b[icol][l], temp);
+    }
+    indxr[i] = irow;
+    indxc[i] = icol;
+    //if (a[icol][icol] < 1e-10)
+    if (a[icol][icol] == 0.0)
+    {
+      //throw std::runtime_error("Matrix Inversion, Gauss-Jordan: Singular Matrix");
+      printf("WARNING: Matrix Inversion, Gauss-Jordan: Singular Matrix! Qst for the current component may not get calculated correctly!\n");
+      printf("TIP: Your molecule may have a hard time getting in/out of the system box. Consider making it better by using some moves or NVT moves to relax the system more!\n");
+    }
+    pivinv = 1.0 / a[icol][icol];
+    a[icol][icol] = 1.0;
+    for (size_t l = 0; l < n; l++) a[icol][l] *= pivinv;
+    for (size_t l = 0; l < m; l++) b[icol][l] *= pivinv;
+    for (size_t ll = 0; ll < n; ll++) 
+    {
+      if (ll != icol) 
+      {
+        dum = a[ll][icol];
+        a[ll][icol] = 0.0;
+        for (size_t l = 0; l < n; l++) a[ll][l] -= a[icol][l] * dum;
+        for (size_t l = 0; l < m; l++) b[ll][l] -= b[icol][l] * dum;
+      }
+    }
+  }
+  for (int l = n - 1; l >= 0; l--)
+  //for (size_t l = 0; l <= n-1; l++)
+  {
+    if (indxr[l] != indxc[l])
+    {
+      for (size_t k = 0; k < n; k++)
+      {
+        SWAP(a[k][indxr[l]], a[k][indxc[l]], temp);
+      }
+    }
+  }
+}
 
 inline __host__ __device__ void matrix_multiply_by_vector(double* a, double3 b, double3 &c) //3x3(9*1) matrix (a) times 3x1(3*1) vector (b), a*b=c//
 {

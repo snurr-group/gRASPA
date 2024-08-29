@@ -118,9 +118,9 @@ static inline void WriteAtoms_Restart(Atoms* System, Components SystemComponents
 
 static inline void WriteComponent_Restart(Atoms* System, Components SystemComponents, std::ofstream& textrestartFile, Boxsize& Box)
 {
-  textrestartFile << "Components: " << SystemComponents.Total_Components - SystemComponents.NumberOfFrameworks << " (Adsorbates " << SystemComponents.TotalNumberOfMolecules-SystemComponents.NumberOfFrameworks << ", Cations 0)" << "\n";
+  textrestartFile << "Components: " << SystemComponents.NComponents.x - SystemComponents.NumberOfFrameworks << " (Adsorbates " << SystemComponents.TotalNumberOfMolecules-SystemComponents.NumberOfFrameworks << ", Cations 0)" << "\n";
   textrestartFile << "========================================================================\n"; 
-  for(size_t i = SystemComponents.NumberOfFrameworks; i < SystemComponents.Total_Components; i++)
+  for(size_t i = SystemComponents.NumberOfFrameworks; i < SystemComponents.NComponents.x; i++)
   {
     textrestartFile << "Components 0 (" << SystemComponents.MoleculeName[i] << ") " << "\n";
     int fracID = -1;
@@ -284,7 +284,7 @@ static inline void Write_Lambda(size_t Cycle, Components SystemComponents, size_
   std::filesystem::path fileName = cwd /fname;
   std::filesystem::create_directories(directoryName);
   textrestartFile = std::ofstream(fileName, std::ios::out);
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     if(SystemComponents.hasfractionalMolecule[i])
     {
@@ -320,7 +320,7 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
   std::filesystem::path fileName = cwd /fname;
   std::filesystem::create_directories(directoryName);
   textTMMCFile = std::ofstream(fileName, std::ios::out);
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     if(SystemComponents.Tmmc[i].DoTMMC)
     {

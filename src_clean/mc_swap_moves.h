@@ -399,14 +399,14 @@ static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponen
   double NMolA= static_cast<double>(SystemComponents[SelectedBox].TotalNumberOfMolecules - SystemComponents[SelectedBox].NumberOfFrameworks);
   double NMolB= static_cast<double>(SystemComponents[OtherBox].TotalNumberOfMolecules - SystemComponents[OtherBox].NumberOfFrameworks);
   //Minus the fractional molecule//
-  for(size_t comp = 0; comp < SystemComponents[SelectedBox].Total_Components; comp++)
+  for(size_t comp = 0; comp < SystemComponents[SelectedBox].NComponents.x; comp++)
   {
     if(SystemComponents[SelectedBox].hasfractionalMolecule[comp])
     {
       NMolA-=1.0;
     }
   }
-  for(size_t comp = 0; comp < SystemComponents[OtherBox].Total_Components; comp++)
+  for(size_t comp = 0; comp < SystemComponents[OtherBox].NComponents.x; comp++)
   {
     if(SystemComponents[OtherBox].hasfractionalMolecule[comp])
     {

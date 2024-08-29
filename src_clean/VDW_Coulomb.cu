@@ -42,7 +42,7 @@ void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceFiel
   //All variables passed here should be device pointers//
   ///////////////////////////////////////////////////////
   //Copy Adsorbate to host//
-  for(size_t ijk=1; ijk < SystemComponents.Total_Components; ijk++) //Skip the first one(framework)
+  for(size_t ijk=1; ijk < SystemComponents.NComponents.x; ijk++) //Skip the first one(framework)
   {
     //if(Host_System[ijk].Allocate_size != System[ijk].Allocate_size)
     //{
@@ -95,7 +95,7 @@ void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceFiel
   std::vector<double> FBES; std::vector<double> CHAINES;
   std::vector<double2> ComponentEnergy(SystemComponents.NComponents.x * SystemComponents.NComponents.x, {0.0, 0.0});
   int InteractionType;
-  for(size_t compi=0; compi < SystemComponents.Total_Components; compi++) 
+  for(size_t compi=0; compi < SystemComponents.NComponents.x; compi++) 
   {
     const Atoms Component=Host_System[compi];
     for(size_t i=0; i<Component.size; i++)
@@ -106,7 +106,7 @@ void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceFiel
       const double scalingCoulombA = Component.scaleCoul[i];
       const size_t typeA = Component.Type[i];
       const size_t MoleculeID = Component.MolID[i];
-      for(size_t compj=0; compj < SystemComponents.Total_Components; compj++)
+      for(size_t compj=0; compj < SystemComponents.NComponents.x; compj++)
       {
         //Determine Interaction type//
         if((compi < SystemComponents.NComponents.y) || (compj < SystemComponents.NComponents.y))

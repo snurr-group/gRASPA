@@ -439,12 +439,6 @@ double2 GPU_EwaldDifference_General(Boxsize& Box, Atoms*& d_a, Atoms& New, Atoms
   //Zhao's note: when adding fractional molecules, this might not be correct//
   double deltaExclusion = 0.0;
   
-  if(SystemComponents.CURRENTCYCLE == 4)
-  { 
-    printf("Number of blocks: %zu, Nthread: %zu\n", Nblock, Nthread);
-    printf("GPU Fourier Energy (SameType): %.5f, (CrossType) %.5f\n", SameSum, 2.0 * CrossSum);
-  }
-  
   if(SystemComponents.rigid[SelectedComponent])
   {
     if(MoveType == INSERTION || MoveType == SINGLE_INSERTION) // Insertion //
@@ -1152,7 +1146,7 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
     Complex* eikx; cudaMalloc(&eikx, NTotalAtom * (Box.kmax.x + 1) * sizeof(Complex));
     Complex* eiky; cudaMalloc(&eiky, NTotalAtom * (Box.kmax.y + 1) * sizeof(Complex));
     Complex* eikz; cudaMalloc(&eikz, NTotalAtom * (Box.kmax.z + 1) * sizeof(Complex));
-    Setup_Ewald_Vector<<<Nblock, Nthread>>>(Box, eikx, eiky, eikz, d_a, NTotalAtom, SystemComponents.Total_Components, UseOffSet);
+    Setup_Ewald_Vector<<<Nblock, Nthread>>>(Box, eikx, eiky, eikz, d_a, NTotalAtom, SystemComponents.NComponents.x, UseOffSet);
 
     Complex* host_eikx; Complex* host_eiky; Complex* host_eikz;
     host_eikx = (Complex*) malloc(NTotalAtom * (Box.kmax.x + 1)*sizeof(Complex));
@@ -1165,14 +1159,14 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
 
     Nblock = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
     Complex* tempFrameworkEik; cudaMalloc(&tempFrameworkEik, Nblock * sizeof(Complex));
-    
+
     if(3*Nblock > Sim.Nblocks)
     {
       printf("Total Ewald Fourier, Need to Allocate more space for blocksum, allocated: %zu, need: %zu\n", Sim.Nblocks, 3*Nblock);
       Sim.Nblocks = 3*Nblock;
       cudaMalloc(&Sim.Blocksum,     Sim.Nblocks * sizeof(double));
     }
-    cudaMemset(Sim.Blocksum, 0.0, Sim.Nblocks*sizeof(double));
+    cudaMemset(Sim.Blocksum, 0.0, Sim.Nblocks * sizeof(double));
     Nthread= 128;
 
     TotalEwald<<<Nblock, Nthread, Nthread * sizeof(double)>>>(d_a, Box, Sim.Blocksum, eikx, eiky, eikz, tempFrameworkEik, Box.tempEik, NTotalAtom, NAtomPerThread, residueAtoms, NHostGuestthread, SystemComponents.NComponents, Nblock);

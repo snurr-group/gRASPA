@@ -1,5 +1,5 @@
-/home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
-True path of exe is /home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/
+/home/z/Desktop/gRASPA_versions/082824-code/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
+True path of exe is /home/z/Desktop/gRASPA_versions/082824-code/gRASPA_fork/src_clean/
 There are 1 simulations
 running only one simulation
 ------------------PARSING FORCE FIELD MIXING RULES----------------
@@ -71,6 +71,7 @@ i: 88, ii: 8, jj: 8, Name_i: C_xyl, Name_j: C_xyl, ep: 29.3001479918, sig: 3.550
 i: 89, ii: 8, jj: 9, Name_i: C_xyl, Name_j: H_xyl, ep: 19.1351272366, sig: 2.9850000000, shift: -0.0181287134
 i: 99, ii: 9, jj: 9, Name_i: H_xyl, Name_j: H_xyl, ep: 12.4966295209, sig: 2.4200000000, shift: -0.0033622375
 ----- END OF MIXED VDW PARAMETERS -----
+THERE ARE 10 PSEUDO ATOMS
 -------------PARSING PSEUDO ATOMS FILE-------------
 Name: HH, 0.00000, 1.00000, 0.00000, 0.00000
 Name: c, 0.00000, 12.00000, 0.00000, 0.00000
@@ -461,8 +462,8 @@ Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
 Component: 0, Intra-Molecular ExclusionE: -32892160.48297 (-39560200.18912 kJ/mol)
 Component: 1, Intra-Molecular ExclusionE: -243671.40556 (-293069.51695 kJ/mol)
 Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
-HostEwald took 0.05826 sec
-Ewald Summation (total energy) on the CPU took 0.05826 secs
+HostEwald took 0.05838 sec
+Ewald Summation (total energy) on the CPU took 0.05838 secs
 Component 0, Intra Exclusion Energy: 32892160.48297 (39560200.18912 kJ/mol)
 Component 0, Atom Self Exclusion Energy: 7123268.40575 (8567327.89803 kJ/mol)
 DEBUG: comp: 0, IntraE: 32892160.48297, SelfE: 7123268.40575
@@ -516,7 +517,7 @@ Nblock 127, blocks: 127 0 0, threads needed: 16214 0 0, Nthread: 128
 GPU VDW REAL ENERGY:
 HHVDW: 5523439918.42259, HHReal: -6257646.54087, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-VDW + Real on the GPU took 0.00556 secs
+VDW + Real on the GPU took 0.00560 secs
 GPU Ewald Summary: NHostAtom: 1856, NGuestAtom: 0
 GPU Ewald Summary: Nthread: 128, Host thread: 128, Guest thread: 0
 Host NAtomPerThread: 14, Guest NAtomPerThread: 0
@@ -525,7 +526,7 @@ GPU fourier, HHFourier: 7328.67519, GGFourier: 0.00000, HGFourier: 0.00000, TOTF
 Framework Component 0 Exclusion: -40015428.88872
 Component 1, Nblock: 1, Nthread: 128
 Component 1, Exclusion (self + intra) = -1723558.02282
-Ewald Summation (total energy) on the GPU took 0.00126 secs
+Ewald Summation (total energy) on the GPU took 0.00134 secs
 Total GPU Energy: 
 HHVDW: 5523439918.42259, HHReal: -6257646.54087, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: -41731658.23635, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
@@ -551,8 +552,8 @@ Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
 Component: 0, Intra-Molecular ExclusionE: -32892160.48297 (-39560200.18912 kJ/mol)
 Component: 1, Intra-Molecular ExclusionE: -243671.40556 (-293069.51695 kJ/mol)
 Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
-HostEwald took 0.05787 sec
-Ewald Summation (total energy) on the CPU took 0.05787 secs
+HostEwald took 0.05783 sec
+Ewald Summation (total energy) on the CPU took 0.05783 secs
  ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** 
 Wave Vector 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
@@ -584,7 +585,7 @@ Nblock 127, blocks: 127 0 0, threads needed: 16214 0 0, Nthread: 128
 GPU VDW REAL ENERGY:
 HHVDW: 5523439918.42259, HHReal: -6257646.54087, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-VDW + Real on the GPU took 0.00048 secs
+VDW + Real on the GPU took 0.00052 secs
 GPU Ewald Summary: NHostAtom: 1856, NGuestAtom: 0
 GPU Ewald Summary: Nthread: 128, Host thread: 128, Guest thread: 0
 Host NAtomPerThread: 14, Guest NAtomPerThread: 0
@@ -593,7 +594,7 @@ GPU fourier, HHFourier: 7328.67519, GGFourier: 0.00000, HGFourier: 0.00000, TOTF
 Framework Component 0 Exclusion: -40015428.88872
 Component 1, Nblock: 1, Nthread: 128
 Component 1, Exclusion (self + intra) = -1723558.02282
-Ewald Summation (total energy) on the GPU took 0.00103 secs
+Ewald Summation (total energy) on the GPU took 0.00112 secs
 Total GPU Energy: 
 HHVDW: 5523439918.42259, HHReal: -6257646.54087, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: -41731658.23635, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
@@ -671,13 +672,23 @@ Reinsertion Accepted:  0
 =====================IDENTITY SWAP MOVES=====================
 =============================================================
 ================================================================================================
-=====================BLOCK AVERAGES (ENERGIES)================
-BLOCK [0], Blocksize: 1000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [1], Blocksize: 1000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [2], Blocksize: 1000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [3], Blocksize: 1000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [4], Blocksize: 1000, Average: 0.00000, ErrorBar: 0.00000
-Overall: Average: 0.00000, ErrorBar: 0.00000
+============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========
+WARNING: Matrix Inversion, Gauss-Jordan: Singular Matrix! Qst for the current component may not get calculated correctly!
+TIP: Your molecule may have a hard time getting in/out of the system box. Consider making it better by using some moves or NVT moves to relax the system more!
+WARNING: Matrix Inversion, Gauss-Jordan: Singular Matrix! Qst for the current component may not get calculated correctly!
+TIP: Your molecule may have a hard time getting in/out of the system box. Consider making it better by using some moves or NVT moves to relax the system more!
+WARNING: Matrix Inversion, Gauss-Jordan: Singular Matrix! Qst for the current component may not get calculated correctly!
+TIP: Your molecule may have a hard time getting in/out of the system box. Consider making it better by using some moves or NVT moves to relax the system more!
+WARNING: Matrix Inversion, Gauss-Jordan: Singular Matrix! Qst for the current component may not get calculated correctly!
+TIP: Your molecule may have a hard time getting in/out of the system box. Consider making it better by using some moves or NVT moves to relax the system more!
+COMPONENT [2] (p-xylene)
+BLOCK [0], Blocksize: 1000, Average: -82.49647
+BLOCK [1], Blocksize: 1000, Average: -inf
+BLOCK [2], Blocksize: 1000, Average: -inf
+BLOCK [3], Blocksize: 1000, Average: -inf
+BLOCK [4], Blocksize: 1000, Average: -inf
+Overall: Average: -inf, ErrorBar: -nan
+-----------------------------
 ==============================================================
 =================== BLOCK AVERAGES (LOADING: # MOLECULES)=============
 COMPONENT [0] (Al-Bicyclo-AddedH-P1-fix-PBC.cif)
@@ -827,7 +838,7 @@ Printing: Component: 2 [ p-xylene ], NumMol: 3, Molsize: 12
 Component 0, Molsize: 448
 Component 1, Molsize: 22
 Component 2, Molsize: 12
-Work took 1.529762 seconds
+Work took 1.555274 seconds
 ======================================
 CHECKING FINAL ENERGY FOR SYSTEM [0]
 ======================================
@@ -851,8 +862,8 @@ Component: 2, SelfAtomE: 9891.85715 (11897.17681 kJ/mol)
 Component: 0, Intra-Molecular ExclusionE: -32892160.48297 (-39560200.18912 kJ/mol)
 Component: 1, Intra-Molecular ExclusionE: -243671.40556 (-293069.51695 kJ/mol)
 Component: 2, Intra-Molecular ExclusionE: 9115.33946 (10963.24013 kJ/mol)
-HostEwald took 0.05915 sec
-Ewald Summation (total energy) on the CPU took 0.05915 secs
+HostEwald took 0.05912 sec
+Ewald Summation (total energy) on the CPU took 0.05912 secs
  ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** 
 Wave Vector 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
@@ -895,7 +906,7 @@ Component 1, Nblock: 1, Nthread: 128
 Component 1, Exclusion (self + intra) = -1723558.02282
 Component 2, Nblock: 1, Nthread: 128
 Component 2, Exclusion (self + intra) = -776.51769
-Ewald Summation (total energy) on the GPU took 0.00109 secs
+Ewald Summation (total energy) on the GPU took 0.00112 secs
 Total GPU Energy: 
 HHVDW: 5523450487.06017, HHReal: -6257686.00080, HGVDW: -22522.69448, HGReal: 173.17031, GGVDW: 20.02303, GGReal: 59.87284, HHEwaldE: -41731646.37098, HGEwaldE: -575.66969, GGEwaldE: -16.86955, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
@@ -1041,33 +1052,33 @@ Total Energy:               0.00009 (0.00011 [K])
 ======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================
  *** PRODUCTION PHASE AVERAGE ENERGY *** 
 ========================================================================
-VDW [Host-Host]:            11597.70969 (13948.84709 [K])
-VDW [Host-Guest]:           -21925.03318 (-26369.76985 [K])
-VDW [Guest-Guest]:          -48.11072 (-57.86393 [K])
-Real Coulomb [Host-Host]:   -42.84603 (-51.53196 [K])
-Real Coulomb [Host-Guest]:  159.53179 (191.87275 [K])
-Real Coulomb [Guest-Guest]: 23.53715 (28.30870 [K])
-Ewald [Host-Host]:          12.62644 (15.18613 [K])
-Ewald [Host-Guest]:         -532.30799 (-640.21974 [K])
-Ewald [Guest-Guest]:        12.62644 (15.18613 [K])
+VDW [Host-Host]:            12263.74250 (14749.90093 [K])
+VDW [Host-Guest]:           -23404.97246 (-28149.72877 [K])
+VDW [Guest-Guest]:          -46.88289 (-56.38719 [K])
+Real Coulomb [Host-Host]:   -45.52184 (-54.75022 [K])
+Real Coulomb [Host-Guest]:  171.36276 (206.10216 [K])
+Real Coulomb [Guest-Guest]: 27.20859 (32.72443 [K])
+Ewald [Host-Host]:          13.36065 (16.06918 [K])
+Ewald [Host-Guest]:         -567.56469 (-682.62383 [K])
+Ewald [Guest-Guest]:        13.36065 (16.06918 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -10742.26640 (-12919.98467 [K])
+Total Energy:               -11575.90672 (-13922.62412 [K])
 ========================================================================
  *** PRODUCTION PHASE AVERAGE ENERGY ERRORBAR *** 
 ========================================================================
-VDW [Host-Host]:            4055.57520 (4877.73879 [K])
-VDW [Host-Guest]:           5580.27053 (6711.52688 [K])
-VDW [Guest-Guest]:          62.98280 (75.75094 [K])
-Real Coulomb [Host-Host]:   16.73334 (20.12559 [K])
-Real Coulomb [Host-Guest]:  31.82580 (38.27767 [K])
-Real Coulomb [Guest-Guest]: 29.61152 (35.61450 [K])
-Ewald [Host-Host]:          4.30874 (5.18223 [K])
-Ewald [Host-Guest]:         135.59088 (163.07844 [K])
-Ewald [Guest-Guest]:        4.30874 (5.18223 [K])
+VDW [Host-Host]:            1620.28603 (1948.75736 [K])
+VDW [Host-Guest]:           2362.08648 (2840.93877 [K])
+VDW [Guest-Guest]:          67.82257 (81.57185 [K])
+Real Coulomb [Host-Host]:   10.69773 (12.86642 [K])
+Real Coulomb [Host-Guest]:  36.50286 (43.90288 [K])
+Real Coulomb [Guest-Guest]: 40.25629 (48.41722 [K])
+Ewald [Host-Host]:          1.71686 (2.06491 [K])
+Ewald [Host-Guest]:         22.01905 (26.48285 [K])
+Ewald [Guest-Guest]:        1.71686 (2.06491 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               9921.20756 (11932.47727 [K])
+Total Energy:               4163.10474 (5007.06717 [K])
 ========================================================================
 ================================================================================
 DNN Rejection Summary:

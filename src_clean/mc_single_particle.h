@@ -13,7 +13,7 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
   bool Do_Old = false;
 
   size_t Atomsize = 0;
-  for(size_t ijk = 0; ijk < SystemComponents.Total_Components; ijk++)
+  for(size_t ijk = 0; ijk < SystemComponents.NComponents.x; ijk++)
     Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
   size_t Molsize = SystemComponents.Moleculesize[SelectedComponent]; //Get the size of the selected Molecule
   //Set up Old position and New position arrays

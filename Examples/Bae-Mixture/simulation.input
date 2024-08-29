@@ -1,6 +1,6 @@
-NumberOfInitializationCycles 100000
+NumberOfInitializationCycles 300000
 NumberOfEquilibrationCycles  0
-NumberOfProductionCycles     100000
+NumberOfProductionCycles     1000000
 
 UseChargesFromCIFFile yes
 

@@ -17,7 +17,7 @@
 #include "fxn_main.h"
 
 #include <unistd.h>
-#include <limits.h>
+// // // // // // // #include <limits.h>
 
 void printMemoryUsage() 
 {
@@ -130,7 +130,7 @@ int main(void)
   Gibbs  GibbsStatistics;
   bool   SetMaxStep = false;
   size_t MaxStepPerCycle = 1;
-  read_Gibbs_Stats(GibbsStatistics, SetMaxStep, MaxStepPerCycle);
+  read_Gibbs_and_Cycle_Stats(GibbsStatistics, SetMaxStep, MaxStepPerCycle);
   printf("-------------------------------------------------------\n");
   // PREPARE VALUES FOR THE FORCEFIELD STRUCT //
   //file in fxn_main.h//
@@ -175,8 +175,8 @@ int main(void)
     TempComponents.PseudoAtoms = PseudoAtom;
     TempComponents.FF          = FF;
 
-    //Int3 for the number of components, consider replace Total_Components with this int3 variable//
-    TempComponents.NComponents = NComponents; TempComponents.Total_Components = static_cast<size_t>(NComponents.x);
+    //Int3 for the number of components, consider replace NComponents.x with this int3 variable//
+    TempComponents.NComponents = NComponents;
     /////////////////////////////////////
     // Read and process framework data //
     /////////////////////////////////////
@@ -204,15 +204,15 @@ int main(void)
         if(static_cast<int>(TempComponents.UseLCLin) + static_cast<int>(TempComponents.UseAllegro)/* + static_cast<int>(TempComponents.UseDylan)*/ > 1)
           throw std::runtime_error("Currently do not support using more than 1 ML model in gRASPA! Please just use 1 (or none)!!!");
 
-      for(size_t comp = 0; comp < TempComponents.Total_Components; comp++)
+      for(size_t comp = 0; comp < TempComponents.NComponents.x; comp++)
       {
         Move_Statistics MoveStats;
         //Initialize Energy Averages//
         double2 tempdou = {0.0, 0.0};
         RosenbluthWeight tempRosen;
+        MoveStats.MolSQPerComponent.resize(TempComponents.NComponents.x, std::vector<double>(TempComponents.Nblock, 0.0));
         for(size_t i = 0; i < TempComponents.Nblock; i++)
         {
-          TempComponents.EnergyAverage.push_back(tempdou);
           MoveStats.MolAverage.push_back(tempdou);
           MoveStats.Rosen.push_back(tempRosen);
         }
@@ -308,7 +308,7 @@ int main(void)
     }
     //Prepare detailed Identity Swap statistics if there are more than 1 component//
     for(size_t i = 0; i < SystemComponents.size(); i++)
-    if(SystemComponents[i].Total_Components > (SystemComponents[i].NComponents.y + 1)) //NComponent for Framework + 1
+    if(SystemComponents[i].NComponents.x > (SystemComponents[i].NComponents.y + 1)) //NComponent for Framework + 1
     {
       prepare_MixtureStats(SystemComponents[i]);
     }
@@ -344,7 +344,7 @@ int main(void)
   }
   else if(RunTogether)
   {
-    Run_Simulation_MultipleBoxes(NumberOfInitializationCycles, SystemComponents, Sims, device_FF, Random, WidomArray, Energy, GibbsStatistics, INITIALIZATION, SetMaxStep, MaxStepPerCycle);
+    Run_Simulation_MultipleBoxes(NumberOfInitializationCycles, SystemComponents, Sims, device_FF, Random, WidomArray, Energy, GibbsStatistics, INITIALIZATION, SetMaxStep, MaxStepPerCycle, Constants);
   }
   //////////////////////////
   // EQUILIBRATION CYCLES //
@@ -360,7 +360,7 @@ int main(void)
   }
   else if(RunTogether)
   {
-    Run_Simulation_MultipleBoxes(NumberOfEquilibrationCycles, SystemComponents, Sims, device_FF, Random, WidomArray, Energy, GibbsStatistics, EQUILIBRATION, SetMaxStep, MaxStepPerCycle);
+    Run_Simulation_MultipleBoxes(NumberOfEquilibrationCycles, SystemComponents, Sims, device_FF, Random, WidomArray, Energy, GibbsStatistics, EQUILIBRATION, SetMaxStep, MaxStepPerCycle, Constants);
   }
   
   ///////////////////////
@@ -377,7 +377,7 @@ int main(void)
   }
   else if(RunTogether)
   {
-    Run_Simulation_MultipleBoxes(NumberOfProductionCycles, SystemComponents, Sims, device_FF, Random, WidomArray, Energy, GibbsStatistics, PRODUCTION, SetMaxStep, MaxStepPerCycle);
+    Run_Simulation_MultipleBoxes(NumberOfProductionCycles, SystemComponents, Sims, device_FF, Random, WidomArray, Energy, GibbsStatistics, PRODUCTION, SetMaxStep, MaxStepPerCycle, Constants);
   }
   
   double end = omp_get_wtime();
