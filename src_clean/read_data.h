@@ -6,7 +6,7 @@ void read_number_of_sims_from_input(size_t *NumSims, bool *SingleSim);
 
 void read_FFParams_from_input(ForceField& FF, double& precision);
 
-void read_Gibbs_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepPerCycle);
+void read_Gibbs_and_Cycle_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepPerCycle);
 
 void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges, int *InitializationCycles, int *EquilibrationCycles, int *ProductionCycles, size_t *NumberOfTrialPositions, size_t *NumberOfTrialOrientations, double *Pressure, double *Temperature, size_t *AllocateSize, bool *ReadRestart, int *RANDOMSEED, bool *SameFrameworkEverySimulation, int3& NumberOfComponents);
 

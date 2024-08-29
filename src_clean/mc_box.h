@@ -157,7 +157,7 @@ static inline double Get_TotalNumberOfMolecule_In_Box(Components& SystemComponen
 {
   double NMol = static_cast<double>(SystemComponents.TotalNumberOfMolecules - SystemComponents.NumberOfFrameworks);
   //Minus the fractional molecule//
-  for(size_t comp = 0; comp < SystemComponents.Total_Components; comp++)
+  for(size_t comp = 0; comp < SystemComponents.NComponents.x; comp++)
   {
     if(SystemComponents.hasfractionalMolecule[comp])
     {
@@ -208,14 +208,14 @@ void NVTGibbsMove(std::vector<Components>& SystemComponents, Simulations*& Sims,
     { 
       if(Overlap) continue;
       totMol = SystemComponents[sim].TotalNumberOfMolecules - SystemComponents[sim].NumberOfFrameworks;
-      for(size_t comp = 1; comp < SystemComponents[sim].Total_Components; comp++)
+      for(size_t comp = 1; comp < SystemComponents[sim].NComponents.x; comp++)
       {
         size_t TotSize = SystemComponents[sim].Moleculesize[comp] * SystemComponents[sim].NumberOfMolecule_for_Component[comp];
         if(TotSize * 2 > SystemComponents[sim].Allocate_size[comp]) throw std::runtime_error("Allocate More space for adsorbates on the GPU!!!");
         //printf("Box[%zu], TotalMolecule for component [%zu] is %zu\n", sim, comp, totMol);
       }
       Setup_threadblock(totMol, &Nblock, &Nthread);
-      ScalePositions<<<Nblock, Nthread>>>(Sims[sim].d_a, Sims[sim].Box, ScaleAB[sim], SystemComponents[sim].Total_Components, ScaleFramework, totMol, FF.noCharges, Sims[sim].device_flag);
+      ScalePositions<<<Nblock, Nthread>>>(Sims[sim].d_a, Sims[sim].Box, ScaleAB[sim], SystemComponents[sim].NComponents.x, ScaleFramework, totMol, FF.noCharges, Sims[sim].device_flag);
 
       //////////////////////
       // TOTAL VDW + REAL //
@@ -268,7 +268,7 @@ void NVTGibbsMove(std::vector<Components>& SystemComponents, Simulations*& Sims,
     for(size_t sim = 0; sim < NBox; sim++)
     {
       totMol = SystemComponents[sim].TotalNumberOfMolecules - SystemComponents[sim].NumberOfFrameworks;
-      for(size_t comp = 1; comp < SystemComponents[sim].Total_Components; comp++)
+      for(size_t comp = 1; comp < SystemComponents[sim].NComponents.x; comp++)
       {
         size_t TotSize = SystemComponents[sim].Moleculesize[comp] * SystemComponents[sim].NumberOfMolecule_for_Component[comp];
         if(TotSize * 2 > SystemComponents[sim].Allocate_size[comp]) throw std::runtime_error("Allocate More space for adsorbates on the GPU!!!");
@@ -279,7 +279,7 @@ void NVTGibbsMove(std::vector<Components>& SystemComponents, Simulations*& Sims,
       //printf("OldEnergy: %.5f, NewEnergy: %.5f, DeltaE: %.5f\n", CurrentEnergy, NewEnergy, DeltaE);
       Setup_threadblock(totMol, &Nblock, &Nthread);
       //Copy xyz data from new to old, also update box lengths//
-      CopyScaledPositions<<<Nblock, Nthread>>>(Sims[sim].d_a, SystemComponents[sim].Total_Components, ScaleFramework, totMol);
+      CopyScaledPositions<<<Nblock, Nthread>>>(Sims[sim].d_a, SystemComponents[sim].NComponents.x, ScaleFramework, totMol);
       //Update Eik if accepted from tempEik to StoredEik, BUG (adsorbate/framework species all needs to be updated)!!!//
       if(!FF.noCharges)
         Update_Ewald_Vector(Sims[sim].Box, false, SystemComponents[sim], 0);

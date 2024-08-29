@@ -46,7 +46,7 @@ void AllocateMoreSpace(Atoms*& d_a, size_t SelectedComponent, Components& System
 {
   printf("Allocating more space on device\n");
   Atoms temp; // allocate a struct on the device for copying data.
-  //Atoms tempSystem[SystemComponents.Total_Components];
+  //Atoms tempSystem[SystemComponents.NComponents.x];
   size_t Copysize=SystemComponents.Allocate_size[SelectedComponent];
   size_t Morespace = 1024;
   size_t Newspace = Copysize+Morespace;
@@ -61,7 +61,7 @@ void AllocateMoreSpace(Atoms*& d_a, size_t SelectedComponent, Components& System
   AllocateMoreSpace_CopyToTemp<<<1,1>>>(d_a, temp, Copysize, SelectedComponent);
   // Allocate more space on the device pointers
 
-  Atoms System[SystemComponents.Total_Components]; cudaMemcpy(System, d_a, SystemComponents.Total_Components * sizeof(Atoms), cudaMemcpyDeviceToHost);
+  Atoms System[SystemComponents.NComponents.x]; cudaMemcpy(System, d_a, SystemComponents.NComponents.x * sizeof(Atoms), cudaMemcpyDeviceToHost);
 
   cudaMalloc(&System[SelectedComponent].pos,       Newspace * sizeof(double3));
   cudaMalloc(&System[SelectedComponent].scale,     Newspace * sizeof(double));

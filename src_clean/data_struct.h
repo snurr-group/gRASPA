@@ -471,6 +471,9 @@ struct Move_Statistics
   size_t BlockID = 0; //Keep track of the current Block for Averages//
   std::vector<double2>MolAverage;
   //x: average; y: average^2; z: Number of Widom insertion performed//
+  //Cross terms for each component with other components: Na x Nb, for here, Na is fixed//
+  //2 dimensions: Nb (component b) x Nblocks//
+  std::vector<std::vector<double>>MolSQPerComponent;
   std::vector<RosenbluthWeight>Rosen; //vector over Nblocks//
   void NormalizeProbabilities()
   {
@@ -850,23 +853,22 @@ struct Boxsize
 
 struct Components
 {
-  size_t  Total_Components;                           // Number of Components in the system (including framework)
   int3    NComponents;                                // Total components (x), Framework Components (y), Guest Components (z)
   int3    NumberofUnitCells;
   size_t  MoviesEvery = 5000;                         // Write Movies (LAMMPS data file) every X MC Steps/Cycles
   size_t  PrintStatsEvery = 5000;                     // Write instantaneous loading and energy to screen every X MC Steps/Cycles
 
-  size_t  Nblock={5};                                 // Number of Blocks for block averages
-  size_t  CURRENTCYCLE={0};
-  double  DNNPredictTime={0.0}; 
-  double  DNNFeatureTime={0.0};
-  double  DNNGPUTime={0.0};
-  double  DNNSortTime={0.0};
-  double  DNNstdsortTime={0.0};
-  double  DNNFeaturizationTime={0.0};
+  size_t  Nblock=5;                                 // Number of Blocks for block averages
+  size_t  CURRENTCYCLE=0;
+  double  DNNPredictTime=0.0; 
+  double  DNNFeatureTime=0.0;
+  double  DNNGPUTime=0.0;
+  double  DNNSortTime=0.0;
+  double  DNNstdsortTime=0.0;
+  double  DNNFeaturizationTime=0.0;
   size_t  TotalNumberOfMolecules;                     // Total Number of Molecules (including framework)
   size_t  NumberOfFrameworks;                         // Total Number of framework species, usually 1.
-  double  Temperature={0.0};
+  double  Temperature=0.0;
   double  Beta;                                       // Inverse Temperature 
 
   bool*   flag;                                       // flags for checking overlaps (on host), device version in Simulations struct//
@@ -957,7 +959,9 @@ struct Components
   bool*   ConsiderThisAdsorbateAtom;                  // device pointer
   double* device_Distances;                           // device_pointer for storing pair-wise distances//
   
-  std::vector<double2>EnergyAverage;                  // Booking-keeping Sums and Sums of squared values for energy
+  //std::vector<double2>EnergyAverage;                  // Booking-keeping Sums and Sums of squared values for energy
+  std::vector<std::vector<double>> EnergyTimesNumberOfMolecule; // Book-keeping Energy times the number of molecules for heat of adsorption
+
   std::vector<bool>   hasPartialCharge;               // Whether this component has partial charge
   std::vector<bool>   hasfractionalMolecule;          // Whether this component has fractional molecules
   std::vector<LAMBDA> Lambda;                         // Vector of Lambda struct

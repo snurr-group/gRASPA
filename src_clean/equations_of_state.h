@@ -137,7 +137,7 @@ void ComputeFugacity(Components& TempComponents, double Pressure, double Tempera
   int FrameworkComponents = TempComponents.NComponents.y;
   
   bool NeedEOSFugacityCoeff = false; //If false, then no need to calculate PR-EOS fugacity coefficient, return//
-  for(size_t comp = FrameworkComponents; comp < TempComponents.Total_Components; comp++)
+  for(size_t comp = FrameworkComponents; comp < TempComponents.NComponents.x; comp++)
   {
     printf("Checking: Current Fugacity Coeff for %zu component: %.5f\n", comp, TempComponents.FugacityCoeff[comp]);
     if(TempComponents.FugacityCoeff[comp] < 0.0)
@@ -150,7 +150,7 @@ void ComputeFugacity(Components& TempComponents, double Pressure, double Tempera
   if(!NeedEOSFugacityCoeff){ printf("Every Adsorbate Component has fugacity coefficient assigned, skip EOS calculation!\n"); return;}
   printf("start calculating fugacity, Pressure: %.5f, Temperature: %.5f\n", Pressure, Temperature);
 
-  for(size_t comp = FrameworkComponents; comp < TempComponents.Total_Components; comp++)
+  for(size_t comp = FrameworkComponents; comp < TempComponents.NComponents.x; comp++)
   {
     double ComponentMolFrac = TempComponents.MolFraction[comp];
     SumofFractions += ComponentMolFrac;

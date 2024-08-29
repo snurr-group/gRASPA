@@ -1,5 +1,5 @@
-/home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
-True path of exe is /home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/
+/home/z/Desktop/gRASPA_versions/082824-code/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
+True path of exe is /home/z/Desktop/gRASPA_versions/082824-code/gRASPA_fork/src_clean/
 There are 1 simulations
 running only one simulation
 ------------------PARSING FORCE FIELD MIXING RULES----------------
@@ -50,6 +50,7 @@ i: 54, ii: 6, jj: 6, Name_i: C_co2, Name_j: C_co2, ep: 22.4490350675, sig: 2.800
 i: 55, ii: 6, jj: 7, Name_i: C_co2, Name_j: O_co2, ep: 38.3998335555, sig: 2.9250000000, shift: 0.0000000000
 i: 63, ii: 7, jj: 7, Name_i: O_co2, Name_j: O_co2, ep: 65.6842137159, sig: 3.0500000000, shift: 0.0000000000
 ----- END OF MIXED VDW PARAMETERS -----
+THERE ARE 8 PSEUDO ATOMS
 -------------PARSING PSEUDO ATOMS FILE-------------
 Name: C, 0.00000, 12.01100, 0.00000, 0.00000
 Name: H, 0.00000, 1.00800, 0.00000, 0.00000
@@ -394,8 +395,8 @@ Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
 Component: 0, Intra-Molecular ExclusionE: 9909165.51672 (11917994.00807 kJ/mol)
 Component: 1, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
 Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
-HostEwald took 0.40993 sec
-Ewald Summation (total energy) on the CPU took 0.40993 secs
+HostEwald took 0.41006 sec
+Ewald Summation (total energy) on the CPU took 0.41006 secs
 Component 0, Intra Exclusion Energy: -9909165.51672 (-11917994.00807 kJ/mol)
 Component 0, Atom Self Exclusion Energy: 9563024.14332 (11501681.37235 kJ/mol)
 DEBUG: comp: 0, IntraE: -9909165.51672, SelfE: 9563024.14332
@@ -451,7 +452,7 @@ Host NAtomPerThread: 25, Guest NAtomPerThread: 0
 Host residueAtoms: 40, Guest residueAtoms: 0
 GPU fourier, HHFourier: 45015.24699, GGFourier: 0.00000, HGFourier: 0.00000, TOTFourier: 45015.24699
 Framework Component 0 Exclusion: 346141.37340
-Ewald Summation (total energy) on the GPU took 0.00800 secs
+Ewald Summation (total energy) on the GPU took 0.00823 secs
 i: 3, j: 3, Ni: 432, Nj: 432, E: -346.58035
 Total GPU Energy: 
 HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 391156.62038, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: -346.58035, DNN_E: 0.00000
@@ -479,8 +480,8 @@ Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
 Component: 0, Intra-Molecular ExclusionE: 9909165.51672 (11917994.00807 kJ/mol)
 Component: 1, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
 Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
-HostEwald took 0.40863 sec
-Ewald Summation (total energy) on the CPU took 0.40863 secs
+HostEwald took 0.40876 sec
+Ewald Summation (total energy) on the CPU took 0.40876 secs
  ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** 
 Wave Vector 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
@@ -514,7 +515,7 @@ Host NAtomPerThread: 25, Guest NAtomPerThread: 0
 Host residueAtoms: 40, Guest residueAtoms: 0
 GPU fourier, HHFourier: 45015.24699, GGFourier: 0.00000, HGFourier: 0.00000, TOTFourier: 45015.24699
 Framework Component 0 Exclusion: 346141.37340
-Ewald Summation (total energy) on the GPU took 0.00276 secs
+Ewald Summation (total energy) on the GPU took 0.00313 secs
 i: 3, j: 3, Ni: 432, Nj: 432, E: -346.58035
 Total GPU Energy: 
 HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 391156.62038, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: -346.58035, DNN_E: 0.00000
@@ -542,427 +543,1737 @@ INITIALIZATION Cycle: 80000, 284 Adsorbate Molecules, Total Energy: -241080.5030
 INITIALIZATION Cycle: 85000, 281 Adsorbate Molecules, Total Energy: -240735.29972  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 248 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
 INITIALIZATION Cycle: 90000, 284 Adsorbate Molecules, Total Energy: -252470.05194  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 255 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
 INITIALIZATION Cycle: 95000, 290 Adsorbate Molecules, Total Energy: -260169.30422  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 256 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+INITIALIZATION Cycle: 100000, 292 Adsorbate Molecules, Total Energy: -253594.00889  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 255 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+INITIALIZATION Cycle: 105000, 283 Adsorbate Molecules, Total Energy: -232415.92033  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 252 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+INITIALIZATION Cycle: 110000, 283 Adsorbate Molecules, Total Energy: -240064.80039  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+INITIALIZATION Cycle: 115000, 271 Adsorbate Molecules, Total Energy: -210035.77781  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 236 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+INITIALIZATION Cycle: 120000, 284 Adsorbate Molecules, Total Energy: -238605.66133  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 241 Molecules  ||  Component 2 [methane], 43 Molecules  ||  
+INITIALIZATION Cycle: 125000, 284 Adsorbate Molecules, Total Energy: -241827.27910  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 249 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+INITIALIZATION Cycle: 130000, 296 Adsorbate Molecules, Total Energy: -262350.23877  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 251 Molecules  ||  Component 2 [methane], 45 Molecules  ||  
+INITIALIZATION Cycle: 135000, 292 Adsorbate Molecules, Total Energy: -267146.66216  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+INITIALIZATION Cycle: 140000, 294 Adsorbate Molecules, Total Energy: -267013.18671  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+INITIALIZATION Cycle: 145000, 286 Adsorbate Molecules, Total Energy: -262536.55663  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+INITIALIZATION Cycle: 150000, 281 Adsorbate Molecules, Total Energy: -239159.77633  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 245 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+INITIALIZATION Cycle: 155000, 288 Adsorbate Molecules, Total Energy: -252522.96371  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+INITIALIZATION Cycle: 160000, 303 Adsorbate Molecules, Total Energy: -299393.11352  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 275 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+INITIALIZATION Cycle: 165000, 278 Adsorbate Molecules, Total Energy: -243615.56813  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 243 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+INITIALIZATION Cycle: 170000, 289 Adsorbate Molecules, Total Energy: -266024.91530  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 248 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
+INITIALIZATION Cycle: 175000, 293 Adsorbate Molecules, Total Energy: -271993.04235  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+INITIALIZATION Cycle: 180000, 297 Adsorbate Molecules, Total Energy: -286562.10558  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+INITIALIZATION Cycle: 185000, 308 Adsorbate Molecules, Total Energy: -328946.93328  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 282 Molecules  ||  Component 2 [methane], 26 Molecules  ||  
+INITIALIZATION Cycle: 190000, 316 Adsorbate Molecules, Total Energy: -326859.74551  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 281 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+INITIALIZATION Cycle: 195000, 305 Adsorbate Molecules, Total Energy: -307755.58530  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 275 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+INITIALIZATION Cycle: 200000, 306 Adsorbate Molecules, Total Energy: -311714.52984  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 278 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+INITIALIZATION Cycle: 205000, 299 Adsorbate Molecules, Total Energy: -292526.17626  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 274 Molecules  ||  Component 2 [methane], 25 Molecules  ||  
+INITIALIZATION Cycle: 210000, 291 Adsorbate Molecules, Total Energy: -275594.70750  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 251 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+INITIALIZATION Cycle: 215000, 307 Adsorbate Molecules, Total Energy: -306760.76133  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 272 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+INITIALIZATION Cycle: 220000, 297 Adsorbate Molecules, Total Energy: -292813.17149  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 269 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+INITIALIZATION Cycle: 225000, 298 Adsorbate Molecules, Total Energy: -296740.38929  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 27 Molecules  ||  
+INITIALIZATION Cycle: 230000, 303 Adsorbate Molecules, Total Energy: -298870.12378  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 264 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+INITIALIZATION Cycle: 235000, 301 Adsorbate Molecules, Total Energy: -299728.86239  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 272 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+INITIALIZATION Cycle: 240000, 293 Adsorbate Molecules, Total Energy: -281718.00478  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 268 Molecules  ||  Component 2 [methane], 25 Molecules  ||  
+INITIALIZATION Cycle: 245000, 305 Adsorbate Molecules, Total Energy: -311100.79059  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 281 Molecules  ||  Component 2 [methane], 24 Molecules  ||  
+INITIALIZATION Cycle: 250000, 292 Adsorbate Molecules, Total Energy: -274867.17303  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+INITIALIZATION Cycle: 255000, 302 Adsorbate Molecules, Total Energy: -299736.91900  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 277 Molecules  ||  Component 2 [methane], 25 Molecules  ||  
+INITIALIZATION Cycle: 260000, 297 Adsorbate Molecules, Total Energy: -282272.57001  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+INITIALIZATION Cycle: 265000, 296 Adsorbate Molecules, Total Energy: -272972.01321  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+INITIALIZATION Cycle: 270000, 302 Adsorbate Molecules, Total Energy: -285264.69734  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+INITIALIZATION Cycle: 275000, 282 Adsorbate Molecules, Total Energy: -240002.44156  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 246 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+INITIALIZATION Cycle: 280000, 280 Adsorbate Molecules, Total Energy: -241232.64552  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 248 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+INITIALIZATION Cycle: 285000, 289 Adsorbate Molecules, Total Energy: -237160.63249  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 242 Molecules  ||  Component 2 [methane], 47 Molecules  ||  
+INITIALIZATION Cycle: 290000, 280 Adsorbate Molecules, Total Energy: -232418.61563  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 241 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+INITIALIZATION Cycle: 295000, 284 Adsorbate Molecules, Total Energy: -260000.94517  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 257 Molecules  ||  Component 2 [methane], 27 Molecules  ||  
 ======================== MOVE STATISTICS FOR COMPONENT [1] (CO2) ========================
 =====================SWAP MOVES=====================
-Insertion Performed:   5094
-Insertion Accepted:    1020
-Deletion Performed:    5009
-Deletion Accepted:     857
-Reinsertion Performed: 10109
-Reinsertion Accepted:  705
+Insertion Performed:   15055
+Insertion Accepted:    2570
+Deletion Performed:    14901
+Deletion Accepted:     2436
+Reinsertion Performed: 30241
+Reinsertion Accepted:  1747
 ====================================================
 =====================IDENTITY SWAP MOVES=====================
 Identity Swap Performed, FROM [CO2 (1)] TO [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif (0)]: 0 (0 Accepted)
-Identity Swap Performed, FROM [CO2 (1)] TO [methane (2)]: 5642 (1526 Accepted)
+Identity Swap Performed, FROM [CO2 (1)] TO [methane (2)]: 16993 (4233 Accepted)
 =============================================================
 ================================================================================================
 ======================== MOVE STATISTICS FOR COMPONENT [2] (methane) ========================
 =====================SWAP MOVES=====================
-Insertion Performed:   6197
-Insertion Accepted:    1023
-Deletion Performed:    6210
-Deletion Accepted:     893
-Reinsertion Performed: 12489
-Reinsertion Accepted:  997
+Insertion Performed:   18720
+Insertion Accepted:    2672
+Deletion Performed:    18769
+Deletion Accepted:     2514
+Reinsertion Performed: 37553
+Reinsertion Accepted:  2455
 ====================================================
 =====================IDENTITY SWAP MOVES=====================
 Identity Swap Performed, FROM [methane (2)] TO [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif (0)]: 0 (0 Accepted)
-Identity Swap Performed, FROM [methane (2)] TO [CO2 (1)]: 5618 (1618 Accepted)
+Identity Swap Performed, FROM [methane (2)] TO [CO2 (1)]: 16994 (4349 Accepted)
 =============================================================
 ================================================================================================
 Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.03011, temp: 296.00000
 Number of Frameworks: 1
 Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.03011, temp: 296.00000
 Number of Frameworks: 1
-PRODUCTION Cycle: 0, 292 Adsorbate Molecules, Total Energy: -253594.00889  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 255 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+PRODUCTION Cycle: 0, 292 Adsorbate Molecules, Total Energy: -268987.62369  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 250 Molecules  ||  Component 2 [methane], 42 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 255, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Printing: Component: 1 [ CO2 ], NumMol: 250, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 42, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-PRODUCTION Cycle: 5000, 283 Adsorbate Molecules, Total Energy: -232415.92033  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 252 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+PRODUCTION Cycle: 5000, 297 Adsorbate Molecules, Total Energy: -281601.61010  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 252, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 10000, 283 Adsorbate Molecules, Total Energy: -240064.80039  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 253, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 15000, 271 Adsorbate Molecules, Total Energy: -210035.77781  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 236 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 236, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 20000, 284 Adsorbate Molecules, Total Energy: -238605.66133  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 241 Molecules  ||  Component 2 [methane], 43 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 241, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 43, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 25000, 284 Adsorbate Molecules, Total Energy: -241827.27910  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 249 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 249, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 30000, 296 Adsorbate Molecules, Total Energy: -262350.23877  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 251 Molecules  ||  Component 2 [methane], 45 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 251, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 45, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 35000, 292 Adsorbate Molecules, Total Energy: -267146.66216  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 260, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 40000, 294 Adsorbate Molecules, Total Energy: -267013.18671  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 260, Molsize: 3
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
 Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-PRODUCTION Cycle: 45000, 286 Adsorbate Molecules, Total Energy: -262536.55663  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+PRODUCTION Cycle: 10000, 294 Adsorbate Molecules, Total Energy: -265495.40534  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 253, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 33, Molsize: 1
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-PRODUCTION Cycle: 50000, 281 Adsorbate Molecules, Total Energy: -239159.77633  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 245 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+PRODUCTION Cycle: 15000, 294 Adsorbate Molecules, Total Energy: -280769.55321  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 259 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 245, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 55000, 288 Adsorbate Molecules, Total Energy: -252522.96371  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 253, Molsize: 3
+Printing: Component: 1 [ CO2 ], NumMol: 259, Molsize: 3
 Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-PRODUCTION Cycle: 60000, 303 Adsorbate Molecules, Total Energy: -299393.11352  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 275 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+PRODUCTION Cycle: 20000, 295 Adsorbate Molecules, Total Energy: -279166.75219  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 257 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 275, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Printing: Component: 1 [ CO2 ], NumMol: 257, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-PRODUCTION Cycle: 65000, 278 Adsorbate Molecules, Total Energy: -243615.56813  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 243 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 243, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 70000, 289 Adsorbate Molecules, Total Energy: -266024.91530  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 248 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 248, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 41, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 75000, 293 Adsorbate Molecules, Total Energy: -271993.04235  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
-Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 262, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
-Component 0, Molsize: 3240
-Component 1, Molsize: 3
-Component 2, Molsize: 1
-PRODUCTION Cycle: 80000, 297 Adsorbate Molecules, Total Energy: -286562.10558  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+PRODUCTION Cycle: 25000, 297 Adsorbate Molecules, Total Energy: -290222.68736  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
 Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
 Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-PRODUCTION Cycle: 85000, 308 Adsorbate Molecules, Total Energy: -328946.93328  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 282 Molecules  ||  Component 2 [methane], 26 Molecules  ||  
+PRODUCTION Cycle: 30000, 308 Adsorbate Molecules, Total Energy: -299945.41118  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 270 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 282, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 26, Molsize: 1
+Printing: Component: 1 [ CO2 ], NumMol: 270, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-PRODUCTION Cycle: 90000, 316 Adsorbate Molecules, Total Energy: -326859.74551  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 281 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+PRODUCTION Cycle: 35000, 291 Adsorbate Molecules, Total Energy: -279857.48216  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 272 Molecules  ||  Component 2 [methane], 19 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 281, Molsize: 3
+Printing: Component: 1 [ CO2 ], NumMol: 272, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 19, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 40000, 305 Adsorbate Molecules, Total Energy: -292363.10021  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 43 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 262, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 43, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 45000, 291 Adsorbate Molecules, Total Energy: -275112.42420  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 260, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 50000, 308 Adsorbate Molecules, Total Energy: -299701.09313  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 273 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 273, Molsize: 3
 Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-PRODUCTION Cycle: 95000, 305 Adsorbate Molecules, Total Energy: -307755.58530  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 275 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+PRODUCTION Cycle: 55000, 306 Adsorbate Molecules, Total Energy: -304132.81145  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 267 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 267, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 60000, 305 Adsorbate Molecules, Total Energy: -311728.27538  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 280 Molecules  ||  Component 2 [methane], 25 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 280, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 65000, 301 Adsorbate Molecules, Total Energy: -306180.47892  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 270 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 270, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 70000, 315 Adsorbate Molecules, Total Energy: -333860.99338  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 279 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 279, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 75000, 297 Adsorbate Molecules, Total Energy: -287593.46416  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 258 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 258, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 80000, 303 Adsorbate Molecules, Total Energy: -289996.99801  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 261 Molecules  ||  Component 2 [methane], 42 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 261, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 42, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 85000, 296 Adsorbate Molecules, Total Energy: -287170.48783  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 267 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 267, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 90000, 302 Adsorbate Molecules, Total Energy: -302414.55003  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 268 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 268, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 95000, 302 Adsorbate Molecules, Total Energy: -310458.33116  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 100000, 307 Adsorbate Molecules, Total Energy: -318693.15054  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 271, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 105000, 309 Adsorbate Molecules, Total Energy: -322750.65593  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 271, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 110000, 293 Adsorbate Molecules, Total Energy: -285905.26388  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 255 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 255, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 115000, 298 Adsorbate Molecules, Total Energy: -291498.42511  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 267 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 267, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 120000, 288 Adsorbate Molecules, Total Energy: -270423.20540  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 23 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 23, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 125000, 290 Adsorbate Molecules, Total Energy: -273592.55117  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 261 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 261, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 130000, 295 Adsorbate Molecules, Total Energy: -276146.70511  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 260, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 135000, 306 Adsorbate Molecules, Total Energy: -292541.23751  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 259 Molecules  ||  Component 2 [methane], 47 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 259, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 47, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 140000, 288 Adsorbate Molecules, Total Energy: -248514.61045  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 249 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 249, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 145000, 281 Adsorbate Molecules, Total Energy: -244801.81265  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 251 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 251, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 150000, 281 Adsorbate Molecules, Total Energy: -221379.02616  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 236 Molecules  ||  Component 2 [methane], 45 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 236, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 45, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 155000, 276 Adsorbate Molecules, Total Energy: -220091.70679  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 242 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 242, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 160000, 269 Adsorbate Molecules, Total Energy: -202826.48780  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 233 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 233, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 165000, 278 Adsorbate Molecules, Total Energy: -221262.03152  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 235 Molecules  ||  Component 2 [methane], 43 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 235, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 43, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 170000, 280 Adsorbate Molecules, Total Energy: -236026.66858  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 242 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 242, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 175000, 279 Adsorbate Molecules, Total Energy: -234310.99237  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 245 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 245, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 180000, 288 Adsorbate Molecules, Total Energy: -253619.44169  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 246 Molecules  ||  Component 2 [methane], 42 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 246, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 42, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 185000, 293 Adsorbate Molecules, Total Energy: -269977.92736  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 253, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 190000, 280 Adsorbate Molecules, Total Energy: -243814.38054  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 245 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 245, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 195000, 285 Adsorbate Molecules, Total Energy: -254979.24020  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 250 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 250, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 200000, 295 Adsorbate Molecules, Total Energy: -273541.23120  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 257 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 257, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 205000, 288 Adsorbate Molecules, Total Energy: -253809.99441  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 247 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 247, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 210000, 288 Adsorbate Molecules, Total Energy: -254320.99373  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 245 Molecules  ||  Component 2 [methane], 43 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 245, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 43, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 215000, 283 Adsorbate Molecules, Total Energy: -244852.87961  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 255 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 255, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 220000, 283 Adsorbate Molecules, Total Energy: -257053.53549  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 253, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 225000, 301 Adsorbate Molecules, Total Energy: -285152.10202  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 254 Molecules  ||  Component 2 [methane], 47 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 254, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 47, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 230000, 299 Adsorbate Molecules, Total Energy: -287544.35303  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 235000, 297 Adsorbate Molecules, Total Energy: -275943.65727  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 252 Molecules  ||  Component 2 [methane], 45 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 252, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 45, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 240000, 289 Adsorbate Molecules, Total Energy: -270396.06256  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 27 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 262, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 245000, 289 Adsorbate Molecules, Total Energy: -263237.14454  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 256 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 256, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 250000, 288 Adsorbate Molecules, Total Energy: -261420.82699  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 257 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 257, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 255000, 295 Adsorbate Molecules, Total Energy: -273443.50924  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 255 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 255, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 260000, 298 Adsorbate Molecules, Total Energy: -285692.49001  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 265000, 296 Adsorbate Molecules, Total Energy: -281717.97204  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 270000, 310 Adsorbate Molecules, Total Energy: -311279.72943  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 270 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 270, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 275000, 308 Adsorbate Molecules, Total Energy: -306171.85903  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 271, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 280000, 313 Adsorbate Molecules, Total Energy: -313450.08043  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 269 Molecules  ||  Component 2 [methane], 44 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 269, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 44, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 285000, 295 Adsorbate Molecules, Total Energy: -273253.67514  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 254 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 254, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 290000, 291 Adsorbate Molecules, Total Energy: -283598.82909  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 26 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 295000, 302 Adsorbate Molecules, Total Energy: -300729.48473  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 266 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 266, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 300000, 307 Adsorbate Molecules, Total Energy: -313405.70305  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 271, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 305000, 310 Adsorbate Molecules, Total Energy: -325125.81964  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 280 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 280, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 310000, 316 Adsorbate Molecules, Total Energy: -345581.73761  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 288 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 288, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 315000, 313 Adsorbate Molecules, Total Energy: -330837.96262  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 279 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 279, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 320000, 299 Adsorbate Molecules, Total Energy: -300024.05821  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 325000, 297 Adsorbate Molecules, Total Energy: -293789.31223  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 276 Molecules  ||  Component 2 [methane], 21 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 276, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 21, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 330000, 299 Adsorbate Molecules, Total Energy: -291075.81560  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 264 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 264, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 335000, 289 Adsorbate Molecules, Total Energy: -266719.40647  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 24 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 340000, 303 Adsorbate Molecules, Total Energy: -299321.77540  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 271, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 345000, 309 Adsorbate Molecules, Total Energy: -312595.90588  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 274 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 274, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 350000, 302 Adsorbate Molecules, Total Energy: -299934.29340  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 277 Molecules  ||  Component 2 [methane], 25 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 277, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 355000, 316 Adsorbate Molecules, Total Energy: -326477.39703  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 282 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 282, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 360000, 305 Adsorbate Molecules, Total Energy: -305131.65665  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 281 Molecules  ||  Component 2 [methane], 24 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 281, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 365000, 294 Adsorbate Molecules, Total Energy: -278959.98838  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 257 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 257, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 370000, 296 Adsorbate Molecules, Total Energy: -285566.27546  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 261 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 261, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 375000, 294 Adsorbate Molecules, Total Energy: -276793.89013  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 260, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 380000, 272 Adsorbate Molecules, Total Energy: -234236.40838  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 240 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 240, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 385000, 278 Adsorbate Molecules, Total Energy: -247472.43852  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 252 Molecules  ||  Component 2 [methane], 26 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 252, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 390000, 281 Adsorbate Molecules, Total Energy: -241851.66059  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 243 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 243, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 395000, 276 Adsorbate Molecules, Total Energy: -231813.07236  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 246 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 246, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 400000, 287 Adsorbate Molecules, Total Energy: -253018.62624  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 247 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 247, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 405000, 275 Adsorbate Molecules, Total Energy: -221971.41313  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 230 Molecules  ||  Component 2 [methane], 45 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 230, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 45, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 410000, 284 Adsorbate Molecules, Total Energy: -248748.46755  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 250 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 250, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 415000, 281 Adsorbate Molecules, Total Energy: -231645.55038  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 241 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 241, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 420000, 277 Adsorbate Molecules, Total Energy: -234899.34706  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 245 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 245, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 425000, 280 Adsorbate Molecules, Total Energy: -232780.87115  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 247 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 247, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 430000, 267 Adsorbate Molecules, Total Energy: -206968.67862  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 236 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 236, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 435000, 267 Adsorbate Molecules, Total Energy: -210403.75996  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 230 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 230, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 440000, 283 Adsorbate Molecules, Total Energy: -234505.90250  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 250 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 250, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 445000, 283 Adsorbate Molecules, Total Energy: -238978.78968  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 247 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 247, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 450000, 291 Adsorbate Molecules, Total Energy: -264591.42836  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 250 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 250, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 455000, 299 Adsorbate Molecules, Total Energy: -281712.73312  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 270 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 270, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 460000, 302 Adsorbate Molecules, Total Energy: -295007.42845  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 266 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 266, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 465000, 299 Adsorbate Molecules, Total Energy: -289567.52511  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 271, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 470000, 290 Adsorbate Molecules, Total Energy: -270687.42678  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 259 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 259, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 475000, 291 Adsorbate Molecules, Total Energy: -268258.35693  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 252 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 252, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 480000, 301 Adsorbate Molecules, Total Energy: -295767.51446  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 485000, 296 Adsorbate Molecules, Total Energy: -278053.91444  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 43 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 253, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 43, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 490000, 301 Adsorbate Molecules, Total Energy: -291954.29424  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 266 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 266, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 495000, 298 Adsorbate Molecules, Total Energy: -292969.45316  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 264 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 264, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 500000, 298 Adsorbate Molecules, Total Energy: -282091.56836  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 505000, 294 Adsorbate Molecules, Total Energy: -274451.29250  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 262, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 510000, 282 Adsorbate Molecules, Total Energy: -244366.49296  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 250 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 250, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 515000, 301 Adsorbate Molecules, Total Energy: -292012.02790  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 520000, 291 Adsorbate Molecules, Total Energy: -263155.74696  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 251 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 251, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 525000, 293 Adsorbate Molecules, Total Energy: -262257.05777  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 256 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 256, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 530000, 276 Adsorbate Molecules, Total Energy: -232131.51716  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 241 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 241, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 535000, 287 Adsorbate Molecules, Total Energy: -255349.51403  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 24 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 540000, 289 Adsorbate Molecules, Total Energy: -247194.11265  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 248 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 248, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 545000, 290 Adsorbate Molecules, Total Energy: -250733.58460  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 248 Molecules  ||  Component 2 [methane], 42 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 248, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 42, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 550000, 289 Adsorbate Molecules, Total Energy: -245134.07140  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 248 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 248, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 555000, 280 Adsorbate Molecules, Total Energy: -243636.01293  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 252 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 252, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 560000, 278 Adsorbate Molecules, Total Energy: -232059.94105  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 250 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 250, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 565000, 293 Adsorbate Molecules, Total Energy: -257861.51963  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 252 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 252, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 570000, 298 Adsorbate Molecules, Total Energy: -282755.76072  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 261 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 261, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 575000, 307 Adsorbate Molecules, Total Energy: -315383.77061  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 279 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 279, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 580000, 303 Adsorbate Molecules, Total Energy: -302794.15839  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 275 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
 Printing: Component: 1 [ CO2 ], NumMol: 275, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 585000, 304 Adsorbate Molecules, Total Energy: -295976.67310  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 273 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 273, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 590000, 301 Adsorbate Molecules, Total Energy: -289221.92358  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 275 Molecules  ||  Component 2 [methane], 26 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 275, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 595000, 295 Adsorbate Molecules, Total Energy: -281735.35814  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 264 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 264, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 600000, 285 Adsorbate Molecules, Total Energy: -266034.92660  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 261 Molecules  ||  Component 2 [methane], 24 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 261, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 605000, 309 Adsorbate Molecules, Total Energy: -319118.49519  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 280 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 280, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 610000, 298 Adsorbate Molecules, Total Energy: -290413.04105  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 272 Molecules  ||  Component 2 [methane], 26 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 272, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 615000, 312 Adsorbate Molecules, Total Energy: -329132.89792  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 288 Molecules  ||  Component 2 [methane], 24 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 288, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 620000, 311 Adsorbate Molecules, Total Energy: -312639.09616  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 274 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 274, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 625000, 298 Adsorbate Molecules, Total Energy: -290561.78667  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 266 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 266, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 630000, 291 Adsorbate Molecules, Total Energy: -270662.22465  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 264 Molecules  ||  Component 2 [methane], 27 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 264, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 635000, 300 Adsorbate Molecules, Total Energy: -284593.52820  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 264 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 264, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 640000, 300 Adsorbate Molecules, Total Energy: -296032.65032  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 271, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 645000, 295 Adsorbate Molecules, Total Energy: -301038.38372  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 278 Molecules  ||  Component 2 [methane], 17 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 278, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 17, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 650000, 311 Adsorbate Molecules, Total Energy: -331767.57771  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 283 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 283, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 655000, 309 Adsorbate Molecules, Total Energy: -319832.03730  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 273 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 273, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 660000, 304 Adsorbate Molecules, Total Energy: -319856.76357  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 282 Molecules  ||  Component 2 [methane], 22 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 282, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 22, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 665000, 316 Adsorbate Molecules, Total Energy: -330769.16618  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 276 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 276, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 670000, 314 Adsorbate Molecules, Total Energy: -334770.06064  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 284 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 284, Molsize: 3
 Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 675000, 299 Adsorbate Molecules, Total Energy: -289733.47897  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 268 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 268, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 680000, 306 Adsorbate Molecules, Total Energy: -310109.86764  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 272 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 272, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 685000, 305 Adsorbate Molecules, Total Energy: -297541.33314  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 690000, 306 Adsorbate Molecules, Total Energy: -300338.14108  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 267 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 267, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 695000, 292 Adsorbate Molecules, Total Energy: -262657.09591  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 249 Molecules  ||  Component 2 [methane], 43 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 249, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 43, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 700000, 308 Adsorbate Molecules, Total Energy: -306023.76313  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 271 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 271, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 705000, 283 Adsorbate Molecules, Total Energy: -242553.91555  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 251 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 251, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 710000, 296 Adsorbate Molecules, Total Energy: -274849.31288  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 715000, 295 Adsorbate Molecules, Total Energy: -273272.99634  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 720000, 274 Adsorbate Molecules, Total Energy: -223733.24788  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 243 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 243, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 725000, 273 Adsorbate Molecules, Total Energy: -217641.65262  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 242 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 242, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 730000, 280 Adsorbate Molecules, Total Energy: -242606.52813  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 246 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 246, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 735000, 295 Adsorbate Molecules, Total Energy: -259171.62494  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 256 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 256, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 740000, 296 Adsorbate Molecules, Total Energy: -278334.54287  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 266 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 266, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 745000, 295 Adsorbate Molecules, Total Energy: -270133.23367  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 750000, 296 Adsorbate Molecules, Total Energy: -277112.47364  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 260, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 755000, 297 Adsorbate Molecules, Total Energy: -280447.62803  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 266 Molecules  ||  Component 2 [methane], 31 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 266, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 760000, 302 Adsorbate Molecules, Total Energy: -287200.01421  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 268 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 268, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 765000, 301 Adsorbate Molecules, Total Energy: -280857.48291  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 268 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 268, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 770000, 290 Adsorbate Molecules, Total Energy: -266662.56158  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 260, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 775000, 299 Adsorbate Molecules, Total Energy: -289890.43783  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 265 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 265, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 780000, 297 Adsorbate Molecules, Total Energy: -282030.08840  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 262, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 785000, 298 Adsorbate Molecules, Total Energy: -286513.61800  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 256 Molecules  ||  Component 2 [methane], 42 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 256, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 42, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 790000, 292 Adsorbate Molecules, Total Energy: -280788.15152  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 268 Molecules  ||  Component 2 [methane], 24 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 268, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 795000, 292 Adsorbate Molecules, Total Energy: -268781.52609  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 253, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 800000, 276 Adsorbate Molecules, Total Energy: -238812.29728  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 243 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 243, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 805000, 283 Adsorbate Molecules, Total Energy: -252622.47907  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 254 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 254, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 810000, 294 Adsorbate Molecules, Total Energy: -263546.84264  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 249 Molecules  ||  Component 2 [methane], 45 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 249, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 45, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 815000, 282 Adsorbate Molecules, Total Energy: -245286.35058  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 20 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 262, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 20, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 820000, 290 Adsorbate Molecules, Total Energy: -243811.44814  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 251 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 251, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 825000, 287 Adsorbate Molecules, Total Energy: -240060.20876  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 252 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 252, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 830000, 291 Adsorbate Molecules, Total Energy: -252524.96273  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 255 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 255, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 835000, 278 Adsorbate Molecules, Total Energy: -231034.17364  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 241 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 241, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 840000, 301 Adsorbate Molecules, Total Energy: -283328.53522  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 38 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 845000, 282 Adsorbate Molecules, Total Energy: -244742.61326  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 256 Molecules  ||  Component 2 [methane], 26 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 256, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 850000, 282 Adsorbate Molecules, Total Energy: -232423.58651  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 247 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 247, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 855000, 294 Adsorbate Molecules, Total Energy: -266496.30443  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 257 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 257, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 860000, 285 Adsorbate Molecules, Total Energy: -248602.25696  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 256 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 256, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 865000, 303 Adsorbate Molecules, Total Energy: -292691.69901  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 266 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 266, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 870000, 297 Adsorbate Molecules, Total Energy: -278189.50578  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 263 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 263, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 875000, 288 Adsorbate Molecules, Total Energy: -250732.67052  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 246 Molecules  ||  Component 2 [methane], 42 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 246, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 42, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 880000, 285 Adsorbate Molecules, Total Energy: -257530.64921  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 257 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 257, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 885000, 283 Adsorbate Molecules, Total Energy: -246464.36123  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 248 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 248, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 890000, 286 Adsorbate Molecules, Total Energy: -253837.88210  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 254 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 254, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 895000, 278 Adsorbate Molecules, Total Energy: -242510.95131  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 243 Molecules  ||  Component 2 [methane], 35 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 243, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 900000, 285 Adsorbate Molecules, Total Energy: -251728.60918  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 253 Molecules  ||  Component 2 [methane], 32 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 253, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 905000, 289 Adsorbate Molecules, Total Energy: -248607.95187  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 249 Molecules  ||  Component 2 [methane], 40 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 249, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 40, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 910000, 278 Adsorbate Molecules, Total Energy: -247799.91299  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 249 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 249, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 915000, 275 Adsorbate Molecules, Total Energy: -226516.89199  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 238 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 238, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 920000, 290 Adsorbate Molecules, Total Energy: -264195.75193  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 251 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 251, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 925000, 287 Adsorbate Molecules, Total Energy: -250898.05859  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 246 Molecules  ||  Component 2 [methane], 41 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 246, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 930000, 281 Adsorbate Molecules, Total Energy: -228000.05086  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 236 Molecules  ||  Component 2 [methane], 45 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 236, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 45, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 935000, 299 Adsorbate Molecules, Total Energy: -277277.99342  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 262 Molecules  ||  Component 2 [methane], 37 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 262, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 940000, 295 Adsorbate Molecules, Total Energy: -263776.12103  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 259 Molecules  ||  Component 2 [methane], 36 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 259, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 945000, 289 Adsorbate Molecules, Total Energy: -263252.80774  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 259 Molecules  ||  Component 2 [methane], 30 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 259, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 950000, 299 Adsorbate Molecules, Total Energy: -276061.55877  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 260 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 260, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 955000, 293 Adsorbate Molecules, Total Energy: -263044.98049  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 259 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 259, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 960000, 300 Adsorbate Molecules, Total Energy: -282210.14543  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 266 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 266, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 965000, 297 Adsorbate Molecules, Total Energy: -286596.20387  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 269 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 269, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 970000, 303 Adsorbate Molecules, Total Energy: -297882.84508  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 264 Molecules  ||  Component 2 [methane], 39 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 264, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 975000, 312 Adsorbate Molecules, Total Energy: -334171.09593  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 283 Molecules  ||  Component 2 [methane], 29 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 283, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 980000, 311 Adsorbate Molecules, Total Energy: -328436.75005  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 277 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 277, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 985000, 309 Adsorbate Molecules, Total Energy: -324942.29612  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 275 Molecules  ||  Component 2 [methane], 34 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 275, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 990000, 312 Adsorbate Molecules, Total Energy: -327222.91173  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 279 Molecules  ||  Component 2 [methane], 33 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 279, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 3240
+Component 1, Molsize: 3
+Component 2, Molsize: 1
+PRODUCTION Cycle: 995000, 314 Adsorbate Molecules, Total Energy: -327731.11702  ||  Component 0 [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif], 1 Molecules  ||  Component 1 [CO2], 286 Molecules  ||  Component 2 [methane], 28 Molecules  ||  
+Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
+Printing: Component: 1 [ CO2 ], NumMol: 286, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
 ======================== MOVE STATISTICS FOR COMPONENT [1] (CO2) ========================
 =====================SWAP MOVES=====================
-Insertion Performed:   10014
-Insertion Accepted:    1831
-Deletion Performed:    9979
-Deletion Accepted:     1661
-Reinsertion Performed: 20217
-Reinsertion Accepted:  1287
+Insertion Performed:   65371
+Insertion Accepted:    10652
+Deletion Performed:    64544
+Deletion Accepted:     10358
+Reinsertion Performed: 130095
+Reinsertion Accepted:  6891
 ====================================================
 =====================IDENTITY SWAP MOVES=====================
 Identity Swap Performed, FROM [CO2 (1)] TO [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif (0)]: 0 (0 Accepted)
-Identity Swap Performed, FROM [CO2 (1)] TO [methane (2)]: 11347 (2918 Accepted)
+Identity Swap Performed, FROM [CO2 (1)] TO [methane (2)]: 73566 (17956 Accepted)
 =============================================================
 ================================================================================================
 ======================== MOVE STATISTICS FOR COMPONENT [2] (methane) ========================
 =====================SWAP MOVES=====================
-Insertion Performed:   12583
-Insertion Accepted:    1901
-Deletion Performed:    12540
-Deletion Accepted:     1765
-Reinsertion Performed: 25003
-Reinsertion Accepted:  1783
+Insertion Performed:   81403
+Insertion Accepted:    10547
+Deletion Performed:    80842
+Deletion Accepted:     10516
+Reinsertion Performed: 161977
+Reinsertion Accepted:  9790
 ====================================================
 =====================IDENTITY SWAP MOVES=====================
 Identity Swap Performed, FROM [methane (2)] TO [MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif (0)]: 0 (0 Accepted)
-Identity Swap Performed, FROM [methane (2)] TO [CO2 (1)]: 11294 (3026 Accepted)
+Identity Swap Performed, FROM [methane (2)] TO [CO2 (1)]: 73236 (17957 Accepted)
 =============================================================
 ================================================================================================
-=====================BLOCK AVERAGES (ENERGIES)================
-BLOCK [0], Blocksize: 20000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [1], Blocksize: 20000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [2], Blocksize: 20000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [3], Blocksize: 20000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [4], Blocksize: 20000, Average: 0.00000, ErrorBar: 0.00000
-Overall: Average: 0.00000, ErrorBar: 0.00000
+============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========
+COMPONENT [1] (CO2)
+BLOCK [0], Blocksize: 200000, Average: -30.22391
+BLOCK [1], Blocksize: 200000, Average: -27.55669
+BLOCK [2], Blocksize: 200000, Average: -28.15212
+BLOCK [3], Blocksize: 200000, Average: -29.30366
+BLOCK [4], Blocksize: 200000, Average: -29.10559
+Overall: Average: -28.86839, ErrorBar: 1.85833
+-----------------------------
+COMPONENT [2] (methane)
+BLOCK [0], Blocksize: 200000, Average: -21.71238
+BLOCK [1], Blocksize: 200000, Average: -19.77279
+BLOCK [2], Blocksize: 200000, Average: -20.26553
+BLOCK [3], Blocksize: 200000, Average: -19.93310
+BLOCK [4], Blocksize: 200000, Average: -20.59637
+Overall: Average: -20.45603, ErrorBar: 1.37831
+-----------------------------
 ==============================================================
 =================== BLOCK AVERAGES (LOADING: # MOLECULES)=============
 COMPONENT [0] (MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif)
-BLOCK [0], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
-BLOCK [1], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
-BLOCK [2], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
-BLOCK [3], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
-BLOCK [4], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [0], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
 Overall: Average: 1.00000, ErrorBar: 0.00000
 ----------------------------------------------------------
 COMPONENT [1] (CO2)
-BLOCK [0], Blocksize: 20000, Average: 251.28030, ErrorBar: 18.81917
-BLOCK [1], Blocksize: 20000, Average: 251.01715, ErrorBar: 13.56305
-BLOCK [2], Blocksize: 20000, Average: 257.66270, ErrorBar: 15.71393
-BLOCK [3], Blocksize: 20000, Average: 259.47080, ErrorBar: 18.79633
-BLOCK [4], Blocksize: 20000, Average: 274.95560, ErrorBar: 12.71022
-Overall: Average: 258.87731, ErrorBar: 17.43182
+BLOCK [0], Blocksize: 200000, Average: 258.22208, ErrorBar: 22.91063
+BLOCK [1], Blocksize: 200000, Average: 262.75489, ErrorBar: 23.17145
+BLOCK [2], Blocksize: 200000, Average: 255.19525, ErrorBar: 24.03934
+BLOCK [3], Blocksize: 200000, Average: 263.65898, ErrorBar: 21.35844
+BLOCK [4], Blocksize: 200000, Average: 257.98070, ErrorBar: 24.82262
+Overall: Average: 259.56238, ErrorBar: 6.34629
 ----------------------------------------------------------
 COMPONENT [2] (methane)
-BLOCK [0], Blocksize: 20000, Average: 32.71175, ErrorBar: 10.16456
-BLOCK [1], Blocksize: 20000, Average: 37.63085, ErrorBar: 9.95799
-BLOCK [2], Blocksize: 20000, Average: 35.16635, ErrorBar: 7.93125
-BLOCK [3], Blocksize: 20000, Average: 32.35675, ErrorBar: 10.79151
-BLOCK [4], Blocksize: 20000, Average: 30.83875, ErrorBar: 7.66787
-Overall: Average: 33.74089, ErrorBar: 4.78005
+BLOCK [0], Blocksize: 200000, Average: 34.97010, ErrorBar: 9.87725
+BLOCK [1], Blocksize: 200000, Average: 34.33191, ErrorBar: 11.00307
+BLOCK [2], Blocksize: 200000, Average: 34.49507, ErrorBar: 11.11094
+BLOCK [3], Blocksize: 200000, Average: 34.01159, ErrorBar: 10.38295
+BLOCK [4], Blocksize: 200000, Average: 33.32493, ErrorBar: 9.32488
+Overall: Average: 34.22672, ErrorBar: 1.09369
 ----------------------------------------------------------
 ======================================================================
 =====================BLOCK AVERAGES (LOADING: mg/g)=============
 COMPONENT [0] (MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif)
 Framework component 0, molar mass: 1958.97600
 Framework total mass: 35261.56800
-BLOCK [0], Blocksize: 20000, Average: 55.55556, ErrorBar: 0.00000
-BLOCK [1], Blocksize: 20000, Average: 55.55556, ErrorBar: 0.00000
-BLOCK [2], Blocksize: 20000, Average: 55.55556, ErrorBar: 0.00000
-BLOCK [3], Blocksize: 20000, Average: 55.55556, ErrorBar: 0.00000
-BLOCK [4], Blocksize: 20000, Average: 55.55556, ErrorBar: 0.00000
-Overall: Average: 55.55556, ErrorBar: -nan
+BLOCK [0], Blocksize: 200000, Average: 55.55556, ErrorBar: -nan
+BLOCK [1], Blocksize: 200000, Average: 55.55556, ErrorBar: -nan
+BLOCK [2], Blocksize: 200000, Average: 55.55556, ErrorBar: -nan
+BLOCK [3], Blocksize: 200000, Average: 55.55556, ErrorBar: -nan
+BLOCK [4], Blocksize: 200000, Average: 55.55556, ErrorBar: -nan
+Overall: Average: 55.55556, ErrorBar: 0.00000
 ----------------------------------------------------------
 COMPONENT [1] (CO2)
 Framework component 0, molar mass: 1958.97600
 Framework total mass: 35261.56800
-BLOCK [0], Blocksize: 20000, Average: 313.54339, ErrorBar: 23.48225
-BLOCK [1], Blocksize: 20000, Average: 313.21504, ErrorBar: 16.92374
-BLOCK [2], Blocksize: 20000, Average: 321.50725, ErrorBar: 19.60759
-BLOCK [3], Blocksize: 20000, Average: 323.76336, ErrorBar: 23.45375
-BLOCK [4], Blocksize: 20000, Average: 343.08504, ErrorBar: 15.85960
-Overall: Average: 323.02282, ErrorBar: 21.75114
+BLOCK [0], Blocksize: 200000, Average: 322.20522, ErrorBar: 28.58750
+BLOCK [1], Blocksize: 200000, Average: 327.86120, ErrorBar: 28.91296
+BLOCK [2], Blocksize: 200000, Average: 318.42840, ErrorBar: 29.99589
+BLOCK [3], Blocksize: 200000, Average: 328.98930, ErrorBar: 26.65071
+BLOCK [4], Blocksize: 200000, Average: 321.90403, ErrorBar: 30.97325
+Overall: Average: 323.87763, ErrorBar: 7.91880
 ----------------------------------------------------------
 COMPONENT [2] (methane)
 Framework component 0, molar mass: 1958.97600
 Framework total mass: 35261.56800
-BLOCK [0], Blocksize: 20000, Average: 14.84302, ErrorBar: 4.61219
-BLOCK [1], Blocksize: 20000, Average: 17.07507, ErrorBar: 4.51845
-BLOCK [2], Blocksize: 20000, Average: 15.95679, ErrorBar: 3.59882
-BLOCK [3], Blocksize: 20000, Average: 14.68193, ErrorBar: 4.89667
-BLOCK [4], Blocksize: 20000, Average: 13.99314, ErrorBar: 3.47931
-Overall: Average: 15.30999, ErrorBar: 2.16896
+BLOCK [0], Blocksize: 200000, Average: 15.86775, ErrorBar: 4.48182
+BLOCK [1], Blocksize: 200000, Average: 15.57817, ErrorBar: 4.99266
+BLOCK [2], Blocksize: 200000, Average: 15.65220, ErrorBar: 5.04161
+BLOCK [3], Blocksize: 200000, Average: 15.43282, ErrorBar: 4.71128
+BLOCK [4], Blocksize: 200000, Average: 15.12125, ErrorBar: 4.23118
+Overall: Average: 15.53044, ErrorBar: 0.49626
 ----------------------------------------------------------
 ==============================================================
 =====================BLOCK AVERAGES (LOADING: mol/kg)=============
 COMPONENT [0] (MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif)
 Framework component 0, molar mass: 1958.97600
 Framework total mass: 35261.56800
-BLOCK [0], Blocksize: 20000, Average: 0.02836, ErrorBar: -nan
-BLOCK [1], Blocksize: 20000, Average: 0.02836, ErrorBar: -nan
-BLOCK [2], Blocksize: 20000, Average: 0.02836, ErrorBar: -nan
-BLOCK [3], Blocksize: 20000, Average: 0.02836, ErrorBar: -nan
-BLOCK [4], Blocksize: 20000, Average: 0.02836, ErrorBar: -nan
-Overall: Average: 0.02836, ErrorBar: 0.00000
+BLOCK [0], Blocksize: 200000, Average: 0.02836, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 200000, Average: 0.02836, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 200000, Average: 0.02836, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 200000, Average: 0.02836, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 200000, Average: 0.02836, ErrorBar: 0.00000
+Overall: Average: 0.02836, ErrorBar: -nan
 ----------------------------------------------------------
 COMPONENT [1] (CO2)
 Framework component 0, molar mass: 1958.97600
 Framework total mass: 35261.56800
-BLOCK [0], Blocksize: 20000, Average: 7.12618, ErrorBar: 0.53370
-BLOCK [1], Blocksize: 20000, Average: 7.11872, ErrorBar: 0.38464
-BLOCK [2], Blocksize: 20000, Average: 7.30718, ErrorBar: 0.44564
-BLOCK [3], Blocksize: 20000, Average: 7.35846, ErrorBar: 0.53305
-BLOCK [4], Blocksize: 20000, Average: 7.79760, ErrorBar: 0.36046
-Overall: Average: 7.34163, ErrorBar: 0.49436
+BLOCK [0], Blocksize: 200000, Average: 7.32305, ErrorBar: 0.64973
+BLOCK [1], Blocksize: 200000, Average: 7.45159, ErrorBar: 0.65713
+BLOCK [2], Blocksize: 200000, Average: 7.23721, ErrorBar: 0.68174
+BLOCK [3], Blocksize: 200000, Average: 7.47723, ErrorBar: 0.60571
+BLOCK [4], Blocksize: 200000, Average: 7.31620, ErrorBar: 0.70396
+Overall: Average: 7.36106, ErrorBar: 0.17998
 ----------------------------------------------------------
 COMPONENT [2] (methane)
 Framework component 0, molar mass: 1958.97600
 Framework total mass: 35261.56800
-BLOCK [0], Blocksize: 20000, Average: 0.92769, ErrorBar: 0.28826
-BLOCK [1], Blocksize: 20000, Average: 1.06719, ErrorBar: 0.28240
-BLOCK [2], Blocksize: 20000, Average: 0.99730, ErrorBar: 0.22493
-BLOCK [3], Blocksize: 20000, Average: 0.91762, ErrorBar: 0.30604
-BLOCK [4], Blocksize: 20000, Average: 0.87457, ErrorBar: 0.21746
-Overall: Average: 0.95687, ErrorBar: 0.13556
+BLOCK [0], Blocksize: 200000, Average: 0.99173, ErrorBar: 0.28011
+BLOCK [1], Blocksize: 200000, Average: 0.97364, ErrorBar: 0.31204
+BLOCK [2], Blocksize: 200000, Average: 0.97826, ErrorBar: 0.31510
+BLOCK [3], Blocksize: 200000, Average: 0.96455, ErrorBar: 0.29446
+BLOCK [4], Blocksize: 200000, Average: 0.94508, ErrorBar: 0.26445
+Overall: Average: 0.97065, ErrorBar: 0.03102
 ----------------------------------------------------------
 ==============================================================
 =====================BLOCK AVERAGES (LOADING: g/L)=============
 COMPONENT [0] (MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif)
 Total Unit Cells 18 
-BLOCK [0], Blocksize: 20000, Average: 48.77585, ErrorBar: -nan
-BLOCK [1], Blocksize: 20000, Average: 48.77585, ErrorBar: -nan
-BLOCK [2], Blocksize: 20000, Average: 48.77585, ErrorBar: -nan
-BLOCK [3], Blocksize: 20000, Average: 48.77585, ErrorBar: -nan
-BLOCK [4], Blocksize: 20000, Average: 48.77585, ErrorBar: -nan
+BLOCK [0], Blocksize: 200000, Average: 48.77585, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 200000, Average: 48.77585, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 200000, Average: 48.77585, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 200000, Average: 48.77585, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 200000, Average: 48.77585, ErrorBar: 0.00000
 Overall: Average: 48.77585, ErrorBar: 0.00000
 ----------------------------------------------------------
 COMPONENT [1] (CO2)
 Total Unit Cells 18 
-BLOCK [0], Blocksize: 20000, Average: 275.28020, ErrorBar: 20.61660
-BLOCK [1], Blocksize: 20000, Average: 274.99191, ErrorBar: 14.85846
-BLOCK [2], Blocksize: 20000, Average: 282.27218, ErrorBar: 17.21478
-BLOCK [3], Blocksize: 20000, Average: 284.25298, ErrorBar: 20.59158
-BLOCK [4], Blocksize: 20000, Average: 301.21674, ErrorBar: 13.92418
-Overall: Average: 283.60280, ErrorBar: 19.09675
+BLOCK [0], Blocksize: 200000, Average: 282.88499, ErrorBar: 25.09883
+BLOCK [1], Blocksize: 200000, Average: 287.85073, ErrorBar: 25.38457
+BLOCK [2], Blocksize: 200000, Average: 279.56906, ErrorBar: 26.33535
+BLOCK [3], Blocksize: 200000, Average: 288.84117, ErrorBar: 23.39840
+BLOCK [4], Blocksize: 200000, Average: 282.62055, ErrorBar: 27.19344
+Overall: Average: 284.35330, ErrorBar: 6.95243
 ----------------------------------------------------------
 COMPONENT [2] (methane)
 Total Unit Cells 18 
-BLOCK [0], Blocksize: 20000, Average: 13.03165, ErrorBar: 4.04934
-BLOCK [1], Blocksize: 20000, Average: 14.99131, ErrorBar: 3.96705
-BLOCK [2], Blocksize: 20000, Average: 14.00951, ErrorBar: 3.15964
-BLOCK [3], Blocksize: 20000, Average: 12.89023, ErrorBar: 4.29910
-BLOCK [4], Blocksize: 20000, Average: 12.28549, ErrorBar: 3.05471
-Overall: Average: 13.44164, ErrorBar: 1.90427
+BLOCK [0], Blocksize: 200000, Average: 13.93133, ErrorBar: 3.93488
+BLOCK [1], Blocksize: 200000, Average: 13.67709, ErrorBar: 4.38339
+BLOCK [2], Blocksize: 200000, Average: 13.74209, ErrorBar: 4.42636
+BLOCK [3], Blocksize: 200000, Average: 13.54948, ErrorBar: 4.13634
+BLOCK [4], Blocksize: 200000, Average: 13.27593, ErrorBar: 3.71483
+Overall: Average: 13.63518, ErrorBar: 0.43570
 ----------------------------------------------------------
 ==============================================================
 =====================Rosenbluth Summary=====================
 There are 5 blocks
 =====BLOCK 0=====
-Widom Performed: 1009.0
+Widom Performed: 10018.0
 Framework Density: 877.96524 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 71.8537329795
-(Total) Averaged Excess Mu: -1264.6963750499
-(Total) Averaged Henry Coefficient: 0.0000332542
-(Total) Converted to Fugacity: 236969.7232838897 [Pascal], Temp: 296.00000 [K]
+(Total) Averaged Rosenbluth Weight: 61.4253605528
+(Total) Averaged Excess Mu: -1218.3025026108
+(Total) Averaged Henry Coefficient: 0.0000284279
+(Total) Converted to Fugacity: 294151.9303989953 [Pascal], Temp: 296.00000 [K]
 Framework Density: 877.96524 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 71.8537329795
-(Insertion) Averaged Excess Mu: -1264.6963750499
-(Insertion) Converted to Fugacity: 236969.7232838897 [Pascal], Temp: 296.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 61.4253605528
+(Insertion) Averaged Excess Mu: -1218.3025026108
+(Insertion) Converted to Fugacity: 294151.9303989953 [Pascal], Temp: 296.00000 [K]
 =====BLOCK 1=====
-Widom Performed: 919.0
+Widom Performed: 10071.0
 Framework Density: 877.96524 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 56.7371845676
-(Total) Averaged Excess Mu: -1194.8132290024
-(Total) Averaged Henry Coefficient: 0.0000262582
-(Total) Converted to Fugacity: 300105.8186237355 [Pascal], Temp: 296.00000 [K]
+(Total) Averaged Rosenbluth Weight: 72.7291716729
+(Total) Averaged Excess Mu: -1268.2792494121
+(Total) Averaged Henry Coefficient: 0.0000336593
+(Total) Converted to Fugacity: 248433.8535207862 [Pascal], Temp: 296.00000 [K]
 Framework Density: 877.96524 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 56.7371845676
-(Insertion) Averaged Excess Mu: -1194.8132290024
-(Insertion) Converted to Fugacity: 300105.8186237355 [Pascal], Temp: 296.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 72.7291716729
+(Insertion) Averaged Excess Mu: -1268.2792494121
+(Insertion) Converted to Fugacity: 248433.8535207862 [Pascal], Temp: 296.00000 [K]
 =====BLOCK 2=====
-Widom Performed: 1025.0
+Widom Performed: 10003.0
 Framework Density: 877.96524 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 50.3046586630
-(Total) Averaged Excess Mu: -1159.2116677136
-(Total) Averaged Henry Coefficient: 0.0000232812
-(Total) Converted to Fugacity: 338480.7624901723 [Pascal], Temp: 296.00000 [K]
+(Total) Averaged Rosenbluth Weight: 63.7295801568
+(Total) Averaged Excess Mu: -1229.1978836886
+(Total) Averaged Henry Coefficient: 0.0000294943
+(Total) Converted to Fugacity: 283516.5136445191 [Pascal], Temp: 296.00000 [K]
 Framework Density: 877.96524 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 50.3046586630
-(Insertion) Averaged Excess Mu: -1159.2116677136
-(Insertion) Converted to Fugacity: 338480.7624901723 [Pascal], Temp: 296.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 63.7295801568
+(Insertion) Averaged Excess Mu: -1229.1978836886
+(Insertion) Converted to Fugacity: 283516.5136445191 [Pascal], Temp: 296.00000 [K]
 =====BLOCK 3=====
-Widom Performed: 989.0
+Widom Performed: 10244.0
 Framework Density: 877.96524 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 75.5843641797
-(Total) Averaged Excess Mu: -1279.6719253631
-(Total) Averaged Henry Coefficient: 0.0000349807
-(Total) Converted to Fugacity: 225273.5655828447 [Pascal], Temp: 296.00000 [K]
+(Total) Averaged Rosenbluth Weight: 55.1088502177
+(Total) Averaged Excess Mu: -1186.1979140544
+(Total) Averaged Henry Coefficient: 0.0000255046
+(Total) Converted to Fugacity: 327867.2719661095 [Pascal], Temp: 296.00000 [K]
 Framework Density: 877.96524 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 75.5843641797
-(Insertion) Averaged Excess Mu: -1279.6719253631
-(Insertion) Converted to Fugacity: 225273.5655828447 [Pascal], Temp: 296.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 55.1088502177
+(Insertion) Averaged Excess Mu: -1186.1979140544
+(Insertion) Converted to Fugacity: 327867.2719661095 [Pascal], Temp: 296.00000 [K]
 =====BLOCK 4=====
-Widom Performed: 978.0
+Widom Performed: 9980.0
 Framework Density: 877.96524 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 52.7933587630
-(Total) Averaged Excess Mu: -1173.4981105016
-(Total) Averaged Henry Coefficient: 0.0000244330
-(Total) Converted to Fugacity: 322524.6436300247 [Pascal], Temp: 296.00000 [K]
+(Total) Averaged Rosenbluth Weight: 59.0543933851
+(Total) Averaged Excess Mu: -1206.6562817694
+(Total) Averaged Henry Coefficient: 0.0000273306
+(Total) Converted to Fugacity: 305961.7980364928 [Pascal], Temp: 296.00000 [K]
 Framework Density: 877.96524 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 52.7933587630
-(Insertion) Averaged Excess Mu: -1173.4981105016
-(Insertion) Converted to Fugacity: 322524.6436300247 [Pascal], Temp: 296.00000 [K]
+(Insertion) Averaged Rosenbluth Weight: 59.0543933851
+(Insertion) Averaged Excess Mu: -1206.6562817694
+(Insertion) Converted to Fugacity: 305961.7980364928 [Pascal], Temp: 296.00000 [K]
 =========================AVERAGE========================
-Averaged Rosenbluth Weight: 61.4546598306 +/- 20.5793003268
-Averaged Excess Chemical Potential: -1214.3782615262 +/- 97.5397576547
-Averaged Henry Coefficient [mol/kg/Pa]: 2.844144131e-05 +/- 9.52417545e-06
-Averaged Fugacity: 284670.9027221334 +/- 91082.7734180518
+Averaged Rosenbluth Weight: 62.4094711971 +/- 11.7902669400
+Averaged Excess Chemical Potential: -1221.7267663070 +/- 54.5827497045
+Averaged Henry Coefficient [mol/kg/Pa]: 2.88833315e-05 +/- 5.456578657e-06
+Averaged Fugacity: 291986.2735133806 +/- 52581.3771204553
 Printing: Component: 0 [ MATVAF_clean-Bae-PartialCharge-fixed-Original-N2-Charge.cif ], NumMol: 1, Molsize: 3240
-Printing: Component: 1 [ CO2 ], NumMol: 278, Molsize: 3
-Printing: Component: 2 [ methane ], NumMol: 28, Molsize: 1
+Printing: Component: 1 [ CO2 ], NumMol: 295, Molsize: 3
+Printing: Component: 2 [ methane ], NumMol: 30, Molsize: 1
 Component 0, Molsize: 3240
 Component 1, Molsize: 3
 Component 2, Molsize: 1
-Work took 16.725032 seconds
+Work took 108.310523 seconds
 ======================================
 CHECKING FINAL ENERGY FOR SYSTEM [0]
 ======================================
 ======================== CALCULATING FINAL STAGE ENERGY ========================
 ****** Calculating VDW + Real Energy (CPU) ******
 Host-Host   VDW: 0.00000; Real: 0.00000
-Host-Guest  VDW: -496169.74937; Real: -75763.09704
-Guest-Guest VDW: -91929.03257; Real: -26159.72209
+Host-Guest  VDW: -521550.96685; Real: -81088.54874
+Guest-Guest VDW: -106665.74622; Real: -25956.49494
 ********** PRINTING COMPONENT ENERGIES**********
 Compoent [0-0], VDW: 0.00000, Real: 0.00000
-Compoent [0-1], VDW: -461750.90439, Real: -75763.09704
-Compoent [0-2], VDW: -34418.84498, Real: 0.00000
-Compoent [1-1], VDW: -80449.58729, Real: -26159.72209
-Compoent [1-2], VDW: -10940.01412, Real: 0.00000
-Compoent [2-2], VDW: -539.43115, Real: 0.00000
+Compoent [0-1], VDW: -486567.33561, Real: -81088.54874
+Compoent [0-2], VDW: -34983.63124, Real: 0.00000
+Compoent [1-1], VDW: -91741.02785, Real: -25956.49494
+Compoent [1-2], VDW: -14212.73811, Real: 0.00000
+Compoent [2-2], VDW: -711.98025, Real: 0.00000
 ****** Calculating Ewald Energy (CPU) ******
-CPU Guest-Guest Fourier: 11368.11634, Host-Host Fourier: 45015.24699, Framework-Guest Fourier: -10278.63639
+CPU Guest-Guest Fourier: 11758.06824, Host-Host Fourier: 45015.24699, Framework-Guest Fourier: -10071.54620
 Component: 0, SelfAtomE: 9563024.14332 (11501681.37235 kJ/mol)
-Component: 1, SelfAtomE: 4245333.27328 (5105965.42441 kJ/mol)
+Component: 1, SelfAtomE: 4504939.98423 (5418200.72015 kJ/mol)
 Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
 Component: 0, Intra-Molecular ExclusionE: 9909165.51672 (11917994.00807 kJ/mol)
-Component: 1, Intra-Molecular ExclusionE: 4231740.82451 (5089617.45619 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 4490516.34256 (5400853.05603 kJ/mol)
 Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
-HostEwald took 0.44556 sec
-Ewald Summation (total energy) on the CPU took 0.44556 secs
+HostEwald took 0.44768 sec
+Ewald Summation (total energy) on the CPU took 0.44768 secs
  ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** 
 Wave Vector 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
@@ -970,10 +2281,10 @@ Wave Vector 2, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 3, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 4, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
 Wave Vector 5, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
-Wave Vector 6, CPU: -4.29301 1.22399, GPU: -4.29301 1.22399
-Wave Vector 7, CPU: 2.05278 -5.59907, GPU: 2.05278 -5.59907
-Wave Vector 8, CPU: -2.39166 4.42489, GPU: -2.39166 4.42489
-Wave Vector 9, CPU: -2.49321 -5.44310, GPU: -2.49321 -5.44310
+Wave Vector 6, CPU: 9.96451 9.31637, GPU: 9.96451 9.31637
+Wave Vector 7, CPU: -2.49019 -0.93460, GPU: -2.49019 -0.93460
+Wave Vector 8, CPU: 1.17379 -3.02858, GPU: 1.17379 -3.02858
+Wave Vector 9, CPU: -6.99363 5.47132, GPU: -6.99363 5.47132
  ****** CHECKING Framework WaveVectors Stored on CPU ****** 
 Framework Wave Vector 0, real: 0.00000 imag: 0.00000
 Framework Wave Vector 1, real: 0.00000 imag: 0.00000
@@ -989,27 +2300,27 @@ i: 3, j: 3, Ni: 432, Nj: 432, E: -346.58035
 THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
 Framework Comp Zero Atoms: 3240, Other Comp Atoms: 0
 NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
-Atoms: 3240 862
-Interactions: 0 2792880 371091
-Nblock 248, blocks: 0 219 29, threads needed: 0 27929 3711, Nthread: 128
+Atoms: 3240 915
+Interactions: 0 2964600 418155
+Nblock 265, blocks: 0 232 33, threads needed: 0 29646 4182, Nthread: 128
 GPU VDW REAL ENERGY:
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -496169.74937, HGReal: -75763.09704, GGVDW: -91929.03257, GGReal: -26159.72209, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -521550.96685, HGReal: -81088.54874, GGVDW: -106665.74622, GGReal: -25956.49494, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-VDW + Real on the GPU took 0.00088 secs
-GPU Ewald Summary: NHostAtom: 3240, NGuestAtom: 862
-GPU Ewald Summary: Nthread: 128, Host thread: 101, Guest thread: 27
+VDW + Real on the GPU took 0.00126 secs
+GPU Ewald Summary: NHostAtom: 3240, NGuestAtom: 915
+GPU Ewald Summary: Nthread: 128, Host thread: 99, Guest thread: 29
 Host NAtomPerThread: 32, Guest NAtomPerThread: 31
-Host residueAtoms: 8, Guest residueAtoms: 25
-GPU fourier, HHFourier: 45015.24699, GGFourier: 11368.11634, HGFourier: -10278.63639, TOTFourier: 46104.72694
+Host residueAtoms: 72, Guest residueAtoms: 16
+GPU fourier, HHFourier: 45015.24699, GGFourier: 11758.06824, HGFourier: -10071.54620, TOTFourier: 46701.76902
 Framework Component 0 Exclusion: 346141.37340
 Component 1, Nblock: 3, Nthread: 128
-Component 1, Exclusion (self + intra) = -13592.44877
+Component 1, Exclusion (self + intra) = -14423.64168
 Component 2, Nblock: 1, Nthread: 128
 Component 2, Exclusion (self + intra) = 0.00000
-Ewald Summation (total energy) on the GPU took 0.00322 secs
+Ewald Summation (total energy) on the GPU took 0.00331 secs
 i: 3, j: 3, Ni: 432, Nj: 432, E: -346.58035
 Total GPU Energy: 
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -496169.74937, HGReal: -75763.09704, GGVDW: -91929.03257, GGReal: -26159.72209, HHEwaldE: 391156.62038, HGEwaldE: -10278.63639, GGEwaldE: -2224.33243, TailE: -346.58035, DNN_E: 0.00000
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -521550.96685, HGReal: -81088.54874, GGVDW: -106665.74622, GGReal: -25956.49494, HHEwaldE: 391156.62038, HGEwaldE: -10071.54620, GGEwaldE: -2665.57344, TailE: -346.58035, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING FINAL STAGE ENERGY ======================
 ======================================
@@ -1077,58 +2388,58 @@ Total Energy:               0.00000 (0.00000 [K])
  *** FINAL STAGE *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -496169.74937 (-596755.40690 [K])
-VDW [Guest-Guest]:          -91929.03257 (-110565.27994 [K])
+VDW [Host-Guest]:           -521550.96685 (-627282.01354 [K])
+VDW [Guest-Guest]:          -106665.74622 (-128289.48332 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
-Real Coulomb [Host-Guest]:  -75763.09704 (-91122.11669 [K])
-Real Coulomb [Guest-Guest]: -26159.72209 (-31462.93303 [K])
+Real Coulomb [Host-Guest]:  -81088.54874 (-97527.16678 [K])
+Real Coulomb [Guest-Guest]: -25956.49494 (-31218.50681 [K])
 Ewald [Host-Host]:          391156.62038 (470453.56645 [K])
-Ewald [Host-Guest]:         -10278.63639 (-12362.36560 [K])
-Ewald [Guest-Guest]:        -2224.33242 (-2675.25862 [K])
+Ewald [Host-Guest]:         -10071.54620 (-12113.29320 [K])
+Ewald [Guest-Guest]:        -2665.57344 (-3205.94991 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     -346.58035 (-416.84060 [K])
-Total Energy:               -311714.52984 (-374906.63493 [K])
+Total Energy:               -357188.83635 (-429599.68771 [K])
 ========================================================================
  *** RUNNING DELTA_E (FINAL - CREATE MOLECULE) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -496169.74937 (-596755.40690 [K])
-VDW [Guest-Guest]:          -91929.03257 (-110565.27994 [K])
+VDW [Host-Guest]:           -521550.96685 (-627282.01354 [K])
+VDW [Guest-Guest]:          -106665.74622 (-128289.48332 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
-Real Coulomb [Host-Guest]:  -75763.09704 (-91122.11669 [K])
-Real Coulomb [Guest-Guest]: -26159.72209 (-31462.93303 [K])
+Real Coulomb [Host-Guest]:  -81088.54874 (-97527.16678 [K])
+Real Coulomb [Guest-Guest]: -25956.49494 (-31218.50681 [K])
 Ewald [Host-Host]:          0.00000 (0.00000 [K])
-Ewald [Host-Guest]:         -10278.63639 (-12362.36560 [K])
-Ewald [Guest-Guest]:        -2224.33243 (-2675.25863 [K])
+Ewald [Host-Guest]:         -10071.54620 (-12113.29320 [K])
+Ewald [Guest-Guest]:        -2665.57344 (-3205.94991 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -702524.56987 (-844943.36079 [K])
+Total Energy:               -747998.87639 (-899636.41356 [K])
 ========================================================================
  *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -496169.74937 (-596755.40690 [K])
-VDW [Guest-Guest]:          -91929.03257 (-110565.27994 [K])
+VDW [Host-Guest]:           -521550.96685 (-627282.01354 [K])
+VDW [Guest-Guest]:          -106665.74622 (-128289.48332 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
-Real Coulomb [Host-Guest]:  -75763.09704 (-91122.11669 [K])
-Real Coulomb [Guest-Guest]: -26159.72209 (-31462.93303 [K])
+Real Coulomb [Host-Guest]:  -81088.54874 (-97527.16678 [K])
+Real Coulomb [Guest-Guest]: -25956.49494 (-31218.50681 [K])
 Ewald [Host-Host]:          0.00000 (0.00000 [K])
-Ewald [Host-Guest]:         -10278.63639 (-12362.36560 [K])
-Ewald [Guest-Guest]:        -2224.33242 (-2675.25862 [K])
+Ewald [Host-Guest]:         -10071.54620 (-12113.29320 [K])
+Ewald [Guest-Guest]:        -2665.57344 (-3205.94991 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -702524.56987 (-844943.36078 [K])
+Total Energy:               -747998.87639 (-899636.41356 [K])
 ========================================================================
  *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           0.00000 (0.00000 [K])
-VDW [Guest-Guest]:          -0.00000 (-0.00000 [K])
+VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  -0.00000 (-0.00000 [K])
-Real Coulomb [Guest-Guest]: -0.00000 (-0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
 Ewald [Host-Host]:          0.00000 (0.00000 [K])
-Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         -0.00000 (-0.00000 [K])
 Ewald [Guest-Guest]:        -0.00000 (-0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
@@ -1137,13 +2448,13 @@ Total Energy:               -0.00000 (-0.00000 [K])
  *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
 VDW [Guest-Guest]:          0.00000 (0.00000 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
-Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -0.00000 (-0.00000 [K])
 Ewald [Host-Host]:          -0.00000 (-0.00000 [K])
-Ewald [Host-Guest]:         -0.00000 (-0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
@@ -1154,32 +2465,32 @@ Total Energy:               0.00000 (0.00000 [K])
  *** PRODUCTION PHASE AVERAGE ENERGY *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -443679.66546 (-533624.30827 [K])
-VDW [Guest-Guest]:          -76754.84160 (-92314.91196 [K])
+VDW [Host-Guest]:           -475290.72790 (-571643.70074 [K])
+VDW [Guest-Guest]:          -82290.17746 (-98972.39482 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
-Real Coulomb [Host-Guest]:  -66585.61343 (-80084.13429 [K])
-Real Coulomb [Guest-Guest]: -19235.71011 (-23135.25568 [K])
+Real Coulomb [Host-Guest]:  -74594.31754 (-89716.39720 [K])
+Real Coulomb [Guest-Guest]: -21082.38064 (-25356.29118 [K])
 Ewald [Host-Host]:          0.00000 (0.00000 [K])
-Ewald [Host-Guest]:         -8454.41677 (-10168.33236 [K])
+Ewald [Host-Guest]:         -9555.58093 (-11492.72924 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -614710.24737 (-739326.94257 [K])
+Total Energy:               -662813.18447 (-797181.51318 [K])
 ========================================================================
  *** PRODUCTION PHASE AVERAGE ENERGY ERRORBAR *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           100913.92833 (121371.63227 [K])
-VDW [Guest-Guest]:          14410.68046 (17332.07534 [K])
+VDW [Host-Guest]:           11240.79903 (13519.58197 [K])
+VDW [Guest-Guest]:          3979.31120 (4786.01421 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
-Real Coulomb [Host-Guest]:  13241.63908 (15926.04089 [K])
-Real Coulomb [Guest-Guest]: 3664.62656 (4407.53536 [K])
+Real Coulomb [Host-Guest]:  1563.98705 (1881.04521 [K])
+Real Coulomb [Guest-Guest]: 2576.35047 (3098.63928 [K])
 Ewald [Host-Host]:          0.00000 (0.00000 [K])
-Ewald [Host-Guest]:         1366.93963 (1644.05149 [K])
+Ewald [Host-Guest]:         606.64144 (729.62239 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               133597.81407 (160681.33536 [K])
+Total Energy:               19967.08919 (24014.90306 [K])
 ========================================================================
 ================================================================================
 DNN Rejection Summary:
@@ -1194,7 +2505,7 @@ Reinsertion: 0.00000
 Insertion: 0.00000
 Deletion: 0.00000
 SingleSwap: 0.00000
-Random Numbers Regenerated 6 times, offset: 204630, randomsize: 333334
+Random Numbers Regenerated 42 times, offset: 261457, randomsize: 333334
 DNN Feature Preparation Time: 0.00000, DNN Prediction Time: 0.00000
 DNN GPU Time: 0.00000, DNN Sort Time: 0.00000, std::sort Time: 0.00000, Featurization Time: 0.00000
 System 0
@@ -1203,11 +2514,11 @@ PseudoAtom Type: H[1], #: 864
 PseudoAtom Type: N[2], #: 144
 PseudoAtom Type: O[3], #: 432
 PseudoAtom Type: Zn[4], #: 72
-PseudoAtom Type: CH4_sp3[5], #: 28
-PseudoAtom Type: C_co2[6], #: 278
-PseudoAtom Type: O_co2[7], #: 556
+PseudoAtom Type: CH4_sp3[5], #: 30
+PseudoAtom Type: C_co2[6], #: 295
+PseudoAtom Type: O_co2[7], #: 590
 Total Program Size: 5596 MB
-Resident Set Size: 135 MB
+Resident Set Size: 136 MB
 Shared Pages: 95 MB
 Text (code): 0 MB
 Data + Stack: 86 MB

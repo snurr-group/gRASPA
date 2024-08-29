@@ -8,6 +8,8 @@ double matrix_determinant(double* x);
 
 void inverse_matrix(double* x, double **inverse_x);
 
+void GaussJordan(std::vector<std::vector<double>>& a, std::vector<std::vector<double>>& b);
+
 __host__ __device__ void operator +=(double3 &a, double3 b);
 
 __host__ __device__ void operator -=(double3 &a, double3 b);

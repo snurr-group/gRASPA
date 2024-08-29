@@ -18,7 +18,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
   double3 az = {Box.InverseCell[2], Box.InverseCell[5], Box.InverseCell[8]}; //printf("az: %.10f, %.10f, %.10f\n", Box.InverseCell[2], Box.InverseCell[5], Box.InverseCell[8]);
   
   size_t numberOfAtoms = 0;
-  for(size_t i=0; i < SystemComponents.Total_Components; i++) //Skip the first one(framework)
+  for(size_t i=0; i < SystemComponents.NComponents.x; i++) //Skip the first one(framework)
   {
     numberOfAtoms  += SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
   }
@@ -39,7 +39,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
   std::vector<std::complex<double>>FrameworkEik(numberOfWaveVectors);
   // Construct exp(ik.r) for atoms and k-vectors kx, ky, kz = 0, 1 explicitly
   size_t count=0;
-  for(size_t comp=0; comp < SystemComponents.Total_Components; comp++)
+  for(size_t comp=0; comp < SystemComponents.NComponents.x; comp++)
   {
     for(size_t posi=0; posi < SystemComponents.NumberOfMolecule_for_Component[comp] * SystemComponents.Moleculesize[comp]; posi++)
     {
@@ -129,7 +129,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
           double3 kvec_z = az * 2.0 * M_PI * static_cast<double>(kz);
           //std::complex<double> Adsorbateck(0.0, 0.0);
           count=0;
-          for(size_t comp=0; comp<SystemComponents.Total_Components; comp++)
+          for(size_t comp=0; comp<SystemComponents.NComponents.x; comp++)
           {
             for(size_t posi=0; posi<SystemComponents.NumberOfMolecule_for_Component[comp]*SystemComponents.Moleculesize[comp]; posi++)
             {
@@ -181,7 +181,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
   // Subtract self-energy
   double prefactor_self = Box.Prefactor * alpha / std::sqrt(M_PI);
   count=0;
-  for(size_t comp=0; comp<SystemComponents.Total_Components; comp++)
+  for(size_t comp=0; comp<SystemComponents.NComponents.x; comp++)
   {
     double SelfE = 0.0;
     for(size_t posi=0; posi<SystemComponents.NumberOfMolecule_for_Component[comp]*SystemComponents.Moleculesize[comp]; posi++)
@@ -197,7 +197,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
 
   // Subtract exclusion-energy, Zhao's note: taking out the pairs of energies that belong to the same molecule
   size_t j_count = 0;
-  for(size_t l = 0; l != SystemComponents.Total_Components; ++l)
+  for(size_t l = 0; l != SystemComponents.NComponents.x; ++l)
   {
     double exclusionE = 0.0;  
     //printf("Exclusion on component %zu, size: %zu\n", l, Host_System[l].size);
@@ -346,7 +346,7 @@ void CPU_GPU_EwaldTotalEnergy(Boxsize& Box, Boxsize& device_Box, Atoms* System, 
 
 void Calculate_Exclusion_Energy_Rigid(Boxsize& Box, Atoms* System, ForceField FF, Components& SystemComponents)
 {
-  for(size_t i = 0; i < SystemComponents.Total_Components; i++)
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     double IntraE = 0.0; double SelfE = 0.0;
     if(SystemComponents.rigid[i]) //Only Calculate this when the component is rigid//

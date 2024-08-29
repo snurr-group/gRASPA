@@ -404,7 +404,7 @@ void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges
   file.close();
 }
 
-void read_Gibbs_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepPerCycle)
+void read_Gibbs_and_Cycle_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepPerCycle)
 {
   size_t counter = 0;
   double temp = 0.0;
@@ -1072,7 +1072,7 @@ void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
     if(counter == 1) //read number definitions
     {
       Split_Tab_Space(termsScannedLined, str);
-      sscanf(termsScannedLined[0].c_str(), "%zu", &NumberOfPseudoAtoms);
+      sscanf(termsScannedLined[0].c_str(), "%zu", &NumberOfPseudoAtoms); printf("THERE ARE %zu PSEUDO ATOMS\n", NumberOfPseudoAtoms);
       if (NumberOfPseudoAtoms <= 0) throw std::runtime_error("Incorrect amount of pseudo-atoms");//DON'T DO TOO FEW
       if (NumberOfPseudoAtoms > 100) printf("You are using A LOT OF pseudo atom definitions. Do you need so many? Okay...\n");
       if (NumberOfPseudoAtoms != FF.size) throw std::runtime_error("Number of VDW and pseudo-atom definitions don't match!"); 

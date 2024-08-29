@@ -1,0 +1,51 @@
+NumberOfInitializationCycles 100000
+NumberOfEquilibrationCycles  0
+NumberOfProductionCycles     1000000
+
+UseChargesFromCIFFile yes
+
+UseMaxStep  yes
+MaxStepPerCycle 1
+
+RestartFile no
+RandomSeed  0
+
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+
+NumberOfBlocks 1
+AdsorbateAllocateSpace 10240
+NumberOfSimulations 1
+SingleSimulation yes
+
+InputFileType cif
+FrameworkName 25
+UnitCells 0 2 2 2
+
+ChargeMethod None
+Temperature  273
+Pressure     100000
+
+OverlapCriteria 1e5
+CutOffVDW 12.0
+CutOffCoulomb 12.0
+EwaldPrecision 1e-6
+
+Component 0 MoleculeName              Kr
+            IdealGasRosenbluthWeight  1.0
+            FugacityCoefficient       PR-EOS
+            MolFraction               0.1
+            TranslationProbability    1.0
+            ReinsertionProbability    1.0
+            IdentityChangeProbability 1.0
+            SwapProbability           1.0
+            CreateNumberOfMolecules   0
+
+Component 1 MoleculeName              Xe
+            IdealGasRosenbluthWeight  1.0
+            FugacityCoefficient       PR-EOS
+            MolFraction               0.9
+            TranslationProbability    1.0
+            IdentityChangeProbability 1.0
+            SwapProbability           1.0
+            CreateNumberOfMolecules   0
