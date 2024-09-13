@@ -219,7 +219,6 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
   double NMol = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
   if(SystemComponents.hasfractionalMolecule[SelectedComponent]) NMol--;
 
-  int    MoveType;
   double TMMCPacc = 0.0;
 
   SystemComponents.Moves[SelectedComponent].CBCFTotal ++;
@@ -262,8 +261,6 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
   //////////////////
   if(SelectednewBin > static_cast<int>(nbin))
   {
-    MoveType = CBCF_INSERTION;
-    
     //return 0.0;
     SystemComponents.Moves[SelectedComponent].CBCFInsertionTotal ++;
     int newBin = SelectednewBin - static_cast<int>(nbin); //printf("INSERTION, newBin: %zu\n", newBin);
@@ -338,7 +335,6 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
   }
   else if(SelectednewBin < 0) //Deletion Move//
   {
-    MoveType = CBCF_DELETION;
     //return 0.0; //for debugging
     SystemComponents.Moves[SelectedComponent].CBCFDeletionTotal ++;
     int newBin = SelectednewBin + nbin; //printf("DELETION, newBin: %zu\n", newBin);
@@ -424,7 +420,6 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
   }
   else //Lambda Move//
   {
-    MoveType = CBCF_LAMBDACHANGE;
     SystemComponents.Moves[SelectedComponent].CBCFLambdaTotal ++;
     int newBin = static_cast<size_t>(SelectednewBin); //printf("LAMBDACHANGE, newBin: %zu\n", newBin);
     double newLambda = delta * static_cast<double>(newBin);

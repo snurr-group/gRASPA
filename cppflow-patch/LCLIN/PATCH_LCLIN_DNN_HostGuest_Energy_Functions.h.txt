@@ -14,6 +14,9 @@ PATCH_LCLIN_DELETION
     }
 
 PATCH_LCLIN_SINGLE
+    bool Do_New = true; bool Do_Old = true;
+    if(MoveType == SINGLE_INSERTION) Do_Old = false;
+    if(MoveType == SINGLE_DELETION)  Do_New = false;
     if(SystemComponents.UseLCLin)
     {
       if(Do_New) DNN_New = Predict_From_FeatureMatrix_Move(Sims, SystemComponents, NEW);

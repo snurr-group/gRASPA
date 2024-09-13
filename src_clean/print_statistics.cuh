@@ -501,7 +501,6 @@ static inline void Print_HeatOfAdsorption(Components& SystemComponents, int Cycl
 static inline void Print_Averages(Components& SystemComponents, int Cycles, int Blocksize, Simulations& Sims, Units& Constants)
 {
   printf("============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========\n");
-  size_t NumberOfAdsorbateComponent = SystemComponents.NComponents.x - SystemComponents.NComponents.y;
   Print_HeatOfAdsorption(SystemComponents, Cycles, Blocksize, SystemComponents.Nblock, Constants);
   printf("==============================================================\n");
 

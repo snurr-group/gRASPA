@@ -173,15 +173,13 @@ double DNN_Prediction_Move(Components& SystemComponents, Simulations& Sims, size
   }
   case TRANSLATION: case ROTATION: case SINGLE_INSERTION: case SINGLE_DELETION:
   {
-    bool Do_New = true; bool Do_Old = true;
-    if(MoveType == SINGLE_INSERTION) Do_Old = false;
-    if(MoveType == SINGLE_DELETION)  Do_New = false;
     double DNN_New = 0.0; double DNN_Old = 0.0;
     //###PATCH_ALLEGRO_SINGLE###//
     //###PATCH_LCLIN_SINGLE###//
     return DNN_New - DNN_Old;
   }
   }
+  return 0.0;
 }
 
 double DNN_Prediction_Reinsertion(Components& SystemComponents, Simulations& Sims, size_t SelectedComponent, double3* temp)

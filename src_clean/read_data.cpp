@@ -2657,14 +2657,14 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents)
   size_t PreviousCompNMol = 0;
   for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
   {
-    size_t start = 0; size_t end = 0;
+    size_t start = 0;
     while (std::getline(file, str))
     {
       //find range of the part we need to read// 
       if (str.find("Components " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos) 
         start = counter;
       if (str.find("Maximum-rotation-change component " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
-      {  end = counter; break; }
+      {  break; }
     }
     file.clear();
     file.seekg(0);
@@ -2727,7 +2727,7 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents)
     file.clear(); 
     file.seekg(0);
     //Start reading atom positions and other information//
-    start = 0; end = 0; counter = 0;
+    start = 0; counter = 0;
     while (std::getline(file, str))
     {
       if (str.find("Component: " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
