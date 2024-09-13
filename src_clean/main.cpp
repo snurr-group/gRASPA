@@ -17,7 +17,7 @@
 #include "fxn_main.h"
 
 #include <unistd.h>
-// // // // // // // #include <limits.h>
+// // // // // // // // // // #include <limits.h>
 
 void printMemoryUsage() 
 {
@@ -327,7 +327,6 @@ int main(void)
   ////////////////
   // RUN CYCLES //
   ////////////////
-  bool RunSerialSimulations = true;
   double start = omp_get_wtime(); 
 
   ///////////////////////////

@@ -296,7 +296,6 @@ static inline MoveEnergy Deletion(Components& SystemComponents, Simulations& Sim
   MoveEnergy energy;
   double Rosenbluth = 0.0;
   size_t UpdateLocation = 0;
-  int CBMCType = CBMC_DELETION; //Deletion//
   double2 Scale = SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0), Zhao's note: This is not used in deletion, just set to 1//
   //Wrapper for the deletion move//
   energy = Deletion_Body(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, UpdateLocation, Rosenbluth, SuccessConstruction, preFactor, Scale);

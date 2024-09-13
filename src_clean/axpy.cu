@@ -72,7 +72,6 @@ inline void RunMoves(int Cycle, Components& SystemComponents, Simulations& Sims,
     throw std::runtime_error("There is negative number of adsorbates. Break program!");
 
   size_t comp = 0; // When selecting components, skip the component 0 (because it is the framework)
-  size_t SelectedMolecule = 0; 
   size_t SelectedMolInComponent = 0;
 
   size_t NumberOfImmobileFrameworkMolecules = 0; size_t ImmobileFrameworkSpecies = 0;
