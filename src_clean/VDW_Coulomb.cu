@@ -1596,15 +1596,15 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   }
   else //if molecule-intra interactions are not considered, do component 0 x component 1-n_framework + component 1-n_framework x component 1-n_framework//
   {
-    printf("THERE IS MORE THAN 1 FRAMEWORK COMPONENTS\n");
+    //printf("THERE IS MORE THAN 1 FRAMEWORK COMPONENTS\n");
     size_t NFrameworkComponentZeroAtoms = SystemComponents.Moleculesize[0] * SystemComponents.NumberOfMolecule_for_Component[0];
     size_t NExtraFrameworkAtoms = NHostAtom - NFrameworkComponentZeroAtoms;
     NFrameworkZero_ExtraFramework = NFrameworkComponentZeroAtoms * NExtraFrameworkAtoms;
     HH_TotalThreads = NFrameworkZero_ExtraFramework; //component 0 x component 1-n_framework
     
     HH_TotalThreads+= NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2; //component 1-n_framework x component 1-n_framework//
-    printf("Framework Comp Zero Atoms: %zu, Other Comp Atoms: %zu\n", NFrameworkComponentZeroAtoms, NExtraFrameworkAtoms);
-    printf("NFrameworkZero_ExtraFramework interactions: %zu, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: %zu\n", NFrameworkZero_ExtraFramework, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2);
+    //printf("Framework Comp Zero Atoms: %zu, Other Comp Atoms: %zu\n", NFrameworkComponentZeroAtoms, NExtraFrameworkAtoms);
+    //printf("NFrameworkZero_ExtraFramework interactions: %zu, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: %zu\n", NFrameworkZero_ExtraFramework, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2);
   }
 
   size_t HG_TotalThreads = NHostAtom * NGuestAtom; 
@@ -1637,10 +1637,12 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   //Calculate the energy of the new systems//
   //Host-Guest + Guest-Guest//
   Nblock = HH_Nblock + HG_Nblock + GG_Nblock;
-  printf("Atoms: %zu %zu\n", NHostAtom, NGuestAtom);
-  printf("Interactions: %zu %zu %zu\n", HH_TotalThreads, HG_TotalThreads, GG_TotalThreads);
-  printf("Nblock %zu, blocks: %zu %zu %zu, threads needed: %zu %zu %zu, Nthread: %zu\n", Nblock, HH_Nblock, HG_Nblock, GG_Nblock, HHThreadsNeeded, HGThreadsNeeded, GGThreadsNeeded, Nthread);
- 
+  //printf("Atoms: %zu %zu\n", NHostAtom, NGuestAtom);
+  //printf("Interactions: %zu %zu %zu\n", HH_TotalThreads, HG_TotalThreads, GG_TotalThreads);
+  //printf("Nblock %zu, blocks: %zu %zu %zu, threads needed: %zu %zu %zu, Nthread: %zu\n", Nblock, HH_Nblock, HG_Nblock, GG_Nblock, HHThreadsNeeded, HGThreadsNeeded, GGThreadsNeeded, Nthread);
+
+  //Set Overlap Flag//
+  cudaMemset(Sim.device_flag, false, sizeof(bool));
  
   TotalVDWCoul<<<Nblock, Nthread, 2 * Nthread * sizeof(double)>>>(Sim.Box, Sim.d_a, FF, Sim.Blocksum, Sim.device_flag, InteractionPerThread, UseOffset, BLOCKS, SystemComponents.NComponents, NHostAtom, NGuestAtom, NFrameworkZero_ExtraFramework, ConsiderIntra);
   checkCUDAErrorEwald("WRONG TOTAL VDW+REAL ENERGY\n");
@@ -1659,8 +1661,7 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   for(size_t id = Nblock; id < Nblock + HH_Nblock; id++) E.HHReal += BlockE[id];
   for(size_t id = Nblock + HH_Nblock; id < Nblock + HH_Nblock + HG_Nblock; id++) E.HGReal += BlockE[id];
   for(size_t id = Nblock + HH_Nblock + HG_Nblock; id < Nblock+Nblock; id++) E.GGReal += BlockE[id];
-  
-  printf("GPU VDW REAL ENERGY:\n"); E.print();
+  //printf("GPU VDW REAL ENERGY:\n"); E.print();
 
   return E;
 }

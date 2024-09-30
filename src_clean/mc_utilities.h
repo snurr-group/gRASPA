@@ -235,12 +235,12 @@ static inline double GetPrefactor(Components& SystemComponents, Simulations& Sim
   {
     case INSERTION: case SINGLE_INSERTION:
     {
-      preFactor = SystemComponents.Beta * MolFraction * Sims.Box.Pressure * FugacityCoefficient * Sims.Box.Volume / (1.0+NumberOfMolecules);
+      preFactor = SystemComponents.Beta * MolFraction * SystemComponents.Pressure * FugacityCoefficient * Sims.Box.Volume / (1.0+NumberOfMolecules);
       break;
     }
     case DELETION: case SINGLE_DELETION:
     {
-      preFactor = (NumberOfMolecules) / (SystemComponents.Beta * MolFraction * Sims.Box.Pressure * FugacityCoefficient * Sims.Box.Volume);
+      preFactor = (NumberOfMolecules) / (SystemComponents.Beta * MolFraction * SystemComponents.Pressure * FugacityCoefficient * Sims.Box.Volume);
       break;
     }
     case IDENTITY_SWAP:
@@ -512,6 +512,10 @@ static inline void Update_Max_Translation(Components& SystemComponents, size_t C
   if(SystemComponents.MaxTranslation[Comp].x > 5.0) SystemComponents.MaxTranslation[Comp].x = 5.0;
   if(SystemComponents.MaxTranslation[Comp].y > 5.0) SystemComponents.MaxTranslation[Comp].y = 5.0;
   if(SystemComponents.MaxTranslation[Comp].z > 5.0) SystemComponents.MaxTranslation[Comp].z = 5.0;
+
+
+  SystemComponents.Moves[Comp].CumTranslationAccepted += SystemComponents.Moves[Comp].TranslationAccepted;
+  SystemComponents.Moves[Comp].CumTranslationTotal    += SystemComponents.Moves[Comp].TranslationTotal;
   SystemComponents.Moves[Comp].TranslationAccepted = 0;
   SystemComponents.Moves[Comp].TranslationTotal = 0;
 }
@@ -536,6 +540,9 @@ static inline void Update_Max_Rotation(Components& SystemComponents, size_t Comp
   if(SystemComponents.MaxRotation[Comp].x > 3.14) SystemComponents.MaxRotation[Comp].x = 3.14;
   if(SystemComponents.MaxRotation[Comp].y > 3.14) SystemComponents.MaxRotation[Comp].y = 3.14;
   if(SystemComponents.MaxRotation[Comp].z > 3.14) SystemComponents.MaxRotation[Comp].z = 3.14;
+
+  SystemComponents.Moves[Comp].CumRotationAccepted += SystemComponents.Moves[Comp].RotationAccepted;
+  SystemComponents.Moves[Comp].CumRotationTotal    += SystemComponents.Moves[Comp].RotationTotal;
   SystemComponents.Moves[Comp].RotationAccepted = 0;
   SystemComponents.Moves[Comp].RotationTotal = 0;
 }
@@ -562,4 +569,27 @@ static inline void Update_Max_SpecialRotation(Components& SystemComponents, size
   if(SystemComponents.MaxSpecialRotation[Comp].z > 3.14) SystemComponents.MaxSpecialRotation[Comp].z = 3.14;
   SystemComponents.Moves[Comp].SpecialRotationAccepted = 0;
   SystemComponents.Moves[Comp].SpecialRotationTotal = 0;
+}
+
+static inline void Update_Max_VolumeChange(Components& SystemComponents)
+{
+  if(SystemComponents.VolumeMoveAttempts == 0) return;
+  double AccRatio = static_cast<double>(SystemComponents.VolumeMoveAccepted) / static_cast<double>(SystemComponents.VolumeMoveAttempts);
+  
+  double compare_to_target_ratio = AccRatio / SystemComponents.VolumeMoveTargetAccRatio;
+  if(compare_to_target_ratio>1.5) compare_to_target_ratio = 1.5;
+  else if(compare_to_target_ratio<0.5) compare_to_target_ratio = 0.5;
+  SystemComponents.VolumeMoveMaxChange *= compare_to_target_ratio;
+
+  if(SystemComponents.VolumeMoveMaxChange < 0.0005)
+    SystemComponents.VolumeMoveMaxChange = 0.0005;
+    if(SystemComponents.VolumeMoveMaxChange > 0.5)
+      SystemComponents.VolumeMoveMaxChange=0.5;
+
+  printf("CYCLE: %zu, AccRatio: %.5f, compare_to_target_ratio: %.5f, MaxVolumeChange: %.5f\n", SystemComponents.CURRENTCYCLE, AccRatio, compare_to_target_ratio, SystemComponents.VolumeMoveMaxChange);
+ 
+  SystemComponents.VolumeMoveTotalAccepted += SystemComponents.VolumeMoveAccepted;
+  SystemComponents.VolumeMoveTotalAttempts += SystemComponents.VolumeMoveAttempts;
+  SystemComponents.VolumeMoveAccepted = 0;
+  SystemComponents.VolumeMoveAttempts = 0;
 }

@@ -208,7 +208,7 @@ static inline void copyFile(const std::string& sourcePath, const std::string& de
 
   if (!source.is_open() || !destination.is_open()) 
   {
-    std::cerr << "Error opening file." << std::endl;
+    std::cerr << "Error opening " << sourcePath << " or " << destinationPath << std::endl;
     return; // false;
   }
 

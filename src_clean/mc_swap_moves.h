@@ -21,10 +21,6 @@ __global__ void StoreNewLocation_Reinsertion(Atoms Mol, Atoms NewMol, double3* t
       temp[i+1] = NewMol.pos[selectsize];
     }
   }
-  /*
-  for(size_t i = 0; i < Moleculesize; i++)
-    printf("i: %lu, xyz: %.5f %.5f %.5f\n", i, temp[i].x, temp[i].y, temp[i].z);
-  */
 }
 
 __global__ void Update_Reinsertion_data(Atoms* d_a, double3* temp, size_t SelectedComponent, size_t UpdateLocation)
@@ -60,14 +56,6 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
     energy.zero();
     return energy;
   }
-
-  //DEBUG//
-  /*
-  if(SystemComponents.CURRENTCYCLE == 28)
-  {printf("REINSERTION MOVE (comp: %zu, Mol: %zu) FIRST BEAD INSERTION ENERGY: ", SelectedComponent, SelectedMolInComponent); energy.print();
-   printf("Rosen: %.5f\n", Rosenbluth);
-  }
-  */
  
   if(SystemComponents.Moleculesize[SelectedComponent] > 1)
   {
@@ -84,13 +72,6 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
     energy += temp_energy;
   }
 
-  /*
-  if(SystemComponents.CURRENTCYCLE == 28) 
-  {printf("REINSERTION MOVE, INSERTION ENERGY: "); energy.print();
-   printf("Rosen: %.5f\n", Rosenbluth);
-  }
-  */
-
   //Store The New Locations//
   double3* temp;
   cudaMalloc(&temp, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent]);
@@ -101,29 +82,14 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
   CBMCType = REINSERTION_RETRACE; //Reinsertion-Retrace//
   double Old_Rosen=Widom_Move_FirstBead_PARTIAL(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, CBMCType, StoredR, &SelectedTrial, &SuccessConstruction, &old_energy, newScale);
 
-  /*
-  if(SystemComponents.CURRENTCYCLE == 28)
-  {printf("REINSERTION MOVE (comp: %zu, Mol: %zu) FIRST BEAD DELETION ENERGY: ", SelectedComponent, SelectedMolInComponent); old_energy.print();
-   printf("Rosen: %.5f\n", Old_Rosen);
-  }
-  */
-
-
   if(SystemComponents.Moleculesize[SelectedComponent] > 1)
   {
     size_t SelectedFirstBeadTrial = SelectedTrial;
     MoveEnergy temp_energy = old_energy;
     Old_Rosen*=Widom_Move_Chain_PARTIAL(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, CBMCType, &SelectedTrial, &SuccessConstruction, &old_energy, SelectedFirstBeadTrial, newScale);
     old_energy += temp_energy;
-  } 
-
-  /*
-  if(SystemComponents.CURRENTCYCLE == 28)
-  {printf("REINSERTION MOVE, DELETION ENERGY: "); old_energy.print();
-   printf("Rosen: %.5f\n", Old_Rosen);
   }
-  */
-
+ 
   energy -= old_energy;
 
   //Calculate Ewald//
@@ -145,12 +111,10 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
   {
     if(!EwaldPerformed) Prepare_DNN_InitialPositions_Reinsertion(Sims.d_a, Sims.Old, temp, SystemComponents, SelectedComponent, UpdateLocation);
     energy.DNN_E = DNN_Prediction_Reinsertion(SystemComponents, Sims, SelectedComponent, temp);
-    //printf("DNN Delta Reinsertion: %.5f\n", energy.DNN_E);
     //Correction of DNN - HostGuest energy to the Rosenbluth weight//
     double correction = energy.DNN_Correction();
     if(fabs(correction) > SystemComponents.DNNDrift) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
     {
-        //printf("REINSERTION: Bad Prediction, reject the move!!!\n"); 
         SystemComponents.ReinsertionDNNReject++;
         //WriteOutliers(SystemComponents, Sims, REINSERTION_NEW, energy, correction);
         //WriteOutliers(SystemComponents, Sims, REINSERTION_OLD, energy, correction);
@@ -163,7 +127,6 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
 
   //Determine whether to accept or reject the insertion
   double RANDOM = Get_Uniform_Random();
-  //printf("RANDOM: %.5f, Rosenbluth / Old_Rosen: %.5f\n", RANDOM, Rosenbluth / Old_Rosen);
   if(RANDOM < Rosenbluth / Old_Rosen)
   { // accept the move
     SystemComponents.Moves[SelectedComponent].ReinsertionAccepted ++;
@@ -307,13 +270,6 @@ static inline MoveEnergy Deletion(Components& SystemComponents, Simulations& Sim
     energy.zero();
     return energy;
   }
-  //DEBUG//
-  /*
-  if(SystemComponents.CURRENTCYCLE == 28981)
-  { printf("Selected Molecule: %zu\n", SelectedMolInComponent);
-    printf("DELETION MOVE ENERGY: "); energy.print();
-  }
-  */
   double IdealRosen = SystemComponents.IdealRosenbluthWeight[SelectedComponent];
   double RANDOM = Get_Uniform_Random();
   TMMCPacc = preFactor * IdealRosen / Rosenbluth; //Unbiased Acceptance//
@@ -340,12 +296,12 @@ static inline MoveEnergy Deletion(Components& SystemComponents, Simulations& Sim
   return energy;
 }
 
-static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField FF, RandomNumber Random, std::vector<WidomStruct>& Widom, std::vector<SystemEnergies>& Energy, size_t SelectedComponent, Gibbs& GibbsStatistics)
+static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField& FF, RandomNumber& Random, std::vector<WidomStruct>& Widom, size_t SelectedComponent, Gibbs& GibbsStatistics)
 {
   size_t NBox = SystemComponents.size();
   size_t SelectedBox = 0;
   size_t OtherBox    = 1;
-  GibbsStatistics.GibbsXferStats.x += 1.0;
+  GibbsStatistics.GibbsXferStats.x += 1;
 
   if(Get_Uniform_Random() > 0.5)
   {
@@ -353,12 +309,12 @@ static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponen
     OtherBox    = 0;
   }
   
-  //printf("Performing Gibbs Particle Transfer Move! on Box[%zu]\n", SelectedBox);
-  double2 Scale = {1.0, 1.0};
+  double2 Scale = SystemComponents[SelectedBox].Lambda[SelectedComponent].SET_SCALE(1.0);
   bool TransferFractionalMolecule = false;
   //Randomly Select a Molecule from the OtherBox in the SelectedComponent//
-  if(SystemComponents[OtherBox].NumberOfMolecule_for_Component[SelectedComponent] == 0) return;
-  size_t DeletionSelectedMol = (size_t) (Get_Uniform_Random()*(SystemComponents[OtherBox].NumberOfMolecule_for_Component[SelectedComponent]));
+  if(SystemComponents[OtherBox].NumberOfMolecule_for_Component[SelectedComponent] < 1) return;
+  size_t InsertionSelectedMol = (size_t) (Get_Uniform_Random()*(SystemComponents[SelectedBox].NumberOfMolecule_for_Component[SelectedComponent]));
+  size_t DeletionSelectedMol  = (size_t) (Get_Uniform_Random()*(SystemComponents[OtherBox].NumberOfMolecule_for_Component[SelectedComponent]));
   //Special treatment for transfering the fractional molecule//
   if(SystemComponents[OtherBox].hasfractionalMolecule[SelectedComponent] && SystemComponents[OtherBox].Lambda[SelectedComponent].FractionalMoleculeID == DeletionSelectedMol)
   {
@@ -368,6 +324,9 @@ static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponen
     Scale            = SystemComponents[OtherBox].Lambda[SelectedComponent].SET_SCALE(oldLambda);
     TransferFractionalMolecule = true;
   }
+
+  //printf("Passing FIRST return\n");
+
   //Perform Insertion on the selected System, then deletion on the other system//
 
   /////////////////////////////////////////////////
@@ -377,11 +336,14 @@ static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponen
   double InsertionPrefactor     = 0.0;
   double InsertionRosen         = 0.0;
   bool   InsertionSuccess       = false;
-  size_t InsertionSelectedMol   = 0; //It is safer to ALWAYS choose the first atom as the template for CBMC_INSERTION//
+  //size_t InsertionSelectedMol   = 0; //It is safer to ALWAYS choose the first atom as the template for CBMC_INSERTION//
   MoveEnergy InsertionEnergy = Insertion_Body(SystemComponents[SelectedBox], Sims[SelectedBox], FF, Random, Widom[SelectedBox], InsertionSelectedMol, SelectedComponent, InsertionRosen, InsertionSuccess, InsertionSelectedTrial, InsertionPrefactor, false, Scale);
-  printf("Gibbs Particle Insertion energy: "); InsertionEnergy.print();
+
+  //printf("InsertionRosen: %.5f, InsertionSuccess: %s, RN offset: %zu\n", InsertionRosen, InsertionSuccess ? "true" : "false", Random.offset);
+
   if(!InsertionSuccess) return;
 
+  //printf("Passing SECOND return\n");
   /////////////////////////////////////////////
   // PERFORMING DELETION ON THE OTHER SYSTEM //
   /////////////////////////////////////////////
@@ -390,37 +352,43 @@ static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponen
   double DeletionRosen          = 0.0;
   bool   DeletionSuccess        = false;
   MoveEnergy DeletionEnergy = Deletion_Body(SystemComponents[OtherBox], Sims[OtherBox], FF, Random, Widom[OtherBox], DeletionSelectedMol, SelectedComponent, DeletionUpdateLocation, DeletionRosen, DeletionSuccess, DeletionPrefactor, Scale);
-  printf("Gibbs Particle Deletion energy: "); DeletionEnergy.print();
   if(!DeletionSuccess) return;
 
   bool Accept = false;
 
-  double NMolA= static_cast<double>(SystemComponents[SelectedBox].TotalNumberOfMolecules - SystemComponents[SelectedBox].NumberOfFrameworks);
-  double NMolB= static_cast<double>(SystemComponents[OtherBox].TotalNumberOfMolecules - SystemComponents[OtherBox].NumberOfFrameworks);
+  size_t NMolA = 0;
+  size_t NMolB = 0;
+  for(size_t comp = SystemComponents[SelectedBox].NComponents.y; comp < SystemComponents[SelectedBox].NComponents.x; comp++)
+    NMolA += SystemComponents[SelectedBox].NumberOfMolecule_for_Component[comp];
+
+  for(size_t comp = SystemComponents[OtherBox].NComponents.y; comp < SystemComponents[OtherBox].NComponents.x; comp++)
+    NMolB += SystemComponents[OtherBox].NumberOfMolecule_for_Component[comp];
+
   //Minus the fractional molecule//
   for(size_t comp = 0; comp < SystemComponents[SelectedBox].NComponents.x; comp++)
   {
     if(SystemComponents[SelectedBox].hasfractionalMolecule[comp])
     {
-      NMolA-=1.0;
+      NMolA-=1;
     }
   }
   for(size_t comp = 0; comp < SystemComponents[OtherBox].NComponents.x; comp++)
   {
     if(SystemComponents[OtherBox].hasfractionalMolecule[comp])
     {
-      NMolB-=1.0;
+      NMolB-=1;
     }
   }
 
+  double PAcc = (InsertionRosen * static_cast<double>(NMolB) * Sims[SelectedBox].Box.Volume) / (DeletionRosen * static_cast<double>(NMolA + 1) * Sims[OtherBox].Box.Volume);
   //This assumes that the two boxes share the same temperature, it might not be true//
-  if(Get_Uniform_Random()< (InsertionRosen * NMolB * Sims[SelectedBox].Box.Volume) / (DeletionRosen * (NMolA + 1) * Sims[OtherBox].Box.Volume)) Accept = true;
+  if(Get_Uniform_Random()< PAcc) Accept = true;
 
-  //printf("SelectedBox: %zu, OtherBox: %zu, InsertionEnergy: %.5f(%.5f %.5f), DeletionEnergy: %.5f(%.5f %.5f)\n", SelectedBox, OtherBox, InsertionEnergy, SystemComponents[SelectedBox].tempdeltaVDWReal, SystemComponents[SelectedBox].tempdeltaEwald, DeletionEnergy, SystemComponents[OtherBox].tempdeltaVDWReal, SystemComponents[OtherBox].tempdeltaEwald);
+  //printf("CYCLE: %zu, Insertion box: %zu, delete box: %zu, delete molecule: %zu, InsertionRosen: %.5f, DeletionRosen: %.5f, PAcc: %.5f\n", SystemComponents[0].CURRENTCYCLE, SelectedBox, OtherBox, DeletionSelectedMol, InsertionRosen, DeletionRosen, PAcc);
 
   if(Accept)
   {
-    GibbsStatistics.GibbsXferStats.y += 1.0;
+    GibbsStatistics.GibbsXferStats.y += 1;
     // Zhao's note: the assumption for the below implementation is that the component index are the same for both systems //
     // for example, methane in box A is component 1, it has to be component 1 in box B //
     //For the box that is deleting the molecule, update the recorded fractional molecule ID//
@@ -437,16 +405,12 @@ static inline void GibbsParticleTransfer(std::vector<Components>& SystemComponen
     AcceptInsertion(SystemComponents[SelectedBox], Sims[SelectedBox], SelectedComponent, InsertionSelectedTrial, FF.noCharges, INSERTION);
 
     SystemComponents[SelectedBox].deltaE += InsertionEnergy;
-    //Energy[SelectedBox].running_energy += InsertionEnergy.total();
-    //printf("Insert Box: %zu, Insertion Energy: %.5f\n", SelectedBox, InsertionEnergy);
 
     ///////////////////////////////////////
     // UPDATE DELETION FOR THE OTHER BOX //
     ///////////////////////////////////////
     AcceptDeletion(SystemComponents[OtherBox], Sims[OtherBox], SelectedComponent, DeletionUpdateLocation, DeletionSelectedMol, FF.noCharges);
-    Energy[OtherBox].running_energy -= DeletionEnergy.total();
     SystemComponents[OtherBox].deltaE -= DeletionEnergy;
-    //printf("Delete Box: %zu, Insertion Energy: %.5f\n", OtherBox, DeletionEnergy);
   }
 }
 
@@ -508,11 +472,6 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
 
   size_t OLDMolInComponent = (size_t) (Get_Uniform_Random() * SystemComponents.NumberOfMolecule_for_Component[OLDComponent]);
 
-  //printf("Cycle: %zu, OLDComp: %zu, NEWComp: %zu\n", SystemComponents.CURRENTCYCLE, OLDComponent, NEWComponent);
-  //JUST FOR DEBUG//
-  //NEWComponent = 1; OLDComponent = 1;
-  //
-
   double NNEWMol = static_cast<double>(SystemComponents.NumberOfMolecule_for_Component[NEWComponent]);
   double NOLDMol = static_cast<double>(SystemComponents.NumberOfMolecule_for_Component[OLDComponent]);
   if(SystemComponents.hasfractionalMolecule[NEWComponent]) NNEWMol -= 1.0;
@@ -563,8 +522,6 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
     }
     energy += temp_energy;
   }
-  //printf("NEW MOLECULE ENERGY:"); energy.print();
-
   // Store The New Locations //
   double3* temp;
   cudaMalloc(&temp, sizeof(double3) * SystemComponents.Moleculesize[NEWComponent]);
@@ -586,7 +543,6 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
     old_energy += temp_energy;
   }
 
-  //printf("OLD MOLECULE ENERGY:"); old_energy.print();
   energy -= old_energy;
 
   //Calculate Ewald//
@@ -597,7 +553,6 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
     energy.GGEwaldE = EwaldE.x;
     energy.HGEwaldE = EwaldE.y;
     Rosenbluth *= std::exp(-SystemComponents.Beta * (EwaldE.x + EwaldE.y));
-    //printf("Ewald PreFactor: %.5f\n", ::exp(-SystemComponents.Beta * (EwaldE.x + EwaldE.y)));
   }
 
   energy.TailE = TailCorrectionIdentitySwap(SystemComponents, NEWComponent, OLDComponent, FF.size, Sims.Box.Volume);
@@ -616,11 +571,6 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
          preFactor *= GetPrefactor(SystemComponents, Sims, OLDComponent, DELETION);
 
   double Pacc = preFactor * (Rosenbluth / NEWIdealRosen) / (Old_Rosen / OLDIdealRosen);
-
-  //printf("Rosenbluth Weights %.5f (New), %.5f (Old)\n", Rosenbluth, Old_Rosen);
-  //printf("Partial Fugacities: %.5f (New), %.5f (Old)\n", PartialFugacityNew, PartialFugacityOld);
-  //printf("NNEW: %.5f, NOLD: %.5f\n", NNEWMol, NOLDMol);
-  //printf("PAcc: %.5f\n", Pacc);
 
   //Determine whether to accept or reject the insertion
   double RANDOM = Get_Uniform_Random();

@@ -4,6 +4,7 @@
 
 void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& SystemComponents, MoveEnergy& E)
 {
+  bool ExcludeHostGuestEwald = true;
   printf("****** Calculating Ewald Energy (CPU) ******\n");
   int kx_max = Box.kmax.x;
   int ky_max = Box.kmax.y;
@@ -145,7 +146,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
           double3 tempkvec = kvec_x + kvec_y + kvec_z;
           double  rksq = dot(tempkvec, tempkvec);
           double  temp = factor * std::exp((-0.25 / alpha_squared) * rksq) / rksq;
-          if(SystemComponents.NumberOfFrameworks > 0 && Box.ExcludeHostGuestEwald)
+          if(SystemComponents.NumberOfFrameworks > 0 && ExcludeHostGuestEwald)
             Adsorbateck -= Frameworkck;
           double tempsum = temp * (Adsorbateck.real() * Adsorbateck.real() + Adsorbateck.imag() * Adsorbateck.imag());
           double tempFramework = 0.0; double tempFrameworkGuest = 0.0;
@@ -161,12 +162,6 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
         }
         FrameworkEik[nvec] = Frameworkck;
         AdsorbateEik[nvec] = Adsorbateck;
-        /*
-        if(Box.ExcludeHostGuestEwald) 
-        {
-          AdsorbateEik[nvec] -= FrameworkEik[nvec]; //exclude Framework contribution in Eik, this will also exclude it on the GPU and kernel functions
-        }
-        */
         ++nvec;
         kzinactive++;
       }
@@ -176,7 +171,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
   }
 
   printf("CPU Guest-Guest Fourier: %.5f, Host-Host Fourier: %.5f, Framework-Guest Fourier: %.5f\n", E.GGEwaldE, E.HHEwaldE, E.HGEwaldE);
-  if(Box.ExcludeHostGuestEwald) E.GGEwaldE += E.HHEwaldE;
+  if(ExcludeHostGuestEwald) E.GGEwaldE += E.HHEwaldE;
 
   // Subtract self-energy
   double prefactor_self = Box.Prefactor * alpha / std::sqrt(M_PI);
@@ -233,7 +228,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
   SystemComponents.FrameworkEwald = E.HHEwaldE;
 
   /*
-  if(Box.ExcludeHostGuestEwald)
+  if(ExcludeHostGuestEwald)
     E -= E.HHEwaldE;
   */
   //Record the values for the Ewald Vectors//
@@ -309,6 +304,16 @@ void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents)
   size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
   Complex GPUWV[numberOfWaveVectors];
   cudaMemcpy(GPUWV, Box.AdsorbateEik, numberOfWaveVectors * sizeof(Complex), cudaMemcpyDeviceToHost);
+
+  printf("CPU WV: %zu, GPU WV: %zu\n", SystemComponents.AdsorbateEik.size(), numberOfWaveVectors);
+
+  cudaError_t err = cudaGetLastError();
+  if( cudaSuccess != err)
+  {
+    printf("CUDA Error: %s: %s.\n", "ERROR COMPARING GPU vs. CPU WaveVectors\n", cudaGetErrorString(err));
+    exit(EXIT_FAILURE);
+  }
+
   size_t numWVCPU            = SystemComponents.AdsorbateEik.size();
   if(numberOfWaveVectors != numWVCPU) printf("ERROR: Number of CPU WaveVectors does NOT EQUAL to the GPU one!!!");
   size_t counter = 0;

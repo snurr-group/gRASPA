@@ -17,8 +17,8 @@ void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents);
 
 double CreateMolecule_InOneBox(Components& SystemComponents, Simulations& Sims, ForceField FF, RandomNumber& Random, WidomStruct Widom, bool AlreadyHasFractionalMolecule);
 
-void Run_Simulation_MultipleBoxes(int Cycles, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField FF, RandomNumber& Random, std::vector<WidomStruct>& Widom, std::vector<SystemEnergies>& Energy, Gibbs& GibbsStatistics, int SimulationMode, bool SetMaxStep, size_t MaxStepPerCycle, Units Constants);
+void Run_Simulation_MultipleBoxes(Variables& Vars, int SimulationMode);
 
-double Run_Simulation_ForOneBox(int Cycles, Components& SystemComponents, Simulations& Sims, ForceField FF, RandomNumber& Random, WidomStruct Widom, double init_energy, int SimulationMode, bool SetMaxStep, size_t MaxStepPerCycle, Units Constants);
+double Run_Simulation_ForOneBox(Variables& Vars, size_t box_index);
 
 void Setup_threadblock(size_t arraysize, size_t *Nblock, size_t *Nthread);

@@ -34,9 +34,14 @@ template<typename T>
 inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, T* energy_array, bool* flag, size_t HG_Nblock, size_t HGGG_Nblock, std::vector<MoveEnergy>& energies, std::vector<size_t>& Trialindex, std::vector<double>& Rosen, size_t Cycle, bool VDWRealBiasing)
 {
   std::vector<size_t>reasonable_trials;
-  for(size_t i = 0; i < NumberWidomTrials; i++){
-    if(!flag[i]){
-      reasonable_trials.push_back(i);}}
+  for(size_t i = 0; i < NumberWidomTrials; i++)
+  {
+    if(!flag[i])
+    {
+      reasonable_trials.push_back(i);
+    }
+    //else printf("THERE IS OVERLAP FOR TRIAL %zu, flag = %s\n", i, flag[i] ? "true" : "false");
+  }
   T host_array[HGGG_Nblock * 2];
   for(size_t i = 0; i < reasonable_trials.size(); i++)
   {
@@ -61,7 +66,7 @@ inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, 
     E.HGReal= static_cast<double>(HG_real);
     E.GGVDW = static_cast<double>(GG_vdw);
     E.GGReal= static_cast<double>(GG_real);
-    //if(Cycle == 687347) printf("trial: %zu, HG: %.5f, GG: %.5f, tot: %.5f\n", i, HG_tot, GG_tot, tot);
+    //printf("trial: %zu, HG: %.5f, GG: %.5f, tot: %.5f\n", i, HG_vdw + HG_real, GG_vdw + GG_real, tot);
     energies.push_back(E);
     Trialindex.push_back(trial);
     Rosen.push_back(-Beta*tot);
@@ -152,6 +157,13 @@ __global__ void get_random_trial_position(Boxsize Box, Atoms* d_a, Atoms NewMol,
     printf("scale: %.5f charge: %.5f scaleCoul: %.5f, Type: %lu, MolID: %lu\n", NewMol.scale[i], NewMol.charge[i],  NewMol.scaleCoul[i] , NewMol.Type[i], NewMol.MolID[i] );
   }
   */
+  /*
+  if(MoveType == CBMC_INSERTION)
+  {
+    printf("NEWPOS: %.5f %.5f %.5f, scale: %.5f charge: %.5f scaleCoul: %.5f, Type: %lu, MolID: %lu\n", NewMol.pos[i].x, NewMol.pos[i].y, NewMol.pos[i].z, NewMol.scale[i], NewMol.charge[i],  NewMol.scaleCoul[i] , NewMol.Type[i], NewMol.MolID[i]);
+  }
+  */
+
   device_flag[i] = false;
 }
 

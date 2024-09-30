@@ -1,4 +1,3 @@
-void Setup_RandomNumber(RandomNumber& Random, size_t SIZE);
 void Copy_Atom_data_to_device(size_t NumberOfComponents, Atoms* device_System, Atoms* System);
 void Update_Components_for_framework(Components& SystemComponents);
 
@@ -42,23 +41,6 @@ void Prepare_TempSystem_On_Host(Atoms& TempSystem)
     TempSystem.MolID         = (size_t*) malloc(Allocate_size*sizeof(size_t));
     TempSystem.size          = 0;
     TempSystem.Allocate_size = Allocate_size;
-}
-
-inline void Setup_RandomNumber(RandomNumber& Random, size_t SIZE)
-{
-  Random.randomsize = SIZE; Random.offset = 0;
-  Random.host_random = (double3*) malloc(Random.randomsize * sizeof(double3));
-  for (size_t i = 0; i < Random.randomsize; i++)
-  {
-    Random.host_random[i].x = Get_Uniform_Random();
-    Random.host_random[i].y = Get_Uniform_Random();
-    Random.host_random[i].z = Get_Uniform_Random();
-  }
-  //Add some padding to match the sequence of the previous code, pad it up to 1 million numbers//
-  for (size_t i = Random.randomsize * 3; i < 1000000; i++) Get_Uniform_Random();
-
-  cudaMalloc(&Random.device_random, Random.randomsize * sizeof(double3));
-  cudaMemcpy(Random.device_random, Random.host_random, Random.randomsize * sizeof(double3), cudaMemcpyHostToDevice);
 }
 
 inline void Copy_Atom_data_to_device(size_t NumberOfComponents, Atoms* device_System, Atoms* System)
@@ -127,36 +109,33 @@ inline void Setup_Box_Temperature_Pressure(Units& Constants, Components& SystemC
 {
   SystemComponents.Beta = 1.0/(Constants.BoltzmannConstant/(Constants.MassUnit*pow(Constants.LengthUnit,2)/pow(Constants.TimeUnit,2))*SystemComponents.Temperature);
   //Convert pressure from pascal
-  device_Box.Pressure/=(Constants.MassUnit/(Constants.LengthUnit*pow(Constants.TimeUnit,2)));
+  SystemComponents.Pressure/=(Constants.MassUnit/(Constants.LengthUnit*pow(Constants.TimeUnit,2)));
   printf("------------------- SIMULATION BOX PARAMETERS -----------------\n");
-  printf("Pressure:        %.5f\n", device_Box.Pressure);
+  printf("Pressure:        %.5f\n", SystemComponents.Pressure);
   printf("Box Volume:      %.5f\n", device_Box.Volume);
   printf("Box Beta:        %.5f\n", SystemComponents.Beta);
   printf("Box Temperature: %.5f\n", SystemComponents.Temperature);
   printf("---------------------------------------------------------------\n");
 }
 
-inline void Prepare_ForceField(ForceField& FF, ForceField& device_FF, PseudoAtomDefinitions PseudoAtom)
+void Copy_ForceField_to_GPU(Variables& Vars)
 {
   // COPY DATA TO DEVICE POINTER //
   //device_FF.FFParams      = CUDA_copy_allocate_array(FF.FFParams, 5);
-  device_FF.OverlapCriteria = FF.OverlapCriteria;
-  device_FF.CutOffVDW       = FF.CutOffVDW;
-  device_FF.CutOffCoul      = FF.CutOffCoul;
+  Vars.device_FF.OverlapCriteria = Vars.FF.OverlapCriteria;
+  Vars.device_FF.CutOffVDW       = Vars.FF.CutOffVDW;
+  Vars.device_FF.CutOffCoul      = Vars.FF.CutOffCoul;
   //device_FF.Prefactor       = FF.Prefactor;
   //device_FF.Alpha           = FF.Alpha;
-
-  device_FF.epsilon         = CUDA_copy_allocate_array(FF.epsilon, FF.size*FF.size);
-  device_FF.sigma           = CUDA_copy_allocate_array(FF.sigma, FF.size*FF.size);
-  device_FF.z               = CUDA_copy_allocate_array(FF.z, FF.size*FF.size);
-  device_FF.shift           = CUDA_copy_allocate_array(FF.shift, FF.size*FF.size);
-  device_FF.FFType          = CUDA_copy_allocate_array(FF.FFType, FF.size*FF.size);
-  device_FF.noCharges       = FF.noCharges;
-  device_FF.size            = FF.size;
-  device_FF.VDWRealBias     = FF.VDWRealBias;
-  //Formulate Component statistics on the host
-  //ForceFieldParser(FF, PseudoAtom);
-  //PseudoAtomParser(FF, PseudoAtom);
+  size_t FF_size = Vars.FF.size;
+  Vars.device_FF.epsilon         = CUDA_copy_allocate_array(Vars.FF.epsilon, FF_size*FF_size);
+  Vars.device_FF.sigma           = CUDA_copy_allocate_array(Vars.FF.sigma,   FF_size*FF_size);
+  Vars.device_FF.z               = CUDA_copy_allocate_array(Vars.FF.z,       FF_size*FF_size);
+  Vars.device_FF.shift           = CUDA_copy_allocate_array(Vars.FF.shift,   FF_size*FF_size);
+  Vars.device_FF.FFType          = CUDA_copy_allocate_array(Vars.FF.FFType,  FF_size*FF_size);
+  Vars.device_FF.noCharges       = Vars.FF.noCharges;
+  Vars.device_FF.size            = FF_size;
+  Vars.device_FF.VDWRealBias     = Vars.FF.VDWRealBias;
 }
 
 inline void InitializeMaxTranslationRotation(Components& SystemComponents)
@@ -192,38 +171,39 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
 
   SystemComponents.flag        = (bool*)malloc(MaxTrialsize * sizeof(bool));
   cudaMallocHost(&Sims.device_flag,          MaxTrialsize * sizeof(bool));
+ 
+  size_t vdw_real_size = (MaxResultsize/DEFAULTTHREAD + 1);
+  size_t blocksum_size = vdw_real_size;
+  size_t fourier_size  = SystemComponents.EikAllocateSize;
+  if(fourier_size > vdw_real_size) blocksum_size = fourier_size;
 
-  cudaMallocHost(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));
+  cudaMallocHost(&Sims.Blocksum, blocksum_size*sizeof(double));
 
   cudaMallocManaged(&Sims.ExcludeList,        10 * sizeof(int2));
   for(size_t i = 0; i < 10; i++) Sims.ExcludeList[i] = {-1, -1}; //Initialize with negative # so that nothing is ignored//
   //cudaMalloc(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));
 
-  printf("Allocated Blocksum size: %zu\n", (MaxResultsize/DEFAULTTHREAD + 1));
+  printf("Allocated Blocksum size: %zu, vdw_real size: %zu, fourier_size: %zu\n", blocksum_size, vdw_real_size, fourier_size);
  
   //cudaMalloc(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));
-  Sims.Nblocks = MaxResultsize/DEFAULTTHREAD + 1;
-
-  printf("Allocated %zu doubles for Blocksums\n", MaxResultsize/DEFAULTTHREAD + 1);
+  Sims.Nblocks = blocksum_size;
 
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     double3 MaxTranslation = {Box.Cell[0]*0.1, Box.Cell[4]*0.1, Box.Cell[8]*0.1};
+    //double3 MaxTranslation = {1.0, 1.0, 1.0};
     double3 MaxRotation    = {30.0/(180/3.1415), 30.0/(180/3.1415), 30.0/(180/3.1415)};
     SystemComponents.MaxTranslation[i]    =MaxTranslation;
     SystemComponents.MaxRotation[i]       =MaxRotation;
     SystemComponents.MaxSpecialRotation[i]=MaxRotation;
   }
   Sims.start_position = 0;
-  //Sims.Nblocks = 0;
-  Sims.TotalAtoms = 0;
-  Sims.AcceptedFlag = false;
 
   Widom.WidomFirstBeadAllocatesize = MaxResultsize/DEFAULTTHREAD;
   printf("------------------------------------------------------------\n");
 }
 
-inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components SystemComponents)
+inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components& SystemComponents)
 {
   printf("******   Allocating Ewald WaveVectors (INITIAL STAGE ONLY)   ******\n");
   //Zhao's note: This only works if the box size is not changed, eik_xy might not be useful if box size is not changed//
@@ -232,14 +212,18 @@ inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components SystemCom
   size_t eikz_size     = SystemComponents.eik_z.size() * 2;
   printf("Allocated %zu %zu %zu space for eikxyz\n", eikx_size, eiky_size, eikz_size);
   //size_t eikxy_size    = SystemComponents.eik_xy.size();
-  size_t AdsorbateEiksize = SystemComponents.AdsorbateEik.size() * 2; //added times 2 for box volume move//
+  size_t AdsorbateEiksize = SystemComponents.AdsorbateEik.size() * SystemComponents.StructureFactor_Multiplier; //added X times for box volume move//
+  SystemComponents.EikAllocateSize     = AdsorbateEiksize;
+  SystemComponents.tempEikAllocateSize = AdsorbateEiksize;
+
   cudaMalloc(&device_Box.eik_x,     eikx_size     * sizeof(Complex));
   cudaMalloc(&device_Box.eik_y,     eiky_size     * sizeof(Complex));
   cudaMalloc(&device_Box.eik_z,     eikz_size     * sizeof(Complex));
   //cudaMalloc(&device_Box.eik_xy,    eikxy_size    * sizeof(Complex));
-  cudaMalloc(&device_Box.AdsorbateEik,    AdsorbateEiksize * sizeof(Complex));
-  cudaMalloc(&device_Box.tempEik,     AdsorbateEiksize * sizeof(Complex));
-  cudaMalloc(&device_Box.FrameworkEik, AdsorbateEiksize * sizeof(Complex));
+  cudaMalloc(&device_Box.AdsorbateEik,     AdsorbateEiksize * sizeof(Complex));
+  cudaMalloc(&device_Box.tempEik,          AdsorbateEiksize * sizeof(Complex));
+  cudaMalloc(&device_Box.tempFrameworkEik, AdsorbateEiksize * sizeof(Complex));
+  cudaMalloc(&device_Box.FrameworkEik,     AdsorbateEiksize * sizeof(Complex));
 
   Complex AdsorbateEik[AdsorbateEiksize]; //Temporary Complex struct on the host//
   Complex FrameworkEik[AdsorbateEiksize];
@@ -370,6 +354,24 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
   }
 
   printf("====================== DONE CALCULATING %s STAGE ENERGY ======================\n", STAGE.c_str());
+}
+
+MoveEnergy check_energy_wrapper(Variables& Var, int SimulationIndex)
+{
+  // CALCULATE THE FINAL ENERGY (VDW + Real) //
+  int PHASE = FINAL;
+
+  //for(size_t i = 0; i < NumberOfSimulations; i++)
+  //{
+    size_t i = static_cast<size_t>(SimulationIndex);
+    printf("======================================\n");
+    printf("CHECKING FINAL ENERGY FOR SYSTEM [%zu]\n", i);
+    printf("======================================\n");
+    bool UseGPU = true;
+    Check_Simulation_Energy(Var.Box[i], Var.SystemComponents[i].HostSystem, Var.FF, Var.device_FF, Var.SystemComponents[i], PHASE, i, Var.Sims[i], UseGPU);
+    printf("======================================\n");
+  //}
+  return Var.SystemComponents[i].GPU_Energy;
 }
 
 inline void Copy_AtomData_from_Device(Atoms* System, Atoms* Host_System, Atoms* d_a, Components& SystemComponents)
@@ -550,7 +552,7 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
   textTMMCFile.close();
 }
 
-inline void GenerateSummaryAtEnd(int Cycle, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField& FF, std::vector<Boxsize>& Box, PseudoAtomDefinitions& PseudoAtom)
+inline void GenerateSummaryAtEnd(int Cycle, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField& FF, std::vector<Boxsize>& Box)
 {
   
   size_t NumberOfSimulations = SystemComponents.size();
@@ -563,7 +565,7 @@ inline void GenerateSummaryAtEnd(int Cycle, std::vector<Components>& SystemCompo
     Write_Lambda(Cycle, SystemComponents[i], i);
     Write_TMMC(Cycle, SystemComponents[i], i);
     //Print Number of Pseudo Atoms//
-    for(size_t j = 0; j < SystemComponents[i].NumberOfPseudoAtoms.size(); j++) printf("PseudoAtom Type: %s[%zu], #: %zu\n", PseudoAtom.Name[j].c_str(), j, SystemComponents[i].NumberOfPseudoAtoms[j]);
+    for(size_t j = 0; j < SystemComponents[i].NumberOfPseudoAtoms.size(); j++) printf("PseudoAtom Type: %s[%zu], #: %zu\n", SystemComponents[i].PseudoAtoms.Name[j].c_str(), j, SystemComponents[i].NumberOfPseudoAtoms[j]);
   }
 }
 

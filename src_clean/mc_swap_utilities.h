@@ -7,7 +7,8 @@ static inline MoveEnergy Insertion_Body(Components& SystemComponents, Simulation
   if(Rosenbluth <= 1e-150) SuccessConstruction = false; //Zhao's note: added this protection bc of weird error when testing GibbsParticleXfer
   if(!SuccessConstruction)
   {
-    //printf("Early return FirstBead\n");
+    //printf("Rosenbluth SMALL: %s, Early return FirstBead\n", Rosenbluth <= 1e-150 ? "true" : "false");
+    //printf("FirstBead Exit Energy: "); energy.print();
     energy.zero();
     return energy;
   }
@@ -19,7 +20,7 @@ static inline MoveEnergy Insertion_Body(Components& SystemComponents, Simulation
     if(Rosenbluth <= 1e-150) SuccessConstruction = false;
     if(!SuccessConstruction) 
     { 
-      //printf("Early return Chain\n");
+      //printf("Rosenbluth: %.5f, Early return Chain\n", Rosenbluth);
       energy.zero();
       return energy;
     }

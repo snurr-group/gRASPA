@@ -16,10 +16,10 @@ static inline void Print_Cycle_Statistics(size_t Cycle, Components& SystemCompon
 
 static inline void Print_Translation_Statistics(Move_Statistics MoveStats, double3 MaxTranslation)
 {
-  if(MoveStats.CumTranslationTotal == 0) return;
+  if(MoveStats.CumTranslationTotal == 0 && MoveStats.TranslationTotal == 0) return;
   printf("=====================TRANSLATION MOVES=====================\n");
-  printf("Translation Performed: %zu\n", MoveStats.CumTranslationTotal);
-  printf("Translation Accepted: %zu\n", MoveStats.CumTranslationAccepted);
+  printf("Translation Performed: %zu\n", MoveStats.CumTranslationTotal > MoveStats.TranslationTotal ? MoveStats.CumTranslationTotal : MoveStats.TranslationTotal);
+  printf("Translation Accepted: %zu\n", MoveStats.CumTranslationAccepted > MoveStats.TranslationAccepted ? MoveStats.CumTranslationAccepted : MoveStats.TranslationAccepted);
   printf("Max Translation: %.10f, %.10f, %.10f\n", MaxTranslation.x, MaxTranslation.y, MaxTranslation.z);
   printf("===========================================================\n");
 }
@@ -28,8 +28,8 @@ static inline void Print_Rotation_Statistics(Move_Statistics MoveStats, double3 
 {
   if(MoveStats.CumRotationTotal == 0) return;
   printf("=====================ROTATION MOVES========================\n");
-  printf("Rotation Performed: %zu\n", MoveStats.CumRotationTotal);
-  printf("Rotation Accepted: %zu\n", MoveStats.CumRotationAccepted);
+  printf("Rotation Performed: %zu\n", MoveStats.CumRotationTotal > MoveStats.RotationTotal ? MoveStats.CumRotationTotal : MoveStats.RotationTotal);
+  printf("Rotation Accepted: %zu\n", MoveStats.CumRotationAccepted > MoveStats.RotationAccepted ? MoveStats.CumRotationAccepted : MoveStats.RotationAccepted);
   printf("Max Rotation: %.10f, %.10f, %.10f\n", MaxRotation.x, MaxRotation.y, MaxRotation.z);
   printf("===========================================================\n");
 }
@@ -320,11 +320,8 @@ static inline std::vector<double2> ConvertMoleculetoMassVolume(Components& Syste
   // Print the total number of unit cells (for debugging or informational purposes)
   printf("Total Unit Cells %d \n", NMol_In_Def);
 
-  // Retrieve the volume of the simulation box
-  double Volume = Sims.Box.Volume;
-
   // Calculate the ratio of grams per liter, factoring in the number of unit cells, molecular weight, volume, and Avogadro's number
-  double GramPerLiter = SystemComponents.MolecularWeight[i]*10000/Volume/6.0221408;
+  double GramPerLiter = SystemComponents.MolecularWeight[i]*10000/6.0221408;
 
   // Loop through each block of the input
   for(size_t i = 0; i < Nblock; i++)
@@ -535,14 +532,18 @@ static inline void Print_Averages(Components& SystemComponents, int Cycles, int 
   }
   printf("==============================================================\n");
   printf("=====================BLOCK AVERAGES (LOADING: g/L)=============\n");
-  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
+  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
   {
     printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
-    std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
-    std::vector<double2>MMTemp = ConvertMoleculetoMassVolume(SystemComponents, i, Temp, SystemComponents.Nblock,Sims);
+    std::vector<double2>MMTemp = ConvertMoleculetoMassVolume(SystemComponents, i, SystemComponents.DensityPerComponent[i], SystemComponents.Nblock,Sims);
     Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock);
     printf("----------------------------------------------------------\n");
   }
+  printf("==============================================================\n");
+  printf("=====================BLOCK AVERAGES (VOLUME Å^3)================\n");
+  std::vector<double2>Temp = SystemComponents.VolumeAverage;
+  Print_Values(Temp, Cycles, Blocksize, SystemComponents.Nblock);
+  printf("----------------------------------------------------------\n");
   printf("==============================================================\n");
 }
 
@@ -590,13 +591,31 @@ static inline void PrintAllStatistics(Components& SystemComponents, Simulations&
   }
 }
 
-static inline void PrintGibbs(Gibbs& GibbsStatistics)
+static inline void PrintSystemMoves(Variables& Var)
 {
-  printf("=====================GIBBS MONTE CARLO STATISTICS=====================\n");
-  printf("GIBBS VOLUME MOVE ATTEMPTS: %zu\n", (size_t) GibbsStatistics.GibbsBoxStats.x);
-  printf("GIBBS VOLUME MOVE ACCEPTED: %zu\n", (size_t) GibbsStatistics.GibbsBoxStats.y);
-  printf("GIBBS VOLUME MOVE TOOK    : %.5f [seconds]\n", GibbsStatistics.GibbsTime);
-  printf("GIBBS PARTICLE TRANSFER MOVE ATTEMPTS: %zu\n", (size_t) GibbsStatistics.GibbsXferStats.x);
-  printf("GIBBS PARTICLE TRANSFER MOVE ACCEPTED: %zu\n", (size_t) GibbsStatistics.GibbsXferStats.y);
-  printf("======================================================================\n");
+  for(size_t i = 0; i < Var.SystemComponents.size(); i++)
+  {
+    Gibbs& GibbsStatistics = Var.GibbsStatistics;
+    if(GibbsStatistics.DoGibbs)
+    {
+      printf("=====================GIBBS MONTE CARLO STATISTICS=====================\n");
+      printf("GIBBS VOLUME MOVE ATTEMPTS: %zu\n", GibbsStatistics.TotalGibbsBoxStats.x > GibbsStatistics.GibbsBoxStats.x ? (size_t) GibbsStatistics.TotalGibbsBoxStats.x : (size_t) GibbsStatistics.GibbsBoxStats.x);
+      printf("GIBBS VOLUME MOVE ACCEPTED: %zu\n", GibbsStatistics.TotalGibbsBoxStats.y > GibbsStatistics.GibbsBoxStats.y ? (size_t) GibbsStatistics.TotalGibbsBoxStats.y : (size_t) GibbsStatistics.GibbsBoxStats.y);
+      printf("GIBBS VOLUME MOVE TOOK    : %.5f [seconds]\n", GibbsStatistics.GibbsTime);
+      printf("GIBBS PARTICLE TRANSFER MOVE ATTEMPTS: %zu\n", (size_t) GibbsStatistics.GibbsXferStats.x);
+      printf("GIBBS PARTICLE TRANSFER MOVE ACCEPTED: %zu\n", (size_t) GibbsStatistics.GibbsXferStats.y);
+      printf("======================================================================\n");
+    }
+    if(Var.SystemComponents[i].PerformVolumeMove && (Var.SystemComponents[i].VolumeMoveTotalAttempts > 0 || Var.SystemComponents[i].VolumeMoveAttempts > 0))
+    {
+      printf("=====================VOLUME MOVE STATISTICS for BOX [%zu]=====================\n", i);
+      size_t move_performed = Var.SystemComponents[i].VolumeMoveAttempts > Var.SystemComponents[i].VolumeMoveTotalAttempts ? Var.SystemComponents[i].VolumeMoveAttempts : Var.SystemComponents[i].VolumeMoveTotalAttempts;
+      size_t move_accepted  = Var.SystemComponents[i].VolumeMoveAccepted > Var.SystemComponents[i].VolumeMoveTotalAccepted ? Var.SystemComponents[i].VolumeMoveAccepted : Var.SystemComponents[i].VolumeMoveTotalAccepted;
+      printf("VOLUME MOVE ATTEMPTS:   %zu\n", move_performed);
+      printf("VOLUME MOVE ACCEPTED:   %zu\n", move_accepted);
+      printf("VOLUME MOVE MAX CHANGE: %.5f\n", Var.SystemComponents[i].VolumeMoveMaxChange);
+      printf("VOLUME MOVE TOOK    : %.5f [seconds]\n", Var.SystemComponents[i].VolumeMoveTime);
+      printf("======================================================================\n");
+    }
+  }
 }

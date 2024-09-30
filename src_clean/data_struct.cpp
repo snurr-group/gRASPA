@@ -1,4 +1,5 @@
 #include "data_struct.h"
+
 #include <cstdlib>
 #include <random>
 

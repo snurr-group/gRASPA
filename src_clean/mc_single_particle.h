@@ -193,7 +193,9 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
     }
     //if(MoveType == SINGLE_INSERTION) printf("SINGLE INSERTION, tot: %.5f, preFactor: %.5f, Pacc: %.5f\n", tot.total(), preFactor, Pacc);
     //if(MoveType == SINGLE_DELETION)  printf("SINGLE DELETION,  tot: %.5f, preFactor: %.5f, Pacc: %.5f\n", tot.total(), preFactor, Pacc);
-    if(Get_Uniform_Random() < preFactor * std::exp(-SystemComponents.Beta * tot.total())) Accept = true;
+    //
+    double Random = Get_Uniform_Random();
+    if(Random < preFactor * std::exp(-SystemComponents.Beta * tot.total())) Accept = true;
   }
 
   //if(MoveType == SPECIAL_ROTATION)
