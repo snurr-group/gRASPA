@@ -41,7 +41,7 @@ void OverWrite_Mixing_Rule(Input_Container& Input);
 
 void OverWriteTailCorrection(Input_Container& Input);
 
-void read_movies_stats_print(Components& SystemComponents);
+void read_movies_stats_print(Components& SystemComponents, size_t sim);
 
 std::vector<double2> ReadMinMax();
 void ReadDNNModelSetup(Components& SystemComponents);

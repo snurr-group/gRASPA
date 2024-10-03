@@ -17,10 +17,16 @@
 #include "fxn_main.h"
 
 #include <unistd.h>
-// // // #include <limits.h>
+// // // // // // // // // // // // // // #include <limits.h>
 
 void printMemoryUsage() 
 {
+  std::cout << "" << "\n";
+  std::cout << "==========================="<< std::endl;
+  std::cout << "==    END OF PROGRAM!    =="<< std::endl;
+  std::cout << "== PRINTING MEMORY USAGE =="<< std::endl;
+  std::cout << "==========================="<< std::endl;
+
   std::ifstream file("/proc/self/statm");
   if (file.is_open()) 
   {
@@ -49,7 +55,7 @@ void printMemoryUsage()
 }
 
 int main(void) //normal cpp
-//Variables main(void)
+//Variables main(void) //for pybind
 {
   //Zhao's note: Before everything starts, see if all the lines in Input file can be found in read_data.cpp//
   //An easy way to check if the input file is up-to-date//
@@ -152,7 +158,7 @@ int main(void) //normal cpp
 
   for(size_t a = 0; a < NumberOfSimulations; a++)
   {
-    //if(sameTemperature) 
+    //if(sameTemperature)
     if(!samePressure || !sameTemperature) throw std::runtime_error("Currently not allowing the different Pressure/Temperature!");
     printf("==========================================\n");
     printf("====== Preparing Simulation box %zu ======\n", a);
@@ -179,7 +185,7 @@ int main(void) //normal cpp
       read_Ewald_Parameters_from_input(sqrt(Vars.FF.CutOffCoul), Vars.Box[a], Vars.Input.EwaldPrecision);
       Update_Components_for_framework(Vars.TempComponents);
     }
-    read_movies_stats_print(Vars.TempComponents);
+    read_movies_stats_print(Vars.TempComponents, a);
     /////////////////////////////////////
     // Read and process adsorbate data //
     /////////////////////////////////////
@@ -311,6 +317,10 @@ int main(void) //normal cpp
     Check_Simulation_Energy(Vars.Box[a], Vars.SystemComponents[a].HostSystem, Vars.FF, Vars.device_FF, Vars.SystemComponents[a], CREATEMOL, a, Vars.Sims[a], true);
   }
 
+  printf("============================================\n");
+  printf("== END OF PREPARATION, SIMULATION STARTS! ==\n");
+  printf("============================================\n");
+
   ////////////////
   // RUN CYCLES //
   ////////////////
@@ -324,7 +334,7 @@ int main(void) //normal cpp
     for(size_t i = 0; i < NumberOfSimulations; i++)
     {
       if(i > 0 && RunSingleSim) continue; 
-      printf("Running Simulation Boxes in SERIAL, currently [%zu] box; pres: %.5f, temp: %.5f\n", i, Vars.SystemComponents[i].Pressure, Vars.SystemComponents[i].Temperature);
+      fprintf(Vars.SystemComponents[i].OUTPUT, "Running Simulation Boxes in SERIAL, currently [%zu] box; pres: %.5f, temp: %.5f\n", i, Vars.SystemComponents[i].Pressure, Vars.SystemComponents[i].Temperature);
       Vars.SimulationMode = INITIALIZATION; Energy[i].running_energy += Run_Simulation_ForOneBox(Vars, i);
     }
   }
@@ -340,7 +350,7 @@ int main(void) //normal cpp
     for(size_t i = 0; i < NumberOfSimulations; i++)
     {
       if(i > 0 && RunSingleSim) continue;
-      printf("Running Simulation Boxes in SERIAL, currently [%zu] box; pres: %.5f, temp: %.5f\n", i, Vars.SystemComponents[i].Pressure, Vars.SystemComponents[i].Temperature);
+      fprintf(Vars.SystemComponents[i].OUTPUT, "Running Simulation Boxes in SERIAL, currently [%zu] box; pres: %.5f, temp: %.5f\n", i, Vars.SystemComponents[i].Pressure, Vars.SystemComponents[i].Temperature);
       Vars.SimulationMode = EQUILIBRATION; Energy[i].running_energy += Run_Simulation_ForOneBox(Vars, i);
     }
   }
@@ -357,7 +367,7 @@ int main(void) //normal cpp
     for(size_t i = 0; i < NumberOfSimulations; i++)
     {
       if(i > 0 && RunSingleSim) continue;
-      printf("Running Simulation Boxes in SERIAL, currently [%zu] box; pres: %.5f, temp: %.5f\n", i, Vars.SystemComponents[i].Pressure, Vars.SystemComponents[i].Temperature);
+      fprintf(Vars.SystemComponents[i].OUTPUT, "Running Simulation Boxes in SERIAL, currently [%zu] box; pres: %.5f, temp: %.5f\n", i, Vars.SystemComponents[i].Pressure, Vars.SystemComponents[i].Temperature);
       Vars.SimulationMode = PRODUCTION; Energy[i].running_energy += Run_Simulation_ForOneBox(Vars, i);
     }
   }
@@ -365,35 +375,36 @@ int main(void) //normal cpp
   {
     Run_Simulation_MultipleBoxes(Vars, PRODUCTION);
   }
+
+  printf("========================\n");
+  printf("== END OF SIMULATION! ==\n");
+  printf("========================\n");
  
   double end = omp_get_wtime();
   ///////////////////////////////////
   // PRINT FINAL ENERGIES AND TIME //
   ///////////////////////////////////
-  printf("Work took %f seconds\n", end - start);
 
-  // CALCULATE THE FINAL ENERGY (VDW + Real) //
+  // CALCULATE THE FINAL ENERGY //
   for(size_t i = 0; i < NumberOfSimulations; i++)
   { 
+    fprintf(Vars.SystemComponents[i].OUTPUT, "Work took %f seconds\n", end - start);
     if(RunSingleSim){if(i != SelectedSim) continue;}
-    printf("======================================\n");
-    printf("CHECKING FINAL ENERGY FOR SYSTEM [%zu]\n", i);
-    printf("======================================\n");
-    Check_Simulation_Energy(Vars.Box[i], Vars.SystemComponents[i].HostSystem, Vars.FF, Vars.device_FF, Vars.SystemComponents[i], FINAL, i, Vars.Sims[i], true);
-    printf("======================================\n");
+    check_energy_wrapper(Vars, i);
+    //Report Random Number Summary and DNN statistics//
+    fprintf(Vars.SystemComponents[i].OUTPUT, "Random Numbers Regenerated %zu times, offset: %zu, randomsize: %zu\n", Vars.Random.Rounds, Vars.Random.offset, Vars.Random.randomsize);
+
+    fprintf(Vars.SystemComponents[i].OUTPUT, "DNN Feature Preparation Time: %.5f, DNN Prediction Time: %.5f\n", Vars.SystemComponents[0].DNNFeatureTime, Vars.SystemComponents[0].DNNPredictTime);
+    fprintf(Vars.SystemComponents[i].OUTPUT, "DNN GPU Time: %.5f, ", Vars.SystemComponents[i].DNNGPUTime);
+    fprintf(Vars.SystemComponents[i].OUTPUT, "DNN Sort Time: %.5f, ", Vars.SystemComponents[0].DNNSortTime);
+    fprintf(Vars.SystemComponents[i].OUTPUT, "std::sort Time: %.5f, ", Vars.SystemComponents[0].DNNstdsortTime); 
+    fprintf(Vars.SystemComponents[i].OUTPUT, "Featurization Time: %.5f\n", Vars.SystemComponents[0].DNNFeaturizationTime);
   }
   /////////////////////////////////////////////////////////
   // Check if the Ewald Diff and running Diff make sense //
   /////////////////////////////////////////////////////////
   ENERGY_SUMMARY(Vars.SystemComponents, Vars.Constants);
-  printf("Random Numbers Regenerated %zu times, offset: %zu, randomsize: %zu\n", Vars.Random.Rounds, Vars.Random.offset, Vars.Random.randomsize);
 
-  printf("DNN Feature Preparation Time: %.5f, DNN Prediction Time: %.5f\n", Vars.SystemComponents[0].DNNFeatureTime, Vars.SystemComponents[0].DNNPredictTime);
-   printf("DNN GPU Time: %.5f, DNN Sort Time: %.5f, std::sort Time: %.5f, Featurization Time: %.5f\n", Vars.SystemComponents[0].DNNGPUTime, Vars.SystemComponents[0].DNNSortTime, Vars.SystemComponents[0].DNNstdsortTime, Vars.SystemComponents[0].DNNFeaturizationTime);
-
-  //////////////////////
-  // PRINT MOVIE FILE //
-  //////////////////////
   GenerateSummaryAtEnd(0, Vars.SystemComponents, Vars.Sims, Vars.FF, Vars.Box);
   //Check CPU mem used//
   printMemoryUsage();
@@ -403,6 +414,10 @@ int main(void) //normal cpp
     Free_DNN_Model(Vars.SystemComponents[0]);
   }
   */
+
+  for(size_t i = 0; i < Vars.SystemComponents.size(); i++)
+    if(Vars.SystemComponents[i].OUTPUT != stderr)
+      fclose(Vars.SystemComponents[i].OUTPUT);
 
   return 0;  //normal cpp
   //return Vars; //for pybind

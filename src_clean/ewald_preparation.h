@@ -5,7 +5,7 @@
 void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& SystemComponents, MoveEnergy& E)
 {
   bool ExcludeHostGuestEwald = true;
-  printf("****** Calculating Ewald Energy (CPU) ******\n");
+  fprintf(SystemComponents.OUTPUT, "****** Calculating Ewald Energy (CPU) ******\n");
   int kx_max = Box.kmax.x;
   int ky_max = Box.kmax.y;
   int kz_max = Box.kmax.z;
@@ -170,7 +170,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
     kxcount++;
   }
 
-  printf("CPU Guest-Guest Fourier: %.5f, Host-Host Fourier: %.5f, Framework-Guest Fourier: %.5f\n", E.GGEwaldE, E.HHEwaldE, E.HGEwaldE);
+  fprintf(SystemComponents.OUTPUT, "CPU Guest-Guest Fourier: %.5f, Host-Host Fourier: %.5f, Framework-Guest Fourier: %.5f\n", E.GGEwaldE, E.HHEwaldE, E.HGEwaldE);
   if(ExcludeHostGuestEwald) E.GGEwaldE += E.HHEwaldE;
 
   // Subtract self-energy
@@ -187,7 +187,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
       SelfE         += prefactor_self * scaling * charge * scaling * charge;
       if(comp < SystemComponents.NComponents.y && SystemComponents.NumberOfFrameworks > 0) E.HHEwaldE -= prefactor_self * scaling * charge * scaling * charge;
     }
-    printf("Component: %zu, SelfAtomE: %.5f (%.5f kJ/mol)\n", comp, SelfE, SelfE*1.2027242847);
+    fprintf(SystemComponents.OUTPUT, "Component: %zu, SelfAtomE: %.5f (%.5f kJ/mol)\n", comp, SelfE, SelfE*1.2027242847);
   }
 
   // Subtract exclusion-energy, Zhao's note: taking out the pairs of energies that belong to the same molecule
@@ -223,7 +223,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
         }
       }
     }
-    printf("Component: %zu, Intra-Molecular ExclusionE: %.5f (%.5f kJ/mol)\n", l, exclusionE, exclusionE*1.2027242847);
+    fprintf(SystemComponents.OUTPUT, "Component: %zu, Intra-Molecular ExclusionE: %.5f (%.5f kJ/mol)\n", l, exclusionE, exclusionE*1.2027242847);
   }
   SystemComponents.FrameworkEwald = E.HHEwaldE;
 
@@ -280,7 +280,7 @@ double Calculate_Intra_Molecule_Exclusion(Boxsize& Box, Atoms* System, double al
       E += Prefactor * factorA * factorB * std::erf(alpha * r) / r;
     }
   }
-  printf("Component %zu, Intra Exclusion Energy: %.5f (%.5f kJ/mol)\n", SelectedComponent, E, E*1.2027242847);
+  fprintf(SystemComponents.OUTPUT, "Component %zu, Intra Exclusion Energy: %.5f (%.5f kJ/mol)\n", SelectedComponent, E, E*1.2027242847);
   return E;
 }
 
@@ -294,18 +294,18 @@ double Calculate_Self_Exclusion(Boxsize& Box, Atoms* System, double alpha, doubl
     double scaling = System[SelectedComponent].scaleCoul[i];
     E += prefactor_self * scaling * charge * scaling * charge;
   }
-  printf("Component %zu, Atom Self Exclusion Energy: %.5f (%.5f kJ/mol)\n", SelectedComponent, E, E*1.2027242847);
+  fprintf(SystemComponents.OUTPUT, "Component %zu, Atom Self Exclusion Energy: %.5f (%.5f kJ/mol)\n", SelectedComponent, E, E*1.2027242847);
   return E;
 }
 
 void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents)
 {
-  printf(" ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** \n");
+  fprintf(SystemComponents.OUTPUT, " ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** \n");
   size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
   Complex GPUWV[numberOfWaveVectors];
   cudaMemcpy(GPUWV, Box.AdsorbateEik, numberOfWaveVectors * sizeof(Complex), cudaMemcpyDeviceToHost);
 
-  printf("CPU WV: %zu, GPU WV: %zu\n", SystemComponents.AdsorbateEik.size(), numberOfWaveVectors);
+  fprintf(SystemComponents.OUTPUT, "CPU WV: %zu, GPU WV: %zu\n", SystemComponents.AdsorbateEik.size(), numberOfWaveVectors);
 
   cudaError_t err = cudaGetLastError();
   if( cudaSuccess != err)
@@ -315,26 +315,26 @@ void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents)
   }
 
   size_t numWVCPU            = SystemComponents.AdsorbateEik.size();
-  if(numberOfWaveVectors != numWVCPU) printf("ERROR: Number of CPU WaveVectors does NOT EQUAL to the GPU one!!!");
+  if(numberOfWaveVectors != numWVCPU) fprintf(SystemComponents.OUTPUT, "ERROR: Number of CPU WaveVectors does NOT EQUAL to the GPU one!!!");
   size_t counter = 0;
   for(size_t i = 0; i < numberOfWaveVectors; i++)
   {
     double diff_real = abs(SystemComponents.AdsorbateEik[i].real() - GPUWV[i].real);
     double diff_imag = abs(SystemComponents.AdsorbateEik[i].imag() - GPUWV[i].imag);
     if(i < 10)
-      printf("Wave Vector %zu, CPU: %.5f %.5f, GPU: %.5f %.5f\n", i, SystemComponents.AdsorbateEik[i].real(), SystemComponents.AdsorbateEik[i].imag(), GPUWV[i].real, GPUWV[i].imag);
+      fprintf(SystemComponents.OUTPUT, "Wave Vector %zu, CPU: %.5f %.5f, GPU: %.5f %.5f\n", i, SystemComponents.AdsorbateEik[i].real(), SystemComponents.AdsorbateEik[i].imag(), GPUWV[i].real, GPUWV[i].imag);
     if(diff_real > 1e-10 || diff_imag > 1e-10)
     {
       counter++;
-      if(counter < 10) printf("There is a difference in GPU/CPU WaveVector at position %zu: CPU: %.5f %.5f, GPU: %.5f %.5f\n", i, SystemComponents.AdsorbateEik[i].real(), SystemComponents.AdsorbateEik[i].imag(), GPUWV[i].real, GPUWV[i].imag);
+      if(counter < 10) fprintf(SystemComponents.OUTPUT, "There is a difference in GPU/CPU WaveVector at position %zu: CPU: %.5f %.5f, GPU: %.5f %.5f\n", i, SystemComponents.AdsorbateEik[i].real(), SystemComponents.AdsorbateEik[i].imag(), GPUWV[i].real, GPUWV[i].imag);
     }
   }
-  if(counter >= 10) printf("More than 10 WaveVectors mismatch.\n");
+  if(counter >= 10) fprintf(SystemComponents.OUTPUT, "More than 10 WaveVectors mismatch.\n");
   //Also check Framework Eik vectors//
-  printf(" ****** CHECKING Framework WaveVectors Stored on CPU ****** \n");
+  fprintf(SystemComponents.OUTPUT, " ****** CHECKING Framework WaveVectors Stored on CPU ****** \n");
   for(size_t i = 0; i < numberOfWaveVectors; i++)
   {
-    if(i < 10) printf("Framework Wave Vector %zu, real: %.5f imag: %.5f\n", i, SystemComponents.FrameworkEik[i].real(), SystemComponents.FrameworkEik[i].imag());
+    if(i < 10) fprintf(SystemComponents.OUTPUT, "Framework Wave Vector %zu, real: %.5f imag: %.5f\n", i, SystemComponents.FrameworkEik[i].real(), SystemComponents.FrameworkEik[i].imag());
   }
 }
 
@@ -346,7 +346,7 @@ void CPU_GPU_EwaldTotalEnergy(Boxsize& Box, Boxsize& device_Box, Atoms* System, 
   double start = omp_get_wtime();
   Ewald_Total(Box, System, FF, SystemComponents, E);
   double end = omp_get_wtime(); double CPU_ewald_time = end-start;
-  printf("HostEwald took %.5f sec\n", CPU_ewald_time);
+  fprintf(SystemComponents.OUTPUT, "HostEwald took %.5f sec\n", CPU_ewald_time);
 }
 
 void Calculate_Exclusion_Energy_Rigid(Boxsize& Box, Atoms* System, ForceField FF, Components& SystemComponents)
@@ -361,7 +361,7 @@ void Calculate_Exclusion_Energy_Rigid(Boxsize& Box, Atoms* System, ForceField FF
     }
     SystemComponents.ExclusionIntra.push_back(IntraE);
     SystemComponents.ExclusionAtom.push_back(SelfE);
-    printf("DEBUG: comp: %zu, IntraE: %.5f, SelfE: %.5f\n", i, SystemComponents.ExclusionIntra[i], SystemComponents.ExclusionAtom[i]);
+    fprintf(SystemComponents.OUTPUT, "DEBUG: comp: %zu, IntraE: %.5f, SelfE: %.5f\n", i, SystemComponents.ExclusionIntra[i], SystemComponents.ExclusionAtom[i]);
   }
 
 }

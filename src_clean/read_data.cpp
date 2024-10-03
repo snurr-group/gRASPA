@@ -947,7 +947,7 @@ void OverWrite_Mixing_Rule(Input_Container& Input)
     }
     counter ++;
   }
-  printf("----- MIXED VDW PARAMETERS (WITH OVERWRITTEN TERMS) -----\n");
+  printf("----- MIXED VDW PARAMETERS (WITH OVERWRITTEN TERMS) [10 J/mol, Angstroem]-----\n");
   for(size_t ii = 0; ii < FFsize; ii++)
     for(size_t jj = 0; jj < FFsize; jj++)
     {
@@ -1079,7 +1079,7 @@ void Copy_InputLoader_Data(Variables& Vars)
 }
 
 
-void read_movies_stats_print(Components& SystemComponents)
+void read_movies_stats_print(Components& SystemComponents, size_t sim)
 {
   std::vector<std::string> termsScannedLined{};
   std::string str;
@@ -1097,9 +1097,34 @@ void read_movies_stats_print(Components& SystemComponents)
       Split_Tab_Space(termsScannedLined, str);
       sscanf(termsScannedLined[1].c_str(), "%zu", &SystemComponents.PrintStatsEvery);
     }
+    if (str.find("SaveOutputToFile", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      if(caseInSensStringCompare(termsScannedLined[1], "yes"))
+      {
+        std::filesystem::path cwd = std::filesystem::current_path();
+        std::filesystem::path directoryName = cwd / "Output/";
+        std::filesystem::create_directories(directoryName);
+        std::string FILENAME = directoryName.string() + "System_"+\
+                               std::to_string(sim) +"_"+\
+                               SystemComponents.MoleculeName[0] +"_"+\
+                               std::to_string(SystemComponents.NumberofUnitCells.x)+"_"+\
+                               std::to_string(SystemComponents.NumberofUnitCells.y)+"_"+\
+                               std::to_string(SystemComponents.NumberofUnitCells.z)+"_"+\
+                               std::to_string(SystemComponents.Temperature) + "_" +\
+                               std::to_string(SystemComponents.Pressure) + ".data";
+
+        SystemComponents.OUTPUT = fopen(FILENAME.c_str(), "w");
+        if(SystemComponents.OUTPUT == nullptr)
+        {
+          throw std::runtime_error("FAIL TO OPEN" + FILENAME + "\n");
+        }
+      }
+    }
   }
   printf("Writing Movies every %zu MC step(s) or cycle(s)\n", SystemComponents.MoviesEvery);
   printf("Printing Loadings and energies every %zu MC step(s) or cycle(s)\n", SystemComponents.PrintStatsEvery);
+  if(SystemComponents.OUTPUT != stderr) printf("Saving Output to File!\n");
   file.close();
 }
 

@@ -12,7 +12,7 @@ static inline void WriteBox_LAMMPS(Atoms* System, Components SystemComponents, F
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     NumberOfAtoms += SystemComponents.NumberOfMolecule_for_Component[i] * SystemComponents.Moleculesize[i];
-    printf("Printing: Component: %zu [ %s ], NumMol: %zu, Molsize: %zu\n", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i], SystemComponents.Moleculesize[i]);
+    fprintf(SystemComponents.OUTPUT, "Printing: Component: %zu [ %s ], NumMol: %zu, Molsize: %zu\n", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i], SystemComponents.Moleculesize[i]);
   }
   textrestartFile << "# LAMMPS data file written by WriteLammpsdata function in RASPA(written by Zhao Li)" << '\n';
   textrestartFile << NumberOfAtoms << " atoms" << '\n';
@@ -51,7 +51,7 @@ static inline void WriteAtoms_LAMMPS(Atoms* System, Components SystemComponents,
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     Atoms Data = System[i];
-    printf("Component %zu, Molsize: %zu\n", i, Data.Molsize);
+    fprintf(SystemComponents.OUTPUT, "Component %zu, Molsize: %zu\n", i, Data.Molsize);
     double3 Wrap_shift;
     for(size_t j = 0; j < Data.size; j++)
     {
@@ -245,7 +245,7 @@ static inline void WriteAllData(Atoms* System, Components SystemComponents, std:
   Atoms Data = System[i];
   size_t molsize = SystemComponents.Moleculesize[i];
   //First write positions//
-  //printf("Writing AllData for Component %zu, There are %zu atoms, molsize: %zu\n", i, Data.size, molsize);
+  //fprintf(SystemComponents.OUTPUT, "Writing AllData for Component %zu, There are %zu atoms, molsize: %zu\n", i, Data.size, molsize);
   textrestartFile << "x y z charge scale scaleCoul Type" << '\n';
   for(size_t j = 0; j < Data.size; j++)
     textrestartFile << " " << Data.MolID[j] << " " << j - Data.MolID[j]*molsize << " " << Data.pos[j].x << "  " << Data.pos[j].y << "  " << Data.pos[j].z << " " << Data.charge[j] << " " << Data.scale[j] << " " << Data.scaleCoul[j] << " " << Data.Type[j] << '\n';

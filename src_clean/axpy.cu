@@ -258,7 +258,7 @@ double CreateMolecule_InOneBox(Components& SystemComponents, Simulations& Sims, 
   {
     size_t CreateFailCount = 0; size_t Created = 0; size_t SelectedMol = 0;
     CreateFailCount = 0;
-    printf("Component %zu, Need to create %zu full molecule\n", comp, SystemComponents.NumberOfCreateMolecules[comp]);
+    fprintf(SystemComponents.OUTPUT, "Component %zu, Need to create %zu full molecule\n", comp, SystemComponents.NumberOfCreateMolecules[comp]);
     //Create Fractional Molecule first//
     if(SystemComponents.hasfractionalMolecule[comp])
     {
@@ -268,7 +268,7 @@ double CreateMolecule_InOneBox(Components& SystemComponents, Simulations& Sims, 
       if(FractionalMolToCreate > 0) Initialize_WangLandauIteration(SystemComponents.Lambda[comp]);
       while(FractionalMolToCreate > 0)
       {
-        printf("Creating Fractional Molecule for Component %zu; There are %zu Molecules of that component in the System\n", comp, SystemComponents.NumberOfMolecule_for_Component[comp]);
+        fprintf(SystemComponents.OUTPUT, "Creating Fractional Molecule for Component %zu; There are %zu Molecules of that component in the System\n", comp, SystemComponents.NumberOfMolecule_for_Component[comp]);
         SelectedMol = Created; if(Created > 0) SelectedMol = Created - 1; 
         //Zhao's note: this is a little confusing, but when number of molecule for that species = 0 or 1, the chosen molecule is zero. This is creating from zero loading, need to change in the future, when we read from restart file//
         size_t OldVal = SystemComponents.NumberOfMolecule_for_Component[comp];
@@ -295,7 +295,7 @@ double CreateMolecule_InOneBox(Components& SystemComponents, Simulations& Sims, 
     }
     while(SystemComponents.NumberOfCreateMolecules[comp] > 0)
     {
-      printf("Creating %zu Molecule for Component %zu; There are %zu Molecules of that component in the System\n", Created, comp, SystemComponents.NumberOfMolecule_for_Component[comp]);
+      fprintf(SystemComponents.OUTPUT, "Creating %zu Molecule for Component %zu; There are %zu Molecules of that component in the System\n", Created, comp, SystemComponents.NumberOfMolecule_for_Component[comp]);
       SelectedMol = Created; if(Created > 0) SelectedMol = Created - 1; //Zhao's note: this is a little confusing, but when number of molecule for that species = 0 or 1, the chosen molecule is zero. This is creating from zero loading, need to change in the future, when we read from restart file//
       size_t OldVal    = SystemComponents.NumberOfMolecule_for_Component[comp];
       double2 newScale = SystemComponents.Lambda[comp].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0)//
@@ -305,7 +305,7 @@ double CreateMolecule_InOneBox(Components& SystemComponents, Simulations& Sims, 
       //DeltaE.print();
       running_energy += DeltaE.total();
       SystemComponents.CreateMoldeltaE += DeltaE;
-      printf("Delta E in creating molecules:\n"); DeltaE.print();
+      fprintf(SystemComponents.OUTPUT, "Delta E in creating molecules:\n"); DeltaE.print();
       if(SystemComponents.NumberOfMolecule_for_Component[comp] == OldVal)
       {CreateFailCount ++;} else {SystemComponents.NumberOfCreateMolecules[comp] --; Created ++;}
       if(CreateFailCount > 1e10) throw std::runtime_error("Bad Insertions When Creating Molecules!");
@@ -328,21 +328,26 @@ void Run_Simulation_MultipleBoxes(Variables& Vars, int SimulationMode)
 
   int Cycles = 0;
   std::string Mode;
-  switch(SimulationMode)
+  for(size_t i = 0; i < Vars.SystemComponents.size(); i++)
   {
-    case INITIALIZATION: {Mode = "INITIALIZATION"; Cycles = Vars.NumberOfInitializationCycles; break;}
-    case EQUILIBRATION:  {Mode = "EQUILIBRATION";  Cycles = Vars.NumberOfEquilibrationCycles; break;}
-    case PRODUCTION:     {Mode = "PRODUCTION";     Cycles = Vars.NumberOfProductionCycles; break;}
+    fprintf(SystemComponents[i].OUTPUT, "==================================\n");
+    switch(SimulationMode)
+    {
+      case INITIALIZATION: {Mode = "INITIALIZATION"; fprintf(SystemComponents[i].OUTPUT, "== RUNNING INITIALIZATION PHASE ==\n"); Cycles = Vars.NumberOfInitializationCycles; break;}
+      case EQUILIBRATION:  {Mode = "EQUILIBRATION";  fprintf(SystemComponents[i].OUTPUT, "== RUNNING EQUILIBRATION PHASE ==\n");  Cycles = Vars.NumberOfEquilibrationCycles; break;}
+      case PRODUCTION:     {Mode = "PRODUCTION";     fprintf(SystemComponents[i].OUTPUT, "==  RUNNING PRODUCTION PHASE   ==\n");     Cycles = Vars.NumberOfProductionCycles; break;}
+    }
+    fprintf(SystemComponents[i].OUTPUT, "==================================\n");
   }
 
   if(SimulationMode == INITIALIZATION)
   {
     for(size_t i = 0; i < Vars.SystemComponents.size(); i++)
     {
-      printf("Box %zu, Volume: %.5f\n", i, Vars.Sims[i].Box.Volume);
+      fprintf(SystemComponents[i].OUTPUT, "Box %zu, Volume: %.5f\n", i, Vars.Sims[i].Box.Volume);
       Vars.GibbsStatistics.TotalVolume += Vars.Sims[i].Box.Volume;
     }
-    printf("Calculating Total Volume: %.5f\n", Vars.GibbsStatistics.TotalVolume);
+    for(size_t i = 0; i < Vars.SystemComponents.size(); i++) fprintf(SystemComponents[i].OUTPUT, "Total Volume: %.5f\n", Vars.GibbsStatistics.TotalVolume);
   }
   // Kaihang Shi: Record initial energy but exclude the host-host Ewald
   std::vector<double>createmol_energy(NumberOfSimulations);
@@ -490,12 +495,18 @@ void Run_Simulation_MultipleBoxes(Variables& Vars, int SimulationMode)
   {
     for(size_t sim = 0; sim < NumberOfSimulations; sim++)
     {
-      if(SimulationMode == EQUILIBRATION) printf("Sampled %zu WangLandau, Adjusted WL %zu times\n", WLSampled, WLAdjusted);
+      if(SimulationMode == EQUILIBRATION) fprintf(SystemComponents[sim].OUTPUT, "Sampled %zu WangLandau, Adjusted WL %zu times\n", WLSampled, WLAdjusted);
       PrintAllStatistics(SystemComponents[sim], Sims[sim], Cycles, SimulationMode, BlockAverageSize[sim], Constants);
       if(SimulationMode == PRODUCTION)
         Calculate_Overall_Averages_MoveEnergy(SystemComponents[sim], BlockAverageSize[sim], Cycles);
     }
     PrintSystemMoves(Vars);
+  }
+  for(size_t i = 0; i < Vars.SystemComponents.size(); i++)
+  {
+    fprintf(SystemComponents[i].OUTPUT, "===============================\n");
+    fprintf(SystemComponents[i].OUTPUT, "== %s PHASE ENDS ==\n", Mode.c_str());
+    fprintf(SystemComponents[i].OUTPUT, "===============================\n");
   }
 }
 
@@ -507,19 +518,21 @@ double Run_Simulation_ForOneBox(Variables& Vars, size_t box_index)
   Units& Constants = Vars.Constants;
   int& SimulationMode = Vars.SimulationMode;
 
-  printf("CBMC Uses %zu trial positions and %zu trial orientations\n", Widom.NumberWidomTrials, Widom.NumberWidomTrialsOrientations);
+  fprintf(SystemComponents.OUTPUT, "CBMC Uses %zu trial positions and %zu trial orientations\n", Widom.NumberWidomTrials, Widom.NumberWidomTrialsOrientations);
 
   std::vector<size_t>CBCFPerformed(SystemComponents.NComponents.x);
   size_t WLSampled = 0; size_t WLAdjusted = 0;
 
   int Cycles = 0;
   std::string Mode;
+  fprintf(SystemComponents.OUTPUT, "==================================\n");
   switch(SimulationMode)
   {
-    case INITIALIZATION: {Mode = "INITIALIZATION"; printf("RUNNING INITIALIZATION\n"); Cycles = Vars.NumberOfInitializationCycles; break;}
-    case EQUILIBRATION:  {Mode = "EQUILIBRATION";  printf("RUNNING EQUILIBRATION\n");  Cycles = Vars.NumberOfEquilibrationCycles; break;}
-    case PRODUCTION:     {Mode = "PRODUCTION";     printf("RUNNING PRODUCTION\n");     Cycles = Vars.NumberOfProductionCycles; break;}
+    case INITIALIZATION: {Mode = "INITIALIZATION"; fprintf(SystemComponents.OUTPUT, "== RUNNING INITIALIZATION PHASE ==\n"); Cycles = Vars.NumberOfInitializationCycles; break;}
+    case EQUILIBRATION:  {Mode = "EQUILIBRATION";  fprintf(SystemComponents.OUTPUT, "== RUNNING EQUILIBRATION PHASE ==\n");  Cycles = Vars.NumberOfEquilibrationCycles; break;}
+    case PRODUCTION:     {Mode = "PRODUCTION";     fprintf(SystemComponents.OUTPUT, "==  RUNNING PRODUCTION PHASE   ==\n");     Cycles = Vars.NumberOfProductionCycles; break;}
   }
+  fprintf(SystemComponents.OUTPUT, "==================================\n");
 
   int BlockAverageSize = 1;
 
@@ -539,7 +552,7 @@ double Run_Simulation_ForOneBox(Variables& Vars, size_t box_index)
     SystemComponents.DensityPerComponent.resize(SystemComponents.NComponents.x, std::vector<double2>(SystemComponents.Nblock, {0.0, 0.0}));
   }
 
-  printf("Number of Frameworks: %zu\n", SystemComponents.NumberOfFrameworks);
+  fprintf(SystemComponents.OUTPUT, "Number of Frameworks: %zu\n", SystemComponents.NumberOfFrameworks);
  
   if(SimulationMode == EQUILIBRATION) //Rezero the TMMC stats at the beginning of the Equilibration cycles//
   {
@@ -678,7 +691,7 @@ double Run_Simulation_ForOneBox(Variables& Vars, size_t box_index)
   //print statistics
   if(Cycles > 0)
   {
-    if(SimulationMode == EQUILIBRATION) printf("Sampled %zu WangLandau, Adjusted WL %zu times\n", WLSampled, WLAdjusted);
+    if(SimulationMode == EQUILIBRATION) fprintf(SystemComponents.OUTPUT, "Sampled %zu WangLandau, Adjusted WL %zu times\n", WLSampled, WLAdjusted);
     PrintAllStatistics(SystemComponents, Sims, Cycles, SimulationMode, BlockAverageSize, Constants);
     if(SimulationMode == PRODUCTION)
     {
@@ -689,5 +702,9 @@ double Run_Simulation_ForOneBox(Variables& Vars, size_t box_index)
   //At the end of the sim, print a last-step restart and last-step movie
   GenerateRestartMovies(SystemComponents, Sims, SystemComponents.PseudoAtoms, 0, SimulationMode);
   PrintSystemMoves(Vars);
+
+  fprintf(SystemComponents.OUTPUT, "===============================\n");
+  fprintf(SystemComponents.OUTPUT, "== %s PHASE ENDS ==\n", Mode.c_str());
+  fprintf(SystemComponents.OUTPUT, "===============================\n");
   return running_energy;
 }

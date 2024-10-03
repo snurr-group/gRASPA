@@ -1104,7 +1104,7 @@ __global__ void Framework_ComponentZero_Calculate_Intra_Self_Exclusion(Boxsize B
   {
     size_t InteractionIdx = THREADIdx * InteractionPerThread + i;
     //Unwrap Atoms from interactions (upper triangle)//
-    size_t AtomA = NAtoms - 2 - std::floor(std::sqrt(-8*InteractionIdx + 4*NAtoms*(NAtoms-1)-7)/2.0 - 0.5);
+    size_t AtomA = NAtoms - 2 - std::floor(std::sqrt(-8*(int) InteractionIdx + 4*NAtoms*(NAtoms-1)-7)/2.0 - 0.5);
     size_t AtomB = InteractionIdx + AtomA + 1 - NAtoms*(NAtoms-1)/2 + (NAtoms-AtomA)*((NAtoms-AtomA)-1)/2;
 
     if(AtomA < NAtoms && AtomB < NAtoms)
@@ -1266,7 +1266,7 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
     Nblock = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
     if(Nblock > SystemComponents.tempEikAllocateSize)
     {
-      printf("Cycle: %zu, temp Allocated: %zu, Allocated: %zu, need: %zu, RE-ALLOCATE structure factors\n", SystemComponents.CURRENTCYCLE, SystemComponents.EikAllocateSize, SystemComponents.tempEikAllocateSize, Nblock);
+      fprintf(SystemComponents.OUTPUT, "Cycle: %zu, temp Allocated: %zu, Allocated: %zu, need: %zu, RE-ALLOCATE structure factors\n", SystemComponents.CURRENTCYCLE, SystemComponents.EikAllocateSize, SystemComponents.tempEikAllocateSize, Nblock);
       SystemComponents.tempEikAllocateSize = 2 * Nblock;
       //cudaFree(&Box.tempEik);
       //cudaFree(&Box.tempFrameworkEik);

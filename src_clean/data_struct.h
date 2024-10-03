@@ -1068,6 +1068,7 @@ struct Components
         break;
     }
   }
+  FILE* OUTPUT = stderr;
 };
 
 
