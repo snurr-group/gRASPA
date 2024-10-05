@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <random>
 #include <optional>
+
 //###PATCH_LCLIN_DATA_STRUCT_H###//
 
 //###PATCH_ALLEGRO_DATA_STRUCT_H###//
@@ -64,11 +65,14 @@ struct Gibbs
   bool    DoGibbs = false;
   double  GibbsBoxProb  = 0.0;
   double  GibbsXferProb = 0.0;
-  double  MaxGibbsBoxChange = 0.1;
-  double  GibbsTime={0.0};
-  double2 GibbsBoxStats;
-  double2 GibbsXferStats;
-  double2 TempGibbsBoxStats = {0.0, 0.0};
+  double  GibbsTime=0.0;
+  double  TotalVolume = 0.0;
+  double TargetAccRatioVolumeChange = 0.5;
+
+  double MaxGibbsBoxChange = 0.1;
+  int2 GibbsBoxStats = {0, 0};
+  int2 TotalGibbsBoxStats = {0, 0};
+  int2 GibbsXferStats = {0, 0};
 };
 
 struct LAMBDA
@@ -422,9 +426,12 @@ struct Move_Statistics
   double SpecialRotationProb    =0.0;
   double WidomProb              =0.0;
   double SwapProb               =0.0;
+  double VolumeMoveProb         =0.0;
+  double GibbsSwapProb          =0.0;
   double ReinsertionProb        =0.0;
   double IdentitySwapProb       =0.0;
   double CBCFProb               =0.0;
+  double GibbsVolumeMoveProb    =0.0;
   double TotalProb              =0.0;
   //Translation Move//
   int TranslationAccepted = 0; //zeroed when max translation updated 
@@ -470,10 +477,10 @@ struct Move_Statistics
 
   size_t BlockID = 0; //Keep track of the current Block for Averages//
   std::vector<double2>MolAverage;
-  //x: average; y: average^2; z: Number of Widom insertion performed//
   //Cross terms for each component with other components: Na x Nb, for here, Na is fixed//
   //2 dimensions: Nb (component b) x Nblocks//
   std::vector<std::vector<double>>MolSQPerComponent;
+  //x: average; y: average^2; z: Number of Widom insertion performed//
   std::vector<RosenbluthWeight>Rosen; //vector over Nblocks//
   void NormalizeProbabilities()
   {
@@ -485,8 +492,10 @@ struct Move_Statistics
     TotalProb+=ReinsertionProb;
     TotalProb+=IdentitySwapProb;
     TotalProb+=SwapProb;
+    TotalProb+=VolumeMoveProb;
+    TotalProb+=GibbsSwapProb;
     TotalProb+=CBCFProb;
-    
+    TotalProb+=GibbsVolumeMoveProb;
     if(TotalProb > 1e-10)
     {
       //printf("TotalProb: %.5f\n", TotalProb);
@@ -495,9 +504,11 @@ struct Move_Statistics
       SpecialRotationProb/=TotalProb;
       WidomProb          /=TotalProb;
       SwapProb           /=TotalProb;
+      GibbsSwapProb      /=TotalProb;
       CBCFProb           /=TotalProb;
       ReinsertionProb    /=TotalProb;
       IdentitySwapProb   /=TotalProb;
+      GibbsVolumeMoveProb/=TotalProb;
       TotalProb = 1.0;
     }
     RotationProb        += TranslationProb;
@@ -507,6 +518,9 @@ struct Move_Statistics
     IdentitySwapProb    += ReinsertionProb;
     CBCFProb            += IdentitySwapProb;
     SwapProb            += CBCFProb;
+    VolumeMoveProb      += SwapProb;
+    GibbsSwapProb       += VolumeMoveProb;
+    GibbsVolumeMoveProb += GibbsSwapProb;
   }
   void PrintProbabilities()
   {
@@ -520,6 +534,9 @@ struct Move_Statistics
     printf("Identity Swap Probability:    %.5f\n", IdentitySwapProb);
     printf("CBCF Swap Probability:        %.5f\n", CBCFProb);
     printf("Swap Probability:             %.5f\n", SwapProb);
+    printf("Volume Probability:           %.5f\n", VolumeMoveProb);
+    printf("Gibbs Swap Probability:       %.5f\n", GibbsSwapProb);
+    printf("Gibbs Volume Probability:     %.5f\n", GibbsVolumeMoveProb);
     printf("Sum of Probabilities:         %.5f\n", TotalProb);
     printf("==================================================\n");
   }
@@ -677,7 +694,7 @@ struct MoveEnergy
   };
   void print()
   {
-    printf("HHVDW: %.5f, HHReal: %.5f, HGVDW: %.5f, HGReal: %.5f, GGVDW: %.5f, GGReal: %.5f, HHEwaldE: %.5f, HGEwaldE: %.5f, GGEwaldE: %.5f, TailE: %.5f, DNN_E: %.5f\n", HHVDW, HHReal, HGVDW, HGReal, GGVDW, GGReal, HHEwaldE, HGEwaldE, GGEwaldE, TailE, DNN_E);
+    printf("HHVDW: %.5f, HHReal: %.5f, HGVDW: %.5f, HGReal: %.5f, GGVDW: %.5f, GGReal: %.5f, HHEwaldE: %.5f,\n HGEwaldE: %.5f,\n GGEwaldE: %.5f, TailE: %.5f, DNN_E: %.5f\n", HHVDW, HHReal, HGVDW, HGReal, GGVDW, GGReal, HHEwaldE, HGEwaldE, GGEwaldE, TailE, DNN_E);
     printf("Stored HGVDW: %.5f, Stored HGReal: %.5f, Stored HGEwaldE: %.5f\n", storedHGVDW, storedHGReal, storedHGEwaldE);
   };
   double DNN_Correction() //Using DNN energy to replace HGVDW, HGReal and HGEwaldE//
@@ -835,17 +852,17 @@ struct Boxsize
   Complex* AdsorbateEik;
   Complex* FrameworkEik;
   Complex* tempEik;
+  Complex* tempFrameworkEik;
 
   double*  Cell;
   double*  InverseCell;
-  double   Pressure;
   double   Volume;
   double   ReciprocalCutOff;
   double   Prefactor;
   double   Alpha;
   double   tol1; //For Ewald, see read_Ewald_Parameters_from_input function//
+  
   bool     Cubic;
-  bool     ExcludeHostGuestEwald = false;
   bool     UseLAMMPSEwald = false;
   int3     kmax;
 };
@@ -869,9 +886,14 @@ struct Components
   size_t  TotalNumberOfMolecules;                     // Total Number of Molecules (including framework)
   size_t  NumberOfFrameworks;                         // Total Number of framework species, usually 1.
   double  Temperature=0.0;
+  double  Pressure=0.0;
   double  Beta;                                       // Inverse Temperature 
 
+  size_t  EnergyEvalTimes = 0;
+
   bool*   flag;                                       // flags for checking overlaps (on host), device version in Simulations struct//
+  size_t EikAllocateSize = 0;
+  size_t tempEikAllocateSize = 0;
 
   std::vector<FRAMEWORK_COMPONENT_LISTS>FrameworkComponentDef;
 
@@ -884,6 +906,20 @@ struct Components
   std::vector<MoveEnergy> BookKeepEnergy_SQ;
   MoveEnergy AverageEnergy;
   MoveEnergy AverageEnergy_Errorbar;
+
+  //NPT VOLUME MOVE//
+  bool   PerformVolumeMove      = false;
+  int    VolumeMoveAttempts     = 0;
+  int    VolumeMoveAccepted     = 0;
+  int    VolumeMoveTotalAttempts= 0;
+  int    VolumeMoveTotalAccepted= 0;
+  double VolumeMoveMaxChange    = 0.025;
+  double VolumeMoveProbability  = 0.0;
+  double VolumeMoveTargetAccRatio = 0.5;
+  double VolumeMoveTime = 0.0;
+  std::vector<double2>VolumeAverage;
+  std::vector<std::vector<double2>>DensityPerComponent;
+  //std::vector<double2>EnergyAverage;
   /*
   //Zhao's note: do not use pass by ref for DeltaE
   void Gather_Averages_MoveEnergy(int Cycles, int Blocksize, MoveEnergy DeltaE)
@@ -921,7 +957,6 @@ struct Components
     cudaMemcpy(TempSystem.Type,      &GPU_System.Type[start],      size * sizeof(size_t),  cudaMemcpyDeviceToHost);
     cudaMemcpy(TempSystem.MolID,     &GPU_System.MolID[start],     size * sizeof(size_t),  cudaMemcpyDeviceToHost);
   }
-  MoveEnergy tempdeltaE;
   MoveEnergy CreateMoldeltaE;
   MoveEnergy deltaE;
   double  FrameworkEwald=0.0;
@@ -958,10 +993,9 @@ struct Components
   size_t* device_InverseIndexList;                    // device_pointer for knowing which pair of interaction is stored in where
   bool*   ConsiderThisAdsorbateAtom;                  // device pointer
   double* device_Distances;                           // device_pointer for storing pair-wise distances//
-  
-  //std::vector<double2>EnergyAverage;                  // Booking-keeping Sums and Sums of squared values for energy
+ 
   std::vector<std::vector<double>> EnergyTimesNumberOfMolecule; // Book-keeping Energy times the number of molecules for heat of adsorption
-
+ 
   std::vector<bool>   hasPartialCharge;               // Whether this component has partial charge
   std::vector<bool>   hasfractionalMolecule;          // Whether this component has fractional molecules
   std::vector<LAMBDA> Lambda;                         // Vector of Lambda struct
@@ -998,6 +1032,7 @@ struct Components
   std::vector<std::complex<double>> AdsorbateEik;        // Stored Ewald Vectors for Adsorbate
   std::vector<std::complex<double>> FrameworkEik;        // Stored Ewald Vectors for Framework
   std::vector<std::complex<double>> tempEik;             // Ewald Vector for temporary storage
+  size_t StructureFactor_Multiplier = 2;                 // Add extra structure factor storage for volume moves//
   size_t MatchMoleculeNameToComponentID(std::string Name)
   {
     for(size_t i = 0; i < MoleculeName.size(); i++)
@@ -1033,6 +1068,7 @@ struct Components
         break;
     }
   }
+  FILE* OUTPUT = stderr;
 };
 
 
@@ -1046,9 +1082,7 @@ struct Simulations //For multiple simulations//
   double* Blocksum;             // Block sums for partial reduction //
   bool*   device_flag;          // flags for overlaps on the device //
   size_t  start_position;       // Start position for reading data in d_a when proposing a trial position for moves //
-  size_t  Nblocks;              // Number of blocks for energy calculation //
-  size_t  TotalAtoms;           // Number of Atoms in total for this simulation //
-  bool    AcceptedFlag;         // Acceptance flag for every simulation // 
+  size_t  Nblocks;              // Number of blocks for energy calculation, NOT block averages! //
   Boxsize Box;                  // Each simulation (system) has its own box //
 };
 
@@ -1056,21 +1090,34 @@ struct Simulations //For multiple simulations//
 
 struct WidomStruct
 {
-  bool                UseGPUReduction;              // For calculating the energies for each bead
-  bool                Useflag;                      // For using flags (for skipping reduction)
-  size_t              NumberWidomTrials;            // Number of Trial Positions for the first bead //
-  size_t              NumberWidomTrialsOrientations;// Number of Trial Orientations 
-  size_t              WidomFirstBeadAllocatesize;   //space allocated for WidomFirstBeadResult
+  bool                UseGPUReduction;                  // For calculating the energies for each bead
+  bool                Useflag;                          // For using flags (for skipping reduction)
+  size_t              NumberWidomTrials = 8;            // Number of Trial Positions for the first bead //
+  size_t              NumberWidomTrialsOrientations = 8;// Number of Trial Orientations 
+  size_t              WidomFirstBeadAllocatesize;       //space allocated for WidomFirstBeadResult
 };
+
+static __global__ void Aaccess_device_random(double3* device_random)
+{
+  device_random[0] = {2.3, 4.5, 6.7};
+  printf("device_random[0] = %.5f %.5f %.5f\n", device_random[0].x, device_random[0].y, device_random[0].z);
+}
+
 
 struct RandomNumber
 {
   double3* host_random;
   double3* device_random;
+  int      RANDOMSEED = 0;
   size_t   randomsize;
-  size_t   offset={0};
-  size_t   Rounds={0};
-  void ResetRandom()
+  size_t   offset=0;
+  size_t   Rounds=0;
+  void AllocateRandom() //Allocate space for random numbers on cpu//
+  {
+    host_random = (double3*) malloc(randomsize*sizeof(double3));
+    host_random[0] = {1.0, 1.0, 0.5};
+  }
+  void ResetRandom() //Regenerates random numbers on cpu, then transfer to gpu//
   {
     offset = 0;
     for (size_t i = 0; i < randomsize; i++) 
@@ -1078,6 +1125,12 @@ struct RandomNumber
       host_random[i].x = Get_Uniform_Random();
       host_random[i].y = Get_Uniform_Random();
       host_random[i].z = Get_Uniform_Random();
+      /*
+      if(i < 100)
+      {
+        printf("INDEX: %zu, RANDOM: %.5f %.5f %.5f\n", i, host_random[i].x, host_random[i].y, host_random[i].z);
+      }
+      */
     }
 
     for(size_t i = randomsize * 3; i < 1000000; i++) Get_Uniform_Random();
@@ -1085,12 +1138,110 @@ struct RandomNumber
     cudaMemcpy(device_random, host_random, randomsize * sizeof(double3), cudaMemcpyHostToDevice);
     Rounds ++;
   }
-  void Check(size_t change)
+  
+  void DeviceRandom() //Allocate space on gpu, generate random numbers//
+  {
+    cudaMalloc(&device_random, randomsize * sizeof(double3));
+    ResetRandom();
+    Aaccess_device_random<<<1,1>>>(device_random);
+    cudaMemcpy(host_random, device_random, randomsize * sizeof(double3), cudaMemcpyDeviceToHost);
+  }
+  
+  void Check(size_t change) //check the usage of random numbers, if used up, regenerate//
   {
     if((offset + change) >= randomsize) ResetRandom();
   }
-  void Update(size_t change)
+  void Update(size_t change) //update usage of random numbers//
   {
     offset += change;
   }
+  void Setup(size_t SIZE)
+  {
+    std::srand(RANDOMSEED); //Zhao's note: RANDOMSEED is read when reading the input file//
+    randomsize = SIZE;
+    AllocateRandom();
+    DeviceRandom();
+    Rounds = 0;
+  }
 };
+
+struct Atom_FF //Atom definitions, epsilon, sigma, charge//
+{
+  std::string Name;
+  double epsilon;
+  double sigma;
+  bool   shift = false;
+  bool   tail  = false;
+};
+
+struct Input_Container
+{
+  std::vector<Atom_FF>AtomFF;
+  std::vector<double>Mix_Epsilon;
+  std::vector<double>Mix_Sigma;
+  std::vector<double>Mix_Shift;
+  std::vector<Tail>Mix_Tail; //See Tail Struct: a bool and a double//
+  std::vector<double>Mix_Z;
+  std::vector<int>Mix_Type; //Forcefield types, e.g. LJ//
+  double CutOffVDW = 12.0 * 12.0;
+  double CutOffCoul= 12.0 * 12.0;
+  bool    VDWRealBias = true; //By default, the CBMC moves use VDW + Real Biasing//
+  double  OverlapCriteria;
+
+  bool    noCharges;
+  double  EwaldPrecision = 1e-6;
+};
+
+struct Variables
+{
+  //Some other important variables/keywords for input//
+  int NumberOfInitializationCycles = 0;
+  int NumberOfEquilibrationCycles  = 0;
+  int NumberOfProductionCycles     = 0;
+
+  size_t StructureFactor_Multiplier = 2; //Add extra structure factor storage for volume moves//
+
+  size_t Allocate_space_Adsorbate = 0;
+
+  size_t MaxStepPerCycle = 0;
+  bool SetMaxStep = false;
+  int SimulationMode = INITIALIZATION;
+  //Simulation Structs//
+  Units Constants; //Physical constants for the simulation//
+
+  Input_Container Input;
+
+  ForceField FF;
+  std::vector<double>TEST;
+  std::vector<std::vector<double>>Ttwo;
+  void set_TEST(const std::vector<double>& new_data) 
+  {
+    TEST = new_data;
+  }
+  const std::vector<double>& get_TEST() const
+  {
+    return TEST;
+  }
+  ForceField device_FF;
+  PseudoAtomDefinitions PseudoAtoms;
+  Simulations* Sims;
+  RandomNumber Random;
+  Components TempComponents; //template components
+  WidomStruct TempWidom;     //template widom
+  std::vector<Components> SystemComponents; //Propagate from TempComponents;
+  std::vector<WidomStruct> Widom;           //Propagate from TempWidom;
+  std::vector<Boxsize>Box;
+
+  Gibbs GibbsStatistics;  //Gibbs Volume + Xfer moves stats
+};
+
+/*
+//PYBIND11 STUFF//
+template<typename T>
+py::list Convert_Pointer_To_PyList(size_t size, T* point)
+{
+  py::list temp;
+  for(size_t i = 0; i < size; i++) temp.append(point[i]);
+  return temp;
+}
+*/

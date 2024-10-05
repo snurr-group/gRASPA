@@ -37,7 +37,7 @@ void Setup_threadblock(size_t arraysize, size_t *Nblock, size_t *Nthread)
 
 void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceField FF, Components SystemComponents, MoveEnergy& E)
 {
-  printf("****** Calculating VDW + Real Energy (CPU) ******\n");
+  fprintf(SystemComponents.OUTPUT, "****** Calculating VDW + Real Energy (CPU) ******\n");
   ///////////////////////////////////////////////////////
   //All variables passed here should be device pointers//
   ///////////////////////////////////////////////////////
@@ -209,21 +209,21 @@ void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceFiel
     }  
   }
   //printf("%zu interactions, within cutoff: %zu, energy: %.10f\n", count, Total_energy, cutoff_count);
-  printf("Host-Host   VDW: %.5f; Real: %.5f\n", Total_VDW[HH], Total_Real[HH]);
-  printf("Host-Guest  VDW: %.5f; Real: %.5f\n", Total_VDW[HG], Total_Real[HG]);
-  printf("Guest-Guest VDW: %.5f; Real: %.5f\n", Total_VDW[GG], Total_Real[GG]);
+  fprintf(SystemComponents.OUTPUT, "Host-Host   VDW: %.5f; Real: %.5f\n", Total_VDW[HH], Total_Real[HH]);
+  fprintf(SystemComponents.OUTPUT, "Host-Guest  VDW: %.5f; Real: %.5f\n", Total_VDW[HG], Total_Real[HG]);
+  fprintf(SystemComponents.OUTPUT, "Guest-Guest VDW: %.5f; Real: %.5f\n", Total_VDW[GG], Total_Real[GG]);
 
   E.HHVDW = Total_VDW[HH]; E.HHReal= Total_Real[HH];
   E.HGVDW = Total_VDW[HG]; E.HGReal= Total_Real[HG];
   E.GGVDW = Total_VDW[GG]; E.GGReal= Total_Real[GG];
 
-  printf("********** PRINTING COMPONENT ENERGIES**********\n");
+  fprintf(SystemComponents.OUTPUT, "********** PRINTING COMPONENT ENERGIES**********\n");
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
     for(size_t j = i; j < SystemComponents.NComponents.x; j++)
     {
       double VDW = (i == j) ? ComponentEnergy[i * SystemComponents.NComponents.x + j].x : 2.0 * ComponentEnergy[i * SystemComponents.NComponents.x + j].x;
       double Real = (i == j) ? ComponentEnergy[i * SystemComponents.NComponents.x + j].y : 2.0 * ComponentEnergy[i * SystemComponents.NComponents.x + j].y;
-      printf("Compoent [%zu-%zu], VDW: %.5f, Real: %.5f\n", i, j, VDW, Real);
+      fprintf(SystemComponents.OUTPUT, "Compoent [%zu-%zu], VDW: %.5f, Real: %.5f\n", i, j, VDW, Real);
       
     }
   textrestartFile.close();
@@ -396,7 +396,7 @@ double CPU_EwaldDifference(Boxsize& Box, Atoms& New, Atoms& Old, ForceField& FF,
     cudaMemcpy(&TempAtoms.Type[Oldsize],      New.Type,      Newsize * sizeof(size_t), cudaMemcpyDeviceToHost);
     cudaMemcpy(&TempAtoms.MolID[Oldsize],     New.MolID,     Newsize * sizeof(size_t), cudaMemcpyDeviceToHost);
   }
-  for(size_t i=0; i < numberOfAtoms; i++) printf("TempAtoms: %.5f %.5f %.5f\n", TempAtoms.pos[i].x, TempAtoms.pos[i].y, TempAtoms.pos[i].z);
+  for(size_t i=0; i < numberOfAtoms; i++) fprintf(SystemComponents.OUTPUT, "TempAtoms: %.5f %.5f %.5f\n", TempAtoms.pos[i].x, TempAtoms.pos[i].y, TempAtoms.pos[i].z);
   double start = omp_get_wtime();  
   // Construct exp(ik.r) for atoms and k-vectors kx, ky, kz = 0, 1 explicitly
   size_t count=0;
@@ -551,7 +551,7 @@ double CPU_EwaldDifference(Boxsize& Box, Atoms& New, Atoms& Old, ForceField& FF,
   }
 
   double end = omp_get_wtime();
-  printf("CPU Fourier took: %.12f sec, Post-Fourier (CPU) energy is %.5f\n", end - start, ewaldE);
+  fprintf(SystemComponents.OUTPUT, "CPU Fourier took: %.12f sec, Post-Fourier (CPU) energy is %.5f\n", end - start, ewaldE);
 
   ///////////////////////////////
   // Subtract exclusion-energy // Zhao's note: taking out the pairs of energies that belong to the same molecule
@@ -1497,7 +1497,7 @@ __global__ void TotalVDWCoul(Boxsize Box, Atoms* System, ForceField FF, double* 
         size_t InteractionIdx = THREADIdx * InteractionPerThread + i;
         if(ConsiderIntra) //All Framework atom vs. All Framework atom//
         {
-          AtomA = NFrameworkAtoms - 2 - std::floor(std::sqrt(-8*InteractionIdx + 4*NFrameworkAtoms*(NFrameworkAtoms-1)-7)/2.0 - 0.5);
+          AtomA = NFrameworkAtoms - 2 - std::floor(std::sqrt(-8*(int) InteractionIdx + 4*NFrameworkAtoms*(NFrameworkAtoms-1)-7)/2.0 - 0.5);
           AtomB = InteractionIdx + AtomA + 1 - NFrameworkAtoms*(NFrameworkAtoms-1)/2 + (NFrameworkAtoms-AtomA)*((NFrameworkAtoms-AtomA)-1)/2;
         determine_comp_and_Atomindex_from_thread(System, AtomA, compA, 0, NComponents.y);
         determine_comp_and_Atomindex_from_thread(System, AtomB, compB, 0, NComponents.y);
@@ -1516,7 +1516,7 @@ __global__ void TotalVDWCoul(Boxsize Box, Atoms* System, ForceField FF, double* 
           {
             size_t NExtraFrameworkAtoms = NFrameworkAtoms - System[0].size;
             size_t InteractionIdx = THREADIdx * InteractionPerThread + i - NFrameworkZero_ExtraFramework;
-            AtomA = NExtraFrameworkAtoms - 2 - std::floor(std::sqrt(-8*InteractionIdx + 4*NExtraFrameworkAtoms*(NExtraFrameworkAtoms-1)-7)/2.0 - 0.5);
+            AtomA = NExtraFrameworkAtoms - 2 - std::floor(std::sqrt(-8*(int) InteractionIdx + 4*NExtraFrameworkAtoms*(NExtraFrameworkAtoms-1)-7)/2.0 - 0.5);
             AtomB = InteractionIdx + AtomA + 1 - NExtraFrameworkAtoms*(NExtraFrameworkAtoms-1)/2 + (NExtraFrameworkAtoms-AtomA)*((NExtraFrameworkAtoms-AtomA)-1)/2;
             determine_comp_and_Atomindex_from_thread(System, AtomA, compA, 1, NComponents.y);
             determine_comp_and_Atomindex_from_thread(System, AtomB, compB, 1, NComponents.y);
@@ -1537,7 +1537,7 @@ __global__ void TotalVDWCoul(Boxsize Box, Atoms* System, ForceField FF, double* 
       else //Guest-Guest//
       {
         size_t InteractionIdx = (THREADIdx - HH_Threads - HG_Threads) * InteractionPerThread + i;
-        AtomA = NAdsorbateAtoms - 2 - std::floor(std::sqrt(-8*InteractionIdx + 4*NAdsorbateAtoms*(NAdsorbateAtoms-1)-7)/2.0 - 0.5);
+        AtomA = NAdsorbateAtoms - 2 - std::floor(std::sqrt(-8*(int) InteractionIdx + 4*NAdsorbateAtoms*(NAdsorbateAtoms-1)-7)/2.0 - 0.5);
         AtomB = InteractionIdx + AtomA + 1 - NAdsorbateAtoms*(NAdsorbateAtoms-1)/2 + (NAdsorbateAtoms-AtomA)*((NAdsorbateAtoms-AtomA)-1)/2;
 
         determine_comp_and_Atomindex_from_thread(System, AtomA, compA, NComponents.y, NComponents.x);
@@ -1596,15 +1596,15 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   }
   else //if molecule-intra interactions are not considered, do component 0 x component 1-n_framework + component 1-n_framework x component 1-n_framework//
   {
-    printf("THERE IS MORE THAN 1 FRAMEWORK COMPONENTS\n");
+    //printf("THERE IS MORE THAN 1 FRAMEWORK COMPONENTS\n");
     size_t NFrameworkComponentZeroAtoms = SystemComponents.Moleculesize[0] * SystemComponents.NumberOfMolecule_for_Component[0];
     size_t NExtraFrameworkAtoms = NHostAtom - NFrameworkComponentZeroAtoms;
     NFrameworkZero_ExtraFramework = NFrameworkComponentZeroAtoms * NExtraFrameworkAtoms;
     HH_TotalThreads = NFrameworkZero_ExtraFramework; //component 0 x component 1-n_framework
     
     HH_TotalThreads+= NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2; //component 1-n_framework x component 1-n_framework//
-    printf("Framework Comp Zero Atoms: %zu, Other Comp Atoms: %zu\n", NFrameworkComponentZeroAtoms, NExtraFrameworkAtoms);
-    printf("NFrameworkZero_ExtraFramework interactions: %zu, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: %zu\n", NFrameworkZero_ExtraFramework, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2);
+    //printf("Framework Comp Zero Atoms: %zu, Other Comp Atoms: %zu\n", NFrameworkComponentZeroAtoms, NExtraFrameworkAtoms);
+    //printf("NFrameworkZero_ExtraFramework interactions: %zu, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: %zu\n", NFrameworkZero_ExtraFramework, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2);
   }
 
   size_t HG_TotalThreads = NHostAtom * NGuestAtom; 
@@ -1637,10 +1637,12 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   //Calculate the energy of the new systems//
   //Host-Guest + Guest-Guest//
   Nblock = HH_Nblock + HG_Nblock + GG_Nblock;
-  printf("Atoms: %zu %zu\n", NHostAtom, NGuestAtom);
-  printf("Interactions: %zu %zu %zu\n", HH_TotalThreads, HG_TotalThreads, GG_TotalThreads);
-  printf("Nblock %zu, blocks: %zu %zu %zu, threads needed: %zu %zu %zu, Nthread: %zu\n", Nblock, HH_Nblock, HG_Nblock, GG_Nblock, HHThreadsNeeded, HGThreadsNeeded, GGThreadsNeeded, Nthread);
- 
+  //printf("Atoms: %zu %zu\n", NHostAtom, NGuestAtom);
+  //printf("Interactions: %zu %zu %zu\n", HH_TotalThreads, HG_TotalThreads, GG_TotalThreads);
+  //printf("Nblock %zu, blocks: %zu %zu %zu, threads needed: %zu %zu %zu, Nthread: %zu\n", Nblock, HH_Nblock, HG_Nblock, GG_Nblock, HHThreadsNeeded, HGThreadsNeeded, GGThreadsNeeded, Nthread);
+
+  //Set Overlap Flag//
+  cudaMemset(Sim.device_flag, false, sizeof(bool));
  
   TotalVDWCoul<<<Nblock, Nthread, 2 * Nthread * sizeof(double)>>>(Sim.Box, Sim.d_a, FF, Sim.Blocksum, Sim.device_flag, InteractionPerThread, UseOffset, BLOCKS, SystemComponents.NComponents, NHostAtom, NGuestAtom, NFrameworkZero_ExtraFramework, ConsiderIntra);
   checkCUDAErrorEwald("WRONG TOTAL VDW+REAL ENERGY\n");
@@ -1659,8 +1661,7 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   for(size_t id = Nblock; id < Nblock + HH_Nblock; id++) E.HHReal += BlockE[id];
   for(size_t id = Nblock + HH_Nblock; id < Nblock + HH_Nblock + HG_Nblock; id++) E.HGReal += BlockE[id];
   for(size_t id = Nblock + HH_Nblock + HG_Nblock; id < Nblock+Nblock; id++) E.GGReal += BlockE[id];
-  
-  printf("GPU VDW REAL ENERGY:\n"); E.print();
+  //printf("GPU VDW REAL ENERGY:\n"); E.print();
 
   return E;
 }

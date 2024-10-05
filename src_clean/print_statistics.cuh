@@ -8,40 +8,40 @@ static inline void Print_Cycle_Statistics(size_t Cycle, Components& SystemCompon
     case PRODUCTION:    {Mode = "PRODUCTION"; break;}
   }
   */
-  printf("%s Cycle: %zu, %zu Adsorbate Molecules, Total Energy: %.5f  ||  ", Mode.c_str(), Cycle, SystemComponents.TotalNumberOfMolecules - SystemComponents.NumberOfFrameworks, SystemComponents.CreateMol_Energy.total() + SystemComponents.deltaE.total());
+  fprintf(SystemComponents.OUTPUT, "%s Cycle: %zu, %zu Adsorbate Molecules, Total Energy: %.5f  ||  ", Mode.c_str(), Cycle, SystemComponents.TotalNumberOfMolecules - SystemComponents.NumberOfFrameworks, SystemComponents.CreateMol_Energy.total() + SystemComponents.deltaE.total());
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
-    printf("Component %zu [%s], %zu Molecules  ||  ", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i]);
-  printf("\n");
+    fprintf(SystemComponents.OUTPUT, "Component %zu [%s], %zu Molecules  ||  ", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i]);
+  fprintf(SystemComponents.OUTPUT, "\n");
 }
 
-static inline void Print_Translation_Statistics(Move_Statistics MoveStats, double3 MaxTranslation)
+static inline void Print_Translation_Statistics(Move_Statistics MoveStats, double3 MaxTranslation, FILE* OUTPUT)
 {
-  if(MoveStats.CumTranslationTotal == 0) return;
-  printf("=====================TRANSLATION MOVES=====================\n");
-  printf("Translation Performed: %zu\n", MoveStats.CumTranslationTotal);
-  printf("Translation Accepted: %zu\n", MoveStats.CumTranslationAccepted);
-  printf("Max Translation: %.10f, %.10f, %.10f\n", MaxTranslation.x, MaxTranslation.y, MaxTranslation.z);
-  printf("===========================================================\n");
+  if(MoveStats.CumTranslationTotal == 0 && MoveStats.TranslationTotal == 0) return;
+  fprintf(OUTPUT, "=====================TRANSLATION MOVES=====================\n");
+  fprintf(OUTPUT, "Translation Performed: %zu\n", MoveStats.CumTranslationTotal > MoveStats.TranslationTotal ? MoveStats.CumTranslationTotal : MoveStats.TranslationTotal);
+  fprintf(OUTPUT, "Translation Accepted: %zu\n", MoveStats.CumTranslationAccepted > MoveStats.TranslationAccepted ? MoveStats.CumTranslationAccepted : MoveStats.TranslationAccepted);
+  fprintf(OUTPUT, "Max Translation: %.10f, %.10f, %.10f\n", MaxTranslation.x, MaxTranslation.y, MaxTranslation.z);
+  fprintf(OUTPUT, "===========================================================\n");
 }
  
-static inline void Print_Rotation_Statistics(Move_Statistics MoveStats, double3 MaxRotation)
+static inline void Print_Rotation_Statistics(Move_Statistics MoveStats, double3 MaxRotation, FILE* OUTPUT)
 {
   if(MoveStats.CumRotationTotal == 0) return;
-  printf("=====================ROTATION MOVES========================\n");
-  printf("Rotation Performed: %zu\n", MoveStats.CumRotationTotal);
-  printf("Rotation Accepted: %zu\n", MoveStats.CumRotationAccepted);
-  printf("Max Rotation: %.10f, %.10f, %.10f\n", MaxRotation.x, MaxRotation.y, MaxRotation.z);
-  printf("===========================================================\n");
+  fprintf(OUTPUT, "=====================ROTATION MOVES========================\n");
+  fprintf(OUTPUT, "Rotation Performed: %zu\n", MoveStats.CumRotationTotal > MoveStats.RotationTotal ? MoveStats.CumRotationTotal : MoveStats.RotationTotal);
+  fprintf(OUTPUT, "Rotation Accepted: %zu\n", MoveStats.CumRotationAccepted > MoveStats.RotationAccepted ? MoveStats.CumRotationAccepted : MoveStats.RotationAccepted);
+  fprintf(OUTPUT, "Max Rotation: %.10f, %.10f, %.10f\n", MaxRotation.x, MaxRotation.y, MaxRotation.z);
+  fprintf(OUTPUT, "===========================================================\n");
 }
 
-static inline void Print_SpecialRotation_Statistics(Move_Statistics MoveStats, double3 Max)
+static inline void Print_SpecialRotation_Statistics(Move_Statistics MoveStats, double3 Max, FILE* OUTPUT)
 {
   if(MoveStats.SpecialRotationTotal == 0) return;
-  printf("=====================SPECIAL ROTATION MOVES========================\n");
-  printf("Special Rotation Performed: %zu\n", MoveStats.SpecialRotationTotal);
-  printf("Special Rotation Accepted:  %zu\n", MoveStats.SpecialRotationAccepted);
-  printf("Max Special Rotation: %.10f, %.10f, %.10f\n", Max.x, Max.y, Max.z);
-  printf("===========================================================\n");
+  fprintf(OUTPUT, "=====================SPECIAL ROTATION MOVES========================\n");
+  fprintf(OUTPUT, "Special Rotation Performed: %zu\n", MoveStats.SpecialRotationTotal);
+  fprintf(OUTPUT, "Special Rotation Accepted:  %zu\n", MoveStats.SpecialRotationAccepted);
+  fprintf(OUTPUT, "Max Special Rotation: %.10f, %.10f, %.10f\n", Max.x, Max.y, Max.z);
+  fprintf(OUTPUT, "===========================================================\n");
 }
 
 // Framework density
@@ -63,13 +63,13 @@ static inline double FrameworkDensity(Components& SystemComponents, Boxsize& Box
     // Incrementally sum up the molecular weight for each component
     // The molecular weight here for framework components are per unit cell
     CellMass += SystemComponents.MolecularWeight[j] * NCell;
-    //printf("Framework component %zu, molar mass: %.5f\n", j, SystemComponents.MolecularWeight[j]);
+    //fprintf(SystemComponents.OUTPUT, "Framework component %zu, molar mass: %.5f\n", j, SystemComponents.MolecularWeight[j]);
   }
-  //printf("Framework total mass: %.5f\n", CellMass);
+  //fprintf(SystemComponents.OUTPUT, "Framework total mass: %.5f\n", CellMass);
 
   // Calculate framework density [kg/m^3]
   double rho = CellMass * 1.0e-3 / (Constants.Avogadro * Box.Volume * 1.0e-30);
-  printf("Framework Density: %.5f [kg/m^3]\n", rho);
+  fprintf(SystemComponents.OUTPUT, "Framework Density: %.5f [kg/m^3]\n", rho);
 
   // Return density
   return rho;
@@ -94,20 +94,20 @@ static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize 
   double2 totMu    = {0.0, 0.0};
   double2 totHenry = {0.0, 0.0};
   double2 totFuga  = {0.0, 0.0};
-  printf("=====================Rosenbluth Summary=====================\n");
-  printf("There are %zu blocks\n", SystemComponents.Nblock);
+  fprintf(SystemComponents.OUTPUT, "=====================Rosenbluth Summary=====================\n");
+  fprintf(SystemComponents.OUTPUT, "There are %zu blocks\n", SystemComponents.Nblock);
   for(size_t i = 0; i < SystemComponents.Nblock; i++)
   {
-    printf("=====BLOCK %zu=====\n", i);
-    printf("Widom Performed: %.1f\n", MoveStats.Rosen[i].Total.z);
+    fprintf(SystemComponents.OUTPUT, "=====BLOCK %zu=====\n", i);
+    fprintf(SystemComponents.OUTPUT, "Widom Performed: %.1f\n", MoveStats.Rosen[i].Total.z);
     if(MoveStats.Rosen[i].Total.z > 0)
     {
       double AverageWr = 0.0; double AverageMu = 0.0; double AverageHenry = 0.0; double Fugacity = 0.0;
       ComputeFugacity(AverageWr, AverageMu, AverageHenry, Fugacity, Box, SystemComponents, MoveStats.Rosen[i].Total, Constants);
-      printf("(Total) Averaged Rosenbluth Weight: %.10f\n", AverageWr);
-      printf("(Total) Averaged Excess Mu: %.10f\n", AverageMu);
-      printf("(Total) Averaged Henry Coefficient: %.10f\n", AverageHenry);
-      printf("(Total) Converted to Fugacity: %.10f [Pascal], Temp: %.5f [K]\n", Fugacity, SystemComponents.Temperature);
+      fprintf(SystemComponents.OUTPUT, "(Total) Averaged Rosenbluth Weight: %.10f\n", AverageWr);
+      fprintf(SystemComponents.OUTPUT, "(Total) Averaged Excess Mu: %.10f\n", AverageMu);
+      fprintf(SystemComponents.OUTPUT, "(Total) Averaged Henry Coefficient: %.10f\n", AverageHenry);
+      fprintf(SystemComponents.OUTPUT, "(Total) Converted to Fugacity: %.10f [Pascal], Temp: %.5f [K]\n", Fugacity, SystemComponents.Temperature);
       totRosen.x += AverageWr; totRosen.y += AverageWr * AverageWr;
       totMu.x    += AverageMu; totMu.y    += AverageMu * AverageMu;
       totHenry.x += AverageHenry; totHenry.y += AverageHenry * AverageHenry;
@@ -117,17 +117,17 @@ static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize 
     {
       double AverageWr = 0.0; double AverageMu = 0.0; double AverageHenry = 0.0; double Fugacity = 0.0;
       ComputeFugacity(AverageWr, AverageMu, AverageHenry, Fugacity, Box, SystemComponents, MoveStats.Rosen[i].Insertion, Constants);
-      printf("(Insertion) Averaged Rosenbluth Weight: %.10f\n", AverageWr);
-      printf("(Insertion) Averaged Excess Mu: %.10f\n", AverageMu);
-      printf("(Insertion) Converted to Fugacity: %.10f [Pascal], Temp: %.5f [K]\n", Fugacity, SystemComponents.Temperature);
+      fprintf(SystemComponents.OUTPUT, "(Insertion) Averaged Rosenbluth Weight: %.10f\n", AverageWr);
+      fprintf(SystemComponents.OUTPUT, "(Insertion) Averaged Excess Mu: %.10f\n", AverageMu);
+      fprintf(SystemComponents.OUTPUT, "(Insertion) Converted to Fugacity: %.10f [Pascal], Temp: %.5f [K]\n", Fugacity, SystemComponents.Temperature);
     } 
     if(MoveStats.Rosen[i].Deletion.z > 0)
     { 
       double AverageWr = 0.0; double AverageMu = 0.0; double AverageHenry = 0.0; double Fugacity = 0.0;
       ComputeFugacity(AverageWr, AverageMu, AverageHenry, Fugacity, Box, SystemComponents, MoveStats.Rosen[i].Deletion, Constants);
-      printf("(Deletion) Averaged Rosenbluth Weight: %.10f\n", AverageWr);
-      printf("(Deletion) Averaged Excess Mu: %.10f\n", AverageMu);
-      printf("(Deletion) Converted to Fugacity: %.10f [Pascal], Temp: %.5f [K]\n", Fugacity, SystemComponents.Temperature);
+      fprintf(SystemComponents.OUTPUT, "(Deletion) Averaged Rosenbluth Weight: %.10f\n", AverageWr);
+      fprintf(SystemComponents.OUTPUT, "(Deletion) Averaged Excess Mu: %.10f\n", AverageMu);
+      fprintf(SystemComponents.OUTPUT, "(Deletion) Converted to Fugacity: %.10f [Pascal], Temp: %.5f [K]\n", Fugacity, SystemComponents.Temperature);
     }
   }
 
@@ -150,49 +150,49 @@ static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize 
   AvgBlockFuga.x = totFuga.x / (double) SystemComponents.Nblock;
   AvgBlockFuga.y = totFuga.y / (double) SystemComponents.Nblock;
   double FugaError = 2.0 * pow((AvgBlockFuga.y - AvgBlockFuga.x * AvgBlockFuga.x), 0.5);
-  printf("=========================AVERAGE========================\n");
-  printf("Averaged Rosenbluth Weight: %.10f +/- %.10f\n", AvgBlockRosen.x, RosenError);
-  printf("Averaged Excess Chemical Potential: %.10f +/- %.10f\n", AvgBlockMu.x, MuError);
-  printf("Averaged Henry Coefficient [mol/kg/Pa]: %.10g +/- %.10g\n", AvgBlockHenry.x, HenryError);
-  printf("Averaged Fugacity: %.10f +/- %.10f\n", AvgBlockFuga.x, FugaError);
+  fprintf(SystemComponents.OUTPUT, "=========================AVERAGE========================\n");
+  fprintf(SystemComponents.OUTPUT, "Averaged Rosenbluth Weight: %.10f +/- %.10f\n", AvgBlockRosen.x, RosenError);
+  fprintf(SystemComponents.OUTPUT, "Averaged Excess Chemical Potential: %.10f +/- %.10f\n", AvgBlockMu.x, MuError);
+  fprintf(SystemComponents.OUTPUT, "Averaged Henry Coefficient [mol/kg/Pa]: %.10g +/- %.10g\n", AvgBlockHenry.x, HenryError);
+  fprintf(SystemComponents.OUTPUT, "Averaged Fugacity: %.10f +/- %.10f\n", AvgBlockFuga.x, FugaError);
 }
 
-static inline void Print_Swap_Statistics(Move_Statistics MoveStats)
+static inline void Print_Swap_Statistics(Move_Statistics MoveStats, FILE* OUTPUT)
 {
-  printf("=====================SWAP MOVES=====================\n");
-  printf("Insertion Performed:   %zu\n", MoveStats.InsertionTotal);
-  printf("Insertion Accepted:    %zu\n", MoveStats.InsertionAccepted);
-  printf("Deletion Performed:    %zu\n", MoveStats.DeletionTotal);
-  printf("Deletion Accepted:     %zu\n", MoveStats.DeletionAccepted);
-  printf("Reinsertion Performed: %zu\n", MoveStats.ReinsertionTotal);
-  printf("Reinsertion Accepted:  %zu\n", MoveStats.ReinsertionAccepted);
-  printf("====================================================\n");
+  fprintf(OUTPUT, "=====================SWAP MOVES=====================\n");
+  fprintf(OUTPUT, "Insertion Performed:   %zu\n", MoveStats.InsertionTotal);
+  fprintf(OUTPUT, "Insertion Accepted:    %zu\n", MoveStats.InsertionAccepted);
+  fprintf(OUTPUT, "Deletion Performed:    %zu\n", MoveStats.DeletionTotal);
+  fprintf(OUTPUT, "Deletion Accepted:     %zu\n", MoveStats.DeletionAccepted);
+  fprintf(OUTPUT, "Reinsertion Performed: %zu\n", MoveStats.ReinsertionTotal);
+  fprintf(OUTPUT, "Reinsertion Accepted:  %zu\n", MoveStats.ReinsertionAccepted);
+  fprintf(OUTPUT, "====================================================\n");
 }
 
 static inline void Print_IdentitySwap_Statistics(Components& SystemComponents, size_t i)
 {
-  printf("=====================IDENTITY SWAP MOVES=====================\n");
+  fprintf(SystemComponents.OUTPUT, "=====================IDENTITY SWAP MOVES=====================\n");
   for(size_t j = 0; j < SystemComponents.NComponents.x; j++)
   {
     if(SystemComponents.Moves[i].TotalProb < 1e-10) continue;
     if(SystemComponents.Moves[i].IdentitySwapProb - SystemComponents.Moves[i].ReinsertionProb < 1e-10) continue;
-    if(j != i) printf("Identity Swap Performed, FROM [%s (%zu)] TO [%s (%zu)]: %zu (%zu Accepted)\n", SystemComponents.MoleculeName[i].c_str(), i, SystemComponents.MoleculeName[j].c_str(), j, SystemComponents.Moves[i].IdentitySwap_Total_TO[j], SystemComponents.Moves[i].IdentitySwap_Acc_TO[j]);
+    if(j != i) fprintf(SystemComponents.OUTPUT, "Identity Swap Performed, FROM [%s (%zu)] TO [%s (%zu)]: %zu (%zu Accepted)\n", SystemComponents.MoleculeName[i].c_str(), i, SystemComponents.MoleculeName[j].c_str(), j, SystemComponents.Moves[i].IdentitySwap_Total_TO[j], SystemComponents.Moves[i].IdentitySwap_Acc_TO[j]);
   }
-  printf("=============================================================\n");
+  fprintf(SystemComponents.OUTPUT, "=============================================================\n");
 }
 
-static inline void Print_CBCF_Statistics(Move_Statistics MoveStats)
+static inline void Print_CBCF_Statistics(Move_Statistics MoveStats, FILE* OUTPUT)
 {
-  printf("=====================CBCF SWAP MOVES================\n");
-  printf("CBCF Performed:           %zu\n", MoveStats.CBCFTotal);
-  printf("CBCF Accepted:            %zu\n", MoveStats.CBCFAccepted);
-  printf("CBCF Insertion Performed: %zu\n", MoveStats.CBCFInsertionTotal);
-  printf("CBCF Insertion Accepted:  %zu\n", MoveStats.CBCFInsertionAccepted);
-  printf("CBCF Lambda Performed:    %zu\n", MoveStats.CBCFLambdaTotal);
-  printf("CBCF Lambda Accepted:     %zu\n", MoveStats.CBCFLambdaAccepted);
-  printf("CBCF Deletion Performed:  %zu\n", MoveStats.CBCFDeletionTotal);
-  printf("CBCF Deletion Accepted:   %zu\n", MoveStats.CBCFDeletionAccepted);
-  printf("====================================================\n");
+  fprintf(OUTPUT, "=====================CBCF SWAP MOVES================\n");
+  fprintf(OUTPUT, "CBCF Performed:           %zu\n", MoveStats.CBCFTotal);
+  fprintf(OUTPUT, "CBCF Accepted:            %zu\n", MoveStats.CBCFAccepted);
+  fprintf(OUTPUT, "CBCF Insertion Performed: %zu\n", MoveStats.CBCFInsertionTotal);
+  fprintf(OUTPUT, "CBCF Insertion Accepted:  %zu\n", MoveStats.CBCFInsertionAccepted);
+  fprintf(OUTPUT, "CBCF Lambda Performed:    %zu\n", MoveStats.CBCFLambdaTotal);
+  fprintf(OUTPUT, "CBCF Lambda Accepted:     %zu\n", MoveStats.CBCFLambdaAccepted);
+  fprintf(OUTPUT, "CBCF Deletion Performed:  %zu\n", MoveStats.CBCFDeletionTotal);
+  fprintf(OUTPUT, "CBCF Deletion Accepted:   %zu\n", MoveStats.CBCFDeletionAccepted);
+  fprintf(OUTPUT, "====================================================\n");
 }
 
 //Xiaoyi's code about mass unit data//
@@ -220,9 +220,9 @@ static inline std::vector<double2> ConvertMoleculetoMassMass(Components& SystemC
     // Incrementally sum up the molecular weight for each component
     size_t NCell = SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
     CellMass += SystemComponents.MolecularWeight[j] * NCell;
-    printf("Framework component %zu, molar mass: %.5f\n", j, SystemComponents.MolecularWeight[j]);
+    fprintf(SystemComponents.OUTPUT, "Framework component %zu, molar mass: %.5f\n", j, SystemComponents.MolecularWeight[j]);
   }
-  printf("Framework total mass: %.5f\n", CellMass);
+  fprintf(SystemComponents.OUTPUT, "Framework total mass: %.5f\n", CellMass);
 
   // Calculate the ratio of the molecular weight of the current molecule to the total cell mass, scaled to milligrams/gram
   double MiligramPerGram = 1000.0*SystemComponents.MolecularWeight[i]/CellMass;
@@ -276,9 +276,9 @@ static inline std::vector<double2> ConvertMoleculetoMolMass(Components& SystemCo
     // Incrementally sum up the molecular weight for each component
     // The molecular weight here for framework components are per unit cell
     CellMass += SystemComponents.MolecularWeight[j] * NCell;
-    printf("Framework component %zu, molar mass: %.5f\n", j, SystemComponents.MolecularWeight[j]);
+    fprintf(SystemComponents.OUTPUT, "Framework component %zu, molar mass: %.5f\n", j, SystemComponents.MolecularWeight[j]);
   }
-  printf("Framework total mass: %.5f\n", CellMass);
+  fprintf(SystemComponents.OUTPUT, "Framework total mass: %.5f\n", CellMass);
   // Calculate the ratio of moles per kilogram based on the unit cell mass
   double MolPerKilogram = 1000.0/CellMass;
 
@@ -318,13 +318,10 @@ static inline std::vector<double2> ConvertMoleculetoMassVolume(Components& Syste
   int NMol_In_Def = SystemComponents.NumberofUnitCells.x * SystemComponents.NumberofUnitCells.y * SystemComponents.NumberofUnitCells.z;
 
   // Print the total number of unit cells (for debugging or informational purposes)
-  printf("Total Unit Cells %d \n", NMol_In_Def);
-
-  // Retrieve the volume of the simulation box
-  double Volume = Sims.Box.Volume;
+  fprintf(SystemComponents.OUTPUT, "Total Unit Cells %d \n", NMol_In_Def);
 
   // Calculate the ratio of grams per liter, factoring in the number of unit cells, molecular weight, volume, and Avogadro's number
-  double GramPerLiter = SystemComponents.MolecularWeight[i]*10000/Volume/6.0221408;
+  double GramPerLiter = SystemComponents.MolecularWeight[i]*10000/6.0221408;
 
   // Loop through each block of the input
   for(size_t i = 0; i < Nblock; i++)
@@ -392,7 +389,7 @@ void Calculate_Overall_Averages_MoveEnergy(Components& SystemComponents, int Blo
   SystemComponents.AverageEnergy_Errorbar = sqrt_MoveEnergy(AverageEnergy_SQ - SystemComponents.AverageEnergy * SystemComponents.AverageEnergy) * 2.0;
 }
 
-static inline void Print_Values(std::vector<double2>& Array, int Cycles, int Blocksize, size_t Nblock)
+static inline void Print_Values(std::vector<double2>& Array, int Cycles, int Blocksize, size_t Nblock, FILE* OUTPUT)
 {
   double OverallAverage    = 0.0;
   double OverallSQAverage  = 0.0;
@@ -407,11 +404,11 @@ static inline void Print_Values(std::vector<double2>& Array, int Cycles, int Blo
     Average   /= Blocksize;
     SQAverage /= Blocksize;
     double Errorbar  = 2.0 * pow((SQAverage - Average * Average), 0.5);
-    printf("BLOCK [%zu], Blocksize: %i, Average: %.5f, ErrorBar: %.5f\n", i, Blocksize, Average, Errorbar);
+    fprintf(OUTPUT, "BLOCK [%zu], Blocksize: %i, Average: %.5f, ErrorBar: %.5f\n", i, Blocksize, Average, Errorbar);
     OverallAverage  += Average;
     OverallSQAverage += Average * Average;
   }
-  printf("Overall: Average: %.5f, ErrorBar: %.5f\n", OverallAverage/Nblock, 2.0 * pow((OverallSQAverage/Nblock - OverallAverage/Nblock * OverallAverage/Nblock), 0.5));
+  fprintf(OUTPUT, "Overall: Average: %.5f, ErrorBar: %.5f\n", OverallAverage/Nblock, 2.0 * pow((OverallSQAverage/Nblock - OverallAverage/Nblock * OverallAverage/Nblock), 0.5));
 }
 
 /////////////////////////////////////////////
@@ -486,64 +483,68 @@ static inline void Print_HeatOfAdsorption(Components& SystemComponents, int Cycl
     double OverallHeatOfAdsorption    = 0.0;
     double OverallSQHeatOfAdsorption  = 0.0;
     size_t adjust_compi = compi - SystemComponents.NComponents.y; //for matrix, shift by framework component
-    printf("COMPONENT [%zu] (%s)\n", compi, SystemComponents.MoleculeName[compi].c_str());
+    fprintf(SystemComponents.OUTPUT, "COMPONENT [%zu] (%s)\n", compi, SystemComponents.MoleculeName[compi].c_str());
     for(size_t i = 0; i < Nblock; i++)
     {
-      printf("BLOCK [%zu], Blocksize: %i, Average: %.5f\n", i, Blocksize, HeatOfAdsorption[adjust_compi][i]);
+      fprintf(SystemComponents.OUTPUT, "BLOCK [%zu], Blocksize: %i, Average: %.5f\n", i, Blocksize, HeatOfAdsorption[adjust_compi][i]);
       OverallHeatOfAdsorption   += HeatOfAdsorption[adjust_compi][i];
       OverallSQHeatOfAdsorption += HeatOfAdsorption[adjust_compi][i] * HeatOfAdsorption[adjust_compi][i];
     }
-    printf("Overall: Average: %.5f, ErrorBar: %.5f\n", OverallHeatOfAdsorption/Nblock, 2.0 * pow((OverallSQHeatOfAdsorption/Nblock - OverallHeatOfAdsorption/Nblock * OverallHeatOfAdsorption/Nblock), 0.5));
-    printf("-----------------------------\n");
+    fprintf(SystemComponents.OUTPUT, "Overall: Average: %.5f, ErrorBar: %.5f\n", OverallHeatOfAdsorption/Nblock, 2.0 * pow((OverallSQHeatOfAdsorption/Nblock - OverallHeatOfAdsorption/Nblock * OverallHeatOfAdsorption/Nblock), 0.5));
+    fprintf(SystemComponents.OUTPUT, "-----------------------------\n");
   }
 }
 
 static inline void Print_Averages(Components& SystemComponents, int Cycles, int Blocksize, Simulations& Sims, Units& Constants)
 {
-  printf("============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========\n");
+  fprintf(SystemComponents.OUTPUT, "============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========\n");
   Print_HeatOfAdsorption(SystemComponents, Cycles, Blocksize, SystemComponents.Nblock, Constants);
-  printf("==============================================================\n");
+  fprintf(SystemComponents.OUTPUT, "==============================================================\n");
 
-  printf("=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============\n");
+  fprintf(SystemComponents.OUTPUT, "=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============\n");
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
-    printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
+    fprintf(SystemComponents.OUTPUT, "COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
-    Print_Values(Temp, Cycles, Blocksize, SystemComponents.Nblock);
-    printf("----------------------------------------------------------\n");
+    Print_Values(Temp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+    fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
   }
-  printf("======================================================================\n");
+  fprintf(SystemComponents.OUTPUT, "======================================================================\n");
   
-  printf("=====================BLOCK AVERAGES (LOADING: mg/g)=============\n");
+  fprintf(SystemComponents.OUTPUT, "=====================BLOCK AVERAGES (LOADING: mg/g)=============\n");
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
-    printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
+    fprintf(SystemComponents.OUTPUT, "COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
     std::vector<double2>MMTemp = ConvertMoleculetoMassMass(SystemComponents, i, Temp, SystemComponents.Nblock);
-    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock);
-    printf("----------------------------------------------------------\n");
+    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+    fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
   }
-  printf("==============================================================\n");
-  printf("=====================BLOCK AVERAGES (LOADING: mol/kg)=============\n");
+  fprintf(SystemComponents.OUTPUT, "==============================================================\n");
+  fprintf(SystemComponents.OUTPUT, "=====================BLOCK AVERAGES (LOADING: mol/kg)=============\n");
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
-    printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
+    fprintf(SystemComponents.OUTPUT, "COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
     std::vector<double2>MMTemp = ConvertMoleculetoMolMass(SystemComponents, i, Temp, SystemComponents.Nblock);
-    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock);
-    printf("----------------------------------------------------------\n");
+    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+    fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
   }
-  printf("==============================================================\n");
-  printf("=====================BLOCK AVERAGES (LOADING: g/L)=============\n");
-  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
+  fprintf(SystemComponents.OUTPUT, "==============================================================\n");
+  fprintf(SystemComponents.OUTPUT, "=====================BLOCK AVERAGES (LOADING: g/L)=============\n");
+  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
   {
-    printf("COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
-    std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
-    std::vector<double2>MMTemp = ConvertMoleculetoMassVolume(SystemComponents, i, Temp, SystemComponents.Nblock,Sims);
-    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock);
-    printf("----------------------------------------------------------\n");
+    fprintf(SystemComponents.OUTPUT, "COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
+    std::vector<double2>MMTemp = ConvertMoleculetoMassVolume(SystemComponents, i, SystemComponents.DensityPerComponent[i], SystemComponents.Nblock,Sims);
+    Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+    fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
   }
-  printf("==============================================================\n");
+  fprintf(SystemComponents.OUTPUT, "==============================================================\n");
+  fprintf(SystemComponents.OUTPUT, "=====================BLOCK AVERAGES (VOLUME Å^3)================\n");
+  std::vector<double2>Temp = SystemComponents.VolumeAverage;
+  Print_Values(Temp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+  fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
+  fprintf(SystemComponents.OUTPUT, "==============================================================\n");
 }
 
 static inline void Gather_Averages_Types(std::vector<double2>& Array, double init_value, double running_value, int Cycles, int Blocksize, size_t Nblock)
@@ -575,14 +576,14 @@ static inline void PrintAllStatistics(Components& SystemComponents, Simulations&
   for(size_t comp = 0; comp < SystemComponents.NComponents.x; comp++)
   {
     if(SystemComponents.Moves[comp].TotalProb < 1e-10) continue;
-    printf("======================== MOVE STATISTICS FOR COMPONENT [%zu] (%s) ========================\n", comp,SystemComponents.MoleculeName[comp].c_str());
-    Print_Translation_Statistics(SystemComponents.Moves[comp], SystemComponents.MaxTranslation[comp]);
-    Print_Rotation_Statistics(SystemComponents.Moves[comp], SystemComponents.MaxRotation[comp]);
-    Print_SpecialRotation_Statistics(SystemComponents.Moves[comp], SystemComponents.MaxSpecialRotation[comp]);
-    Print_Swap_Statistics(SystemComponents.Moves[comp]);
+    fprintf(SystemComponents.OUTPUT, "======================== MOVE STATISTICS FOR COMPONENT [%zu] (%s) ========================\n", comp,SystemComponents.MoleculeName[comp].c_str());
+    Print_Translation_Statistics(SystemComponents.Moves[comp], SystemComponents.MaxTranslation[comp], SystemComponents.OUTPUT);
+    Print_Rotation_Statistics(SystemComponents.Moves[comp], SystemComponents.MaxRotation[comp], SystemComponents.OUTPUT);
+    Print_SpecialRotation_Statistics(SystemComponents.Moves[comp], SystemComponents.MaxSpecialRotation[comp], SystemComponents.OUTPUT);
+    Print_Swap_Statistics(SystemComponents.Moves[comp], SystemComponents.OUTPUT);
     Print_IdentitySwap_Statistics(SystemComponents, comp);
-    if(SystemComponents.hasfractionalMolecule[comp]) Print_CBCF_Statistics(SystemComponents.Moves[comp]);
-    printf("================================================================================================\n");
+    if(SystemComponents.hasfractionalMolecule[comp]) Print_CBCF_Statistics(SystemComponents.Moves[comp], SystemComponents.OUTPUT);
+    fprintf(SystemComponents.OUTPUT, "================================================================================================\n");
   }
   if(SimulationMode == PRODUCTION)
   {
@@ -590,13 +591,31 @@ static inline void PrintAllStatistics(Components& SystemComponents, Simulations&
   }
 }
 
-static inline void PrintGibbs(Gibbs& GibbsStatistics)
+static inline void PrintSystemMoves(Variables& Var)
 {
-  printf("=====================GIBBS MONTE CARLO STATISTICS=====================\n");
-  printf("GIBBS VOLUME MOVE ATTEMPTS: %zu\n", (size_t) GibbsStatistics.GibbsBoxStats.x);
-  printf("GIBBS VOLUME MOVE ACCEPTED: %zu\n", (size_t) GibbsStatistics.GibbsBoxStats.y);
-  printf("GIBBS VOLUME MOVE TOOK    : %.5f [seconds]\n", GibbsStatistics.GibbsTime);
-  printf("GIBBS PARTICLE TRANSFER MOVE ATTEMPTS: %zu\n", (size_t) GibbsStatistics.GibbsXferStats.x);
-  printf("GIBBS PARTICLE TRANSFER MOVE ACCEPTED: %zu\n", (size_t) GibbsStatistics.GibbsXferStats.y);
-  printf("======================================================================\n");
+  for(size_t i = 0; i < Var.SystemComponents.size(); i++)
+  {
+    Gibbs& GibbsStatistics = Var.GibbsStatistics;
+    if(GibbsStatistics.DoGibbs)
+    {
+      fprintf(Var.SystemComponents[i].OUTPUT, "=====================GIBBS MONTE CARLO STATISTICS=====================\n");
+      fprintf(Var.SystemComponents[i].OUTPUT, "GIBBS VOLUME MOVE ATTEMPTS: %zu\n", GibbsStatistics.TotalGibbsBoxStats.x > GibbsStatistics.GibbsBoxStats.x ? (size_t) GibbsStatistics.TotalGibbsBoxStats.x : (size_t) GibbsStatistics.GibbsBoxStats.x);
+      fprintf(Var.SystemComponents[i].OUTPUT, "GIBBS VOLUME MOVE ACCEPTED: %zu\n", GibbsStatistics.TotalGibbsBoxStats.y > GibbsStatistics.GibbsBoxStats.y ? (size_t) GibbsStatistics.TotalGibbsBoxStats.y : (size_t) GibbsStatistics.GibbsBoxStats.y);
+      fprintf(Var.SystemComponents[i].OUTPUT, "GIBBS VOLUME MOVE TOOK    : %.5f [seconds]\n", GibbsStatistics.GibbsTime);
+      fprintf(Var.SystemComponents[i].OUTPUT, "GIBBS PARTICLE TRANSFER MOVE ATTEMPTS: %zu\n", (size_t) GibbsStatistics.GibbsXferStats.x);
+      fprintf(Var.SystemComponents[i].OUTPUT, "GIBBS PARTICLE TRANSFER MOVE ACCEPTED: %zu\n", (size_t) GibbsStatistics.GibbsXferStats.y);
+      fprintf(Var.SystemComponents[i].OUTPUT, "======================================================================\n");
+    }
+    if(Var.SystemComponents[i].PerformVolumeMove && (Var.SystemComponents[i].VolumeMoveTotalAttempts > 0 || Var.SystemComponents[i].VolumeMoveAttempts > 0))
+    {
+      fprintf(Var.SystemComponents[i].OUTPUT, "=====================VOLUME MOVE STATISTICS for BOX [%zu]=====================\n", i);
+      size_t move_performed = Var.SystemComponents[i].VolumeMoveAttempts > Var.SystemComponents[i].VolumeMoveTotalAttempts ? Var.SystemComponents[i].VolumeMoveAttempts : Var.SystemComponents[i].VolumeMoveTotalAttempts;
+      size_t move_accepted  = Var.SystemComponents[i].VolumeMoveAccepted > Var.SystemComponents[i].VolumeMoveTotalAccepted ? Var.SystemComponents[i].VolumeMoveAccepted : Var.SystemComponents[i].VolumeMoveTotalAccepted;
+      fprintf(Var.SystemComponents[i].OUTPUT, "VOLUME MOVE ATTEMPTS:   %zu\n", move_performed);
+      fprintf(Var.SystemComponents[i].OUTPUT, "VOLUME MOVE ACCEPTED:   %zu\n", move_accepted);
+      fprintf(Var.SystemComponents[i].OUTPUT, "VOLUME MOVE MAX CHANGE: %.5f\n", Var.SystemComponents[i].VolumeMoveMaxChange);
+      fprintf(Var.SystemComponents[i].OUTPUT, "VOLUME MOVE TOOK    : %.5f [seconds]\n", Var.SystemComponents[i].VolumeMoveTime);
+      fprintf(Var.SystemComponents[i].OUTPUT, "======================================================================\n");
+    }
+  }
 }

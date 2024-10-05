@@ -1,4 +1,3 @@
-void Setup_RandomNumber(RandomNumber& Random, size_t SIZE);
 void Copy_Atom_data_to_device(size_t NumberOfComponents, Atoms* device_System, Atoms* System);
 void Update_Components_for_framework(Components& SystemComponents);
 
@@ -42,23 +41,6 @@ void Prepare_TempSystem_On_Host(Atoms& TempSystem)
     TempSystem.MolID         = (size_t*) malloc(Allocate_size*sizeof(size_t));
     TempSystem.size          = 0;
     TempSystem.Allocate_size = Allocate_size;
-}
-
-inline void Setup_RandomNumber(RandomNumber& Random, size_t SIZE)
-{
-  Random.randomsize = SIZE; Random.offset = 0;
-  Random.host_random = (double3*) malloc(Random.randomsize * sizeof(double3));
-  for (size_t i = 0; i < Random.randomsize; i++)
-  {
-    Random.host_random[i].x = Get_Uniform_Random();
-    Random.host_random[i].y = Get_Uniform_Random();
-    Random.host_random[i].z = Get_Uniform_Random();
-  }
-  //Add some padding to match the sequence of the previous code, pad it up to 1 million numbers//
-  for (size_t i = Random.randomsize * 3; i < 1000000; i++) Get_Uniform_Random();
-
-  cudaMalloc(&Random.device_random, Random.randomsize * sizeof(double3));
-  cudaMemcpy(Random.device_random, Random.host_random, Random.randomsize * sizeof(double3), cudaMemcpyHostToDevice);
 }
 
 inline void Copy_Atom_data_to_device(size_t NumberOfComponents, Atoms* device_System, Atoms* System)
@@ -127,36 +109,33 @@ inline void Setup_Box_Temperature_Pressure(Units& Constants, Components& SystemC
 {
   SystemComponents.Beta = 1.0/(Constants.BoltzmannConstant/(Constants.MassUnit*pow(Constants.LengthUnit,2)/pow(Constants.TimeUnit,2))*SystemComponents.Temperature);
   //Convert pressure from pascal
-  device_Box.Pressure/=(Constants.MassUnit/(Constants.LengthUnit*pow(Constants.TimeUnit,2)));
-  printf("------------------- SIMULATION BOX PARAMETERS -----------------\n");
-  printf("Pressure:        %.5f\n", device_Box.Pressure);
-  printf("Box Volume:      %.5f\n", device_Box.Volume);
-  printf("Box Beta:        %.5f\n", SystemComponents.Beta);
-  printf("Box Temperature: %.5f\n", SystemComponents.Temperature);
-  printf("---------------------------------------------------------------\n");
+  SystemComponents.Pressure/=(Constants.MassUnit/(Constants.LengthUnit*pow(Constants.TimeUnit,2)));
+  fprintf(SystemComponents.OUTPUT, "------------------- SIMULATION BOX PARAMETERS -----------------\n");
+  fprintf(SystemComponents.OUTPUT, "Pressure:        %.5f\n", SystemComponents.Pressure);
+  fprintf(SystemComponents.OUTPUT, "Box Volume:      %.5f\n", device_Box.Volume);
+  fprintf(SystemComponents.OUTPUT, "Box Beta:        %.5f\n", SystemComponents.Beta);
+  fprintf(SystemComponents.OUTPUT, "Box Temperature: %.5f\n", SystemComponents.Temperature);
+  fprintf(SystemComponents.OUTPUT, "---------------------------------------------------------------\n");
 }
 
-inline void Prepare_ForceField(ForceField& FF, ForceField& device_FF, PseudoAtomDefinitions PseudoAtom)
+void Copy_ForceField_to_GPU(Variables& Vars)
 {
   // COPY DATA TO DEVICE POINTER //
   //device_FF.FFParams      = CUDA_copy_allocate_array(FF.FFParams, 5);
-  device_FF.OverlapCriteria = FF.OverlapCriteria;
-  device_FF.CutOffVDW       = FF.CutOffVDW;
-  device_FF.CutOffCoul      = FF.CutOffCoul;
+  Vars.device_FF.OverlapCriteria = Vars.FF.OverlapCriteria;
+  Vars.device_FF.CutOffVDW       = Vars.FF.CutOffVDW;
+  Vars.device_FF.CutOffCoul      = Vars.FF.CutOffCoul;
   //device_FF.Prefactor       = FF.Prefactor;
   //device_FF.Alpha           = FF.Alpha;
-
-  device_FF.epsilon         = CUDA_copy_allocate_array(FF.epsilon, FF.size*FF.size);
-  device_FF.sigma           = CUDA_copy_allocate_array(FF.sigma, FF.size*FF.size);
-  device_FF.z               = CUDA_copy_allocate_array(FF.z, FF.size*FF.size);
-  device_FF.shift           = CUDA_copy_allocate_array(FF.shift, FF.size*FF.size);
-  device_FF.FFType          = CUDA_copy_allocate_array(FF.FFType, FF.size*FF.size);
-  device_FF.noCharges       = FF.noCharges;
-  device_FF.size            = FF.size;
-  device_FF.VDWRealBias     = FF.VDWRealBias;
-  //Formulate Component statistics on the host
-  //ForceFieldParser(FF, PseudoAtom);
-  //PseudoAtomParser(FF, PseudoAtom);
+  size_t FF_size = Vars.FF.size;
+  Vars.device_FF.epsilon         = CUDA_copy_allocate_array(Vars.FF.epsilon, FF_size*FF_size);
+  Vars.device_FF.sigma           = CUDA_copy_allocate_array(Vars.FF.sigma,   FF_size*FF_size);
+  Vars.device_FF.z               = CUDA_copy_allocate_array(Vars.FF.z,       FF_size*FF_size);
+  Vars.device_FF.shift           = CUDA_copy_allocate_array(Vars.FF.shift,   FF_size*FF_size);
+  Vars.device_FF.FFType          = CUDA_copy_allocate_array(Vars.FF.FFType,  FF_size*FF_size);
+  Vars.device_FF.noCharges       = Vars.FF.noCharges;
+  Vars.device_FF.size            = FF_size;
+  Vars.device_FF.VDWRealBias     = Vars.FF.VDWRealBias;
 }
 
 inline void InitializeMaxTranslationRotation(Components& SystemComponents)
@@ -185,61 +164,66 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
   size_t MaxResultsize = MaxTrialsize * SystemComponents.NComponents.x * MaxAllocatesize * 5; //For Volume move, it really needs a lot of blocks//
 
 
-  printf("----------------- MEMORY ALLOCAION STATUS -----------------\n");
+  fprintf(SystemComponents.OUTPUT, "----------------- MEMORY ALLOCAION STATUS -----------------\n");
   //Compare Allocate sizes//
-  printf("System allocate_sizes are: %zu, %zu\n", System[0].Allocate_size, System[1].Allocate_size); 
-  printf("Component allocate_sizes are: %zu, %zu\n", SystemComponents.Allocate_size[0], SystemComponents.Allocate_size[1]);
+  fprintf(SystemComponents.OUTPUT, "System allocate_sizes are: %zu, %zu\n", System[0].Allocate_size, System[1].Allocate_size); 
+  fprintf(SystemComponents.OUTPUT, "Component allocate_sizes are: %zu, %zu\n", SystemComponents.Allocate_size[0], SystemComponents.Allocate_size[1]);
 
   SystemComponents.flag        = (bool*)malloc(MaxTrialsize * sizeof(bool));
   cudaMallocHost(&Sims.device_flag,          MaxTrialsize * sizeof(bool));
+ 
+  size_t vdw_real_size = (MaxResultsize/DEFAULTTHREAD + 1);
+  size_t blocksum_size = vdw_real_size;
+  size_t fourier_size  = SystemComponents.EikAllocateSize;
+  if(fourier_size > vdw_real_size) blocksum_size = fourier_size;
 
-  cudaMallocHost(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));
+  cudaMallocHost(&Sims.Blocksum, blocksum_size*sizeof(double));
 
   cudaMallocManaged(&Sims.ExcludeList,        10 * sizeof(int2));
   for(size_t i = 0; i < 10; i++) Sims.ExcludeList[i] = {-1, -1}; //Initialize with negative # so that nothing is ignored//
   //cudaMalloc(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));
 
-  printf("Allocated Blocksum size: %zu\n", (MaxResultsize/DEFAULTTHREAD + 1));
+  fprintf(SystemComponents.OUTPUT, "Allocated Blocksum size: %zu, vdw_real size: %zu, fourier_size: %zu\n", blocksum_size, vdw_real_size, fourier_size);
  
   //cudaMalloc(&Sims.Blocksum,             (MaxResultsize/DEFAULTTHREAD + 1)*sizeof(double));
-  Sims.Nblocks = MaxResultsize/DEFAULTTHREAD + 1;
-
-  printf("Allocated %zu doubles for Blocksums\n", MaxResultsize/DEFAULTTHREAD + 1);
+  Sims.Nblocks = blocksum_size;
 
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
     double3 MaxTranslation = {Box.Cell[0]*0.1, Box.Cell[4]*0.1, Box.Cell[8]*0.1};
+    //double3 MaxTranslation = {1.0, 1.0, 1.0};
     double3 MaxRotation    = {30.0/(180/3.1415), 30.0/(180/3.1415), 30.0/(180/3.1415)};
     SystemComponents.MaxTranslation[i]    =MaxTranslation;
     SystemComponents.MaxRotation[i]       =MaxRotation;
     SystemComponents.MaxSpecialRotation[i]=MaxRotation;
   }
   Sims.start_position = 0;
-  //Sims.Nblocks = 0;
-  Sims.TotalAtoms = 0;
-  Sims.AcceptedFlag = false;
 
   Widom.WidomFirstBeadAllocatesize = MaxResultsize/DEFAULTTHREAD;
-  printf("------------------------------------------------------------\n");
+  fprintf(SystemComponents.OUTPUT, "------------------------------------------------------------\n");
 }
 
-inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components SystemComponents)
+inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components& SystemComponents)
 {
-  printf("******   Allocating Ewald WaveVectors (INITIAL STAGE ONLY)   ******\n");
+  fprintf(SystemComponents.OUTPUT, "******   Allocating Ewald WaveVectors (INITIAL STAGE ONLY)   ******\n");
   //Zhao's note: This only works if the box size is not changed, eik_xy might not be useful if box size is not changed//
   size_t eikx_size     = SystemComponents.eik_x.size() * 2;
   size_t eiky_size     = SystemComponents.eik_y.size() * 2; //added times 2 for box volume move//
   size_t eikz_size     = SystemComponents.eik_z.size() * 2;
-  printf("Allocated %zu %zu %zu space for eikxyz\n", eikx_size, eiky_size, eikz_size);
+  fprintf(SystemComponents.OUTPUT, "Allocated %zu %zu %zu space for eikxyz\n", eikx_size, eiky_size, eikz_size);
   //size_t eikxy_size    = SystemComponents.eik_xy.size();
-  size_t AdsorbateEiksize = SystemComponents.AdsorbateEik.size() * 2; //added times 2 for box volume move//
+  size_t AdsorbateEiksize = SystemComponents.AdsorbateEik.size() * SystemComponents.StructureFactor_Multiplier; //added X times for box volume move//
+  SystemComponents.EikAllocateSize     = AdsorbateEiksize;
+  SystemComponents.tempEikAllocateSize = AdsorbateEiksize;
+
   cudaMalloc(&device_Box.eik_x,     eikx_size     * sizeof(Complex));
   cudaMalloc(&device_Box.eik_y,     eiky_size     * sizeof(Complex));
   cudaMalloc(&device_Box.eik_z,     eikz_size     * sizeof(Complex));
   //cudaMalloc(&device_Box.eik_xy,    eikxy_size    * sizeof(Complex));
-  cudaMalloc(&device_Box.AdsorbateEik,    AdsorbateEiksize * sizeof(Complex));
-  cudaMalloc(&device_Box.tempEik,     AdsorbateEiksize * sizeof(Complex));
-  cudaMalloc(&device_Box.FrameworkEik, AdsorbateEiksize * sizeof(Complex));
+  cudaMalloc(&device_Box.AdsorbateEik,     AdsorbateEiksize * sizeof(Complex));
+  cudaMalloc(&device_Box.tempEik,          AdsorbateEiksize * sizeof(Complex));
+  cudaMalloc(&device_Box.tempFrameworkEik, AdsorbateEiksize * sizeof(Complex));
+  cudaMalloc(&device_Box.FrameworkEik,     AdsorbateEiksize * sizeof(Complex));
 
   Complex AdsorbateEik[AdsorbateEiksize]; //Temporary Complex struct on the host//
   Complex FrameworkEik[AdsorbateEiksize];
@@ -259,11 +243,11 @@ inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components SystemCom
       AdsorbateEik[i].real    = 0.0; AdsorbateEik[i].imag    = 0.0;
       FrameworkEik[i].real = 0.0; FrameworkEik[i].imag = 0.0;
     }
-    if(i < 10) printf("Wave Vector %zu is %.5f %.5f\n", i, AdsorbateEik[i].real, AdsorbateEik[i].imag);
+    if(i < 10) fprintf(SystemComponents.OUTPUT, "Wave Vector %zu is %.5f %.5f\n", i, AdsorbateEik[i].real, AdsorbateEik[i].imag);
   }
   cudaMemcpy(device_Box.AdsorbateEik,    AdsorbateEik,    AdsorbateEiksize * sizeof(Complex), cudaMemcpyHostToDevice); checkCUDAError("error copying Complex");
   cudaMemcpy(device_Box.FrameworkEik, FrameworkEik, AdsorbateEiksize * sizeof(Complex), cudaMemcpyHostToDevice); checkCUDAError("error copying Complex");
-  printf("****** DONE Allocating Ewald WaveVectors (INITIAL STAGE ONLY) ******\n");
+  fprintf(SystemComponents.OUTPUT, "****** DONE Allocating Ewald WaveVectors (INITIAL STAGE ONLY) ******\n");
 }
 
 inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, ForceField device_FF, Components& SystemComponents, int SIMULATIONSTAGE, size_t Numsim, Simulations& Sim, bool UseGPU)
@@ -278,7 +262,7 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
     case FINAL:
     { STAGE = "FINAL"; break;}
   }
-  printf("======================== CALCULATING %s STAGE ENERGY ========================\n", STAGE.c_str());
+  fprintf(SystemComponents.OUTPUT, "======================== CALCULATING %s STAGE ENERGY ========================\n", STAGE.c_str());
   MoveEnergy ENERGY;
 
   Atoms device_System[SystemComponents.NComponents.x];
@@ -304,7 +288,7 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
     CPU_GPU_EwaldTotalEnergy(Box, Sim.Box, System, Sim.d_a, FF, device_FF, SystemComponents, ENERGY);
     ENERGY.GGEwaldE -= SystemComponents.FrameworkEwald;
     double EwEnd  = omp_get_wtime();
-    printf("Ewald Summation (total energy) on the CPU took %.5f secs\n", EwEnd - EwStart);
+    fprintf(SystemComponents.OUTPUT, "Ewald Summation (total energy) on the CPU took %.5f secs\n", EwEnd - EwStart);
     //Zhao's note: if it is in the initial stage, calculate the intra and self exclusion energy for ewald summation//
     if(SIMULATIONSTAGE == INITIAL) Calculate_Exclusion_Energy_Rigid(Box, System, FF, SystemComponents);
 
@@ -340,7 +324,7 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
     GPU_Energy += Total_VDW_Coulomb_Energy(Sim, SystemComponents, device_FF, UseOffset);
     cudaDeviceSynchronize();
     double end = omp_get_wtime();
-    printf("VDW + Real on the GPU took %.5f secs\n", end - start);
+    fprintf(SystemComponents.OUTPUT, "VDW + Real on the GPU took %.5f secs\n", end - start);
 
     /*
     //SINGLE-THREAD GPU VDW + Real, use just for debugging!!!//
@@ -359,17 +343,34 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
       GPU_Energy  += Ewald_TotalEnergy(Sim, SystemComponents, UseOffset);
       end = omp_get_wtime();
       double GPUEwaldTime = end - start;
-      printf("Ewald Summation (total energy) on the GPU took %.5f secs\n", GPUEwaldTime);
+      fprintf(SystemComponents.OUTPUT, "Ewald Summation (total energy) on the GPU took %.5f secs\n", GPUEwaldTime);
     }
     GPU_Energy.TailE = TotalTailCorrection(SystemComponents, FF.size, Sim.Box.Volume);
     if(SystemComponents.UseDNNforHostGuest) GPU_Energy.DNN_E = ENERGY.DNN_E;
     if(SystemComponents.UseDNNforHostGuest) double GPU_Correction = GPU_Energy.DNN_Correction();
 
-    printf("Total GPU Energy: \n"); GPU_Energy.print();
+    fprintf(SystemComponents.OUTPUT, "Total GPU Energy: \n"); GPU_Energy.print();
     if(SIMULATIONSTAGE == FINAL) SystemComponents.GPU_Energy = GPU_Energy;
   }
 
-  printf("====================== DONE CALCULATING %s STAGE ENERGY ======================\n", STAGE.c_str());
+  fprintf(SystemComponents.OUTPUT, "====================== DONE CALCULATING %s STAGE ENERGY ======================\n", STAGE.c_str());
+}
+
+MoveEnergy check_energy_wrapper(Variables& Var, size_t i) //i = simulation_index
+{
+  // CALCULATE THE FINAL ENERGY (VDW + Real) //
+  int PHASE = FINAL;
+
+  //for(size_t i = 0; i < NumberOfSimulations; i++)
+  //{
+    fprintf(Var.SystemComponents[i].OUTPUT, "======================================\n");
+    fprintf(Var.SystemComponents[i].OUTPUT, "CHECKING FINAL ENERGY FOR SYSTEM [%zu]\n", i);
+    fprintf(Var.SystemComponents[i].OUTPUT, "======================================\n");
+    bool UseGPU = true;
+    Check_Simulation_Energy(Var.Box[i], Var.SystemComponents[i].HostSystem, Var.FF, Var.device_FF, Var.SystemComponents[i], PHASE, i, Var.Sims[i], UseGPU);
+    fprintf(Var.SystemComponents[i].OUTPUT, "======================================\n");
+  //}
+  return Var.SystemComponents[i].GPU_Energy;
 }
 
 inline void Copy_AtomData_from_Device(Atoms* System, Atoms* Host_System, Atoms* d_a, Components& SystemComponents)
@@ -421,37 +422,37 @@ inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units
     case AVERAGE: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY"; E = SystemComponents.AverageEnergy;break;}
     case AVERAGE_ERR: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY ERRORBAR"; E = SystemComponents.AverageEnergy_Errorbar; break;}
   }
-  printf(" *** %s *** \n", stage_name.c_str());
-  printf("========================================================================\n");
-  printf("VDW [Host-Host]:            %.5f (%.5f [K])\n", E.HHVDW, E.HHVDW * Constants.energy_to_kelvin);
-  printf("VDW [Host-Guest]:           %.5f (%.5f [K])\n", E.HGVDW, E.HGVDW * Constants.energy_to_kelvin);
-  printf("VDW [Guest-Guest]:          %.5f (%.5f [K])\n", E.GGVDW, E.GGVDW * Constants.energy_to_kelvin);
-  printf("Real Coulomb [Host-Host]:   %.5f (%.5f [K])\n", E.HHReal, E.HHReal * Constants.energy_to_kelvin);
-  printf("Real Coulomb [Host-Guest]:  %.5f (%.5f [K])\n", E.HGReal, E.HGReal * Constants.energy_to_kelvin);
-  printf("Real Coulomb [Guest-Guest]: %.5f (%.5f [K])\n", E.GGReal, E.GGReal * Constants.energy_to_kelvin);
-  printf("Ewald [Host-Host]:          %.5f (%.5f [K])\n", E.HHEwaldE, E.HHEwaldE * Constants.energy_to_kelvin);
-  printf("Ewald [Host-Guest]:         %.5f (%.5f [K])\n", E.HGEwaldE, E.HGEwaldE * Constants.energy_to_kelvin);
-  printf("Ewald [Guest-Guest]:        %.5f (%.5f [K])\n", E.GGEwaldE, E.GGEwaldE * Constants.energy_to_kelvin);
-  printf("DNN Energy:                 %.5f (%.5f [K])\n", E.DNN_E, E.DNN_E * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, " *** %s *** \n", stage_name.c_str());
+  fprintf(SystemComponents.OUTPUT, "========================================================================\n");
+  fprintf(SystemComponents.OUTPUT, "VDW [Host-Host]:            %.5f (%.5f [K])\n", E.HHVDW, E.HHVDW * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "VDW [Host-Guest]:           %.5f (%.5f [K])\n", E.HGVDW, E.HGVDW * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "VDW [Guest-Guest]:          %.5f (%.5f [K])\n", E.GGVDW, E.GGVDW * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Host-Host]:   %.5f (%.5f [K])\n", E.HHReal, E.HHReal * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Host-Guest]:  %.5f (%.5f [K])\n", E.HGReal, E.HGReal * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Guest-Guest]: %.5f (%.5f [K])\n", E.GGReal, E.GGReal * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Ewald [Host-Host]:          %.5f (%.5f [K])\n", E.HHEwaldE, E.HHEwaldE * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Ewald [Host-Guest]:         %.5f (%.5f [K])\n", E.HGEwaldE, E.HGEwaldE * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Ewald [Guest-Guest]:        %.5f (%.5f [K])\n", E.GGEwaldE, E.GGEwaldE * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "DNN Energy:                 %.5f (%.5f [K])\n", E.DNN_E, E.DNN_E * Constants.energy_to_kelvin);
   if(SystemComponents.UseDNNforHostGuest)
   {
-    printf(" --> Stored Classical Host-Guest Interactions: \n");
-    printf("     VDW:             %.5f (%.5f [K])\n", E.storedHGVDW, E.storedHGVDW * Constants.energy_to_kelvin);
-    printf("     Real Coulomb:    %.5f (%.5f [K])\n", E.storedHGReal, E.storedHGReal * Constants.energy_to_kelvin);
-    printf("     Ewald:           %.5f (%.5f [K])\n", E.storedHGEwaldE, E.storedHGEwaldE * Constants.energy_to_kelvin);
-    printf("     Total:           %.5f (%.5f [K])\n", E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE, (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE) * Constants.energy_to_kelvin);
-    printf(" --> DNN - Classical: %.5f (%.5f [K])\n", E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE), (E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE)) * Constants.energy_to_kelvin);
+    fprintf(SystemComponents.OUTPUT, " --> Stored Classical Host-Guest Interactions: \n");
+    fprintf(SystemComponents.OUTPUT, "     VDW:             %.5f (%.5f [K])\n", E.storedHGVDW, E.storedHGVDW * Constants.energy_to_kelvin);
+    fprintf(SystemComponents.OUTPUT, "     Real Coulomb:    %.5f (%.5f [K])\n", E.storedHGReal, E.storedHGReal * Constants.energy_to_kelvin);
+    fprintf(SystemComponents.OUTPUT, "     Ewald:           %.5f (%.5f [K])\n", E.storedHGEwaldE, E.storedHGEwaldE * Constants.energy_to_kelvin);
+    fprintf(SystemComponents.OUTPUT, "     Total:           %.5f (%.5f [K])\n", E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE, (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE) * Constants.energy_to_kelvin);
+    fprintf(SystemComponents.OUTPUT, " --> DNN - Classical: %.5f (%.5f [K])\n", E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE), (E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE)) * Constants.energy_to_kelvin);
   }
-  printf("Tail Correction Energy:     %.5f (%.5f [K])\n", E.TailE, E.TailE * Constants.energy_to_kelvin);
-  printf("Total Energy:               %.5f (%.5f [K])\n", E.total(), E.total() * Constants.energy_to_kelvin);
-  printf("========================================================================\n");
+  fprintf(SystemComponents.OUTPUT, "Tail Correction Energy:     %.5f (%.5f [K])\n", E.TailE, E.TailE * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Total Energy:               %.5f (%.5f [K])\n", E.total(), E.total() * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "========================================================================\n");
 }
 inline void ENERGY_SUMMARY(std::vector<Components>& SystemComponents, Units& Constants)
 {
   size_t NumberOfSimulations = SystemComponents.size();
   for(size_t i = 0; i < NumberOfSimulations; i++)
   {
-    printf("======================== ENERGY SUMMARY (Simulation %zu) =========================\n", i);
+    fprintf(SystemComponents[i].OUTPUT, "======================== ENERGY SUMMARY (Simulation %zu) =========================\n", i);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], INITIAL, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], CREATEMOL, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], CREATEMOL_DELTA, Constants);
@@ -461,14 +462,14 @@ inline void ENERGY_SUMMARY(std::vector<Components>& SystemComponents, Units& Con
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA_CHECK, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], DRIFT, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], GPU_DRIFT, Constants);
-    printf("================================================================================\n");
-    printf("======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation %zu) =========================\n", i);
+    fprintf(SystemComponents[i].OUTPUT, "================================================================================\n");
+    fprintf(SystemComponents[i].OUTPUT, "======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation %zu) =========================\n", i);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE, Constants);
     PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE_ERR, Constants);
-    printf("================================================================================\n");
+    fprintf(SystemComponents[i].OUTPUT, "================================================================================\n");
 
-    printf("DNN Rejection Summary:\nTranslation+Rotation: %zu\nReinsertion: %zu\nInsertion: %zu\nDeletion: %zu\nSingleSwap: %zu\n", SystemComponents[i].TranslationRotationDNNReject, SystemComponents[i].ReinsertionDNNReject, SystemComponents[i].InsertionDNNReject, SystemComponents[i].DeletionDNNReject, SystemComponents[i].SingleSwapDNNReject);
-    printf("DNN Drift Summary:\nTranslation+Rotation: %.5f\nReinsertion: %.5f\nInsertion: %.5f\nDeletion: %.5f\nSingleSwap: %.5f\n", SystemComponents[i].SingleMoveDNNDrift, SystemComponents[i].ReinsertionDNNDrift, SystemComponents[i].InsertionDNNDrift, SystemComponents[i].DeletionDNNDrift, SystemComponents[i].SingleSwapDNNDrift);
+    fprintf(SystemComponents[i].OUTPUT, "DNN Rejection Summary:\nTranslation+Rotation: %zu\nReinsertion: %zu\nInsertion: %zu\nDeletion: %zu\nSingleSwap: %zu\n", SystemComponents[i].TranslationRotationDNNReject, SystemComponents[i].ReinsertionDNNReject, SystemComponents[i].InsertionDNNReject, SystemComponents[i].DeletionDNNReject, SystemComponents[i].SingleSwapDNNReject);
+    fprintf(SystemComponents[i].OUTPUT, "DNN Drift Summary:\nTranslation+Rotation: %.5f\nReinsertion: %.5f\nInsertion: %.5f\nDeletion: %.5f\nSingleSwap: %.5f\n", SystemComponents[i].SingleMoveDNNDrift, SystemComponents[i].ReinsertionDNNDrift, SystemComponents[i].InsertionDNNDrift, SystemComponents[i].DeletionDNNDrift, SystemComponents[i].SingleSwapDNNDrift);
   }
 }
 
@@ -550,27 +551,27 @@ static inline void Write_TMMC(size_t Cycle, Components SystemComponents, size_t 
   textTMMCFile.close();
 }
 
-inline void GenerateSummaryAtEnd(int Cycle, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField& FF, std::vector<Boxsize>& Box, PseudoAtomDefinitions& PseudoAtom)
+inline void GenerateSummaryAtEnd(int Cycle, std::vector<Components>& SystemComponents, Simulations*& Sims, ForceField& FF, std::vector<Boxsize>& Box)
 {
   
   size_t NumberOfSimulations = SystemComponents.size();
   for(size_t i = 0; i < NumberOfSimulations; i++)
   {
-    printf("System %zu\n", i);
+    fprintf(SystemComponents[i].OUTPUT, "Summary for simulation %zu\n", i);
     Atoms device_System[SystemComponents[i].NComponents.x];
     Copy_AtomData_from_Device(device_System, SystemComponents[i].HostSystem, Sims[i].d_a, SystemComponents[i]);
 
     Write_Lambda(Cycle, SystemComponents[i], i);
     Write_TMMC(Cycle, SystemComponents[i], i);
     //Print Number of Pseudo Atoms//
-    for(size_t j = 0; j < SystemComponents[i].NumberOfPseudoAtoms.size(); j++) printf("PseudoAtom Type: %s[%zu], #: %zu\n", PseudoAtom.Name[j].c_str(), j, SystemComponents[i].NumberOfPseudoAtoms[j]);
+    for(size_t j = 0; j < SystemComponents[i].NumberOfPseudoAtoms.size(); j++) fprintf(SystemComponents[i].OUTPUT, "PseudoAtom Type: %s[%zu], #: %zu\n", SystemComponents[i].PseudoAtoms.Name[j].c_str(), j, SystemComponents[i].NumberOfPseudoAtoms[j]);
   }
 }
 
 inline void prepare_MixtureStats(Components& SystemComponents)
 {
   double tot = 0.0;
-  printf("================= MOL FRACTIONS =================\n");
+  fprintf(SystemComponents.OUTPUT, "================= MOL FRACTIONS =================\n");
   for(size_t j = 0; j < SystemComponents.NComponents.x; j++)
   {
     SystemComponents.Moves[j].IdentitySwap_Total_TO.resize(SystemComponents.NComponents.x, 0);
@@ -581,7 +582,7 @@ inline void prepare_MixtureStats(Components& SystemComponents)
   for(size_t j = 1; j < SystemComponents.NComponents.x; j++)
   {
     SystemComponents.MolFraction[j] /= tot;
-    printf("Component [%zu] (%s), Mol Fraction: %.5f\n", j, SystemComponents.MoleculeName[j].c_str(), SystemComponents.MolFraction[j]);
+    fprintf(SystemComponents.OUTPUT,"Component [%zu] (%s), Mol Fraction: %.5f\n", j, SystemComponents.MoleculeName[j].c_str(), SystemComponents.MolFraction[j]);
   }
-  printf("=================================================\n");
+  fprintf(SystemComponents.OUTPUT, "=================================================\n");
 }

@@ -230,26 +230,17 @@ void read_number_of_sims_from_input(size_t *NumSims, bool *SingleSim)
   file.close();
 }
 
-void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges, int *InitializationCycles, int *EquilibrationCycles, int *ProductionCycles, size_t *NumberOfTrialPositions, size_t *NumberOfTrialOrientations, double *Pressure, double *Temperature, size_t *AllocateSize, bool *ReadRestart, int *RANDOMSEED, bool *SameFrameworkEverySimulation, int3& NumberOfComponents)
+void read_simulation_input(Variables& Vars, bool *ReadRestart, bool *SameFrameworkEverySimulation)
 {
-  bool tempGPU = false; bool tempflag = false; bool nochargeflag = true;  //Ignore the changes if the chargemethod is not specified
-  //bool tempDualPrecision = false;
-
   bool tempRestart = false;  //Whether we read restart file or not
 
-  int initializationcycles=1; int equilibrationcycles=0; int productioncycles=0;
-  size_t widom = 8;
-  double temp = 0.0;
   std::vector<std::string> termsScannedLined{};
   std::string str;
   std::ifstream file("simulation.input");
-  int counter=0; size_t tempallocspace=0; size_t widom_orientation = 8;
-  double pres = 0.0;
+  int counter=0;
 
   size_t tempNComp = 0; 
-
-  // Zhao's note: setup random seed in this function //
-  double randomseed = 0.0;
+  int3& NComponents = Vars.TempComponents.NComponents;
 
   bool tempSameFrameworkEverySimulation = true;
   bool tempSeparateFramework = false;
@@ -262,7 +253,7 @@ void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges
       Split_Tab_Space(termsScannedLined, str);
       if(caseInSensStringCompare(termsScannedLined[1], "yes"))
       {
-        tempGPU = true;
+        Vars.TempWidom.UseGPUReduction = true;
       }
     }
     if (str.find("Useflag", 0) != std::string::npos)
@@ -270,51 +261,51 @@ void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges
       Split_Tab_Space(termsScannedLined, str);
       if(caseInSensStringCompare(termsScannedLined[1], "yes"))
       {
-        tempflag = true;
+        Vars.TempWidom.Useflag = true;
       }
     }
   
     if (str.find("RandomSeed", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      randomseed = std::stoi(termsScannedLined[1]);
-      printf("Random Seed is %d\n", randomseed);
+      Vars.Random.RANDOMSEED = std::stoi(termsScannedLined[1]);
+      printf("Random Seed is %d\n", Vars.Random.RANDOMSEED);
     }
 
     if (str.find("AdsorbateAllocateSpace", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      sscanf(termsScannedLined[1].c_str(), "%zu", &tempallocspace);
-      printf("Allocate space for adsorbate is %zu\n", tempallocspace);
+      sscanf(termsScannedLined[1].c_str(), "%zu", &Vars.Allocate_space_Adsorbate);
+      printf("Allocate space for adsorbate is %zu\n", Vars.Allocate_space_Adsorbate);
     }
     if (str.find("NumberOfInitializationCycles", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      sscanf(termsScannedLined[1].c_str(), "%d", &initializationcycles);
+      sscanf(termsScannedLined[1].c_str(), "%d", &Vars.NumberOfInitializationCycles);
       //printf("line is %u, there are %zu Framework Atoms\n", counter, NumberFrameworkAtom);
     }
     if (str.find("NumberOfEquilibrationCycles", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      sscanf(termsScannedLined[1].c_str(), "%d", &equilibrationcycles);
+      sscanf(termsScannedLined[1].c_str(), "%d", &Vars.NumberOfEquilibrationCycles);
       //printf("line is %u, there are %zu Framework Atoms\n", counter, NumberFrameworkAtom);
     }
     if (str.find("NumberOfProductionCycles", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      sscanf(termsScannedLined[1].c_str(), "%d", &productioncycles);
+      sscanf(termsScannedLined[1].c_str(), "%d", &Vars.NumberOfProductionCycles);
       //printf("line is %u, there are %zu Framework Atoms\n", counter, NumberFrameworkAtom);
     }
     if (str.find("NumberOfTrialPositions", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      sscanf(termsScannedLined[1].c_str(), "%zu", &widom);
+      sscanf(termsScannedLined[1].c_str(), "%zu", &Vars.TempWidom.NumberWidomTrials);
       //printf("line is %u, there are %zu Framework Atoms\n", counter, NumberFrameworkAtom);
     }
     if (str.find("NumberOfTrialOrientations", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      sscanf(termsScannedLined[1].c_str(), "%zu", &widom_orientation);
+      sscanf(termsScannedLined[1].c_str(), "%zu", &Vars.TempWidom.NumberWidomTrialsOrientations);
       //printf("line is %u, there are %zu Framework Atoms\n", counter, NumberFrameworkAtom);
     }
     //Zhao's note: Move it somewhere else//
@@ -326,21 +317,12 @@ void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges
     if (str.find("Pressure", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      pres=std::stod(termsScannedLined[1]);
+      Vars.TempComponents.Pressure=std::stod(termsScannedLined[1]);
     }
     if (str.find("Temperature", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
-      temp=std::stod(termsScannedLined[1]);
-    }
-    if (str.find("ChargeMethod", 0) != std::string::npos)
-    {
-      Split_Tab_Space(termsScannedLined, str);
-      if(caseInSensStringCompare(termsScannedLined[1], "Ewald"))
-      {
-        nochargeflag = false;
-        printf("USE EWALD SUMMATION FOR CHARGE\n");
-      }
+      Vars.TempComponents.Temperature=std::stod(termsScannedLined[1]);
     }
     if (str.find("RestartFile", 0) != std::string::npos)
     {
@@ -384,27 +366,21 @@ void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges
       if(str.find("NumberofFrameworkComponents", 0) != std::string::npos)
       {
         Split_Tab_Space(termsScannedLined, str);
-        NumberOfComponents.y = std::stoi(termsScannedLined[1]);
-        printf("THERE ARE %zu SEPARATE FRAMEWORK COMPONENTS\n", NumberOfComponents.y);
+        NComponents.y = std::stoi(termsScannedLined[1]);
+        printf("THERE ARE %zu SEPARATE FRAMEWORK COMPONENTS\n", NComponents.y);
       }
     }
     if(counter>200) break;
   }
-  *UseGPUReduction=tempGPU; *Useflag=tempflag; *noCharges = nochargeflag;
-  *InitializationCycles=initializationcycles; *EquilibrationCycles=equilibrationcycles; *ProductionCycles=productioncycles;
-  *NumberOfTrialPositions=widom; *NumberOfTrialOrientations=widom_orientation;
-  *Pressure = pres; *Temperature = temp;
-  *AllocateSize  = tempallocspace;
   *ReadRestart   = tempRestart;
-  *RANDOMSEED    = randomseed;
   *SameFrameworkEverySimulation = tempSameFrameworkEverySimulation;
-  NumberOfComponents.z = tempNComp; //z component is the adsorbate components//
-  NumberOfComponents.x = tempNComp + NumberOfComponents.y;
-  //printf("Finished Checking Number of Components, There are %zu framework, %zu Adsorbates, %zu total Components\n", NumberOfComponents.y, NumberOfComponents.z, NumberOfComponents.x);
+  NComponents.z = tempNComp; //z component is the adsorbate components//
+  NComponents.x = tempNComp + NComponents.y;
+  //printf("Finished Checking Number of Components, There are %zu framework, %zu Adsorbates, %zu total Components\n", NComponents.y, NComponents.z, NComponents.x);
   file.close();
 }
 
-void read_Gibbs_and_Cycle_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepPerCycle)
+void read_Gibbs_and_Cycle_Stats(Variables& Vars, bool& SetMaxStep, size_t& MaxStepPerCycle)
 {
   size_t counter = 0;
   double temp = 0.0;
@@ -421,18 +397,18 @@ void read_Gibbs_and_Cycle_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t
       temp=std::stod(termsScannedLined[1]);
       if(temp > 0)
       {
-        GibbsStatistics.DoGibbs = true;
-        GibbsStatistics.GibbsBoxProb = temp;
+        Vars.GibbsStatistics.DoGibbs = true;
+        Vars.GibbsStatistics.GibbsBoxProb = temp;
       }
     }
-    if (str.find("GibbsSwapProbability", 0) != std::string::npos)
+    if (str.find("NPTVolumeChangeProbability", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
       temp=std::stod(termsScannedLined[1]);
       if(temp > 0)
       {
-        GibbsStatistics.DoGibbs = true;
-        GibbsStatistics.GibbsXferProb = temp;
+        Vars.TempComponents.PerformVolumeMove = true;
+        Vars.TempComponents.VolumeMoveProbability = temp;
       }
     }
     if (str.find("UseMaxStep", 0) != std::string::npos)
@@ -448,7 +424,14 @@ void read_Gibbs_and_Cycle_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t
       Split_Tab_Space(termsScannedLined, str);
       sscanf(termsScannedLined[1].c_str(), "%zu", &MaxStepPerCycle);
       if(MaxStepPerCycle == 0) throw std::runtime_error("Max Steps per Cycle must be greater than ZERO!");
-    }  
+    }
+
+    if (str.find("StructureFactor_Multiplier", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      sscanf(termsScannedLined[1].c_str(), "%zu", &Vars.StructureFactor_Multiplier);
+    }
+    
     if(counter>200) break;
   }
   if(SetMaxStep) 
@@ -459,25 +442,34 @@ void read_Gibbs_and_Cycle_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t
   {
     printf("Running Cycles in the Normal Way\n");
   }
-  GibbsStatistics.GibbsBoxStats  = {0.0, 0.0};
-  GibbsStatistics.GibbsXferStats = {0.0, 0.0};
+  Vars.GibbsStatistics.GibbsBoxStats  = {0, 0};
+  Vars.GibbsStatistics.GibbsXferStats = {0, 0};
   file.close();
 }
 
-void read_FFParams_from_input(ForceField& FF, double& precision)
+void read_FFParams_from_input(Input_Container& Input)
 {
   std::vector<std::string> termsScannedLined{};
   std::string str;
 
   double tempOverlap = 1.0e6; double tempvdwcut = 12.0; double tempcoulcut = 12.0;
   double tempprecision = 1.0e-6;
+  bool tempnoCharges = true;
   //double tempalpha = 0.26506; //Zhao's note: here we used alpha equal to the preset value from raspa3. Need to revisit RASPA-2 for the exact calculation of alpha.
-  std::vector<double> Cell(5);
   //Zhao's note: Using the heuresitic equation for converting Ewald Precision to alpha.
 
   std::ifstream file("simulation.input");
   while (std::getline(file, str))
   {
+    if (str.find("ChargeMethod", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      if(caseInSensStringCompare(termsScannedLined[1], "Ewald"))
+      {
+        tempnoCharges = false;
+        printf("USE EWALD SUMMATION FOR CHARGE\n");
+      }
+    }
     if (str.find("OverlapCriteria", 0) != std::string::npos)
     {
       Split_Tab_Space(termsScannedLined, str);
@@ -504,21 +496,22 @@ void read_FFParams_from_input(ForceField& FF, double& precision)
       Split_Tab_Space(termsScannedLined, str);
       if(caseInSensStringCompare(termsScannedLined[1], "LJ_And_Real_Biasing"))
       {
-        FF.VDWRealBias = true; //By default, it is using LJ + Real Biasing
+        Input.VDWRealBias = true; //By default, it is using LJ + Real Biasing
       }
       else if(caseInSensStringCompare(termsScannedLined[1], "LJ_Biasing"))
       {
-        FF.VDWRealBias = false;
+        Input.VDWRealBias = false;
       }
     }
     if (str.find("Component", 0) != std::string::npos) //When it reads component, skip//
       break;
   }
   //read FF array
-  FF.OverlapCriteria   = tempOverlap;
-  FF.CutOffVDW         = tempvdwcut*tempvdwcut;
-  FF.CutOffCoul        = tempcoulcut*tempcoulcut;
-  precision            = tempprecision;
+  Input.OverlapCriteria   = tempOverlap;
+  Input.CutOffVDW         = tempvdwcut*tempvdwcut;
+  Input.CutOffCoul        = tempcoulcut*tempcoulcut;
+  Input.EwaldPrecision    = tempprecision;
+  Input.noCharges         = tempnoCharges;
   file.close();
 }
 
@@ -745,18 +738,19 @@ double Mixing_rule_Sigma(double sig1, double sig2)
 }
 //Zhao's note: read force field definition first, then read pseudo-atoms
 //The type numbering is determined in here, then used in pseudo_atoms.def
-void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
+//void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
+void ForceFieldParser(Input_Container& Input, PseudoAtomDefinitions& PseudoAtom)
 {
+  Input.AtomFF = std::vector<Atom_FF>();
   std::string scannedLine; std::string str;
   std::vector<std::string> termsScannedLined{};
   size_t counter = 0;
   std::ifstream FFMixfile("force_field_mixing_rules.def");
   size_t NumberOfDefinitions = 0;
-  bool shifted = false; bool tail = false;
   //Temporary vectors for storing the data
-  std::vector<double>Epsilon; std::vector<double>Sigma;
   // Some other temporary values
-  double ep = 0.0; double sig = 0.0;
+  bool shifted = false; bool tail = false;
+  Atom_FF AtomFF; //placeholder for temp values to push back//
   printf("------------------PARSING FORCE FIELD MIXING RULES----------------\n");
   // First read the pseudo atom file
   while (std::getline(FFMixfile, str))
@@ -773,7 +767,6 @@ void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
       if(termsScannedLined[0] == "yes")
       {
         tail = true; //Zhao's note: not implemented
-        throw std::runtime_error("Tail correction not implemented YET...");
       }
     }
     else if(counter == 5) // read number of force field definitions
@@ -787,62 +780,46 @@ void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
     {
       printf("%s\n", str.c_str());
       Split_Tab_Space(termsScannedLined, str);
+
       PseudoAtom.Name.push_back(termsScannedLined[0]);
-      ep = std::stod(termsScannedLined[2]);
-      sig= std::stod(termsScannedLined[3]);
-      Epsilon.push_back(ep);
-      Sigma.push_back(sig);
+
+      AtomFF.Name    = termsScannedLined[0];
+      AtomFF.epsilon = std::stod(termsScannedLined[2]);
+      AtomFF.sigma   = std::stod(termsScannedLined[3]);
+      AtomFF.shift   = shifted;
+      AtomFF.tail    = tail;
+      
+      Input.AtomFF.push_back(AtomFF);
     }
     counter++;
     if(counter==7+NumberOfDefinitions) break; //in case there are extra empty rows, Zhao's note: I am skipping the mixing rule, assuming Lorentz-Berthelot
   }
   printf("------------------------------------------------------------------\n");
-  //Do mixing rule (assuming Lorentz-Berthelot)
-  //Declare some temporary arrays
-  std::vector<double>Mix_Epsilon; std::vector<double>Mix_Sigma; std::vector<double>Mix_Shift; 
-  std::vector<double>Mix_Z; //temporary third array
-  std::vector<int>Mix_Type; //Force Field Type (Zhao's note: assuming zero, which is Lennard-Jones)
-  double temp_ep = 0.0; double temp_sig = 0.0;
-  for(size_t i = 0; i < NumberOfDefinitions; i++)
-  {
-    for(size_t j = 0; j < NumberOfDefinitions; j++)
-    {
-      temp_ep = Mixing_Rule_Epsilon(Epsilon[i], Epsilon[j])/1.20272430057; //Zhao's note: caveat here: need to do full energy conversion
-      temp_sig= Mixing_rule_Sigma(Sigma[i], Sigma[j]);
-      Mix_Epsilon.push_back(temp_ep);
-      Mix_Sigma.push_back(temp_sig);
-      if(shifted)
-      {
-        Mix_Shift.push_back(Get_Shifted_Value(temp_ep, temp_sig, FF.CutOffVDW));
-      }
-      else
-      {
-        Mix_Shift.push_back(0.0);
-      }
-      if(tail){
-      throw std::runtime_error("Tail correction not implemented YET in force_field_mixing_rules.def, use the overwritting file force_field.def instead...");} 
-      Mix_Z.push_back(0.0);
-      Mix_Type.push_back(0);
-    }
-  }
-  //For checking if mixing rule terms are correct//
-  printf("----- MIXED VDW PARAMETERS -----\n");
-  for(size_t i = 0; i < Mix_Shift.size(); i++)
-  {
-    size_t ii = i/NumberOfDefinitions; size_t jj = i%NumberOfDefinitions;
-    if(ii <= jj) printf("i: %zu, ii: %zu, jj: %zu, Name_i: %s, Name_j: %s, ep: %.10f, sig: %.10f, shift: %.10f\n", i,ii,jj,PseudoAtom.Name[ii].c_str(), PseudoAtom.Name[jj].c_str(), Mix_Epsilon[i], Mix_Sigma[i], Mix_Shift[i]);
-  }
-  printf("----- END OF MIXED VDW PARAMETERS -----\n");
-  
-  FF.epsilon = convert1DVectortoArray(Mix_Epsilon);
-  FF.sigma   = convert1DVectortoArray(Mix_Sigma);
-  FF.z       = convert1DVectortoArray(Mix_Z);
-  FF.shift   = convert1DVectortoArray(Mix_Shift);
-  FF.FFType  = convert1DVectortoArray(Mix_Type);
-  FF.size    = NumberOfDefinitions;
   FFMixfile.close();
 }
 
+static inline double GetTailCorrectionValue(double epsilon, double sigma, double cutoff)
+{
+  //double scaling = 1.0; Zhao's note: Need more care about fractional molecules with tail corrections
+  double arg1 = epsilon;
+  double arg2 = sigma * sigma * sigma;
+  double rr = sqrt(cutoff);
+  double term1= pow(arg2, 4) / (9.0 * pow(rr, 9)); //sigma^12/(9*r^9)
+  double term2= pow(arg2, 2) / (3.0 * pow(rr, 3)); //sigma^6 /(3*r^3)
+  double val = 16.0 * 3.14159265358979323846 / 2.0 * arg1 * (term1 - term2);
+  return val;
+}
+
+static inline void PrepareTailCorrection(size_t i, size_t j, size_t NPseudoAtoms, std::vector<Tail>& TempTail, std::vector<double>& Mix_Epsilon, std::vector<double>& Mix_Sigma, double cutoff)
+{
+  size_t IJ_Forward = i * NPseudoAtoms + j;
+  size_t IJ_Reverse = j * NPseudoAtoms + i;
+  TempTail[IJ_Forward].UseTail= true;
+  TempTail[IJ_Forward].Energy = GetTailCorrectionValue(Mix_Epsilon[IJ_Forward], Mix_Sigma[IJ_Forward], cutoff);
+  if(i!=j) TempTail[IJ_Reverse] = TempTail[IJ_Forward];
+  printf("TypeI: %zu, TypeJ: %zu, NPseudoAtoms: %zu, Energy: %.5f\n", i, j, NPseudoAtoms, TempTail[IJ_Forward].Energy);
+}
+/*
 static inline size_t GetTypeForPseudoAtom(PseudoAtomDefinitions& PseudoAtom, std::string& AtomName)
 {
   bool Found = false;
@@ -859,33 +836,29 @@ static inline size_t GetTypeForPseudoAtom(PseudoAtomDefinitions& PseudoAtom, std
   if(!Found){throw std::runtime_error("Overwriting terms are not Found in Pseudo atoms!!! [" + AtomName + "]");}
   return AtomTypeInt;
 }
-
-static inline double GetTailCorrectionValue(size_t IJ, ForceField& FF)
+*/
+static inline size_t GetTypeFromFFName(Input_Container& Input, std::string& AtomName)
 {
-  //double scaling = 1.0; Zhao's note: Need more care about fractional molecules with tail corrections
-  double arg1 = FF.epsilon[IJ];
-  double sigma= FF.sigma[IJ];
-  double arg2 = sigma * sigma * sigma;
-  double rr = sqrt(FF.CutOffVDW);
-  double term1= pow(arg2, 4) / (9.0 * pow(rr, 9)); //sigma^12/(9*r^9)
-  double term2= pow(arg2, 2) / (3.0 * pow(rr, 3)); //sigma^6 /(3*r^3)
-  double val = 16.0 * 3.14159265358979323846 / 2.0 * arg1 * (term1 - term2);
-  return val;
+  bool Found = false;
+  size_t AtomTypeInt = 0;
+  for(size_t j = 0; j < Input.AtomFF.size(); j++)
+  {
+    if(AtomName == Input.AtomFF[j].Name)
+    {
+      AtomTypeInt = j;
+      Found = true;
+      break;
+    }
+  }
+  if(!Found){throw std::runtime_error("Overwriting terms are not Found in Pseudo atoms!!! [" + AtomName + "]");}
+  return AtomTypeInt;
 }
 
-static inline void PrepareTailCorrection(size_t i, size_t j, std::vector<Tail>& TempTail, PseudoAtomDefinitions& PseudoAtom, ForceField& FF)
-{
-  size_t IJ_Forward = i * FF.size + j;
-  size_t IJ_Reverse = j * FF.size + i;
-  TempTail[IJ_Forward].UseTail= true;
-  TempTail[IJ_Forward].Energy = GetTailCorrectionValue(IJ_Forward, FF);
-  if(i!=j) TempTail[IJ_Reverse] = TempTail[IJ_Forward];
-  printf("TypeI: %zu, TypeJ: %zu, FF.size: %zu, Energy: %.5f\n", i, j, FF.size, TempTail[IJ_Forward].Energy);
-}
+
 //Function for Overwritten tail corrections
 //For now, it only considers tail correction//
 //Add overwritting LJ//
-void OverWrite_Mixing_Rule(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
+void OverWrite_Mixing_Rule(Input_Container& Input)
 {
   std::string scannedLine; std::string str;
   std::vector<std::string> termsScannedLined{};
@@ -941,6 +914,8 @@ void OverWrite_Mixing_Rule(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
   OverWritefile.clear();
   OverWritefile.seekg(0);
 
+  size_t FFsize = Input.AtomFF.size();
+
   counter = 0;
   while (std::getline(OverWritefile, str))
   {
@@ -953,29 +928,30 @@ void OverWrite_Mixing_Rule(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
       {
         //Ow Hw lennard-jones 1.0 1.0
         printf("Overwritting parameters for VDW (lennard-jones): %s and %s\n", termsScannedLined[0].c_str(), termsScannedLined[1].c_str());
-        size_t typeI = GetTypeForPseudoAtom(PseudoAtom, termsScannedLined[0]);
-        size_t typeJ = GetTypeForPseudoAtom(PseudoAtom, termsScannedLined[1]);
+        size_t typeI = GetTypeFromFFName(Input, termsScannedLined[0]);
+        size_t typeJ = GetTypeFromFFName(Input, termsScannedLined[1]);
 
         double temp_ep = std::stod(termsScannedLined[3])/1.20272430057; //K -> 10J/mol
         double temp_sig= std::stod(termsScannedLined[4]);               //Angstroem
-        FF.epsilon[typeI * FF.size + typeJ] = temp_ep;
-        FF.epsilon[typeJ * FF.size + typeI] = temp_ep;
-        FF.sigma[typeI * FF.size + typeJ] = temp_sig;
-        FF.sigma[typeJ * FF.size + typeI] = temp_sig;
+       
+        Input.Mix_Epsilon[typeI * FFsize + typeJ] = temp_ep;
+        Input.Mix_Epsilon[typeJ * FFsize + typeI] = temp_ep;
+        Input.Mix_Sigma[typeI * FFsize + typeJ] = temp_sig;
+        Input.Mix_Sigma[typeJ * FFsize + typeI] = temp_sig;
         if(shifted)
         {
-          FF.shift[typeI * FF.size + typeJ] = Get_Shifted_Value(temp_ep, temp_sig, FF.CutOffVDW);
-          FF.shift[typeJ * FF.size + typeI] = Get_Shifted_Value(temp_ep, temp_sig, FF.CutOffVDW);
+          Input.Mix_Shift[typeI * FFsize + typeJ] = Get_Shifted_Value(temp_ep, temp_sig, Input.CutOffVDW);
+          Input.Mix_Shift[typeJ * FFsize + typeI] = Get_Shifted_Value(temp_ep, temp_sig, Input.CutOffVDW);
         }
       }
     }
     counter ++;
   }
-  printf("----- MIXED VDW PARAMETERS (WITH OVERWRITTEN TERMS) -----\n");
-  for(size_t ii = 0; ii < FF.size; ii++)
-    for(size_t jj = 0; jj < FF.size; jj++)
+  printf("----- MIXED VDW PARAMETERS (WITH OVERWRITTEN TERMS) [10 J/mol, Angstroem]-----\n");
+  for(size_t ii = 0; ii < FFsize; ii++)
+    for(size_t jj = 0; jj < FFsize; jj++)
     {
-      if(ii <= jj) printf("ii: %zu, jj: %zu, Name_i: %s, Name_j: %s, ep: %.10f, sig: %.10f, shift: %.10f\n", ii,jj,PseudoAtom.Name[ii].c_str(), PseudoAtom.Name[jj].c_str(), FF.epsilon[ii * FF.size + jj], FF.sigma[ii * FF.size + jj], FF.shift[ii * FF.size + jj]);
+      if(ii <= jj) printf("ii: %zu, jj: %zu, Name_i: %s, Name_j: %s, ep: %.10f, sig: %.10f, shift: %.10f\n", ii,jj,Input.AtomFF[ii].Name.c_str(), Input.AtomFF[jj].Name.c_str(), Input.Mix_Epsilon[ii * FFsize + jj], Input.Mix_Sigma[ii * FFsize + jj], Input.Mix_Shift[ii * FFsize + jj]);
     }
   printf("----- END OF MIXED VDW PARAMETERS (WITH OVERWRITTEN TERMS) -----\n");
   OverWritefile.clear();
@@ -983,28 +959,22 @@ void OverWrite_Mixing_Rule(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
   OverWritefile.close();
 }
 
-void OverWriteTailCorrection(Components& SystemComponents, ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
+void OverWriteTailCorrection(Input_Container& Input)
 {
-  size_t FFsize = FF.size; 
   std::string scannedLine; std::string str;
   std::vector<std::string> termsScannedLined{};
   size_t counter = 0;
   size_t OverWriteSize = 0;
   size_t typeI; size_t typeJ;
-  std::vector<Tail>TempTail(FFsize * FFsize);
+  std::vector<Tail>& TempTail = Input.Mix_Tail;
+
   std::ifstream OverWritefile("force_field.def");
   std::filesystem::path pathfile = std::filesystem::path("force_field.def");
   if (!std::filesystem::exists(pathfile))
   {
     printf("Force Field OverWrite file not found\n");
-    SystemComponents.HasTailCorrection = false;
-    SystemComponents.TailCorrection = TempTail;
     return;
   }
-  else
-  { 
-    SystemComponents.HasTailCorrection = true;
-  } 
   printf("----------------FORCE FIELD OVERWRITTEN (TAIL CORRECTION) PARAMETERS----------------\n");
   while (std::getline(OverWritefile, str))
   { 
@@ -1020,21 +990,96 @@ void OverWriteTailCorrection(Components& SystemComponents, ForceField& FF, Pseud
       if(termsScannedLined.size() != 4) throw std::runtime_error("Tail Correction Overwrite need 4 terms for each entry! Check your force_field.def file!");
       if(termsScannedLined[3] == "yes") //Use Tail Correction or not//
       {
-        typeI = GetTypeForPseudoAtom(PseudoAtom, termsScannedLined[0]);
-        typeJ = GetTypeForPseudoAtom(PseudoAtom, termsScannedLined[1]);
-        PrepareTailCorrection(typeI, typeJ, TempTail, PseudoAtom, FF);
+        typeI = GetTypeFromFFName(Input, termsScannedLined[0]);
+        typeJ = GetTypeFromFFName(Input, termsScannedLined[1]);
+        PrepareTailCorrection(typeI, typeJ, Input.AtomFF.size(), TempTail, Input.Mix_Epsilon, Input.Mix_Sigma, Input.CutOffVDW);
       }
     }
     counter ++;    if(counter==3 + OverWriteSize) break; //in case there are extra empty rows, Zhao's note: I am skipping the mixing rule, assuming Lorentz-Berthelot
   }
   printf("------------------------------------------------------------------------------------\n");
   //Eliminate the terms that do not have tail corrections//
-  for(size_t i = 0; i < TempTail.size(); i++)
-    SystemComponents.TailCorrection.push_back(TempTail[i]);
   OverWritefile.close();
 }
 
-void read_movies_stats_print(Components& SystemComponents)
+//LJ, shift, and tail, General mixing rule//
+void ForceField_Processing(Input_Container& Input)
+{
+  size_t NumberOfDefinitions = Input.AtomFF.size();
+  //Re-initialize values//
+  Input.Mix_Epsilon = std::vector<double>();
+  Input.Mix_Sigma   = std::vector<double>();
+  Input.Mix_Shift   = std::vector<double>();
+  Input.Mix_Tail    = std::vector<Tail>(NumberOfDefinitions * NumberOfDefinitions);
+
+  //Do mixing rule (assuming Lorentz-Berthelot)
+  //Declare some temporary arrays
+  std::vector<int>Mix_Type; //Force Field Type (Zhao's note: assuming zero, which is Lennard-Jones)
+  double temp_ep = 0.0; double temp_sig = 0.0;
+  for(size_t i = 0; i < NumberOfDefinitions; i++)
+  {
+    for(size_t j = 0; j < NumberOfDefinitions; j++)
+    {
+      double eps_i = Input.AtomFF[i].epsilon;
+      double eps_j = Input.AtomFF[j].epsilon;
+      double sig_i = Input.AtomFF[i].sigma;
+      double sig_j = Input.AtomFF[j].sigma;
+      temp_ep = Mixing_Rule_Epsilon(eps_i, eps_j)/1.20272430057; //Zhao's note: caveat here: need to do full energy conversion
+      temp_sig= Mixing_rule_Sigma(sig_i, sig_j);
+      Input.Mix_Epsilon.push_back(temp_ep);
+      Input.Mix_Sigma.push_back(temp_sig);
+
+      if(Input.AtomFF[i].shift && Input.AtomFF[j].shift)
+      {
+        Input.Mix_Shift.push_back(Get_Shifted_Value(temp_ep, temp_sig, Input.CutOffVDW));
+      }
+      else
+      {
+        Input.Mix_Shift.push_back(0.0);
+      }
+      //If atom i needs tail correction OR atom j needs tail correction OR specifically interaction IJ needs it//
+      if(Input.AtomFF[i].tail && Input.AtomFF[j].tail)
+      {
+        PrepareTailCorrection(i, j, Input.AtomFF.size(), Input.Mix_Tail, Input.Mix_Epsilon, Input.Mix_Sigma, Input.CutOffVDW);
+      }
+      Input.Mix_Z.push_back(0.0);
+      Input.Mix_Type.push_back(0);
+    }
+  }
+  //For checking if mixing rule terms are correct//
+  printf("----- MIXED VDW PARAMETERS -----\n");
+  for(size_t i = 0; i < Input.Mix_Shift.size(); i++)
+  {
+    size_t ii = i/NumberOfDefinitions; size_t jj = i%NumberOfDefinitions;
+    if(ii <= jj) printf("i: %zu, ii: %zu, jj: %zu, Name_i: %s, Name_j: %s, ep: %.10f, sig: %.10f, shift: %.10f\n", i,ii,jj,Input.AtomFF[ii].Name.c_str(), Input.AtomFF[jj].Name.c_str(), Input.Mix_Epsilon[i], Input.Mix_Sigma[i], Input.Mix_Shift[i]);
+  }
+  printf("----- END OF MIXED VDW PARAMETERS -----\n");
+}
+
+void Copy_InputLoader_Data(Variables& Vars)
+{
+  Vars.FF.epsilon = convert1DVectortoArray(Vars.Input.Mix_Epsilon);
+  Vars.FF.sigma   = convert1DVectortoArray(Vars.Input.Mix_Sigma);
+  Vars.FF.z       = convert1DVectortoArray(Vars.Input.Mix_Z);
+  Vars.FF.shift   = convert1DVectortoArray(Vars.Input.Mix_Shift);
+  Vars.FF.FFType  = convert1DVectortoArray(Vars.Input.Mix_Type);
+  Vars.FF.size    = Vars.Input.AtomFF.size();
+
+  Vars.FF.noCharges   = Vars.Input.noCharges;
+  Vars.FF.CutOffVDW   = Vars.Input.CutOffVDW;
+  Vars.FF.CutOffCoul  = Vars.Input.CutOffCoul;
+  Vars.FF.VDWRealBias = Vars.Input.VDWRealBias;
+  Vars.FF.OverlapCriteria = Vars.Input.OverlapCriteria;
+  
+  //Copy Tail Corrections//
+  for(size_t j = 0; j < Vars.Input.Mix_Tail.size(); j++)
+    if(Vars.Input.Mix_Tail[j].UseTail) 
+      Vars.TempComponents.HasTailCorrection = true;
+  Vars.TempComponents.TailCorrection    = Vars.Input.Mix_Tail;
+}
+
+
+void read_movies_stats_print(Components& SystemComponents, size_t sim)
 {
   std::vector<std::string> termsScannedLined{};
   std::string str;
@@ -1052,20 +1097,45 @@ void read_movies_stats_print(Components& SystemComponents)
       Split_Tab_Space(termsScannedLined, str);
       sscanf(termsScannedLined[1].c_str(), "%zu", &SystemComponents.PrintStatsEvery);
     }
+    if (str.find("SaveOutputToFile", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      if(caseInSensStringCompare(termsScannedLined[1], "yes"))
+      {
+        std::filesystem::path cwd = std::filesystem::current_path();
+        std::filesystem::path directoryName = cwd / "Output/";
+        std::filesystem::create_directories(directoryName);
+        std::string FILENAME = directoryName.string() + "System_"+\
+                               std::to_string(sim) +"_"+\
+                               SystemComponents.MoleculeName[0] +"_"+\
+                               std::to_string(SystemComponents.NumberofUnitCells.x)+"_"+\
+                               std::to_string(SystemComponents.NumberofUnitCells.y)+"_"+\
+                               std::to_string(SystemComponents.NumberofUnitCells.z)+"_"+\
+                               std::to_string(SystemComponents.Temperature) + "_" +\
+                               std::to_string(SystemComponents.Pressure) + ".data";
+
+        SystemComponents.OUTPUT = fopen(FILENAME.c_str(), "w");
+        if(SystemComponents.OUTPUT == nullptr)
+        {
+          throw std::runtime_error("FAIL TO OPEN" + FILENAME + "\n");
+        }
+      }
+    }
   }
   printf("Writing Movies every %zu MC step(s) or cycle(s)\n", SystemComponents.MoviesEvery);
   printf("Printing Loadings and energies every %zu MC step(s) or cycle(s)\n", SystemComponents.PrintStatsEvery);
+  if(SystemComponents.OUTPUT != stderr) printf("Saving Output to File!\n");
   file.close();
 }
 
 
-void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
+void PseudoAtomParser(PseudoAtomDefinitions& PseudoAtom)
 {
   std::string scannedLine; std::string str;
   std::vector<std::string> termsScannedLined{};
   size_t counter = 0;
   std::ifstream PseudoAtomfile("pseudo_atoms.def");
-  size_t NumberOfPseudoAtoms = 0; 
+  size_t NumberOfPseudoAtoms = 0;
   // First read the pseudo atom file
   while (std::getline(PseudoAtomfile, str))
   {
@@ -1075,19 +1145,17 @@ void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
       sscanf(termsScannedLined[0].c_str(), "%zu", &NumberOfPseudoAtoms); printf("THERE ARE %zu PSEUDO ATOMS\n", NumberOfPseudoAtoms);
       if (NumberOfPseudoAtoms <= 0) throw std::runtime_error("Incorrect amount of pseudo-atoms");//DON'T DO TOO FEW
       if (NumberOfPseudoAtoms > 100) printf("You are using A LOT OF pseudo atom definitions. Do you need so many? Okay...\n");
-      if (NumberOfPseudoAtoms != FF.size) throw std::runtime_error("Number of VDW and pseudo-atom definitions don't match!"); 
     }
     else if(counter >= 3) // read data for each pseudo atom
     {
       Split_Tab_Space(termsScannedLined, str);
       if(termsScannedLined[0] != PseudoAtom.Name[counter-3]) throw std::runtime_error("Order of pseudo-atom and force field definition don't match!");
 
-      //Match 1-to-1 list of pseudo_atom type and symbol type//
       PseudoAtom.Symbol.push_back(termsScannedLined[2]);
-      size_t SymbolIdx = PseudoAtom.MatchUniqueSymbolTypeFromSymbolName(termsScannedLined[2]);
-      if(SymbolIdx >= PseudoAtom.UniqueSymbol.size()) PseudoAtom.UniqueSymbol.push_back(termsScannedLined[2]);
+      //size_t SymbolIdx = PseudoAtom.MatchUniqueSymbolTypeFromSymbolName(termsScannedLined[2]);
+      //if(SymbolIdx >= PseudoAtom.UniqueSymbol.size()) PseudoAtom.UniqueSymbol.push_back(termsScannedLined[2]);
 
-      PseudoAtom.SymbolIndex.push_back(SymbolIdx);
+      //PseudoAtom.SymbolIndex.push_back(SymbolIdx);
       PseudoAtom.oxidation.push_back(std::stod(termsScannedLined[4]));
       PseudoAtom.mass.push_back(std::stod(termsScannedLined[5]));
       PseudoAtom.charge.push_back(std::stod(termsScannedLined[6]));
@@ -1102,6 +1170,21 @@ void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom)
     printf("Name: %s, %.5f, %.5f, %.5f, %.5f\n", PseudoAtom.Name[i].c_str(), PseudoAtom.oxidation[i], PseudoAtom.mass[i], PseudoAtom.charge[i], PseudoAtom.polar[i]);
   printf("---------------------------------------------------\n");
   PseudoAtomfile.close();
+}
+
+void PseudoAtomProcessing(Variables& Vars)
+{
+  PseudoAtomDefinitions& PseudoAtom = Vars.PseudoAtoms;
+  size_t NumberOfPseudoAtoms = Vars.PseudoAtoms.Name.size();
+  if (NumberOfPseudoAtoms != Vars.FF.size) throw std::runtime_error("Number of VDW and pseudo-atom definitions don't match!");
+  for(size_t i = 0; i < NumberOfPseudoAtoms; i++)
+  {
+    //Match 1-to-1 list of pseudo_atom type and symbol type//
+    std::string& Symbol = PseudoAtom.Symbol[i];
+    size_t SymbolIdx = PseudoAtom.MatchUniqueSymbolTypeFromSymbolName(Symbol);
+    if(SymbolIdx >= PseudoAtom.UniqueSymbol.size()) PseudoAtom.UniqueSymbol.push_back(Symbol);
+    PseudoAtom.SymbolIndex.push_back(SymbolIdx);
+  }
 }
 
 void remove_number(std::string& s)
@@ -2006,7 +2089,7 @@ static inline void Read_TMMC_Initial(TMMC& tmmc, std::string& MolName)
   file.close();
 }
 
-void read_component_values_from_simulation_input(Components& SystemComponents, Move_Statistics& MoveStats, size_t AdsorbateComponent, Atoms& Mol, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space)
+void read_component_values_from_simulation_input(Variables& Vars, Components& SystemComponents, Move_Statistics& MoveStats, size_t AdsorbateComponent, Atoms& Mol, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space, size_t BoxIndex)
 {
   //adsorbate component start from zero, but in the code, framework is zero-th component
   //This function also calls MoleculeDefinitionParser//
@@ -2094,6 +2177,13 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
         MoveStats.SwapProb=std::stod(termsScannedLined[1]);
         //printf("SwapProb: %.5f, TotalProb: %.5f\n", SwapProb, TotalProb);
       }
+      if (str.find("GibbsParticleXferProbability", 0) != std::string::npos)
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        MoveStats.GibbsSwapProb=std::stod(termsScannedLined[1]);
+        //printf("GibbsParticleXferProbability: %.5f, TotalProb: %.5f\n", MoveStats.GibbsSwapProb, TotalProb);
+      }
+
       if (str.find("CBCFProbability", 0) != std::string::npos)
       {
         Split_Tab_Space(termsScannedLined, str);
@@ -2231,11 +2321,16 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
       if (str.find("CreateNumberOfMolecules", 0) != std::string::npos) // Number of Molecules to create
       {
         Split_Tab_Space(termsScannedLined, str); 
-        sscanf(termsScannedLined[1].c_str(), "%zu", &CreateMolecule);
+        sscanf(termsScannedLined[1 + BoxIndex].c_str(), "%zu", &CreateMolecule);
       }
     }
     counter++;
   }
+  MoveStats.GibbsVolumeMoveProb = Vars.GibbsStatistics.GibbsBoxProb;
+  if(MoveStats.GibbsVolumeMoveProb > 0.0 || MoveStats.GibbsSwapProb > 0.0)
+    Vars.GibbsStatistics.DoGibbs = true;
+  MoveStats.VolumeMoveProb = Vars.TempComponents.VolumeMoveProbability;
+
   MoveStats.NormalizeProbabilities();
   MoveStats.PrintProbabilities();
 
@@ -2327,6 +2422,9 @@ void read_component_values_from_simulation_input(Components& SystemComponents, M
   SystemComponents.Lambda.push_back(lambda);
   SystemComponents.Tmmc.push_back(temp_tmmc);
   SystemComponents.NumberOfCreateMolecules.push_back(CreateMolecule);
+  if(BoxIndex > 0) SystemComponents.NumberOfCreateMolecules[1] = CreateMolecule;
+  printf("CREATE MOL: box %zu, SystemComponents.NumberOfCreateMolecules size: %zu, creating %zu molecules\n", BoxIndex, SystemComponents.NumberOfCreateMolecules.size(), SystemComponents.NumberOfCreateMolecules[1]);
+
   //Finally, check if all values in SystemComponents are set properly//
   Check_Component_size(SystemComponents);
   //Initialize single values for Mol//
@@ -2664,7 +2762,9 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents)
       if (str.find("Components " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos) 
         start = counter;
       if (str.find("Maximum-rotation-change component " + std::to_string(i - SystemComponents.NComponents.y), 0) != std::string::npos)
-      {  break; }
+      {  
+        break; 
+      }
     }
     file.clear();
     file.seekg(0);

@@ -4,11 +4,11 @@ void Check_Inputs_In_read_data_cpp(std::string& exepath);
 
 void read_number_of_sims_from_input(size_t *NumSims, bool *SingleSim);
 
-void read_FFParams_from_input(ForceField& FF, double& precision);
+void read_FFParams_from_input(Input_Container& Input);
 
-void read_Gibbs_and_Cycle_Stats(Gibbs& GibbsStatistics, bool& SetMaxStep, size_t& MaxStepPerCycle);
+void read_Gibbs_and_Cycle_Stats(Variables& Vars, bool& SetMaxStep, size_t& MaxStepPerCycle);
 
-void read_simulation_input(bool *UseGPUReduction, bool *Useflag, bool *noCharges, int *InitializationCycles, int *EquilibrationCycles, int *ProductionCycles, size_t *NumberOfTrialPositions, size_t *NumberOfTrialOrientations, double *Pressure, double *Temperature, size_t *AllocateSize, bool *ReadRestart, int *RANDOMSEED, bool *SameFrameworkEverySimulation, int3& NumberOfComponents);
+void read_simulation_input(Variables& Vars, bool *ReadRestart, bool *SameFrameworkEverySimulation);
 
 void ReadFramework(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, size_t FrameworkIndex, Components& SystemComponents);
 
@@ -16,13 +16,18 @@ void ReadFrameworkComponentMoves(Move_Statistics& MoveStats, Components& SystemC
 
 //void POSCARParser(Boxsize& Box, Atoms& Framework, PseudoAtomDefinitions& PseudoAtom);
 
-void ForceFieldParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
+void ForceFieldParser(Input_Container& Input, PseudoAtomDefinitions& PseudoAtom);
+void ForceField_Processing(Input_Container& Input); //Processes LJ, shift, Tail//
+void Copy_InputLoader_Data(Variables& Vars);     //Copy LJ, shift, Tail from Input loader to data//
 
-void PseudoAtomParser(ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
+
+void PseudoAtomParser(PseudoAtomDefinitions& PseudoAtom);
+void PseudoAtomProcessing(Variables& Vars);
+
 
 void MoleculeDefinitionParser(Atoms& Mol, Components& SystemComponents, std::string MolName, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space);
 
-void read_component_values_from_simulation_input(Components& SystemComponents, Move_Statistics& MoveStats, size_t AdsorbateComponent, Atoms& Mol, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space);
+void read_component_values_from_simulation_input(Variables& Vars, Components& SystemComponents, Move_Statistics& MoveStats, size_t AdsorbateComponent, Atoms& Mol, PseudoAtomDefinitions PseudoAtom, size_t Allocate_space, size_t BoxIndex);
 
 void ReadRestartInputFileType(Components& SystemComponents);
 
@@ -32,11 +37,11 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents);
 
 void read_Ewald_Parameters_from_input(double CutOffCoul, Boxsize& Box, double precision);
 
-void OverWrite_Mixing_Rule(ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
+void OverWrite_Mixing_Rule(Input_Container& Input);
 
-void OverWriteTailCorrection(Components& SystemComponents, ForceField& FF, PseudoAtomDefinitions& PseudoAtom);
+void OverWriteTailCorrection(Input_Container& Input);
 
-void read_movies_stats_print(Components& SystemComponents);
+void read_movies_stats_print(Components& SystemComponents, size_t sim);
 
 std::vector<double2> ReadMinMax();
 void ReadDNNModelSetup(Components& SystemComponents);

@@ -14,7 +14,7 @@ double TotalTailCorrection(Components& SystemComponents, size_t FFsize, double V
         size_t Nj    = SystemComponents.NumberOfPseudoAtoms[j];
         double pairE = SystemComponents.TailCorrection[IJ_Forward].Energy * static_cast<double>(Ni * Nj); if(i != j) pairE *= 2.0;
         TailE       += pairE;
-        printf("i: %zu, j: %zu, Ni: %zu, Nj: %zu, E: %.5f\n", i,j,Ni,Nj, pairE / Volume);
+        //printf("i: %zu, j: %zu, Ni: %zu, Nj: %zu, E: %.5f\n", i,j,Ni,Nj, pairE / Volume);
       }
     }
   return TailE / Volume;
