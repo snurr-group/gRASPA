@@ -226,7 +226,6 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
     fprintf(SystemComponents.OUTPUT, "Component: %zu, Intra-Molecular ExclusionE: %.5f (%.5f kJ/mol)\n", l, exclusionE, exclusionE*1.2027242847);
   }
   SystemComponents.FrameworkEwald = E.HHEwaldE;
-
   /*
   if(ExcludeHostGuestEwald)
     E -= E.HHEwaldE;

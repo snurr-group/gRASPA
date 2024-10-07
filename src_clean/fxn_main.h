@@ -287,6 +287,14 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
     double EwStart = omp_get_wtime();
     CPU_GPU_EwaldTotalEnergy(Box, Sim.Box, System, Sim.d_a, FF, device_FF, SystemComponents, ENERGY);
     ENERGY.GGEwaldE -= SystemComponents.FrameworkEwald;
+    //Zhao's note: since many times the framework is held rigid (or has a large part rigid), for convenience (and for not confusing people), Host-Host Ewald E automatically ignores the initial value//
+    //This is be mentioned when reporting the total energy of the system//
+    //Record the initial framework ewald at the begining, then minus it from the HHEwaldE after that//
+    if(SIMULATIONSTAGE == INITIAL)
+    {
+      SystemComponents.InitialFrameworkEwald = ENERGY.HHEwaldE;
+    }
+    ENERGY.HHEwaldE -= SystemComponents.InitialFrameworkEwald;
     double EwEnd  = omp_get_wtime();
     fprintf(SystemComponents.OUTPUT, "Ewald Summation (total energy) on the CPU took %.5f secs\n", EwEnd - EwStart);
     //Zhao's note: if it is in the initial stage, calculate the intra and self exclusion energy for ewald summation//
@@ -341,6 +349,7 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
     {
       start = omp_get_wtime();
       GPU_Energy  += Ewald_TotalEnergy(Sim, SystemComponents, UseOffset);
+      GPU_Energy.HHEwaldE -= SystemComponents.InitialFrameworkEwald;
       end = omp_get_wtime();
       double GPUEwaldTime = end - start;
       fprintf(SystemComponents.OUTPUT, "Ewald Summation (total energy) on the GPU took %.5f secs\n", GPUEwaldTime);
@@ -430,7 +439,15 @@ inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units
   fprintf(SystemComponents.OUTPUT, "Real Coulomb [Host-Host]:   %.5f (%.5f [K])\n", E.HHReal, E.HHReal * Constants.energy_to_kelvin);
   fprintf(SystemComponents.OUTPUT, "Real Coulomb [Host-Guest]:  %.5f (%.5f [K])\n", E.HGReal, E.HGReal * Constants.energy_to_kelvin);
   fprintf(SystemComponents.OUTPUT, "Real Coulomb [Guest-Guest]: %.5f (%.5f [K])\n", E.GGReal, E.GGReal * Constants.energy_to_kelvin);
+  //double HHEwaldE_Net = (stage_name.find("STAGE") != std::string::npos) ? E.HHEwaldE - SystemComponents.InitialFrameworkEwald : E.HHEwaldE;
   fprintf(SystemComponents.OUTPUT, "Ewald [Host-Host]:          %.5f (%.5f [K])\n", E.HHEwaldE, E.HHEwaldE * Constants.energy_to_kelvin);
+  //Zhao's note: Minus initial framework Ewald E (usually the intra-molecular + self-correction of the framework component zero) //
+  if(stage_name == "INITIAL STAGE" || stage_name == "CREATE MOLECULE STAGE" || stage_name == "FINAL STAGE")
+  {
+    double HHEwaldE_include_frameworkzero = E.HHEwaldE + SystemComponents.InitialFrameworkEwald;
+    fprintf(SystemComponents.OUTPUT, " --> Total Ewald [Host-Host]:\n      %.5f (%.5f [K])\n", HHEwaldE_include_frameworkzero, HHEwaldE_include_frameworkzero * Constants.energy_to_kelvin);
+    fprintf(SystemComponents.OUTPUT, " --> Initial Ewald [Host-Host] (excluded):\n      %.5f (%.5f [K])\n", SystemComponents.InitialFrameworkEwald, SystemComponents.InitialFrameworkEwald * Constants.energy_to_kelvin);
+  } 
   fprintf(SystemComponents.OUTPUT, "Ewald [Host-Guest]:         %.5f (%.5f [K])\n", E.HGEwaldE, E.HGEwaldE * Constants.energy_to_kelvin);
   fprintf(SystemComponents.OUTPUT, "Ewald [Guest-Guest]:        %.5f (%.5f [K])\n", E.GGEwaldE, E.GGEwaldE * Constants.energy_to_kelvin);
   fprintf(SystemComponents.OUTPUT, "DNN Energy:                 %.5f (%.5f [K])\n", E.DNN_E, E.DNN_E * Constants.energy_to_kelvin);

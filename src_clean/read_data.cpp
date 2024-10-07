@@ -503,7 +503,7 @@ void read_FFParams_from_input(Input_Container& Input)
         Input.VDWRealBias = false;
       }
     }
-    if (str.find("Component", 0) != std::string::npos) //When it reads component, skip//
+    if (str.find("Component ", 0) != std::string::npos) //When it reads component, skip//
       break;
   }
   //read FF array
