@@ -23,7 +23,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
   {
     numberOfAtoms  += SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
   }
-  //size_t numberOfWaveVectors = (kx_max + 1) * (2 * ky_max + 1) * (2 * kz_max + 1);
+  //size_t numberOfStructureFactors = (kx_max + 1) * (2 * ky_max + 1) * (2 * kz_max + 1);
   //Zhao's note: if starting with an empty box, numberOfAtoms = 0, but to allocate space on the GPU, you cannot do zero space for an array//
   //Here, we use 2 * adsorbate_size, since this is the max size gonna be used in the Monte Carlo steps//
   size_t eik_atomsize = 0;
@@ -35,9 +35,9 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
   std::vector<std::complex<double>>eik_y(eik_atomsize * (ky_max + 1));
   std::vector<std::complex<double>>eik_z(eik_atomsize * (kz_max + 1));
   std::vector<std::complex<double>>eik_xy(eik_atomsize);
-  size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-  std::vector<std::complex<double>>AdsorbateEik(numberOfWaveVectors);
-  std::vector<std::complex<double>>FrameworkEik(numberOfWaveVectors);
+  size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+  std::vector<std::complex<double>>AdsorbateEik(numberOfStructureFactors);
+  std::vector<std::complex<double>>FrameworkEik(numberOfStructureFactors);
   // Construct exp(ik.r) for atoms and k-vectors kx, ky, kz = 0, 1 explicitly
   size_t count=0;
   for(size_t comp=0; comp < SystemComponents.NComponents.x; comp++)
@@ -297,43 +297,43 @@ double Calculate_Self_Exclusion(Boxsize& Box, Atoms* System, double alpha, doubl
   return E;
 }
 
-void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents)
+void Check_StructureFactor_CPUGPU(Boxsize& Box, Components& SystemComponents)
 {
-  fprintf(SystemComponents.OUTPUT, " ****** CHECKING WaveVectors Stored on CPU vs. GPU ****** \n");
-  size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-  Complex GPUWV[numberOfWaveVectors];
-  cudaMemcpy(GPUWV, Box.AdsorbateEik, numberOfWaveVectors * sizeof(Complex), cudaMemcpyDeviceToHost);
+  fprintf(SystemComponents.OUTPUT, " ****** CHECKING StructureFactors (SF) Stored on CPU vs. GPU ****** \n");
+  size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+  Complex GPUSF[numberOfStructureFactors];
+  cudaMemcpy(GPUSF, Box.AdsorbateEik, numberOfStructureFactors * sizeof(Complex), cudaMemcpyDeviceToHost);
 
-  fprintf(SystemComponents.OUTPUT, "CPU WV: %zu, GPU WV: %zu\n", SystemComponents.AdsorbateEik.size(), numberOfWaveVectors);
+  fprintf(SystemComponents.OUTPUT, "CPU SF: %zu, GPU SF: %zu\n", SystemComponents.AdsorbateEik.size(), numberOfStructureFactors);
 
   cudaError_t err = cudaGetLastError();
   if( cudaSuccess != err)
   {
-    printf("CUDA Error: %s: %s.\n", "ERROR COMPARING GPU vs. CPU WaveVectors\n", cudaGetErrorString(err));
+    printf("CUDA Error: %s: %s.\n", "ERROR COMPARING GPU vs. CPU StructureFactors\n", cudaGetErrorString(err));
     exit(EXIT_FAILURE);
   }
 
-  size_t numWVCPU            = SystemComponents.AdsorbateEik.size();
-  if(numberOfWaveVectors != numWVCPU) fprintf(SystemComponents.OUTPUT, "ERROR: Number of CPU WaveVectors does NOT EQUAL to the GPU one!!!");
+  size_t numSFCPU            = SystemComponents.AdsorbateEik.size();
+  if(numberOfStructureFactors != numSFCPU) fprintf(SystemComponents.OUTPUT, "ERROR: Number of CPU StructureFactors does NOT EQUAL to the GPU one!!!");
   size_t counter = 0;
-  for(size_t i = 0; i < numberOfWaveVectors; i++)
+  for(size_t i = 0; i < numberOfStructureFactors; i++)
   {
-    double diff_real = abs(SystemComponents.AdsorbateEik[i].real() - GPUWV[i].real);
-    double diff_imag = abs(SystemComponents.AdsorbateEik[i].imag() - GPUWV[i].imag);
+    double diff_real = abs(SystemComponents.AdsorbateEik[i].real() - GPUSF[i].real);
+    double diff_imag = abs(SystemComponents.AdsorbateEik[i].imag() - GPUSF[i].imag);
     if(i < 10)
-      fprintf(SystemComponents.OUTPUT, "Wave Vector %zu, CPU: %.5f %.5f, GPU: %.5f %.5f\n", i, SystemComponents.AdsorbateEik[i].real(), SystemComponents.AdsorbateEik[i].imag(), GPUWV[i].real, GPUWV[i].imag);
+      fprintf(SystemComponents.OUTPUT, "StructureFactor %zu, CPU: %.5f %.5f, GPU: %.5f %.5f\n", i, SystemComponents.AdsorbateEik[i].real(), SystemComponents.AdsorbateEik[i].imag(), GPUSF[i].real, GPUSF[i].imag);
     if(diff_real > 1e-10 || diff_imag > 1e-10)
     {
       counter++;
-      if(counter < 10) fprintf(SystemComponents.OUTPUT, "There is a difference in GPU/CPU WaveVector at position %zu: CPU: %.5f %.5f, GPU: %.5f %.5f\n", i, SystemComponents.AdsorbateEik[i].real(), SystemComponents.AdsorbateEik[i].imag(), GPUWV[i].real, GPUWV[i].imag);
+      if(counter < 10) fprintf(SystemComponents.OUTPUT, "There is a difference in GPU/CPU StructureFactor at position %zu: CPU: %.5f %.5f, GPU: %.5f %.5f\n", i, SystemComponents.AdsorbateEik[i].real(), SystemComponents.AdsorbateEik[i].imag(), GPUSF[i].real, GPUSF[i].imag);
     }
   }
-  if(counter >= 10) fprintf(SystemComponents.OUTPUT, "More than 10 WaveVectors mismatch.\n");
+  if(counter >= 10) fprintf(SystemComponents.OUTPUT, "More than 10 StructureFactors mismatch.\n");
   //Also check Framework Eik vectors//
-  fprintf(SystemComponents.OUTPUT, " ****** CHECKING Framework WaveVectors Stored on CPU ****** \n");
-  for(size_t i = 0; i < numberOfWaveVectors; i++)
+  fprintf(SystemComponents.OUTPUT, " ****** CHECKING Framework StructureFactors Stored on CPU ****** \n");
+  for(size_t i = 0; i < numberOfStructureFactors; i++)
   {
-    if(i < 10) fprintf(SystemComponents.OUTPUT, "Framework Wave Vector %zu, real: %.5f imag: %.5f\n", i, SystemComponents.FrameworkEik[i].real(), SystemComponents.FrameworkEik[i].imag());
+    if(i < 10) fprintf(SystemComponents.OUTPUT, "Framework Structure Factor %zu, real: %.5f imag: %.5f\n", i, SystemComponents.FrameworkEik[i].real(), SystemComponents.FrameworkEik[i].imag());
   }
 }
 
