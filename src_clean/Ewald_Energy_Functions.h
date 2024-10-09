@@ -94,7 +94,7 @@ __device__ void Initialize_Vectors(Boxsize Box, size_t Oldsize, size_t Newsize, 
   }
 }
 
-__global__ void Initialize_EwaldVector_General(Boxsize Box, int3 kmax, Atoms* d_a, Atoms New, Atoms Old, size_t Oldsize, size_t Newsize, size_t SelectedComponent, size_t Location, size_t chainsize, size_t numberOfAtoms, int MoveType)
+__global__ void Initialize_WaveVector_General(Boxsize Box, int3 kmax, Atoms* d_a, Atoms New, Atoms Old, size_t Oldsize, size_t Newsize, size_t SelectedComponent, size_t Location, size_t chainsize, size_t numberOfAtoms, int MoveType)
 {
   //Zhao's note: need to think about changing this boolean to switch//
   if(MoveType == TRANSLATION || MoveType == ROTATION || MoveType == SPECIAL_ROTATION || MoveType == SINGLE_INSERTION || MoveType == SINGLE_DELETION) // Translation/Rotation/single_insertion/single_deletion //
@@ -133,12 +133,12 @@ __global__ void Initialize_EwaldVector_General(Boxsize Box, int3 kmax, Atoms* d_
   Initialize_Vectors(Box, Oldsize, Newsize, Old, numberOfAtoms, kmax);
 }
 
-__global__ void Initialize_EwaldVector_LambdaChange(Boxsize Box, int3 kmax, Atoms* d_a, Atoms Old, size_t Oldsize, double2 newScale)
+__global__ void Initialize_WaveVector_LambdaChange(Boxsize Box, int3 kmax, Atoms* d_a, Atoms Old, size_t Oldsize, double2 newScale)
 {
   Initialize_Vectors(Box, Oldsize, 0, Old, Oldsize, kmax);
 }
 
-__global__ void Initialize_EwaldVector_Reinsertion(Boxsize Box, int3 kmax, double3* temp, Atoms* d_a, Atoms Old, size_t Oldsize, size_t Newsize, size_t realpos, size_t numberOfAtoms, size_t SelectedComponent)
+__global__ void Initialize_WaveVector_Reinsertion(Boxsize Box, int3 kmax, double3* temp, Atoms* d_a, Atoms Old, size_t Oldsize, size_t Newsize, size_t realpos, size_t numberOfAtoms, size_t SelectedComponent)
 {
   for(size_t i = 0; i < Oldsize; i++)
   {
@@ -158,7 +158,7 @@ __global__ void Initialize_EwaldVector_Reinsertion(Boxsize Box, int3 kmax, doubl
   Initialize_Vectors(Box, Oldsize, Newsize, Old, numberOfAtoms, kmax);
 }
 
-__global__ void Initialize_EwaldVector_IdentitySwap(Boxsize Box, int3 kmax, double3* temp, Atoms* d_a, Atoms Old, size_t Oldsize, size_t Newsize, size_t realpos, size_t numberOfAtoms, size_t OLDComponent, size_t NEWComponent)
+__global__ void Initialize_WaveVector_IdentitySwap(Boxsize Box, int3 kmax, double3* temp, Atoms* d_a, Atoms Old, size_t Oldsize, size_t Newsize, size_t realpos, size_t numberOfAtoms, size_t OLDComponent, size_t NEWComponent)
 {
   for(size_t i = 0; i < Oldsize; i++)
   {
@@ -179,7 +179,7 @@ __global__ void Initialize_EwaldVector_IdentitySwap(Boxsize Box, int3 kmax, doub
   Initialize_Vectors(Box, Oldsize, Newsize, Old, numberOfAtoms, kmax);
 }
 
-__global__ void JustStore_Ewald(Boxsize Box, size_t nvec)
+__global__ void JustStore_StructureFactor_Ewald(Boxsize Box, size_t nvec)
 {
   size_t i         = blockIdx.x * blockDim.x + threadIdx.x;
   if(i < nvec) Box.tempEik[i] = Box.AdsorbateEik[i];
@@ -310,9 +310,9 @@ __global__ void Fourier_Ewald_Diff(Boxsize Box, Complex* SameTypeEik, Complex* C
 
 void Skip_Ewald(Boxsize& Box)
 {
-  size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
-  JustStore_Ewald<<<Nblock, Nthread>>>(Box, numberOfWaveVectors);
+  size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfStructureFactors, &Nblock, &Nthread);
+  JustStore_StructureFactor_Ewald<<<Nblock, Nthread>>>(Box, numberOfStructureFactors);
 }
 
 void Copy_Ewald_Vector(Simulations& Sim)
@@ -327,17 +327,17 @@ void Copy_Ewald_Vector(Simulations& Sim)
   Sim.Box.FrameworkEik = tempFramework;
 }
 
-__global__ void Update_Ewald_Stored(Complex* Eik, Complex* Temp_Eik, size_t nvec)
+__global__ void Update_StructureFactor_Stored(Complex* Eik, Complex* Temp_Eik, size_t nvec)
 {
   size_t i         = blockIdx.x * blockDim.x + threadIdx.x;
   if(i < nvec) Eik[i] = Temp_Eik[i];
 }
-void Update_Ewald_Vector(Boxsize& Box, bool CPU, Components& SystemComponents, size_t SelectedComponent)
+void Update_Vector_Ewald(Boxsize& Box, bool CPU, Components& SystemComponents, size_t SelectedComponent)
 {
   //else    //Update on the GPU//
   //{
-    size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-    size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
+    size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+    size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfStructureFactors, &Nblock, &Nthread);
     Complex* Stored_Eik;
     if(SelectedComponent < SystemComponents.NComponents.y)
     {
@@ -347,7 +347,7 @@ void Update_Ewald_Vector(Boxsize& Box, bool CPU, Components& SystemComponents, s
     {
       Stored_Eik = Box.AdsorbateEik;
     }
-    Update_Ewald_Stored<<<Nblock, Nthread>>>(Stored_Eik, Box.tempEik, numberOfWaveVectors);
+    Update_StructureFactor_Stored<<<Nblock, Nthread>>>(Stored_Eik, Box.tempEik, numberOfStructureFactors);
   //}
 }
 
@@ -435,11 +435,11 @@ double2 GPU_EwaldDifference_General(Boxsize& Box, Atoms*& d_a, Atoms& New, Atoms
   }
   size_t numberOfAtoms = Oldsize + Newsize;
 
-  Initialize_EwaldVector_General<<<1,1>>>(Box, Box.kmax, d_a, New, Old, Oldsize, Newsize, SelectedComponent, Location, chainsize, numberOfAtoms, MoveType); checkCUDAErrorEwald("error Initializing Ewald Vectors");
+  Initialize_WaveVector_General<<<1,1>>>(Box, Box.kmax, d_a, New, Old, Oldsize, Newsize, SelectedComponent, Location, chainsize, numberOfAtoms, MoveType); checkCUDAErrorEwald("error Initializing Ewald Vectors");
 
   //Fourier Loop//
-  size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
+  size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfStructureFactors, &Nblock, &Nthread);
 
   //If we separate Host-Guest from Guest-Guest, we can double the Nblock, so the first half does Guest-Guest, and the second half does Host-Guest//
   Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, UseTempVector, Nblock);
@@ -502,11 +502,11 @@ double2 GPU_EwaldDifference_Reinsertion(Boxsize& Box, Atoms*& d_a, Atoms& Old, d
   Complex* SameType = Box.AdsorbateEik; Complex* CrossType = Box.FrameworkEik;
 
   // Construct exp(ik.r) for atoms and k-vectors kx, ky, kz = 0, 1 explicitly
-  Initialize_EwaldVector_Reinsertion<<<1,1>>>(Box, Box.kmax, temp, d_a, Old, Oldsize, Newsize, UpdateLocation, numberOfAtoms, SelectedComponent);
+  Initialize_WaveVector_Reinsertion<<<1,1>>>(Box, Box.kmax, temp, d_a, Old, Oldsize, Newsize, UpdateLocation, numberOfAtoms, SelectedComponent);
 
   //Fourier Loop//
-  size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
+  size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfStructureFactors, &Nblock, &Nthread);
   Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, false, Nblock);
   double sum[Nblock * 2]; double SameSum = 0.0;  double CrossSum = 0.0;
   cudaMemcpy(sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
@@ -536,12 +536,12 @@ double2 GPU_EwaldDifference_IdentitySwap(Boxsize& Box, Atoms*& d_a, Atoms& Old, 
   numberOfAtoms = Oldsize + Newsize;
 
   // Construct exp(ik.r) for atoms and k-vectors kx, ky, kz = 0, 1 explicitly
-  Initialize_EwaldVector_IdentitySwap<<<1,1>>>(Box, Box.kmax, temp, d_a, Old, Oldsize, Newsize, UpdateLocation, numberOfAtoms, OLDComponent, NEWComponent);
+  Initialize_WaveVector_IdentitySwap<<<1,1>>>(Box, Box.kmax, temp, d_a, Old, Oldsize, Newsize, UpdateLocation, numberOfAtoms, OLDComponent, NEWComponent);
 
   Complex* SameType = Box.AdsorbateEik; Complex* CrossType = Box.FrameworkEik;
   //Fourier Loop//
-  size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
+  size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfStructureFactors, &Nblock, &Nthread);
   Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, false, Nblock);
   double sum[Nblock * 2]; double SameSum = 0.0;  double CrossSum = 0.0;
   cudaMemcpy(sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
@@ -698,11 +698,11 @@ double2 GPU_EwaldDifference_LambdaChange(Boxsize& Box, Atoms*& d_a, Atoms& Old, 
     UseTempVector = true;
   }
   // Construct exp(ik.r) for atoms and k-vectors kx, ky, kz = 0, 1 explicitly
-  Initialize_EwaldVector_LambdaChange<<<1,1>>>(Box, Box.kmax, d_a, Old, Oldsize, newScale);
+  Initialize_WaveVector_LambdaChange<<<1,1>>>(Box, Box.kmax, d_a, Old, Oldsize, newScale);
 
   //Fourier Loop//
-  size_t numberOfWaveVectors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfWaveVectors, &Nblock, &Nthread);
+  size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
+  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfStructureFactors, &Nblock, &Nthread);
 
   Complex* SameType = Box.AdsorbateEik;
   Complex* CrossType= Box.FrameworkEik;
@@ -721,7 +721,7 @@ double2 GPU_EwaldDifference_LambdaChange(Boxsize& Box, Atoms*& d_a, Atoms& Old, 
   return {SameSum, 2.0 * CrossSum};
 }
 
-__global__ void Setup_Ewald_Vector(Boxsize Box, Complex* eik_x, Complex* eik_y, Complex* eik_z, Atoms* System, size_t numberOfAtoms, size_t NumberOfComponents, bool UseOffSet)
+__global__ void Setup_Wave_Vector_Ewald(Boxsize Box, Complex* eik_x, Complex* eik_y, Complex* eik_z, Atoms* System, size_t numberOfAtoms, size_t NumberOfComponents, bool UseOffSet)
 {
   // Construct exp(ik.r) for atoms and k-vectors kx, ky, kz = 0, 1 explicitly
   //determine the component for i
@@ -776,7 +776,7 @@ __global__ void Setup_Ewald_Vector(Boxsize Box, Complex* eik_x, Complex* eik_y, 
 
 //Zhao's note: Idea was that every block considers a grid point for Ewald (a set of kxyz)//
 //So the number of atoms each thread needs to consider = TotalAtoms / Nthreads per block (usually 128)//
-__global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* eik_x, Complex* eik_y, Complex* eik_z, Complex* FrameworkEik, Complex* Eik, size_t totAtom, int2 NAtomPerThread, int2 residueAtoms, int2 HostGuestthreads, int3 NComponents, size_t Nblock)
+__global__ void TotalFourierEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* eik_x, Complex* eik_y, Complex* eik_z, Complex* FrameworkEik, Complex* Eik, size_t totAtom, int2 NAtomPerThread, int2 residueAtoms, int2 HostGuestthreads, int3 NComponents, size_t Nblock)
 {
   __shared__ double3 sdata[256]; //maybe just need Complex//
   //DEBUG
@@ -986,7 +986,7 @@ __global__ void TotalEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Complex* e
   }
 }
 
-__global__ void TotalEwald_CalculateEnergy(Boxsize Box, Complex* FrameworkEik, Complex* Eik, double* BlockSum, size_t kpoints, size_t kpoint_per_thread, size_t Nblocks)
+__global__ void TotalFourierEwald_CalculateEnergy(Boxsize Box, Complex* FrameworkEik, Complex* Eik, double* BlockSum, size_t kpoints, size_t kpoint_per_thread, size_t Nblocks)
 {
   __shared__ double sdata[];
   size_t threadID = blockIdx.x * blockDim.x + threadIdx.x;
@@ -1251,7 +1251,7 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
     Complex* eikx; cudaMalloc(&eikx, NTotalAtom * (Box.kmax.x + 1) * sizeof(Complex));
     Complex* eiky; cudaMalloc(&eiky, NTotalAtom * (Box.kmax.y + 1) * sizeof(Complex));
     Complex* eikz; cudaMalloc(&eikz, NTotalAtom * (Box.kmax.z + 1) * sizeof(Complex));
-    Setup_Ewald_Vector<<<Nblock, Nthread>>>(Box, eikx, eiky, eikz, d_a, NTotalAtom, SystemComponents.NComponents.x, UseOffSet);
+    Setup_Wave_Vector_Ewald<<<Nblock, Nthread>>>(Box, eikx, eiky, eikz, d_a, NTotalAtom, SystemComponents.NComponents.x, UseOffSet);
 
     /*
     Complex* host_eikx; Complex* host_eiky; Complex* host_eikz;
@@ -1294,8 +1294,8 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
     */
     Nthread= 128;
 
-    //TotalEwald<<<Nblock, Nthread, Nthread * sizeof(double)>>>(d_a, Box, Sim.Blocksum, eikx, eiky, eikz, Box.tempFrameworkEik, Box.tempEik, NTotalAtom, NAtomPerThread, residueAtoms, NHostGuestthread, SystemComponents.NComponents, Nblock);
-    TotalEwald<<<Nblock, Nthread>>>(d_a, Box, Sim.Blocksum, eikx, eiky, eikz, Box.tempFrameworkEik, Box.tempEik, NTotalAtom, NAtomPerThread, residueAtoms, NHostGuestthread, SystemComponents.NComponents, Nblock);
+    //TotalFourierEwald<<<Nblock, Nthread, Nthread * sizeof(double)>>>(d_a, Box, Sim.Blocksum, eikx, eiky, eikz, Box.tempFrameworkEik, Box.tempEik, NTotalAtom, NAtomPerThread, residueAtoms, NHostGuestthread, SystemComponents.NComponents, Nblock);
+    TotalFourierEwald<<<Nblock, Nthread>>>(d_a, Box, Sim.Blocksum, eikx, eiky, eikz, Box.tempFrameworkEik, Box.tempEik, NTotalAtom, NAtomPerThread, residueAtoms, NHostGuestthread, SystemComponents.NComponents, Nblock);
     checkCUDAErrorEwald("Error in Total Ewald Summation\n");
     cudaFree(eikx); cudaFree(eiky); cudaFree(eikz);
    
@@ -1313,7 +1313,7 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
       COUNT++;
     }
     //printf("Sim.Nblocks: %zu, total kpoints: %zu, CUDAblock: %zu, each thread do %zu kpoints\n", Sim.Nblocks, Nblock, NCudaBlock, kpoint_per_thread);
-    TotalEwald_CalculateEnergy<<<NCudaBlock, 128, 128*3*sizeof(double)>>>(Box, Box.tempFrameworkEik, Box.tempEik, Sim.Blocksum, Nblock, kpoint_per_thread, NCudaBlock);
+    TotalFourierEwald_CalculateEnergy<<<NCudaBlock, 128, 128*3*sizeof(double)>>>(Box, Box.tempFrameworkEik, Box.tempEik, Sim.Blocksum, Nblock, kpoint_per_thread, NCudaBlock);
     checkCUDAErrorEwald("Error in summing the energies of fourier part\n");
 
     double HostTotEwald[NCudaBlock*3]; //HH + HG + GG//
