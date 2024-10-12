@@ -275,7 +275,7 @@ static inline void AcceptInsertion(Components& SystemComponents, Simulations& Si
   Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, INSERTION); //true = Insertion//
   if(!noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
   {
-    Update_Ewald_Vector(Sims.Box, false, SystemComponents, SelectedComponent);
+    Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
   }
 }
 
@@ -288,7 +288,7 @@ static inline void AcceptDeletion(Components& SystemComponents, Simulations& Sim
   Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, DELETION); //false = Deletion//
   if(!noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
   {
-    Update_Ewald_Vector(Sims.Box, false, SystemComponents, SelectedComponent);
+    Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
   }
   //Zhao's note: the last molecule can be the fractional molecule, (fractional molecule ID is stored on the host), we need to update it as well (at least check it)//
   //The function below will only be processed if the system has a fractional molecule and the transfered molecule is NOT the fractional one //
