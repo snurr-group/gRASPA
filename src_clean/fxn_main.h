@@ -205,7 +205,7 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
 
 inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components& SystemComponents)
 {
-  fprintf(SystemComponents.OUTPUT, "******   Allocating Ewald WaveVectors (INITIAL STAGE ONLY)   ******\n");
+  fprintf(SystemComponents.OUTPUT, "******   Allocating Ewald WaveVectors + StructureFactors (INITIAL STAGE ONLY)   ******\n");
   //Zhao's note: This only works if the box size is not changed, eik_xy might not be useful if box size is not changed//
   size_t eikx_size     = SystemComponents.eik_x.size() * 2;
   size_t eiky_size     = SystemComponents.eik_y.size() * 2; //added times 2 for box volume move//
@@ -243,11 +243,11 @@ inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components& SystemCo
       AdsorbateEik[i].real    = 0.0; AdsorbateEik[i].imag    = 0.0;
       FrameworkEik[i].real = 0.0; FrameworkEik[i].imag = 0.0;
     }
-    if(i < 10) fprintf(SystemComponents.OUTPUT, "Wave Vector %zu is %.5f %.5f\n", i, AdsorbateEik[i].real, AdsorbateEik[i].imag);
+    if(i < 10) fprintf(SystemComponents.OUTPUT, "Structure Factor %zu is %.5f %.5f\n", i, AdsorbateEik[i].real, AdsorbateEik[i].imag);
   }
   cudaMemcpy(device_Box.AdsorbateEik,    AdsorbateEik,    AdsorbateEiksize * sizeof(Complex), cudaMemcpyHostToDevice); checkCUDAError("error copying Complex");
   cudaMemcpy(device_Box.FrameworkEik, FrameworkEik, AdsorbateEiksize * sizeof(Complex), cudaMemcpyHostToDevice); checkCUDAError("error copying Complex");
-  fprintf(SystemComponents.OUTPUT, "****** DONE Allocating Ewald WaveVectors (INITIAL STAGE ONLY) ******\n");
+  fprintf(SystemComponents.OUTPUT, "****** DONE Allocating Ewald WaveVectors + StructureFactors(INITIAL STAGE ONLY) ******\n");
 }
 
 inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, ForceField device_FF, Components& SystemComponents, int SIMULATIONSTAGE, size_t Numsim, Simulations& Sim, bool UseGPU)
@@ -303,7 +303,7 @@ inline void Check_Simulation_Energy(Boxsize& Box, Atoms* System, ForceField FF, 
     cudaDeviceSynchronize();
     //Zhao's note: if doing initial energy, initialize and copy host Ewald to device// 
     if(SIMULATIONSTAGE == INITIAL) Allocate_Copy_Ewald_Vector(Sim.Box, SystemComponents);
-    Check_WaveVector_CPUGPU(Sim.Box, SystemComponents); //Check WaveVector on the CPU and GPU//
+    Check_StructureFactor_CPUGPU(Sim.Box, SystemComponents); //Check StructureFactor on the CPU and GPU//
     cudaDeviceSynchronize();
   }
   //Calculate Tail Correction Energy//

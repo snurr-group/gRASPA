@@ -326,7 +326,7 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
   size_t HGGG_Nblock  = HG_Nblock + GG_Nblock;
   if(Atomsize != 0)
   {
-    Calculate_Multiple_Trial_Energy_SEPARATE_HostGuest_VDWReal<<<HGGG_Nblock * NumberOfTrials, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Sims.device_flag, threadsNeeded,1, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG)");
+    Calculate_Multiple_Trial_Energy_VDWReal<<<HGGG_Nblock * NumberOfTrials, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Sims.device_flag, threadsNeeded,1, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG)");
     cudaMemcpy(SystemComponents.flag, Sims.device_flag, NumberOfTrials*sizeof(bool), cudaMemcpyDeviceToHost);
   }
   //printf("OldNBlock: %zu, HG_Nblock: %zu, GG_Nblock: %zu, HGGG_Nblock: %zu\n", Nblock, HG_Nblock, GG_Nblock, HGGG_Nblock);
@@ -458,7 +458,7 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
   //Setup calculation for separated HG + GG interactions//
   if(Atomsize != 0)
   {
-    Calculate_Multiple_Trial_Energy_SEPARATE_HostGuest_VDWReal<<<HGGG_Nblock * Widom.NumberWidomTrialsOrientations, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Sims.device_flag, threadsNeeded, chainsize, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG Orientation)");
+    Calculate_Multiple_Trial_Energy_VDWReal<<<HGGG_Nblock * Widom.NumberWidomTrialsOrientations, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Sims.device_flag, threadsNeeded, chainsize, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG Orientation)");
 
     cudaMemcpy(SystemComponents.flag, Sims.device_flag, Widom.NumberWidomTrialsOrientations*sizeof(bool), cudaMemcpyDeviceToHost);
   }

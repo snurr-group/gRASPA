@@ -99,7 +99,7 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
   //printf("NHostAtom: %zu, HH_Nblock: %zu, HG_Nblock: %zu, NGuestAtom: %zu, GG_Nblock: %zu\n", NHostAtom, HH_Nblock, HG_Nblock, NGuestAtom, GG_Nblock);
   if(Atomsize != 0)
   {
-    Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents);
+    Calculate_Single_Body_Energy_VDWReal<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents);
 
     cudaMemcpy(SystemComponents.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
   }
@@ -212,7 +212,7 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
         SystemComponents.Moves[SelectedComponent].Record_Move_Accept(MoveType);
         if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
         {
-          Update_Ewald_Vector(Sims.Box, false, SystemComponents, SelectedComponent);
+          Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
         }
       }
       else {tot.zero(); };

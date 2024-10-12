@@ -134,7 +134,7 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
     Update_Reinsertion_data<<<1,SystemComponents.Moleculesize[SelectedComponent]>>>(Sims.d_a, temp, SelectedComponent, UpdateLocation); checkCUDAError("error Updating Reinsertion data");
     cudaFree(temp); 
     if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent]) 
-      Update_Ewald_Vector(Sims.Box, false, SystemComponents, SelectedComponent);
+      Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
     SystemComponents.Tmmc[SelectedComponent].Update(1.0, NMol, REINSERTION); //Update for TMMC, since Macrostate not changed, just add 1.//
     //energy.print();
     return energy;
@@ -186,7 +186,7 @@ static inline MoveEnergy CreateMolecule(Components& SystemComponents, Simulation
     Update_insertion_data<<<1,1>>>(Sims.d_a, Sims.Old, Sims.New, SelectedTrial, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent]);
     if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
     {
-      Update_Ewald_Vector(Sims.Box, false, SystemComponents, SelectedComponent);
+      Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
     }
     Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, INSERTION);
     return energy;
@@ -612,7 +612,7 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
     cudaFree(temp);
     //Zhao's note: BUG!!!!, Think about if OLD/NEW Component belong to different type (framework/adsorbate)//
     if(!FF.noCharges && ((SystemComponents.hasPartialCharge[NEWComponent]) ||(SystemComponents.hasPartialCharge[OLDComponent])))
-      Update_Ewald_Vector(Sims.Box, false, SystemComponents, NEWComponent);
+      Update_Vector_Ewald(Sims.Box, false, SystemComponents, NEWComponent);
     //energy.print();
     return energy;
   }

@@ -60,7 +60,7 @@ static inline MoveEnergy CBCF_LambdaChange(Components& SystemComponents, Simulat
   int3 NBlocks = {(int) HH_Nblock, (int) HG_Nblock, (int) GG_Nblock}; //x: HH_Nblock, y: HG_Nblock, z: GG_Nblock;
   bool Do_New = true; bool Do_Old = true;
 
-  Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal_LambdaChange<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents, newScale);
+  Calculate_Single_Body_Energy_VDWReal_LambdaChange<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents, newScale);
 
   cudaMemcpy(SystemComponents.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
 
@@ -330,7 +330,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
           SystemComponents.Tmmc[SelectedComponent].currentBin = newBin;
         if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
         {
-          Update_Ewald_Vector(Sims.Box, false, SystemComponents, SelectedComponent);
+          Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
         }
         final_energy = energy;
       }
@@ -406,7 +406,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
           SystemComponents.Tmmc[SelectedComponent].currentBin = newBin;
         if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
         {
-          Update_Ewald_Vector(Sims.Box, false, SystemComponents, SelectedComponent);
+          Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
         }
         energy.take_negative();
         energy += second_step_energy;
@@ -463,7 +463,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
           SystemComponents.Tmmc[SelectedComponent].currentBin = newBin;
       if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
       {
-        Update_Ewald_Vector(Sims.Box, false, SystemComponents, SelectedComponent);
+        Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
       }
       final_energy = energy;
     }

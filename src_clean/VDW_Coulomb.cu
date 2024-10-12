@@ -627,7 +627,7 @@ double CPU_EwaldDifference(Boxsize& Box, Atoms& New, Atoms& Old, ForceField& FF,
   return ewaldE;
 }
 
-__global__ void Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal(Boxsize Box, Atoms* System, Atoms Old, Atoms New, ForceField FF, double* BlockEnergy, size_t ComponentID, size_t totalAtoms, size_t chainsize, bool* flag, int3 Nblocks, bool Do_New, bool Do_Old, int3 NComps)
+__global__ void Calculate_Single_Body_Energy_VDWReal(Boxsize Box, Atoms* System, Atoms Old, Atoms New, ForceField FF, double* BlockEnergy, size_t ComponentID, size_t totalAtoms, size_t chainsize, bool* flag, int3 Nblocks, bool Do_New, bool Do_Old, int3 NComps)
 {
   //divide species into Host-Host, Host-Guest, and Guest-Guest//
   //However, Host-Host and Guest-Guest are mutually exclusive//
@@ -844,7 +844,7 @@ __global__ void Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal(Boxsize 
   //}
 }
 
-__global__ void Calculate_Single_Body_Energy_SEPARATE_HostGuest_VDWReal_LambdaChange(Boxsize Box, Atoms* System, Atoms Old, Atoms New, ForceField FF, double* BlockEnergy, size_t ComponentID, size_t totalAtoms, size_t chainsize, bool* flag, int3 Nblocks, bool Do_New, bool Do_Old, int3 NComps, double2 newScale)
+__global__ void Calculate_Single_Body_Energy_VDWReal_LambdaChange(Boxsize Box, Atoms* System, Atoms Old, Atoms New, ForceField FF, double* BlockEnergy, size_t ComponentID, size_t totalAtoms, size_t chainsize, bool* flag, int3 Nblocks, bool Do_New, bool Do_Old, int3 NComps, double2 newScale)
 {
   //divide species into Host-Host, Host-Guest, and Guest-Guest//
   //However, Host-Host and Guest-Guest are mutually exclusive//
@@ -1182,7 +1182,7 @@ __global__ void Energy_difference_LambdaChange(Boxsize Box, Atoms* System, Atoms
   }
 }
 
-__global__ void Calculate_Multiple_Trial_Energy_SEPARATE_HostGuest_VDWReal(Boxsize Box, Atoms* System, Atoms NewMol, ForceField FF, double* Blocksum, size_t ComponentID, size_t totalAtoms, bool* flag, size_t totalthreads, size_t chainsize, size_t NblockForTrial, size_t HG_Nblock, int3 NComps, int2* ExcludeList)
+__global__ void Calculate_Multiple_Trial_Energy_VDWReal(Boxsize Box, Atoms* System, Atoms NewMol, ForceField FF, double* Blocksum, size_t ComponentID, size_t totalAtoms, bool* flag, size_t totalthreads, size_t chainsize, size_t NblockForTrial, size_t HG_Nblock, int3 NComps, int2* ExcludeList)
 {
   //Dividing Nblocks into Nblocks for host-guest and for guest-guest//
   //NblockForTrial = HG_Nblock + GG_Nblock;
@@ -1460,7 +1460,7 @@ __device__ void determine_comp_and_Molindex_from_thread(Atoms* System, size_t& M
   }
 }
 
-__global__ void TotalVDWCoul(Boxsize Box, Atoms* System, ForceField FF, double* Blocksum, bool* flag, size_t InteractionPerThread, bool UseOffset, int3 BLOCK, int3 NComponents, size_t NFrameworkAtoms, size_t NAdsorbateAtoms, size_t NFrameworkZero_ExtraFramework, bool ConsiderIntra)
+__global__ void TotalVDWRealCoulomb(Boxsize Box, Atoms* System, ForceField FF, double* Blocksum, bool* flag, size_t InteractionPerThread, bool UseOffset, int3 BLOCK, int3 NComponents, size_t NFrameworkAtoms, size_t NAdsorbateAtoms, size_t NFrameworkZero_ExtraFramework, bool ConsiderIntra)
 {
   extern __shared__ double sdata[]; //shared memory for partial sum//
 
@@ -1644,7 +1644,7 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   //Set Overlap Flag//
   cudaMemset(Sim.device_flag, false, sizeof(bool));
  
-  TotalVDWCoul<<<Nblock, Nthread, 2 * Nthread * sizeof(double)>>>(Sim.Box, Sim.d_a, FF, Sim.Blocksum, Sim.device_flag, InteractionPerThread, UseOffset, BLOCKS, SystemComponents.NComponents, NHostAtom, NGuestAtom, NFrameworkZero_ExtraFramework, ConsiderIntra);
+  TotalVDWRealCoulomb<<<Nblock, Nthread, 2 * Nthread * sizeof(double)>>>(Sim.Box, Sim.d_a, FF, Sim.Blocksum, Sim.device_flag, InteractionPerThread, UseOffset, BLOCKS, SystemComponents.NComponents, NHostAtom, NGuestAtom, NFrameworkZero_ExtraFramework, ConsiderIntra);
   checkCUDAErrorEwald("WRONG TOTAL VDW+REAL ENERGY\n");
 
   cudaDeviceSynchronize();  
