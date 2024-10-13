@@ -94,44 +94,12 @@ __device__ void Initialize_Vectors(Boxsize Box, size_t Oldsize, size_t Newsize, 
   }
 }
 
-__device__ void Initialize_Vectors_SPECIAL(Boxsize Box, size_t Oldsize, size_t Newsize, Atoms Old, size_t numberOfAtoms, int3 kmax)
-{
-  int kx_max = kmax.x;
-  int ky_max = kmax.y;
-  int kz_max = kmax.z;
-  // Calculate remaining positive kx, ky and kz by recurrence
-  for(size_t kx = 2; kx <= kx_max; ++kx)
-  {
-    for(size_t i = 0; i != numberOfAtoms; ++i)
-    {
-      Box.eik_x[i + kx * numberOfAtoms] = multiply(Box.eik_x[i + (kx - 1) * numberOfAtoms], Box.eik_x[i + 1 * numberOfAtoms]);
-    }
-  }
-  for(size_t ky = 2; ky <= ky_max; ++ky)
-  {
-    for(size_t i = 0; i != numberOfAtoms; ++i)
-    {
-      Box.eik_y[i + ky * numberOfAtoms] = multiply(Box.eik_y[i + (ky - 1) * numberOfAtoms], Box.eik_y[i + 1 * numberOfAtoms]);
-    }
-  }
-  for(size_t kz = 2; kz <= kz_max; ++kz)
-  {
-    for(size_t i = 0; i != numberOfAtoms; ++i)
-    {
-      Box.eik_z[i + kz * numberOfAtoms] = multiply(Box.eik_z[i + (kz - 1) * numberOfAtoms], Box.eik_z[i + 1 * numberOfAtoms]);
-    }
-  }
-}
-
-__device__ void Initialize_Vectors_thread(Complex* eik, size_t numberOfAtoms, int k_max)
+__device__ void Initialize_Vectors_thread(Complex* eik, size_t numberOfAtoms, int k_max, size_t i)
 {
   // Calculate remaining positive kx, ky and kz by recurrence
   for(size_t k = 2; k <= k_max; ++k)
   {
-    for(size_t i = 0; i != numberOfAtoms; ++i)
-    {
-      eik[i + k * numberOfAtoms] = multiply(eik[i + (k - 1) * numberOfAtoms], eik[i + 1 * numberOfAtoms]);
-    }
+    eik[i + k * numberOfAtoms] = multiply(eik[i + (k - 1) * numberOfAtoms], eik[i + 1 * numberOfAtoms]);
   }
 }
 
@@ -185,20 +153,9 @@ __global__ void Initialize_WaveVector_General(Boxsize Box, int3 kmax, Atoms* d_a
     tempcomplex.real = std::cos(s.x); tempcomplex.imag = std::sin(s.x); Box.eik_x[ij + 1 * numberOfAtoms] = tempcomplex;
     tempcomplex.real = std::cos(s.y); tempcomplex.imag = std::sin(s.y); Box.eik_y[ij + 1 * numberOfAtoms] = tempcomplex;
     tempcomplex.real = std::cos(s.z); tempcomplex.imag = std::sin(s.z); Box.eik_z[ij + 1 * numberOfAtoms] = tempcomplex;
-  }
-  __syncthreads();
-  
-  if(ij == 0)
-  {
-    Initialize_Vectors_thread(Box.eik_x, numberOfAtoms, kmax.x);
-  }
-  else if(ij == 1)
-  {
-    Initialize_Vectors_thread(Box.eik_y, numberOfAtoms, kmax.y);
-  }
-  else if(ij == 2)
-  {
-    Initialize_Vectors_thread(Box.eik_z, numberOfAtoms, kmax.z);
+    Initialize_Vectors_thread(Box.eik_x, numberOfAtoms, kmax.x, ij);
+    Initialize_Vectors_thread(Box.eik_y, numberOfAtoms, kmax.y, ij);
+    Initialize_Vectors_thread(Box.eik_z, numberOfAtoms, kmax.z, ij);
   }
 }
 
@@ -239,19 +196,9 @@ __global__ void Initialize_WaveVector_Reinsertion(Boxsize Box, int3 kmax, double
     tempcomplex.real = std::cos(s.x); tempcomplex.imag = std::sin(s.x); Box.eik_x[ij + 1 * numberOfAtoms] = tempcomplex;   
     tempcomplex.real = std::cos(s.y); tempcomplex.imag = std::sin(s.y); Box.eik_y[ij + 1 * numberOfAtoms] = tempcomplex;   
     tempcomplex.real = std::cos(s.z); tempcomplex.imag = std::sin(s.z); Box.eik_z[ij + 1 * numberOfAtoms] = tempcomplex;
-  }
-  __syncthreads();
-  if(ij == 0)
-  {
-    Initialize_Vectors_thread(Box.eik_x, numberOfAtoms, kmax.x);
-  }
-  else if(ij == 1)
-  {
-    Initialize_Vectors_thread(Box.eik_y, numberOfAtoms, kmax.y);
-  }
-  else if(ij == 2)
-  {
-    Initialize_Vectors_thread(Box.eik_z, numberOfAtoms, kmax.z);
+    Initialize_Vectors_thread(Box.eik_x, numberOfAtoms, kmax.x, ij);
+    Initialize_Vectors_thread(Box.eik_y, numberOfAtoms, kmax.y, ij);
+    Initialize_Vectors_thread(Box.eik_z, numberOfAtoms, kmax.z, ij);
   }
 }
 
@@ -291,20 +238,9 @@ __global__ void Initialize_WaveVector_IdentitySwap(Boxsize Box, int3 kmax, doubl
     tempcomplex.real = std::cos(s.y); tempcomplex.imag = std::sin(s.y); Box.eik_y[ij + 1 * numberOfAtoms] = tempcomplex;
     tempcomplex.real = std::cos(s.z); tempcomplex.imag = std::sin(s.z); Box.eik_z[ij + 1 * numberOfAtoms] = tempcomplex;
     
-  }
-  __syncthreads();
-  
-  if(ij == 0)
-  {
-    Initialize_Vectors_thread(Box.eik_x, numberOfAtoms, kmax.x);
-  }
-  else if(ij == 1)
-  {
-    Initialize_Vectors_thread(Box.eik_y, numberOfAtoms, kmax.y);
-  }
-  else if(ij == 2)
-  {
-    Initialize_Vectors_thread(Box.eik_z, numberOfAtoms, kmax.z);
+    Initialize_Vectors_thread(Box.eik_x, numberOfAtoms, kmax.x, ij);
+    Initialize_Vectors_thread(Box.eik_y, numberOfAtoms, kmax.y, ij);
+    Initialize_Vectors_thread(Box.eik_z, numberOfAtoms, kmax.z, ij);
   }
 }
 
@@ -890,20 +826,9 @@ __global__ void Setup_Wave_Vector_Ewald(Boxsize Box, Complex* eik_x, Complex* ei
     tempcomplex.real = std::cos(s.y); tempcomplex.imag = std::sin(s.y); eik_y[i + 1 * numberOfAtoms] = tempcomplex;
     tempcomplex.real = std::cos(s.z); tempcomplex.imag = std::sin(s.z); eik_z[i + 1 * numberOfAtoms] = tempcomplex;
     // Calculate remaining positive kx, ky and kz by recurrence
-    for(size_t kx = 2; kx <= Box.kmax.x; ++kx)
-    {
-        eik_x[i + kx * numberOfAtoms] = multiply(eik_x[i + (kx - 1) * numberOfAtoms], eik_x[i + 1 * numberOfAtoms]);
-    }
-
-    for(size_t ky = 2; ky <= Box.kmax.y; ++ky)
-    {
-        eik_y[i + ky * numberOfAtoms] = multiply(eik_y[i + (ky - 1) * numberOfAtoms], eik_y[i + 1 * numberOfAtoms]);
-    }
-
-    for(size_t kz = 2; kz <= Box.kmax.z; ++kz)
-    {
-        eik_z[i + kz * numberOfAtoms] = multiply(eik_z[i + (kz - 1) * numberOfAtoms], eik_z[i + 1 * numberOfAtoms]);
-    }
+    Initialize_Vectors_thread(eik_x, numberOfAtoms, Box.kmax.x, i);
+    Initialize_Vectors_thread(eik_y, numberOfAtoms, Box.kmax.y, i);
+    Initialize_Vectors_thread(eik_z, numberOfAtoms, Box.kmax.z, i);
   }
 }
 
