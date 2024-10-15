@@ -73,9 +73,7 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
   }
 
   //Store The New Locations//
-  double3* temp;
-  cudaMalloc(&temp, sizeof(double3) * SystemComponents.Moleculesize[SelectedComponent]);
-  StoreNewLocation_Reinsertion<<<1,1>>>(Sims.Old, Sims.New, temp, SelectedTrial, SystemComponents.Moleculesize[SelectedComponent]);
+  StoreNewLocation_Reinsertion<<<1,1>>>(Sims.Old, Sims.New, SystemComponents.tempMolStorage, SelectedTrial, SystemComponents.Moleculesize[SelectedComponent]);
   /////////////
   // RETRACE //
   /////////////
@@ -98,7 +96,7 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
   bool EwaldPerformed = false;
   if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
   {
-    double2 EwaldE = GPU_EwaldDifference_Reinsertion(Sims.Box, Sims.d_a, Sims.Old, temp, FF, Sims.Blocksum, SystemComponents, SelectedComponent, UpdateLocation);
+    double2 EwaldE = GPU_EwaldDifference_Reinsertion(Sims.Box, Sims.d_a, Sims.Old, SystemComponents.tempMolStorage, FF, Sims.Blocksum, SystemComponents, SelectedComponent, UpdateLocation);
 
     energy.GGEwaldE = EwaldE.x;
     energy.HGEwaldE = EwaldE.y;
@@ -109,8 +107,8 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
   //Put it after Ewald summation, the required positions are already in place (done by the preparation parts of Ewald Summation)//
   if(SystemComponents.UseDNNforHostGuest)
   {
-    if(!EwaldPerformed) Prepare_DNN_InitialPositions_Reinsertion(Sims.d_a, Sims.Old, temp, SystemComponents, SelectedComponent, UpdateLocation);
-    energy.DNN_E = DNN_Prediction_Reinsertion(SystemComponents, Sims, SelectedComponent, temp);
+    if(!EwaldPerformed) Prepare_DNN_InitialPositions_Reinsertion(Sims.d_a, Sims.Old, SystemComponents.tempMolStorage, SystemComponents, SelectedComponent, UpdateLocation);
+    energy.DNN_E = DNN_Prediction_Reinsertion(SystemComponents, Sims, SelectedComponent, SystemComponents.tempMolStorage);
     //Correction of DNN - HostGuest energy to the Rosenbluth weight//
     double correction = energy.DNN_Correction();
     if(fabs(correction) > SystemComponents.DNNDrift) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
@@ -131,8 +129,8 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
   { // accept the move
     SystemComponents.Moves[SelectedComponent].ReinsertionAccepted ++;
     //size_t UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SelectedMolInComponent;
-    Update_Reinsertion_data<<<1,SystemComponents.Moleculesize[SelectedComponent]>>>(Sims.d_a, temp, SelectedComponent, UpdateLocation); checkCUDAError("error Updating Reinsertion data");
-    cudaFree(temp); 
+    Update_Reinsertion_data<<<1,SystemComponents.Moleculesize[SelectedComponent]>>>(Sims.d_a, SystemComponents.tempMolStorage, SelectedComponent, UpdateLocation); checkCUDAError("error Updating Reinsertion data");
+
     if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent]) 
       Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
     SystemComponents.Tmmc[SelectedComponent].Update(1.0, NMol, REINSERTION); //Update for TMMC, since Macrostate not changed, just add 1.//
@@ -141,7 +139,6 @@ static inline MoveEnergy Reinsertion(Components& SystemComponents, Simulations& 
   }
   else
   {
-    cudaFree(temp); 
     SystemComponents.Tmmc[SelectedComponent].Update(1.0, NMol, REINSERTION); //Update for TMMC, since Macrostate not changed, just add 1.//
     energy.zero();
     return energy;
@@ -523,9 +520,7 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
     energy += temp_energy;
   }
   // Store The New Locations //
-  double3* temp;
-  cudaMalloc(&temp, sizeof(double3) * SystemComponents.Moleculesize[NEWComponent]);
-  StoreNewLocation_Reinsertion<<<1,1>>>(Sims.Old, Sims.New, temp, SelectedTrial, SystemComponents.Moleculesize[NEWComponent]);
+  StoreNewLocation_Reinsertion<<<1,1>>>(Sims.Old, Sims.New, SystemComponents.tempMolStorage, SelectedTrial, SystemComponents.Moleculesize[NEWComponent]);
 
   /////////////
   // RETRACE //
@@ -549,7 +544,7 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
   size_t UpdateLocation = SystemComponents.Moleculesize[OLDComponent] * OLDMolInComponent;
   if(!FF.noCharges)
   {
-    double2 EwaldE = GPU_EwaldDifference_IdentitySwap(Sims.Box, Sims.d_a, Sims.Old, temp, FF, Sims.Blocksum, SystemComponents, OLDComponent, NEWComponent, UpdateLocation);
+    double2 EwaldE = GPU_EwaldDifference_IdentitySwap(Sims.Box, Sims.d_a, Sims.Old, SystemComponents.tempMolStorage, FF, Sims.Blocksum, SystemComponents, OLDComponent, NEWComponent, UpdateLocation);
     energy.GGEwaldE = EwaldE.x;
     energy.HGEwaldE = EwaldE.y;
     Rosenbluth *= std::exp(-SystemComponents.Beta * (EwaldE.x + EwaldE.y));
@@ -597,7 +592,7 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
       }
  
       UpdateLocation = SystemComponents.Moleculesize[NEWComponent] * NEWMolInComponent;
-      Update_IdentitySwap_Insertion_data<<<1,1>>>(Sims.d_a, temp, NEWComponent, UpdateLocation, NEWMolInComponent, SystemComponents.Moleculesize[NEWComponent]); checkCUDAError("error Updating Identity Swap Insertion data");
+      Update_IdentitySwap_Insertion_data<<<1,1>>>(Sims.d_a, SystemComponents.tempMolStorage, NEWComponent, UpdateLocation, NEWMolInComponent, SystemComponents.Moleculesize[NEWComponent]); checkCUDAError("error Updating Identity Swap Insertion data");
     
       Update_NumberOfMolecules(SystemComponents, Sims.d_a, NEWComponent, INSERTION);
       Update_NumberOfMolecules(SystemComponents, Sims.d_a, OLDComponent, DELETION);
@@ -607,9 +602,8 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
       //Regarding the UpdateLocation, in the code it is the old molecule position//
       //if the OLDComponent = NEWComponent, The new location will be filled into the old position//
       //So just use what is already in the code//
-      Update_Reinsertion_data<<<1,SystemComponents.Moleculesize[OLDComponent]>>>(Sims.d_a, temp, OLDComponent, UpdateLocation);
+      Update_Reinsertion_data<<<1,SystemComponents.Moleculesize[OLDComponent]>>>(Sims.d_a, SystemComponents.tempMolStorage, OLDComponent, UpdateLocation);
     }
-    cudaFree(temp);
     //Zhao's note: BUG!!!!, Think about if OLD/NEW Component belong to different type (framework/adsorbate)//
     if(!FF.noCharges && ((SystemComponents.hasPartialCharge[NEWComponent]) ||(SystemComponents.hasPartialCharge[OLDComponent])))
       Update_Vector_Ewald(Sims.Box, false, SystemComponents, NEWComponent);
@@ -618,7 +612,6 @@ static inline MoveEnergy IdentitySwapMove(Components& SystemComponents, Simulati
   }
   else
   {
-    cudaFree(temp); 
     energy.zero();
     return energy;
   }

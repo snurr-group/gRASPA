@@ -299,12 +299,12 @@ __global__ void Fourier_Ewald_Diff(Boxsize Box, Complex* SameTypeEik, Complex* C
     }
     if((ksqr > 1e-10) && (ksqr < Box.ReciprocalCutOff))
     {
-      double3 ax; ax.x = Box.InverseCell[0]; ax.y = Box.InverseCell[3]; ax.z = Box.InverseCell[6];
-      double3 ay; ay.x = Box.InverseCell[1]; ay.y = Box.InverseCell[4]; ay.z = Box.InverseCell[7];
-      double3 az; az.x = Box.InverseCell[2]; az.y = Box.InverseCell[5]; az.z = Box.InverseCell[8];
+      double3 ax = {Box.InverseCell[0], Box.InverseCell[3], Box.InverseCell[6]};
+      double3 ay = {Box.InverseCell[1], Box.InverseCell[4], Box.InverseCell[7]};
+      double3 az = {Box.InverseCell[2], Box.InverseCell[5], Box.InverseCell[8]};
       size_t numberOfAtoms = Oldsize + Newsize;
-      Complex cksum_old; cksum_old.real = 0.0; cksum_old.imag = 0.0;
-      Complex cksum_new; cksum_new.real = 0.0; cksum_new.imag = 0.0;
+      Complex cksum_old = {0.0, 0.0};
+      Complex cksum_new = {0.0, 0.0};
       double3 kvec_x = ax * 2.0 * M_PI * (double) kx;
       double3 kvec_y = ay * 2.0 * M_PI * (double) ky;
       double3 kvec_z = az * 2.0 * M_PI * (double) kz;
@@ -399,21 +399,14 @@ __global__ void Update_StructureFactor_Stored(Complex* Eik, Complex* Temp_Eik, s
 }
 void Update_Vector_Ewald(Boxsize& Box, bool CPU, Components& SystemComponents, size_t SelectedComponent)
 {
-  //else    //Update on the GPU//
-  //{
-    size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-    size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(numberOfStructureFactors, &Nblock, &Nthread);
-    Complex* Stored_Eik;
     if(SelectedComponent < SystemComponents.NComponents.y)
     {
-      Stored_Eik = Box.FrameworkEik;
+      std::swap(Box.FrameworkEik, Box.tempEik);
     }
     else
     {
-      Stored_Eik = Box.AdsorbateEik;
+      std::swap(Box.AdsorbateEik, Box.tempEik);
     }
-    Update_StructureFactor_Stored<<<Nblock, Nthread>>>(Stored_Eik, Box.tempEik, numberOfStructureFactors);
-  //}
 }
 
 ////////////////////////////////////////////////
