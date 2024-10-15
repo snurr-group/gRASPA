@@ -889,6 +889,8 @@ struct Components
   double  Pressure=0.0;
   double  Beta;                                       // Inverse Temperature 
 
+  double3* tempMolStorage;                            // temporary storage for reinsertion move//
+
   size_t  EnergyEvalTimes = 0;
 
   bool*   flag;                                       // flags for checking overlaps (on host), device version in Simulations struct//

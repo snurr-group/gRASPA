@@ -177,6 +177,11 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
   size_t fourier_size  = SystemComponents.EikAllocateSize;
   if(fourier_size > vdw_real_size) blocksum_size = fourier_size;
 
+  //Allocate temporary space for reinsertion//
+  size_t MaxAdsorbateMolsize = *std::max_element(SystemComponents.Moleculesize.begin() + 1, SystemComponents.Moleculesize.end());;
+  cudaMalloc(&SystemComponents.tempMolStorage, MaxAdsorbateMolsize * 2 * sizeof(double3));
+  printf("Allocated %zu double3 for reinsertion!\n", MaxAdsorbateMolsize * 2);
+
   cudaMallocHost(&Sims.Blocksum, blocksum_size*sizeof(double));
 
   cudaMallocManaged(&Sims.ExcludeList,        10 * sizeof(int2));

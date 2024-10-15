@@ -177,26 +177,36 @@ __global__ void get_random_trial_orientation(Boxsize Box, Atoms* d_a, Atoms Mol,
   //Deletion: MolID = selected ID
   const size_t i = blockIdx.x * blockDim.x + threadIdx.x;
 
+  __shared__ double3 OldPos;
+  __shared__ double  Chosenscale;
+  __shared__ double  ChosenscaleCoul;
   //Record First Bead Information//
+  //For all orientations//
   if(i == 0)
   {
-    Mol.pos[0]       = NewMol.pos[FirstBeadTrial];
-    Mol.scale[0]     = NewMol.scale[FirstBeadTrial];
     Mol.charge[0]    = NewMol.charge[FirstBeadTrial];
-    Mol.scaleCoul[0] = NewMol.scaleCoul[FirstBeadTrial];
+    Chosenscale      = NewMol.scale[FirstBeadTrial];
+    ChosenscaleCoul  = NewMol.scaleCoul[FirstBeadTrial];
+    Mol.scale[0]     = Chosenscale;
+    Mol.scaleCoul[0] = ChosenscaleCoul;
     Mol.Type[0]      = NewMol.Type[FirstBeadTrial];
     Mol.MolID[0]     = NewMol.MolID[FirstBeadTrial];
+    OldPos           = NewMol.pos[FirstBeadTrial];
+    Mol.pos[0]       = OldPos;
   }
+  __syncthreads();
+  size_t trial = i / chainsize;
+  size_t a     = i % chainsize;
   //Quaternions uses 3 random seeds//
-  size_t random_index = i + offset;
-  const Atoms AllData = d_a[SelectedComponent];
+  size_t random_index = trial + offset;
+  const Atoms& AllData = d_a[SelectedComponent];
   //different from translation (where we copy a whole molecule), here we duplicate the properties of the first bead of a molecule
   // so use start_position, not real_pos
   //Zhao's note: when there are zero molecule for the species, we need to use some preset values
   //the first values always have some numbers. The xyz are not correct, but type and charge are correct. Use those.
-  double scale = 0.0; double scaleCoul = 0.0;
-  for(size_t a = 0; a < chainsize; a++)
-  {
+  //double scale = 0.0; double scaleCoul = 0.0;
+  //for(size_t a = 0; a < chainsize; a++)
+  //{
     double3 Vec;
     Vec = AllData.pos[1+a] - AllData.pos[0];
     switch(MoveType)
@@ -205,56 +215,46 @@ __global__ void get_random_trial_orientation(Boxsize Box, Atoms* d_a, Atoms Mol,
       //Zhao's note: It depends on whether Identity_swap needs to be operated on fractional molecules//
       //FOR NOW, JUST PUT IT ALONGSIDE WITH CBMC_INSERTION                                           //
       /////////////////////////////////////////////////////////////////////////////////////////////////
-      case CBMC_INSERTION: case IDENTITY_SWAP_NEW: //Insertion (whole/fractional Molecule)//
+      case CBMC_INSERTION: case IDENTITY_SWAP_NEW: case REINSERTION_INSERTION: //Insertion (whole/fractional Molecule)//
       {
-        scale = proposed_scale.x; scaleCoul = proposed_scale.y;
+        //scale = proposed_scale.x; scaleCoul = proposed_scale.y;
         Rotate_Quaternions(Vec, random[random_index]);
-        NewMol.pos[i*chainsize+a] = Mol.pos[0] + Vec;
+        NewMol.pos[i] = OldPos + Vec;
         break;
       }
-      case CBMC_DELETION: //Deletion (whole/fractional molecule)//
-      {
-        scale = AllData.scale[start_position+a]; scaleCoul = AllData.scaleCoul[start_position+a];
-        if(i==0) //if deletion, the first trial position is the old position of the selected molecule//
-        {
-          NewMol.pos[i*chainsize+a] = AllData.pos[start_position+a];
-        }
-        else
-        {
-          Rotate_Quaternions(Vec, random[random_index]);
-          NewMol.pos[i*chainsize+a] = Mol.pos[0] + Vec;
-        }
-        //printf("CHAIN: trial: %lu, xyz: %.5f %.5f %.5f\n", i, NewMol.pos[i*chainsize+a].x, NewMol.pos[i*chainsize+a].y, NewMol.pos[i*chainsize+a].z);
-        //if(i == 0) printf("i=0, start_position: %lu\n", start_position);
-        break;
-      }
+      /*
       case REINSERTION_INSERTION: //Reinsertion-Insertion//
       {
-        scale = AllData.scale[start_position+a]; scaleCoul = AllData.scaleCoul[start_position+a];
+        //scale = AllData.scale[start_position+a]; scaleCoul = AllData.scaleCoul[start_position+a];
         Rotate_Quaternions(Vec, random[random_index]);
-        NewMol.pos[i*chainsize+a] = Mol.pos[0] + Vec;
+        NewMol.pos[i] = OldPos + Vec;
         break;
       }
+      */
+      case CBMC_DELETION: //Deletion (whole/fractional molecule)//
       case REINSERTION_RETRACE: case IDENTITY_SWAP_OLD: //Reinsertion-Retrace, but also works for Identity swap (old molecule) for multiple orientations (not first bead) //
       {
-        scale = AllData.scale[start_position+a]; scaleCoul = AllData.scaleCoul[start_position+a];
-        if(i==0) //if deletion, the first trial position is the old position of the selected molecule//
+        //scale = AllData.scale[start_position+a]; scaleCoul = AllData.scaleCoul[start_position+a];
+        if(trial==0) //if deletion, the first trial position is the old position of the selected molecule//
         {
-          NewMol.pos[i*chainsize+a] = AllData.pos[start_position+a];
+          NewMol.pos[i] = AllData.pos[start_position+a];
         }
         else
         {
           Rotate_Quaternions(Vec, random[random_index]);
-          NewMol.pos[i*chainsize+a] = Mol.pos[0] + Vec;
+          NewMol.pos[i] = OldPos + Vec;
         }
         break;
       }
     }
-    NewMol.scale[i*chainsize+a] = scale; NewMol.charge[i*chainsize+a] = AllData.charge[start_position+a]; 
-    NewMol.scaleCoul[i*chainsize+a] = scaleCoul;
-    NewMol.Type[i*chainsize+a] = AllData.Type[start_position+a]; NewMol.MolID[i*chainsize+a] = MolID;
-  }
-  device_flag[i] = false;
+    NewMol.scale[i]     = Chosenscale;
+    NewMol.charge[i]    = AllData.charge[start_position+a];
+    NewMol.scaleCoul[i] = ChosenscaleCoul;
+    NewMol.Type[i]      = AllData.Type[start_position+a];
+    NewMol.MolID[i]     = MolID;
+  //}
+  if(a == 0)
+    device_flag[trial] = false;
 }
 
 
@@ -438,7 +438,8 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
 
   Random.Check(Widom.NumberWidomTrialsOrientations);
   //Get the first bead positions, and setup trial orientations//
-  get_random_trial_orientation<<<1,Widom.NumberWidomTrialsOrientations>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, Sims.device_flag, Random.device_random, Random.offset, FirstBeadTrial, start_position, SelectedComponent, SelectedMolID, chainsize, MoveType, proposed_scale, SystemComponents.CURRENTCYCLE); checkCUDAError("error getting random trials orientations");
+  size_t trialO_Nthread=0; size_t trialO_Nblock=0; Setup_threadblock(Widom.NumberWidomTrialsOrientations*chainsize, &trialO_Nblock, &trialO_Nthread);
+  get_random_trial_orientation<<<trialO_Nblock,trialO_Nthread>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, Sims.device_flag, Random.device_random, Random.offset, FirstBeadTrial, start_position, SelectedComponent, SelectedMolID, chainsize, MoveType, proposed_scale, SystemComponents.CURRENTCYCLE); checkCUDAError("error getting random trials orientations");
 
   Random.Update(Widom.NumberWidomTrialsOrientations);
 
