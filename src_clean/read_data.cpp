@@ -2958,6 +2958,27 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents)
   file.close();
 }
 
+// Read ExcessVolume and Helium Void Fraction //
+void ReadVoidFraction(Variables& Vars)
+{
+  std::vector<std::string> termsScannedLined{};
+  std::string str;
+  std::ifstream file("simulation.input");
+  while (std::getline(file, str))
+  {
+    if (str.find("HeliumVoidFraction", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      Vars.TempComponents.HeliumVoidFraction=std::stod(termsScannedLined[1]);
+    }
+    if (str.find("ExcessVolume", 0) != std::string::npos)
+    {
+      Split_Tab_Space(termsScannedLined, str);
+      Vars.TempComponents.ExcessVolume=std::stod(termsScannedLined[1]);
+    }
+  }
+  file.close();
+}
 
 void ReadDNNModelSetup(Components& SystemComponents)
 {

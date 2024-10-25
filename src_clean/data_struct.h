@@ -868,6 +868,7 @@ struct Boxsize
 };
 //###PATCH_ALLEGRO_H###//
 
+//###Struct to contain almost all data on the CPU for the simulation###//
 struct Components
 {
   int3    NComponents;                                // Total components (x), Framework Components (y), Guest Components (z)
@@ -886,7 +887,8 @@ struct Components
   size_t  TotalNumberOfMolecules;                     // Total Number of Molecules (including framework)
   size_t  NumberOfFrameworks;                         // Total Number of framework species, usually 1.
   double  Temperature=0.0;
-  double  Pressure=0.0;
+  double  Pressure=0.0;                               // In internal unit
+  double  Pressure_Pa=0.0;                            // In units of Pascal (simulation.input unit)//
   double  Beta;                                       // Inverse Temperature 
 
   double3* tempMolStorage;                            // temporary storage for reinsertion move//
@@ -921,6 +923,13 @@ struct Components
   double VolumeMoveTime = 0.0;
   std::vector<double2>VolumeAverage;
   std::vector<std::vector<double2>>DensityPerComponent;
+
+  std::vector<double>Compressibility;            //Compressibility for each component, calculated when PR-EOS is used//
+  std::vector<double>AmountOfExcessMolecules;    //For excess loading//
+  std::vector<std::vector<double2>>ExcessLoading; //Average excess loadings for adsorbates//
+  
+  double HeliumVoidFraction = 0.0;
+  double ExcessVolume       = 0.0;
   //std::vector<double2>EnergyAverage;
   /*
   //Zhao's note: do not use pass by ref for DeltaE

@@ -17,7 +17,8 @@
 #include "fxn_main.h"
 
 #include <unistd.h>
-// // // // // // // // // // // // // // // // #include <limits.h>
+
+// // #include <limits.h>
 
 void printMemoryUsage() 
 {
@@ -182,6 +183,8 @@ int main(void) //normal cpp
       if(a > 0 && !SameFrameworkEverySimulation) printf("Processing %zu, new framework\n", a);
       //Read framework data from cif/poscar file//
       ReadFramework(Vars.Box[a], Vars.TempComponents.PseudoAtoms, a, Vars.TempComponents);
+      ReadVoidFraction(Vars);
+
       read_Ewald_Parameters_from_input(sqrt(Vars.FF.CutOffCoul), Vars.Box[a], Vars.Input.EwaldPrecision);
       Update_Components_for_framework(Vars.TempComponents);
     }
@@ -224,7 +227,7 @@ int main(void) //normal cpp
     
     //Calculate Fugacity Coefficient//
     //Note pressure in Vars.Box variable is already converted to internal units//
-    ComputeFugacity(Vars.SystemComponents[a], Vars.SystemComponents[a].Pressure, Vars.SystemComponents[a].Temperature);
+    ComputeFugacity(Vars.SystemComponents[a], Vars.SystemComponents[a].Pressure, Vars.SystemComponents[a].Temperature, Vars.Box[a].Volume);
     //throw std::runtime_error("EXIT, just test Fugacity Coefficient\n");
     
     cudaMalloc(&Vars.Sims[a].Box.Cell, sizeof(double) * 9); cudaMalloc(&Vars.Sims[a].Box.InverseCell, sizeof(double) * 9);

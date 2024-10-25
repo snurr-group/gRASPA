@@ -109,6 +109,7 @@ inline void Setup_Box_Temperature_Pressure(Units& Constants, Components& SystemC
 {
   SystemComponents.Beta = 1.0/(Constants.BoltzmannConstant/(Constants.MassUnit*pow(Constants.LengthUnit,2)/pow(Constants.TimeUnit,2))*SystemComponents.Temperature);
   //Convert pressure from pascal
+  SystemComponents.Pressure_Pa = SystemComponents.Pressure;
   SystemComponents.Pressure/=(Constants.MassUnit/(Constants.LengthUnit*pow(Constants.TimeUnit,2)));
   fprintf(SystemComponents.OUTPUT, "------------------- SIMULATION BOX PARAMETERS -----------------\n");
   fprintf(SystemComponents.OUTPUT, "Pressure:        %.5f\n", SystemComponents.Pressure);

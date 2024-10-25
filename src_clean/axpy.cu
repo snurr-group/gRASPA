@@ -369,6 +369,8 @@ void Run_Simulation_MultipleBoxes(Variables& Vars, int SimulationMode)
       SystemComponents[sim].EnergyTimesNumberOfMolecule.resize(SystemComponents[sim].NComponents.x, FILL);
       SystemComponents[sim].VolumeAverage.resize(SystemComponents[sim].Nblock, {0.0, 0.0});
       SystemComponents[sim].DensityPerComponent.resize(SystemComponents[sim].NComponents.x, std::vector<double2>(SystemComponents[sim].Nblock, {0.0, 0.0}));
+      if(SystemComponents[sim].AmountOfExcessMolecules.size() > 0)
+        SystemComponents[sim].ExcessLoading.resize(SystemComponents[sim].NComponents.x, std::vector<double2>(SystemComponents[sim].Nblock, {0.0, 0.0}));
     }
   }
 
@@ -475,11 +477,16 @@ void Run_Simulation_MultipleBoxes(Variables& Vars, int SimulationMode)
             double ExN = createmol_energy[sim] + deltaE_Adsorbate * SystemComponents[sim].NumberOfMolecule_for_Component[comp];
             Gather_Averages_double(SystemComponents[sim].EnergyTimesNumberOfMolecule[comp], ExN, i, BlockAverageSize[sim], SystemComponents[sim].Nblock);
             Gather_Averages_Types(SystemComponents[sim].DensityPerComponent[comp], SystemComponents[sim].NumberOfMolecule_for_Component[comp] / Sims[sim].Box.Volume, 0.0, i, BlockAverageSize[sim], SystemComponents[sim].Nblock);
+            //Calculate Average Excess Loading//
+            //AmountOfExcessMolecules only be resized during EOS calculation, don't have that? then no excess loading because excess loading needs compressibility from EOS//
+            if(SystemComponents[sim].AmountOfExcessMolecules.size() > 0)
+              Gather_Averages_Types(SystemComponents[sim].ExcessLoading[comp], SystemComponents[sim].NumberOfMolecule_for_Component[comp] - SystemComponents[sim].AmountOfExcessMolecules[comp], 0.0, i, BlockAverageSize[sim], SystemComponents[sim].Nblock);
           }
           for(size_t compj = 0; compj < SystemComponents[sim].NComponents.x; compj++)
           {
             double NxNj = SystemComponents[sim].NumberOfMolecule_for_Component[comp] * SystemComponents[sim].NumberOfMolecule_for_Component[compj];
             Gather_Averages_double(SystemComponents[sim].Moves[comp].MolSQPerComponent[compj], NxNj, i, BlockAverageSize[sim], SystemComponents[sim].Nblock);
+
             //SystemComponents[sim].Moves[comp].MolSQPerComponent[compj].y = 0.0;
           }
         }
@@ -550,6 +557,8 @@ double Run_Simulation_ForOneBox(Variables& Vars, size_t box_index)
     SystemComponents.EnergyTimesNumberOfMolecule.resize(SystemComponents.NComponents.x, FILL);
     SystemComponents.VolumeAverage.resize(SystemComponents.Nblock, {0.0, 0.0});
     SystemComponents.DensityPerComponent.resize(SystemComponents.NComponents.x, std::vector<double2>(SystemComponents.Nblock, {0.0, 0.0}));
+    if(SystemComponents.AmountOfExcessMolecules.size() > 0)
+      SystemComponents.ExcessLoading.resize(SystemComponents.NComponents.x, std::vector<double2>(SystemComponents.Nblock, {0.0, 0.0}));
   }
 
   fprintf(SystemComponents.OUTPUT, "Number of Frameworks: %zu\n", SystemComponents.NumberOfFrameworks);
@@ -665,6 +674,10 @@ double Run_Simulation_ForOneBox(Variables& Vars, size_t box_index)
           double deltaE_Adsorbate = SystemComponents.deltaE.total() - SystemComponents.deltaE.HHVDW - SystemComponents.deltaE.HHEwaldE - SystemComponents.deltaE.HHReal;
           double ExN = createmol_energy + deltaE_Adsorbate * SystemComponents.NumberOfMolecule_for_Component[comp];
           Gather_Averages_double(SystemComponents.EnergyTimesNumberOfMolecule[comp], ExN, i, BlockAverageSize, SystemComponents.Nblock);
+          //Calculate Average Excess Loading//
+          //AmountOfExcessMolecules only be resized during EOS calculation, don't have that? then no excess loading because excess loading needs compressibility from EOS//
+          if(SystemComponents.AmountOfExcessMolecules.size() > 0)
+            Gather_Averages_Types(SystemComponents.ExcessLoading[comp], SystemComponents.NumberOfMolecule_for_Component[comp] - SystemComponents.AmountOfExcessMolecules[comp], 0.0, i, BlockAverageSize, SystemComponents.Nblock);
         }
         for(size_t compj = 0; compj < SystemComponents.NComponents.x; compj++)
         {

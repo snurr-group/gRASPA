@@ -507,6 +507,14 @@ static inline void Print_Averages(Components& SystemComponents, int Cycles, int 
     fprintf(SystemComponents.OUTPUT, "COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
     Print_Values(Temp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+    if(SystemComponents.AmountOfExcessMolecules.size() > 0)
+    {
+      fprintf(SystemComponents.OUTPUT, "---------- EXCESS LOADING (# MOLECULES) ----------\n");
+      Print_Values(SystemComponents.ExcessLoading[i], Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+      fprintf(SystemComponents.OUTPUT, "------------------------------------\n");
+    }
+    else
+      fprintf(SystemComponents.OUTPUT, "NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings\n");
     fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
   }
   fprintf(SystemComponents.OUTPUT, "======================================================================\n");
@@ -518,6 +526,13 @@ static inline void Print_Averages(Components& SystemComponents, int Cycles, int 
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
     std::vector<double2>MMTemp = ConvertMoleculetoMassMass(SystemComponents, i, Temp, SystemComponents.Nblock);
     Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+    if(SystemComponents.AmountOfExcessMolecules.size() > 0)
+    {
+      fprintf(SystemComponents.OUTPUT, "---------- EXCESS LOADING (mg/g) ----------\n");
+      std::vector<double2>MMTemp_Excess = ConvertMoleculetoMassMass(SystemComponents, i, SystemComponents.ExcessLoading[i], SystemComponents.Nblock);
+      Print_Values(MMTemp_Excess, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+      fprintf(SystemComponents.OUTPUT, "------------------------------------\n");
+    }
     fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
   }
   fprintf(SystemComponents.OUTPUT, "==============================================================\n");
@@ -528,6 +543,13 @@ static inline void Print_Averages(Components& SystemComponents, int Cycles, int 
     std::vector<double2>Temp = SystemComponents.Moves[i].MolAverage;
     std::vector<double2>MMTemp = ConvertMoleculetoMolMass(SystemComponents, i, Temp, SystemComponents.Nblock);
     Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+    if(SystemComponents.AmountOfExcessMolecules.size() > 0)
+    {
+      fprintf(SystemComponents.OUTPUT, "---------- EXCESS LOADING (mol/kg) ----------\n");
+      std::vector<double2>MMTemp_Excess = ConvertMoleculetoMolMass(SystemComponents, i, SystemComponents.ExcessLoading[i], SystemComponents.Nblock);
+      Print_Values(MMTemp_Excess, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+      fprintf(SystemComponents.OUTPUT, "------------------------------------\n");
+    }
     fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
   }
   fprintf(SystemComponents.OUTPUT, "==============================================================\n");
@@ -537,6 +559,13 @@ static inline void Print_Averages(Components& SystemComponents, int Cycles, int 
     fprintf(SystemComponents.OUTPUT, "COMPONENT [%zu] (%s)\n", i, SystemComponents.MoleculeName[i].c_str());
     std::vector<double2>MMTemp = ConvertMoleculetoMassVolume(SystemComponents, i, SystemComponents.DensityPerComponent[i], SystemComponents.Nblock,Sims);
     Print_Values(MMTemp, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+    if(SystemComponents.AmountOfExcessMolecules.size() > 0)
+    {
+      fprintf(SystemComponents.OUTPUT, "---------- EXCESS LOADING (g/L) ----------\n");
+      std::vector<double2>MMTemp_Excess = ConvertMoleculetoMassVolume(SystemComponents, i, SystemComponents.ExcessLoading[i], SystemComponents.Nblock, Sims);
+      Print_Values(MMTemp_Excess, Cycles, Blocksize, SystemComponents.Nblock, SystemComponents.OUTPUT);
+      fprintf(SystemComponents.OUTPUT, "------------------------------------\n");
+    }
     fprintf(SystemComponents.OUTPUT, "----------------------------------------------------------\n");
   }
   fprintf(SystemComponents.OUTPUT, "==============================================================\n");

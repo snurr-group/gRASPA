@@ -44,6 +44,9 @@ void OverWriteTailCorrection(Input_Container& Input);
 void read_movies_stats_print(Components& SystemComponents, size_t sim);
 
 std::vector<double2> ReadMinMax();
+
+void ReadVoidFraction(Variables& Vars);
+
 void ReadDNNModelSetup(Components& SystemComponents);
 //###PATCH_LCLIN_READDATA_H###//
 //###PATCH_ALLEGRO_READDATA_H###//

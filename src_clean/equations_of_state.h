@@ -118,7 +118,7 @@ int cubic(const std::array<REAL, 4>& A, std::vector<REAL>& X, int* L)
 }
 
 //Zhao's note: pressure and temperature should already be in Components variable
-void ComputeFugacity(Components& TempComponents, double Pressure, double Temperature)
+void ComputeFugacity(Components& TempComponents, double Pressure, double Temperature, double Volume)
 {
   fprintf(TempComponents.OUTPUT, "================FUGACITY COEFFICIENT CALCULATION================\n");
   double SumofFractions = 0.0;
@@ -286,13 +286,26 @@ void ComputeFugacity(Components& TempComponents, double Pressure, double Tempera
   //   printf("first row for calculated fugacity %zu = %.5f\n", i, Compressibility[i]);
 
   // ToDO: need to fix
+  // Add excess loadings //
+  double excess_volume = Volume * TempComponents.HeliumVoidFraction;
+  if(TempComponents.ExcessVolume > 0.0)
+  {
+    excess_volume = TempComponents.ExcessVolume * TempComponents.HeliumVoidFraction;
+  }
+  printf("Volume: %.5f, excess_volume: %.5f, Pressure: %.5f\n", Volume, excess_volume, TempComponents.Pressure);
+  double MOLAR_GAS_CONSTANT = 8.314464919;         // J mol^-1 K^-1
+  double AVOGADRO_CONSTANT  = 6.0221419947e23;     // mol^-1
+  TempComponents.Compressibility.resize(TempComponents.NComponents.x, 0.0);
+  TempComponents.AmountOfExcessMolecules.resize(TempComponents.NComponents.x, 0.0);
   for(size_t i = 0; i < NumberOfComponents; i++)
   {
     int index = FrameworkComponents + i;
+    double compressibility = 0.0;
     if(NumberOfSolutions == 1)
     {
       // If there is only one solution, use it
       TempComponents.FugacityCoeff[index]= FugacityCoefficients[i][0];
+      compressibility = Compressibility[0];
     }
     else
     {
@@ -305,24 +318,34 @@ void ComputeFugacity(Components& TempComponents, double Pressure, double Tempera
         if(FugacityCoefficients[i][0] < FugacityCoefficients[i][2])
         {
           TempComponents.FugacityCoeff[index] = FugacityCoefficients[i][0];  // Favor the first solution
+          compressibility = Compressibility[0];
         }
         else if(FugacityCoefficients[i][0] > FugacityCoefficients[i][2])
         {
           // Favor the third solution, interpreted as vapor (metastable) and liquid (stable)
           TempComponents.FugacityCoeff[index] = FugacityCoefficients[i][2];
+          compressibility = Compressibility[2];
         }
         else
         {
           // When they are equal, it indicates both vapor and liquid are stable
           TempComponents.FugacityCoeff[index] = FugacityCoefficients[i][0];
+          compressibility = Compressibility[0];
         }
       }
       else
       {
         // Default to the first solution if the third compressibility is not positive
         TempComponents.FugacityCoeff[index] = FugacityCoefficients[i][0];
+        compressibility = Compressibility[0];
       }
     }
+    //Get excess loading for each component//
+    TempComponents.Compressibility[index] = compressibility;
+    TempComponents.AmountOfExcessMolecules[index] = TempComponents.MolFraction[index]*AVOGADRO_CONSTANT*
+                excess_volume*(1e-30)*TempComponents.Pressure/(TempComponents.Compressibility[index]*MOLAR_GAS_CONSTANT*TempComponents.Temperature);
+    fprintf(TempComponents.OUTPUT, "TempComponents.AmountOfExcessMolecules for component %zu is %.10f; Compressibility: %.10f\n", i, TempComponents.AmountOfExcessMolecules[index], TempComponents.Compressibility[index]);
+
     fprintf(TempComponents.OUTPUT, "Fugacity Coefficient for component %zu is %.10f\n", index, TempComponents.FugacityCoeff[index]);
     for(size_t ii = 0; ii < FugacityCoefficients.size(); ii++)
       for(size_t jj = 0; jj < FugacityCoefficients[ii].size(); jj++)
