@@ -36,9 +36,8 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
   * also available in [Chinese](https://zhaoli2042.github.io/gRASPA-mkdoc/Chinese)
 * a doxygen documentation is also available @ https://zhaoli2042.github.io/gRASPA
 ## Reference
-* gRASPA paper is currently in progress. Please kindly cite it when it is published.
-* Part of gRASPA is available in [Zhao Li's dissertation](https://www.proquest.com/openview/900e3899582bbe385d240586668e6f90/1?pq-origsite=gscholar&cbl=18750&diss=y)
-
+* gRASPA paper is now [online](https://pubs.acs.org/doi/10.1021/acs.jctc.4c01058). Please kindly cite it if you find it useful.
+* Also, please give our repository a :star: if our code helps!
 ## Table of Code Capabilities
 | Functionalities | gRASPA | gRASPA-fast | gRASPA-HTC |
 | :---------------: | :---------------------: | :-----------------------: | :-----------------------: |
