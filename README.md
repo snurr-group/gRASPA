@@ -37,6 +37,8 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
 * a doxygen documentation is also available @ https://zhaoli2042.github.io/gRASPA
 ## Reference
 * gRASPA paper is now [online](https://pubs.acs.org/doi/10.1021/acs.jctc.4c01058). Please kindly cite it if you find it useful.
+  * Li, Shi, Dubbeldam, Dewing, Knight, Vázquez-Mayagoitia, Snurr, "Efficient Implementation of Monte Carlo Algorithms on Graphical Processing Units for Simulation of Adsorption in Porous Materials", _J. Chem. Theory Comput_. 2024, 20, 23, 10649–10666
+  * DOI: 10.1021/acs.jctc.4c01058
 * Also, please give our repository a :star: if our code helps!
 ## Table of Code Capabilities
 | Functionalities | gRASPA | gRASPA-fast | gRASPA-HTC |
