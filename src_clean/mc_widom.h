@@ -43,6 +43,12 @@ inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, 
     //else printf("THERE IS OVERLAP FOR TRIAL %zu, flag = %s\n", i, flag[i] ? "true" : "false");
   }
   T host_array[HGGG_Nblock * 2];
+
+  size_t reasonable_trials_size = reasonable_trials.size();
+  Trialindex.resize(reasonable_trials_size, 0);
+  energies.resize(reasonable_trials_size);
+  Rosen.resize(reasonable_trials_size, 0.0);
+
   for(size_t i = 0; i < reasonable_trials.size(); i++)
   {
     size_t trial = reasonable_trials[i];
@@ -54,22 +60,25 @@ inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, 
     //So translation/rotation summation of energy are not checking the overlaps, so this is the reason for the discrepancy//
     for(size_t ijk=0; ijk < HG_Nblock; ijk++)           HG_vdw+=host_array[ijk];
     for(size_t ijk=HG_Nblock; ijk < HGGG_Nblock; ijk++) GG_vdw+=host_array[ijk];
-    
+
     for(size_t ijk=HGGG_Nblock; ijk < HG_Nblock + HGGG_Nblock; ijk++) HG_real+=host_array[ijk];
     for(size_t ijk=HG_Nblock + HGGG_Nblock; ijk < HGGG_Nblock + HGGG_Nblock; ijk++) GG_real+=host_array[ijk];
 
     double tot = static_cast<double>(HG_vdw + GG_vdw);
     if(VDWRealBiasing) tot += static_cast<double>(HG_real + GG_real);
-   
+
     MoveEnergy E;
-    E.HGVDW = static_cast<double>(HG_vdw); 
+    E.HGVDW = static_cast<double>(HG_vdw);
     E.HGReal= static_cast<double>(HG_real);
     E.GGVDW = static_cast<double>(GG_vdw);
     E.GGReal= static_cast<double>(GG_real);
     //printf("trial: %zu, HG: %.5f, GG: %.5f, tot: %.5f\n", i, HG_vdw + HG_real, GG_vdw + GG_real, tot);
-    energies.push_back(E);
-    Trialindex.push_back(trial);
-    Rosen.push_back(-Beta*tot);
+    Trialindex[i] = trial;
+    energies[i] = E;
+    Rosen[i] = -Beta*tot;
+    //energies.push_back(E);
+    //Trialindex.push_back(trial);
+    //Rosen.push_back(-Beta*tot);
     //printf("Trial %zu ", trial); E.print();
   }
 }
