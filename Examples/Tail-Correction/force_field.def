@@ -7,4 +7,4 @@ Ar Ar truncated yes
 # mixing rules to overwrite
 1
 #
-Ar Ar lennard-jones 0.0     3.407
+Ar Ar lennard-jones 200     3.407

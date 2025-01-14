@@ -1,4 +1,4 @@
-NumberOfInitializationCycles 10000
+NumberOfInitializationCycles 50000
 NumberOfEquilibrationCycles  50000
 NumberOfProductionCycles     50000
 

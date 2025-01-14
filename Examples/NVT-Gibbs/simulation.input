@@ -1,6 +1,6 @@
-NumberOfInitializationCycles 5000
+NumberOfInitializationCycles 500
 NumberOfEquilibrationCycles  0
-NumberOfProductionCycles     5000
+NumberOfProductionCycles     500
 
 UseMaxStep  no
 MaxStepPerCycle 1

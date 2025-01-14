@@ -1,417 +1,13 @@
-/home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/nvc_main.xChecking if all inputs are defined
-True path of exe is /home/z/Desktop/gRASPA_versions/080424-code/gRASPA_fork/src_clean/
-There are 1 simulations
-running only one simulation
-------------------PARSING FORCE FIELD MIXING RULES----------------
-C                lennard-jones         52.83    3.43
-H                lennard-jones         22.14    2.57
-Zn               lennard-jones         62.39    2.46
-N                lennard-jones         34.72    3.26
-O                lennard-jones         30.19    3.12
-C_co2            lennard-jones         29.93      2.745
-O_co2            lennard-jones         85.66      3.017
-N_n2             lennard-jones         36.0    3.31
-N_com            lennard-jones         0.0     0.0
-Lw               lennard-jones         0.0      0.0
-Hw               lennard-jones         0.0      0.0
-Ow               lennard-jones         78.0      3.154
-CH3_sp3          lennard-jones         98.0    3.75
-CH4_sp3          lennard-jones         148.0   3.73
-------------------------------------------------------------------
------ MIXED VDW PARAMETERS -----
-i: 0, ii: 0, jj: 0, Name_i: C, Name_j: C, ep: 43.9252786154, sig: 3.4300000000, shift: 0.0000000000
-i: 1, ii: 0, jj: 1, Name_i: C, Name_j: H, ep: 28.4356413395, sig: 3.0000000000, shift: 0.0000000000
-i: 2, ii: 0, jj: 2, Name_i: C, Name_j: Zn, ep: 47.7344268519, sig: 2.9450000000, shift: 0.0000000000
-i: 3, ii: 0, jj: 3, Name_i: C, Name_j: N, ep: 35.6093525823, sig: 3.3450000000, shift: 0.0000000000
-i: 4, ii: 0, jj: 4, Name_i: C, Name_j: O, ep: 33.2051752004, sig: 3.2750000000, shift: 0.0000000000
-i: 5, ii: 0, jj: 5, Name_i: C, Name_j: C_co2, ep: 33.0618824894, sig: 3.0875000000, shift: 0.0000000000
-i: 6, ii: 0, jj: 6, Name_i: C, Name_j: O_co2, ep: 55.9323742064, sig: 3.2235000000, shift: 0.0000000000
-i: 7, ii: 0, jj: 7, Name_i: C, Name_j: N_n2, ep: 36.2598054781, sig: 3.3700000000, shift: 0.0000000000
-i: 8, ii: 0, jj: 8, Name_i: C, Name_j: N_com, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
-i: 9, ii: 0, jj: 9, Name_i: C, Name_j: Lw, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
-i: 10, ii: 0, jj: 10, Name_i: C, Name_j: Hw, ep: 0.0000000000, sig: 1.7150000000, shift: 0.0000000000
-i: 11, ii: 0, jj: 11, Name_i: C, Name_j: Ow, ep: 53.3729885071, sig: 3.2920000000, shift: 0.0000000000
-i: 12, ii: 0, jj: 12, Name_i: C, Name_j: CH3_sp3, ep: 59.8256267889, sig: 3.5900000000, shift: 0.0000000000
-i: 13, ii: 0, jj: 13, Name_i: C, Name_j: CH4_sp3, ep: 73.5199287061, sig: 3.5800000000, shift: 0.0000000000
-i: 15, ii: 1, jj: 1, Name_i: H, Name_j: H, ep: 18.4082087553, sig: 2.5700000000, shift: 0.0000000000
-i: 16, ii: 1, jj: 2, Name_i: H, Name_j: Zn, ep: 30.9015465421, sig: 2.5150000000, shift: 0.0000000000
-i: 17, ii: 1, jj: 3, Name_i: H, Name_j: N, ep: 23.0522107151, sig: 2.9150000000, shift: 0.0000000000
-i: 18, ii: 1, jj: 4, Name_i: H, Name_j: O, ep: 21.4958329776, sig: 2.8450000000, shift: 0.0000000000
-i: 19, ii: 1, jj: 5, Name_i: H, Name_j: C_co2, ep: 21.4030704440, sig: 2.6575000000, shift: 0.0000000000
-i: 20, ii: 1, jj: 6, Name_i: H, Name_j: O_co2, ep: 36.2086020245, sig: 2.7935000000, shift: 0.0000000000
-i: 21, ii: 1, jj: 7, Name_i: H, Name_j: N_n2, ep: 23.4732904632, sig: 2.9400000000, shift: 0.0000000000
-i: 22, ii: 1, jj: 8, Name_i: H, Name_j: N_com, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
-i: 23, ii: 1, jj: 9, Name_i: H, Name_j: Lw, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
-i: 24, ii: 1, jj: 10, Name_i: H, Name_j: Hw, ep: 0.0000000000, sig: 1.2850000000, shift: 0.0000000000
-i: 25, ii: 1, jj: 11, Name_i: H, Name_j: Ow, ep: 34.5517480195, sig: 2.8620000000, shift: 0.0000000000
-i: 26, ii: 1, jj: 12, Name_i: H, Name_j: CH3_sp3, ep: 38.7289533477, sig: 3.1600000000, shift: 0.0000000000
-i: 27, ii: 1, jj: 13, Name_i: H, Name_j: CH4_sp3, ep: 47.5941505641, sig: 3.1500000000, shift: 0.0000000000
-i: 30, ii: 2, jj: 2, Name_i: Zn, Name_j: Zn, ep: 51.8738999207, sig: 2.4600000000, shift: 0.0000000000
-i: 31, ii: 2, jj: 3, Name_i: Zn, Name_j: N, ep: 38.6973535437, sig: 2.8600000000, shift: 0.0000000000
-i: 32, ii: 2, jj: 4, Name_i: Zn, Name_j: O, ep: 36.0846887412, sig: 2.7900000000, shift: 0.0000000000
-i: 33, ii: 2, jj: 5, Name_i: Zn, Name_j: C_co2, ep: 35.9289698558, sig: 2.6025000000, shift: 0.0000000000
-i: 34, ii: 2, jj: 6, Name_i: Zn, Name_j: O_co2, ep: 60.7827635788, sig: 2.7385000000, shift: 0.0000000000
-i: 35, ii: 2, jj: 7, Name_i: Zn, Name_j: N_n2, ep: 39.4042129458, sig: 2.8850000000, shift: 0.0000000000
-i: 36, ii: 2, jj: 8, Name_i: Zn, Name_j: N_com, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
-i: 37, ii: 2, jj: 9, Name_i: Zn, Name_j: Lw, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
-i: 38, ii: 2, jj: 10, Name_i: Zn, Name_j: Hw, ep: 0.0000000000, sig: 1.2300000000, shift: 0.0000000000
-i: 39, ii: 2, jj: 11, Name_i: Zn, Name_j: Ow, ep: 58.0014309772, sig: 2.8070000000, shift: 0.0000000000
-i: 40, ii: 2, jj: 12, Name_i: Zn, Name_j: CH3_sp3, ep: 65.0136344230, sig: 3.1050000000, shift: 0.0000000000
-i: 41, ii: 2, jj: 13, Name_i: Zn, Name_j: CH4_sp3, ep: 79.8954900142, sig: 3.0950000000, shift: 0.0000000000
-i: 45, ii: 3, jj: 3, Name_i: N, Name_j: N, ep: 28.8677962053, sig: 3.2600000000, shift: 0.0000000000
-i: 46, ii: 3, jj: 4, Name_i: N, Name_j: O, ep: 26.9187772631, sig: 3.1900000000, shift: 0.0000000000
-i: 47, ii: 3, jj: 5, Name_i: N, Name_j: C_co2, ep: 26.8026127030, sig: 3.0025000000, shift: 0.0000000000
-i: 48, ii: 3, jj: 6, Name_i: N, Name_j: O_co2, ep: 45.3432669448, sig: 3.1385000000, shift: 0.0000000000
-i: 49, ii: 3, jj: 7, Name_i: N, Name_j: N_n2, ep: 29.3951054731, sig: 3.2850000000, shift: 0.0000000000
-i: 50, ii: 3, jj: 8, Name_i: N, Name_j: N_com, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
-i: 51, ii: 3, jj: 9, Name_i: N, Name_j: Lw, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
-i: 52, ii: 3, jj: 10, Name_i: N, Name_j: Hw, ep: 0.0000000000, sig: 1.6300000000, shift: 0.0000000000
-i: 53, ii: 3, jj: 11, Name_i: N, Name_j: Ow, ep: 43.2684236966, sig: 3.2070000000, shift: 0.0000000000
-i: 54, ii: 3, jj: 12, Name_i: N, Name_j: CH3_sp3, ep: 48.4994496321, sig: 3.5050000000, shift: 0.0000000000
-i: 55, ii: 3, jj: 13, Name_i: N, Name_j: CH4_sp3, ep: 59.6011487154, sig: 3.4950000000, shift: 0.0000000000
-i: 60, ii: 4, jj: 4, Name_i: O, Name_j: O, ep: 25.1013469884, sig: 3.1200000000, shift: 0.0000000000
-i: 61, ii: 4, jj: 5, Name_i: O, Name_j: C_co2, ep: 24.9930253176, sig: 2.9325000000, shift: 0.0000000000
-i: 62, ii: 4, jj: 6, Name_i: O, Name_j: O_co2, ep: 42.2819010702, sig: 3.0685000000, shift: 0.0000000000
-i: 63, ii: 4, jj: 7, Name_i: O, Name_j: N_n2, ep: 27.4104850689, sig: 3.2150000000, shift: 0.0000000000
-i: 64, ii: 4, jj: 8, Name_i: O, Name_j: N_com, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
-i: 65, ii: 4, jj: 9, Name_i: O, Name_j: Lw, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
-i: 66, ii: 4, jj: 10, Name_i: O, Name_j: Hw, ep: 0.0000000000, sig: 1.5600000000, shift: 0.0000000000
-i: 67, ii: 4, jj: 11, Name_i: O, Name_j: Ow, ep: 40.3471415597, sig: 3.1370000000, shift: 0.0000000000
-i: 68, ii: 4, jj: 12, Name_i: O, Name_j: CH3_sp3, ep: 45.2249930249, sig: 3.4350000000, shift: 0.0000000000
-i: 69, ii: 4, jj: 13, Name_i: O, Name_j: CH4_sp3, ep: 55.5771571714, sig: 3.4250000000, shift: 0.0000000000
-i: 75, ii: 5, jj: 5, Name_i: C_co2, Name_j: C_co2, ep: 24.8851710952, sig: 2.7450000000, shift: 0.0000000000
-i: 76, ii: 5, jj: 6, Name_i: C_co2, Name_j: O_co2, ep: 42.0994389031, sig: 2.8810000000, shift: 0.0000000000
-i: 77, ii: 5, jj: 7, Name_i: C_co2, Name_j: N_n2, ep: 27.2921986063, sig: 3.0275000000, shift: 0.0000000000
-i: 78, ii: 5, jj: 8, Name_i: C_co2, Name_j: N_com, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
-i: 79, ii: 5, jj: 9, Name_i: C_co2, Name_j: Lw, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
-i: 80, ii: 5, jj: 10, Name_i: C_co2, Name_j: Hw, ep: 0.0000000000, sig: 1.3725000000, shift: 0.0000000000
-i: 81, ii: 5, jj: 11, Name_i: C_co2, Name_j: Ow, ep: 40.1730286012, sig: 2.9495000000, shift: 0.0000000000
-i: 82, ii: 5, jj: 12, Name_i: C_co2, Name_j: CH3_sp3, ep: 45.0298303187, sig: 3.2475000000, shift: 0.0000000000
-i: 83, ii: 5, jj: 13, Name_i: C_co2, Name_j: CH4_sp3, ep: 55.3373210173, sig: 3.2375000000, shift: 0.0000000000
-i: 90, ii: 6, jj: 6, Name_i: O_co2, Name_j: O_co2, ep: 71.2216423659, sig: 3.0170000000, shift: 0.0000000000
-i: 91, ii: 6, jj: 7, Name_i: O_co2, Name_j: N_n2, ep: 46.1715229268, sig: 3.1635000000, shift: 0.0000000000
-i: 92, ii: 6, jj: 8, Name_i: O_co2, Name_j: N_com, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
-i: 93, ii: 6, jj: 9, Name_i: O_co2, Name_j: Lw, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
-i: 94, ii: 6, jj: 10, Name_i: O_co2, Name_j: Hw, ep: 0.0000000000, sig: 1.5085000000, shift: 0.0000000000
-i: 95, ii: 6, jj: 11, Name_i: O_co2, Name_j: Ow, ep: 67.9626415540, sig: 3.0855000000, shift: 0.0000000000
-i: 96, ii: 6, jj: 12, Name_i: O_co2, Name_j: CH3_sp3, ep: 76.1791262383, sig: 3.3835000000, shift: 0.0000000000
-i: 97, ii: 6, jj: 13, Name_i: O_co2, Name_j: CH4_sp3, ep: 93.6168032087, sig: 3.3735000000, shift: 0.0000000000
-i: 105, ii: 7, jj: 7, Name_i: N_n2, Name_j: N_n2, ep: 29.9320467566, sig: 3.3100000000, shift: 0.0000000000
-i: 106, ii: 7, jj: 8, Name_i: N_n2, Name_j: N_com, ep: 0.0000000000, sig: 1.6550000000, shift: 0.0000000000
-i: 107, ii: 7, jj: 9, Name_i: N_n2, Name_j: Lw, ep: 0.0000000000, sig: 1.6550000000, shift: 0.0000000000
-i: 108, ii: 7, jj: 10, Name_i: N_n2, Name_j: Hw, ep: 0.0000000000, sig: 1.6550000000, shift: 0.0000000000
-i: 109, ii: 7, jj: 11, Name_i: N_n2, Name_j: Ow, ep: 44.0587798657, sig: 3.2320000000, shift: 0.0000000000
-i: 110, ii: 7, jj: 12, Name_i: N_n2, Name_j: CH3_sp3, ep: 49.3853575516, sig: 3.5300000000, shift: 0.0000000000
-i: 111, ii: 7, jj: 13, Name_i: N_n2, Name_j: CH4_sp3, ep: 60.6898441555, sig: 3.5200000000, shift: 0.0000000000
-i: 120, ii: 8, jj: 8, Name_i: N_com, Name_j: N_com, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
-i: 121, ii: 8, jj: 9, Name_i: N_com, Name_j: Lw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
-i: 122, ii: 8, jj: 10, Name_i: N_com, Name_j: Hw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
-i: 123, ii: 8, jj: 11, Name_i: N_com, Name_j: Ow, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
-i: 124, ii: 8, jj: 12, Name_i: N_com, Name_j: CH3_sp3, ep: 0.0000000000, sig: 1.8750000000, shift: 0.0000000000
-i: 125, ii: 8, jj: 13, Name_i: N_com, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
-i: 135, ii: 9, jj: 9, Name_i: Lw, Name_j: Lw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
-i: 136, ii: 9, jj: 10, Name_i: Lw, Name_j: Hw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
-i: 137, ii: 9, jj: 11, Name_i: Lw, Name_j: Ow, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
-i: 138, ii: 9, jj: 12, Name_i: Lw, Name_j: CH3_sp3, ep: 0.0000000000, sig: 1.8750000000, shift: 0.0000000000
-i: 139, ii: 9, jj: 13, Name_i: Lw, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
-i: 150, ii: 10, jj: 10, Name_i: Hw, Name_j: Hw, ep: 0.0000000000, sig: 0.0000000000, shift: 0.0000000000
-i: 151, ii: 10, jj: 11, Name_i: Hw, Name_j: Ow, ep: 0.0000000000, sig: 1.5770000000, shift: 0.0000000000
-i: 152, ii: 10, jj: 12, Name_i: Hw, Name_j: CH3_sp3, ep: 0.0000000000, sig: 1.8750000000, shift: 0.0000000000
-i: 153, ii: 10, jj: 13, Name_i: Hw, Name_j: CH4_sp3, ep: 0.0000000000, sig: 1.8650000000, shift: 0.0000000000
-i: 165, ii: 11, jj: 11, Name_i: Ow, Name_j: Ow, ep: 64.8527679727, sig: 3.1540000000, shift: 0.0000000000
-i: 166, ii: 11, jj: 12, Name_i: Ow, Name_j: CH3_sp3, ep: 72.6932780323, sig: 3.4520000000, shift: 0.0000000000
-i: 167, ii: 11, jj: 13, Name_i: Ow, Name_j: CH4_sp3, ep: 89.3330317660, sig: 3.4420000000, shift: 0.0000000000
-i: 180, ii: 12, jj: 12, Name_i: CH3_sp3, Name_j: CH3_sp3, ep: 81.4816828375, sig: 3.7500000000, shift: 0.0000000000
-i: 181, ii: 12, jj: 13, Name_i: CH3_sp3, Name_j: CH4_sp3, ep: 100.1331341535, sig: 3.7400000000, shift: 0.0000000000
-i: 195, ii: 13, jj: 13, Name_i: CH4_sp3, Name_j: CH4_sp3, ep: 123.0539699995, sig: 3.7300000000, shift: 0.0000000000
------ END OF MIXED VDW PARAMETERS -----
--------------PARSING PSEUDO ATOMS FILE-------------
-Name: C, 0.00000, 12.00000, 0.00000, 0.00000
-Name: H, 0.00000, 1.00000, 0.00000, 0.00000
-Name: Zn, 0.00000, 65.39000, 0.00000, 0.00000
-Name: N, 0.00000, 14.00000, 0.00000, 0.00000
-Name: O, 0.00000, 15.99900, 0.00000, 0.00000
-Name: C_co2, 0.00000, 12.00000, 0.70000, 0.00000
-Name: O_co2, 0.00000, 15.99940, -0.35000, 0.00000
-Name: N_n2, 0.00000, 14.00000, -0.40480, 0.00000
-Name: N_com, 0.00000, 0.00000, 0.80960, 0.00000
-Name: Lw, 0.00000, 0.00000, -1.04000, 0.00000
-Name: Hw, 0.00000, 1.00079, 0.52000, 0.00000
-Name: Ow, 0.00000, 15.99940, 0.00000, 0.00000
-Name: CH3_sp3, 0.00000, 15.04246, 0.00000, 0.00000
-Name: CH4_sp3, 0.00000, 16.00000, 0.00000, 0.00000
----------------------------------------------------
-------------------GENERAL SIMULATION SETUP-------------
-Random Seed is 0
-Allocate space for adsorbate is 10240
 Finished Checking Number of Components, There are 1 framework, 1 Adsorbates, 2 total Components
 DONE Reading Model Info from simulation.input file
 Setting Maximum Number of Steps for a Cycle, Max Step = 1
 -------------------------------------------------------
-Force Field OverWrite file not found
+device_random[0] = 2.30000 4.50000 6.70000
 ==========================================
 ====== Preparing Simulation box 0 ======
 ==========================================
-Force Field OverWrite file not found
-------------------------PARSING FRAMEWORK DATA------------------------
-Reading Framework 0, FrameworkName: 667
-Reading Framework 0, UnitCells: 1.00 1.00 1.00
-atom_site starts at line 16, and ends at 20
-label location: 0, xyz location: 2 3 4, charge: -1
-Atom Count 0, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 1, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 2, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 3, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 4, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 5, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 6, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 7, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 8, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 9, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 10, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 11, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 12, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 13, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 14, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 15, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 16, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 17, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 18, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 19, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 20, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 21, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 22, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 23, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 24, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 25, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 26, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 27, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 28, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 29, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 30, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 31, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 32, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 33, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 34, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 35, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 36, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 37, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 38, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 39, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 40, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 41, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 42, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 43, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 44, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 45, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 46, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 47, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 48, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 49, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 50, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 51, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 52, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 53, Component 0, AtomType 2 (Zn), MoleculeID 0, AtomMass 65.390000
-Atom Count 54, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 55, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 56, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 57, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 58, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 59, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 60, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 61, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 62, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 63, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 64, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 65, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 66, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 67, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 68, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 69, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 70, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 71, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 72, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 73, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 74, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 75, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 76, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 77, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 78, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 79, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 80, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 81, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 82, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 83, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 84, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 85, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 86, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 87, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 88, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 89, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 90, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 91, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 92, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 93, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 94, Component 0, AtomType 2 (Zn), MoleculeID 0, AtomMass 65.390000
-Atom Count 95, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 96, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 97, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 98, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 99, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 100, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 101, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 102, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 103, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 104, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 105, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 106, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 107, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 108, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 109, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 110, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 111, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 112, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 113, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 114, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 115, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 116, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 117, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 118, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 119, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 120, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 121, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 122, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 123, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 124, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 125, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 126, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 127, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 128, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 129, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 130, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 131, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 132, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 133, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 134, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 135, Component 0, AtomType 2 (Zn), MoleculeID 0, AtomMass 65.390000
-Atom Count 136, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 137, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 138, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 139, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 140, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 141, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 142, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 143, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 144, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 145, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 146, Component 0, AtomType 3 (N), MoleculeID 0, AtomMass 14.000000
-Atom Count 147, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 148, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 149, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 150, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 151, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 152, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 153, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 154, Component 0, AtomType 1 (H), MoleculeID 0, AtomMass 1.000000
-Atom Count 155, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 156, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 157, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 158, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 159, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 160, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 161, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 162, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 163, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 164, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 165, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 166, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 167, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 168, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 169, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 170, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 171, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 172, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 173, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 174, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 175, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 176, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 177, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 178, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 179, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 180, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 181, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 182, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 183, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 184, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 185, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 186, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 187, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 188, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 189, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 190, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 191, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 192, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 193, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 194, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 195, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 196, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 197, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 198, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 199, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 200, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 201, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 202, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 203, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 204, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 205, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-Atom Count 206, Component 0, AtomType 0 (C), MoleculeID 0, AtomMass 12.000000
-component 0, totalmass: 2008.17000
-Finished Reading Atoms
-NMol = 1, pos_size: 207, NMol in FrameworkDef: 1
-Framework Comp [0], size: 207, Molsize: 207, Allocate_size: 207, component mass: 2008.170000
-------------------CIF FILE SUMMARY------------------
-CIF FILE IS: 667.cif
-Number of Unit Cells: 1.00 1.00 1.00
-Box size: 
-30.69260 0.00000 0.00000
-0.04230 30.56127 0.00000
-0.04688 -0.00145 30.55976
-Framework Pseudo Atom[0], Name: C, #: 132
-Framework Pseudo Atom[1], Name: H, #: 60
-Framework Pseudo Atom[2], Name: Zn, #: 3
-Framework Pseudo Atom[3], Name: N, #: 12
-NumberOfPseudoAtoms size: 4
-Framework Component [0], Pseudo Atom [0], Name: C, #: 132
-Framework Component [0], Pseudo Atom [1], Name: H, #: 60
-Framework Component [0], Pseudo Atom [2], Name: Zn, #: 3
-Framework Component [0], Pseudo Atom [3], Name: N, #: 12
-Overall Mass: 2008.170000 
-----------------------------------------------------
-Reading CIF File
-The Simulation Box is NOT Cubic
-----------------------END OF PARSING FRAMEWORK DATA----------------------
-----------------EWALD SUMMATION SETUP-----------------
-Using RASPA-2 way, need to specify the Precision of Ewald
-tol: 3.36610, tol1: 3.18942
-ALpha is 0.26506, Prefactor: 138935.48350
-kmax: 9 8 8, ReciprocalCutOff: 89.30250
-------------------------------------------------------
-Writing Movies every 10000 MC step(s) or cycle(s)
-Printing Loadings and energies every 10000 MC step(s) or cycle(s)
-Only one Framework Component, No moves assigned
 Parsing [1] Component
-Component 0 starts at line number 37
 -------------- READING AdsorbateComponent 0 (methane) --------------
-Adsorbate Component is rigid
-CH4_sp3, type: 13, Acharge = 0.00000
-Bonds not implemented. Break
-Atom [0]: Type [13], Name: CH4_sp3, Mass: 16.000000, position: 0.00000 0.00000 0.00000
-Adsorbate Type[13], Name: CH4_sp3, #: 1
-current adsorbate mass is: 16.000000 
-Ideal Chain Rosenbluth Weight: 1.00000
-TMMC: Running TMMC simulation
-TMMC: Biasing Insertion/Deletions
-TMMC: Bias Updated from component methane every 2000 MC Step(s)!
 ==================================================
 ACCUMULATED Probabilities:
 Translation Probability:      0.33333
@@ -422,20 +18,21 @@ Reinsertion Probability:      0.66667
 Identity Swap Probability:    0.66667
 CBCF Swap Probability:        0.66667
 Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
 Sum of Probabilities:         1.00000
 ==================================================
-Current processed 2 components
-TMMC Bias for **Adsorbate** component 0 (methane) is updated every 2000 step(s)!
 -------------- END OF READING Component 0 (methane) --------------
-Only one Framework Component, No moves assigned
 ================FUGACITY COEFFICIENT CALCULATION================
 Checking: Current Fugacity Coeff for 1 component: 1.00000
 Every Adsorbate Component has fugacity coefficient assigned, skip EOS calculation!
+Rosen capacity: 10
 ----------------- MEMORY ALLOCAION STATUS -----------------
 System allocate_sizes are: 207, 10240
 Component allocate_sizes are: 207, 10240
-Allocated Blocksum size: 8001
-Allocated 8001 doubles for Blocksums
+Allocated 2 double3 for reinsertion!
+Allocated Blocksum size: 8001, vdw_real size: 8001, fourier_size: 0
 ------------------------------------------------------------
 ------------------- SIMULATION BOX PARAMETERS -----------------
 Pressure:        0.00041
@@ -452,12 +49,11 @@ Guest-Guest VDW: 0.00000; Real: 0.00000
 Compoent [0-0], VDW: 0.00000, Real: 0.00000
 Compoent [0-1], VDW: 0.00000, Real: 0.00000
 Compoent [1-1], VDW: 0.00000, Real: 0.00000
-THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
-Framework Comp Zero Atoms: 207, Other Comp Atoms: 0
-NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
 VDW + Real on the GPU took 0.00001 secs
 Total GPU Energy: 
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
 Component 1, Need to create 0 full molecule
@@ -470,95 +66,135 @@ Guest-Guest VDW: 0.00000; Real: 0.00000
 Compoent [0-0], VDW: 0.00000, Real: 0.00000
 Compoent [0-1], VDW: 0.00000, Real: 0.00000
 Compoent [1-1], VDW: 0.00000, Real: 0.00000
-THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
-Framework Comp Zero Atoms: 207, Other Comp Atoms: 0
-NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
 VDW + Real on the GPU took 0.00000 secs
 Total GPU Energy: 
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
-Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00041, temp: 95.00000
-Number of Frameworks: 1
+============================================
+== END OF PREPARATION, SIMULATION STARTS! ==
+============================================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 6800.00000 [Pa], temp: 95.00000 [K]
+==================================
+== RUNNING INITIALIZATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+Box 0, Volume: 28665.20709
+Total Volume: 28665.20709
 INITIALIZATION Cycle: 0, 0 Adsorbate Molecules, Total Energy: 0.00000  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 0 Molecules  ||  
+INITIALIZATION Cycle: 10000, 59 Adsorbate Molecules, Total Energy: -48094.15797  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 59 Molecules  ||  
+INITIALIZATION Cycle: 20000, 60 Adsorbate Molecules, Total Energy: -49536.21757  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 60 Molecules  ||  
+INITIALIZATION Cycle: 30000, 63 Adsorbate Molecules, Total Energy: -51656.85395  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 63 Molecules  ||  
+INITIALIZATION Cycle: 40000, 63 Adsorbate Molecules, Total Energy: -50662.80639  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 63 Molecules  ||  
 ======================== MOVE STATISTICS FOR COMPONENT [1] (methane) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 16296
+Translation Accepted: 6363
+Max Translation: 0.4257033917, 0.4238818674, 0.4238609692
+===========================================================
 =====================SWAP MOVES=====================
-Insertion Performed:   1678
-Insertion Accepted:    397
-Deletion Performed:    1710
-Deletion Accepted:     338
-Reinsertion Performed: 3345
-Reinsertion Accepted:  389
+Insertion Performed:   8339
+Insertion Accepted:    1307
+Deletion Performed:    8361
+Deletion Accepted:     1243
+Reinsertion Performed: 16826
+Reinsertion Accepted:  1310
 ====================================================
 =====================IDENTITY SWAP MOVES=====================
 =============================================================
 ================================================================================================
-Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00041, temp: 95.00000
-Number of Frameworks: 1
-EQUILIBRATION Cycle: 0, 59 Adsorbate Molecules, Total Energy: -48094.15797  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 59 Molecules  ||  
-EQUILIBRATION Cycle: 10000, 62 Adsorbate Molecules, Total Energy: -52121.68757  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 62 Molecules  ||  
-EQUILIBRATION Cycle: 20000, 56 Adsorbate Molecules, Total Energy: -45419.04810  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 56 Molecules  ||  
-EQUILIBRATION Cycle: 30000, 58 Adsorbate Molecules, Total Energy: -48166.04905  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 58 Molecules  ||  
-EQUILIBRATION Cycle: 40000, 49 Adsorbate Molecules, Total Energy: -41941.75224  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 49 Molecules  ||  
+===============================
+== INITIALIZATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 6800.00000 [Pa], temp: 95.00000 [K]
+==================================
+== RUNNING EQUILIBRATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+EQUILIBRATION Cycle: 0, 64 Adsorbate Molecules, Total Energy: -52721.46742  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 64 Molecules  ||  
+EQUILIBRATION Cycle: 10000, 55 Adsorbate Molecules, Total Energy: -43961.83917  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 55 Molecules  ||  
+EQUILIBRATION Cycle: 20000, 61 Adsorbate Molecules, Total Energy: -50542.28309  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 61 Molecules  ||  
+EQUILIBRATION Cycle: 30000, 52 Adsorbate Molecules, Total Energy: -43586.80625  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 52 Molecules  ||  
+EQUILIBRATION Cycle: 40000, 44 Adsorbate Molecules, Total Energy: -36588.79475  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 44 Molecules  ||  
 Sampled 0 WangLandau, Adjusted WL 0 times
 ======================== MOVE STATISTICS FOR COMPONENT [1] (methane) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 33047
+Translation Accepted: 14841
+Max Translation: 0.3756231309, 0.3740158929, 0.3739974532
+===========================================================
 =====================SWAP MOVES=====================
-Insertion Performed:   10029
-Insertion Accepted:    1999
-Deletion Performed:    10069
-Deletion Accepted:     1939
-Reinsertion Performed: 20096
-Reinsertion Accepted:  1658
+Insertion Performed:   16661
+Insertion Accepted:    2923
+Deletion Performed:    16697
+Deletion Accepted:     2882
+Reinsertion Performed: 33422
+Reinsertion Accepted:  2684
 ====================================================
 =====================IDENTITY SWAP MOVES=====================
 =============================================================
 ================================================================================================
-Running Simulation Boxes in SERIAL, currently [0] box; pres: 0.00041, temp: 95.00000
-Number of Frameworks: 1
-PRODUCTION Cycle: 0, 60 Adsorbate Molecules, Total Energy: -49646.46467  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 60 Molecules  ||  
+===============================
+== EQUILIBRATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 6800.00000 [Pa], temp: 95.00000 [K]
+==================================
+==  RUNNING PRODUCTION PHASE   ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+PRODUCTION Cycle: 0, 41 Adsorbate Molecules, Total Energy: -32672.35946  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 41 Molecules  ||  
 Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
-Printing: Component: 1 [ methane ], NumMol: 60, Molsize: 1
+Printing: Component: 1 [ methane ], NumMol: 41, Molsize: 1
 Component 0, Molsize: 207
 Component 1, Molsize: 1
-PRODUCTION Cycle: 10000, 62 Adsorbate Molecules, Total Energy: -48220.01615  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 62 Molecules  ||  
-Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
-Printing: Component: 1 [ methane ], NumMol: 62, Molsize: 1
-Component 0, Molsize: 207
-Component 1, Molsize: 1
-PRODUCTION Cycle: 20000, 40 Adsorbate Molecules, Total Energy: -32854.31613  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 40 Molecules  ||  
+PRODUCTION Cycle: 10000, 40 Adsorbate Molecules, Total Energy: -33377.16129  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 40 Molecules  ||  
 Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
 Printing: Component: 1 [ methane ], NumMol: 40, Molsize: 1
 Component 0, Molsize: 207
 Component 1, Molsize: 1
-PRODUCTION Cycle: 30000, 48 Adsorbate Molecules, Total Energy: -39294.29866  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 48 Molecules  ||  
+PRODUCTION Cycle: 20000, 36 Adsorbate Molecules, Total Energy: -31355.67089  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 36 Molecules  ||  
 Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
-Printing: Component: 1 [ methane ], NumMol: 48, Molsize: 1
+Printing: Component: 1 [ methane ], NumMol: 36, Molsize: 1
 Component 0, Molsize: 207
 Component 1, Molsize: 1
-PRODUCTION Cycle: 40000, 15 Adsorbate Molecules, Total Energy: -12229.85330  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 15 Molecules  ||  
+PRODUCTION Cycle: 30000, 64 Adsorbate Molecules, Total Energy: -50921.11258  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 64 Molecules  ||  
 Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
-Printing: Component: 1 [ methane ], NumMol: 15, Molsize: 1
+Printing: Component: 1 [ methane ], NumMol: 64, Molsize: 1
+Component 0, Molsize: 207
+Component 1, Molsize: 1
+PRODUCTION Cycle: 40000, 58 Adsorbate Molecules, Total Energy: -48801.85380  ||  Component 0 [667.cif], 1 Molecules  ||  Component 1 [methane], 58 Molecules  ||  
+Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
+Printing: Component: 1 [ methane ], NumMol: 58, Molsize: 1
 Component 0, Molsize: 207
 Component 1, Molsize: 1
 ======================== MOVE STATISTICS FOR COMPONENT [1] (methane) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 49834
+Translation Accepted: 23287
+Max Translation: 0.4475016362, 0.4455868403, 0.4455648721
+===========================================================
 =====================SWAP MOVES=====================
-Insertion Performed:   18296
-Insertion Accepted:    3783
-Deletion Performed:    18377
-Deletion Accepted:     3777
-Reinsertion Performed: 36747
-Reinsertion Accepted:  3296
+Insertion Performed:   24823
+Insertion Accepted:    4571
+Deletion Performed:    25055
+Deletion Accepted:     4512
+Reinsertion Performed: 50088
+Reinsertion Accepted:  4053
 ====================================================
 =====================IDENTITY SWAP MOVES=====================
 =============================================================
 ================================================================================================
-=====================BLOCK AVERAGES (ENERGIES)================
-BLOCK [0], Blocksize: 10000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [1], Blocksize: 10000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [2], Blocksize: 10000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [3], Blocksize: 10000, Average: 0.00000, ErrorBar: 0.00000
-BLOCK [4], Blocksize: 10000, Average: 0.00000, ErrorBar: 0.00000
-Overall: Average: 0.00000, ErrorBar: 0.00000
+============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========
+COMPONENT [1] (methane)
+BLOCK [0], Blocksize: 10000, Average: -7.92567
+BLOCK [1], Blocksize: 10000, Average: -8.07113
+BLOCK [2], Blocksize: 10000, Average: -8.22710
+BLOCK [3], Blocksize: 10000, Average: -8.52489
+BLOCK [4], Blocksize: 10000, Average: -8.35205
+Overall: Average: -8.22017, ErrorBar: 0.41879
+-----------------------------
 ==============================================================
 =================== BLOCK AVERAGES (LOADING: # MOLECULES)=============
 COMPONENT [0] (667.cif)
@@ -568,14 +204,16 @@ BLOCK [2], Blocksize: 10000, Average: 1.00000, ErrorBar: 0.00000
 BLOCK [3], Blocksize: 10000, Average: 1.00000, ErrorBar: 0.00000
 BLOCK [4], Blocksize: 10000, Average: 1.00000, ErrorBar: 0.00000
 Overall: Average: 1.00000, ErrorBar: 0.00000
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
 ----------------------------------------------------------
 COMPONENT [1] (methane)
-BLOCK [0], Blocksize: 10000, Average: 57.43070, ErrorBar: 8.54836
-BLOCK [1], Blocksize: 10000, Average: 47.56120, ErrorBar: 15.51978
-BLOCK [2], Blocksize: 10000, Average: 42.33740, ErrorBar: 13.03726
-BLOCK [3], Blocksize: 10000, Average: 26.57560, ErrorBar: 18.27296
-BLOCK [4], Blocksize: 10000, Average: 13.39090, ErrorBar: 10.63562
-Overall: Average: 37.45916, ErrorBar: 31.27227
+BLOCK [0], Blocksize: 10000, Average: 45.35660, ErrorBar: 12.63573
+BLOCK [1], Blocksize: 10000, Average: 40.27420, ErrorBar: 13.88654
+BLOCK [2], Blocksize: 10000, Average: 53.30260, ErrorBar: 13.49978
+BLOCK [3], Blocksize: 10000, Average: 58.91890, ErrorBar: 5.61132
+BLOCK [4], Blocksize: 10000, Average: 58.42610, ErrorBar: 9.15597
+Overall: Average: 51.25568, ErrorBar: 14.68936
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
 ----------------------------------------------------------
 ======================================================================
 =====================BLOCK AVERAGES (LOADING: mg/g)=============
@@ -592,12 +230,12 @@ Overall: Average: 1000.00000, ErrorBar: 0.00001
 COMPONENT [1] (methane)
 Framework component 0, molar mass: 2008.17000
 Framework total mass: 2008.17000
-BLOCK [0], Blocksize: 10000, Average: 457.57640, ErrorBar: 68.10862
-BLOCK [1], Blocksize: 10000, Average: 378.94162, ErrorBar: 123.65308
-BLOCK [2], Blocksize: 10000, Average: 337.32124, ErrorBar: 103.87379
-BLOCK [3], Blocksize: 10000, Average: 211.73984, ErrorBar: 145.58896
-BLOCK [4], Blocksize: 10000, Average: 106.69137, ErrorBar: 84.73879
-Overall: Average: 298.45410, ErrorBar: 249.16037
+BLOCK [0], Blocksize: 10000, Average: 361.37658, ErrorBar: 100.67461
+BLOCK [1], Blocksize: 10000, Average: 320.88279, ErrorBar: 110.64037
+BLOCK [2], Blocksize: 10000, Average: 424.68596, ErrorBar: 107.55888
+BLOCK [3], Blocksize: 10000, Average: 469.43356, ErrorBar: 44.70791
+BLOCK [4], Blocksize: 10000, Average: 465.50720, ErrorBar: 72.94975
+Overall: Average: 408.37722, ErrorBar: 117.03682
 ----------------------------------------------------------
 ==============================================================
 =====================BLOCK AVERAGES (LOADING: mol/kg)=============
@@ -614,128 +252,64 @@ Overall: Average: 0.49797, ErrorBar: 0.00000
 COMPONENT [1] (methane)
 Framework component 0, molar mass: 2008.17000
 Framework total mass: 2008.17000
-BLOCK [0], Blocksize: 10000, Average: 28.59853, ErrorBar: 4.25679
-BLOCK [1], Blocksize: 10000, Average: 23.68385, ErrorBar: 7.72832
-BLOCK [2], Blocksize: 10000, Average: 21.08258, ErrorBar: 6.49211
-BLOCK [3], Blocksize: 10000, Average: 13.23374, ErrorBar: 9.09931
-BLOCK [4], Blocksize: 10000, Average: 6.66821, ErrorBar: 5.29617
-Overall: Average: 18.65338, ErrorBar: 15.57252
+BLOCK [0], Blocksize: 10000, Average: 22.58604, ErrorBar: 6.29216
+BLOCK [1], Blocksize: 10000, Average: 20.05517, ErrorBar: 6.91502
+BLOCK [2], Blocksize: 10000, Average: 26.54287, ErrorBar: 6.72243
+BLOCK [3], Blocksize: 10000, Average: 29.33960, ErrorBar: 2.79424
+BLOCK [4], Blocksize: 10000, Average: 29.09420, ErrorBar: 4.55936
+Overall: Average: 25.52358, ErrorBar: 7.31480
 ----------------------------------------------------------
 ==============================================================
 =====================BLOCK AVERAGES (LOADING: g/L)=============
-COMPONENT [0] (667.cif)
-Total Unit Cells 1 
-BLOCK [0], Blocksize: 10000, Average: 116.33074, ErrorBar: -nan
-BLOCK [1], Blocksize: 10000, Average: 116.33074, ErrorBar: -nan
-BLOCK [2], Blocksize: 10000, Average: 116.33074, ErrorBar: -nan
-BLOCK [3], Blocksize: 10000, Average: 116.33074, ErrorBar: -nan
-BLOCK [4], Blocksize: 10000, Average: 116.33074, ErrorBar: -nan
-Overall: Average: 116.33074, ErrorBar: 0.00000
-----------------------------------------------------------
 COMPONENT [1] (methane)
 Total Unit Cells 1 
-BLOCK [0], Blocksize: 10000, Average: 53.23020, ErrorBar: 7.92313
-BLOCK [1], Blocksize: 10000, Average: 44.08256, ErrorBar: 14.38465
-BLOCK [2], Blocksize: 10000, Average: 39.24083, ErrorBar: 12.08371
-BLOCK [3], Blocksize: 10000, Average: 24.63185, ErrorBar: 16.93647
-BLOCK [4], Blocksize: 10000, Average: 12.41149, ErrorBar: 9.85773
-Overall: Average: 34.71939, ErrorBar: 28.98501
+BLOCK [0], Blocksize: 10000, Average: 42.03920, ErrorBar: 11.71155
+BLOCK [1], Blocksize: 10000, Average: 37.32853, ErrorBar: 12.87088
+BLOCK [2], Blocksize: 10000, Average: 49.40403, ErrorBar: 12.51240
+BLOCK [3], Blocksize: 10000, Average: 54.60955, ErrorBar: 5.20090
+BLOCK [4], Blocksize: 10000, Average: 54.15280, ErrorBar: 8.48630
+Overall: Average: 47.50682, ErrorBar: 13.61498
 ----------------------------------------------------------
 ==============================================================
-=====================Rosenbluth Summary=====================
-There are 5 blocks
-=====BLOCK 0=====
-Widom Performed: 3369.0
-Framework Density: 116.33074 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 795.7580576518
-(Total) Averaged Excess Mu: -634.2347235877
-(Total) Averaged Henry Coefficient: 0.0086602168
-(Total) Converted to Fugacity: 344.8401406044 [Pascal], Temp: 95.00000 [K]
-Framework Density: 116.33074 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 795.7580576518
-(Insertion) Averaged Excess Mu: -634.2347235877
-(Insertion) Converted to Fugacity: 344.8401406044 [Pascal], Temp: 95.00000 [K]
-=====BLOCK 1=====
-Widom Performed: 3286.0
-Framework Density: 116.33074 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 655.3110108386
-(Total) Averaged Excess Mu: -615.7957984343
-(Total) Averaged Henry Coefficient: 0.0071317348
-(Total) Converted to Fugacity: 418.7466957660 [Pascal], Temp: 95.00000 [K]
-Framework Density: 116.33074 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 655.3110108386
-(Insertion) Averaged Excess Mu: -615.7957984343
-(Insertion) Converted to Fugacity: 418.7466957660 [Pascal], Temp: 95.00000 [K]
-=====BLOCK 2=====
-Widom Performed: 3349.0
-Framework Density: 116.33074 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 685.9186917949
-(Total) Averaged Excess Mu: -620.1304285532
-(Total) Averaged Henry Coefficient: 0.0074648375
-(Total) Converted to Fugacity: 400.0610039794 [Pascal], Temp: 95.00000 [K]
-Framework Density: 116.33074 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 685.9186917949
-(Insertion) Averaged Excess Mu: -620.1304285532
-(Insertion) Converted to Fugacity: 400.0610039794 [Pascal], Temp: 95.00000 [K]
-=====BLOCK 3=====
-Widom Performed: 3289.0
-Framework Density: 116.33074 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 448.0360138531
-(Total) Averaged Excess Mu: -579.6903295768
-(Total) Averaged Henry Coefficient: 0.0048759657
-(Total) Converted to Fugacity: 612.4715692558 [Pascal], Temp: 95.00000 [K]
-Framework Density: 116.33074 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 448.0360138531
-(Insertion) Averaged Excess Mu: -579.6903295768
-(Insertion) Converted to Fugacity: 612.4715692558 [Pascal], Temp: 95.00000 [K]
-=====BLOCK 4=====
-Widom Performed: 3325.0
-Framework Density: 116.33074 [kg/m^3]
-(Total) Averaged Rosenbluth Weight: 556.6735704443
-(Total) Averaged Excess Mu: -600.3056460581
-(Total) Averaged Henry Coefficient: 0.0060582658
-(Total) Converted to Fugacity: 492.9447616288 [Pascal], Temp: 95.00000 [K]
-Framework Density: 116.33074 [kg/m^3]
-(Insertion) Averaged Rosenbluth Weight: 556.6735704443
-(Insertion) Averaged Excess Mu: -600.3056460581
-(Insertion) Converted to Fugacity: 492.9447616288 [Pascal], Temp: 95.00000 [K]
-=========================AVERAGE========================
-Averaged Rosenbluth Weight: 628.3394689165 +/- 236.1646065721
-Averaged Excess Chemical Potential: -610.0313852420 +/- 37.2686504599
-Averaged Henry Coefficient [mol/kg/Pa]: 0.006838204138 +/- 0.002570174038
-Averaged Fugacity: 453.8128342469 +/- 184.8195730328
-Printing: Component: 0 [ 667.cif ], NumMol: 1, Molsize: 207
-Printing: Component: 1 [ methane ], NumMol: 6, Molsize: 1
-Component 0, Molsize: 207
-Component 1, Molsize: 1
-Work took 3.160120 seconds
+=====================BLOCK AVERAGES (VOLUME Å^3)================
+BLOCK [0], Blocksize: 10000, Average: 28665.20709, ErrorBar: 0.03885
+BLOCK [1], Blocksize: 10000, Average: 28665.20709, ErrorBar: 0.03885
+BLOCK [2], Blocksize: 10000, Average: 28665.20709, ErrorBar: 0.03885
+BLOCK [3], Blocksize: 10000, Average: 28665.20709, ErrorBar: 0.03885
+BLOCK [4], Blocksize: 10000, Average: 28665.20709, ErrorBar: 0.03885
+Overall: Average: 28665.20709, ErrorBar: -nan
+----------------------------------------------------------
+==============================================================
+===============================
+== PRODUCTION PHASE ENDS ==
+===============================
+Work took 4.283817 seconds
+========================
+== END OF SIMULATION! ==
+========================
 ======================================
 CHECKING FINAL ENERGY FOR SYSTEM [0]
 ======================================
 ======================== CALCULATING FINAL STAGE ENERGY ========================
 ****** Calculating VDW + Real Energy (CPU) ******
 Host-Host   VDW: 0.00000; Real: 0.00000
-Host-Guest  VDW: -4894.72762; Real: 0.00000
-Guest-Guest VDW: -51.91054; Real: 0.00000
+Host-Guest  VDW: -38861.22382; Real: 0.00000
+Guest-Guest VDW: -8780.91004; Real: 0.00000
 ********** PRINTING COMPONENT ENERGIES**********
 Compoent [0-0], VDW: 0.00000, Real: 0.00000
-Compoent [0-1], VDW: -4894.72762, Real: 0.00000
-Compoent [1-1], VDW: -51.91054, Real: 0.00000
-THERE IS MORE THAN 1 FRAMEWORK COMPONENTS
-Framework Comp Zero Atoms: 207, Other Comp Atoms: 0
-NFrameworkZero_ExtraFramework interactions: 0, NExtraFrameworkAtoms * (NExtraFrameworkAtoms - 1) / 2: 0
-Atoms: 207 6
-Interactions: 0 1242 15
-Nblock 2, blocks: 0 1 1, threads needed: 0 13 1, Nthread: 128
-GPU VDW REAL ENERGY:
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -4894.72762, HGReal: 0.00000, GGVDW: -51.91054, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
-Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
-VDW + Real on the GPU took 0.00018 secs
+Compoent [0-1], VDW: -38861.22382, Real: 0.00000
+Compoent [1-1], VDW: -8780.91004, Real: 0.00000
+VDW + Real on the GPU took 0.00025 secs
 Total GPU Energy: 
-HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -4894.72762, HGReal: 0.00000, GGVDW: -51.91054, GGReal: 0.00000, HHEwaldE: 0.00000, HGEwaldE: 0.00000, GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -38861.22382, HGReal: 0.00000, GGVDW: -8780.91004, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
 Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
 ====================== DONE CALCULATING FINAL STAGE ENERGY ======================
 ======================================
+Random Numbers Regenerated 3 times, offset: 99784, randomsize: 333334
+DNN Feature Preparation Time: 0.00000, DNN Prediction Time: 0.00000
+DNN GPU Time: 0.00000, DNN Sort Time: 0.00000, std::sort Time: 0.00000, Featurization Time: 0.00000
 ======================== ENERGY SUMMARY (Simulation 0) =========================
  *** INITIAL STAGE *** 
 ========================================================================
@@ -746,6 +320,10 @@ Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
 Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
 Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
 Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
@@ -761,6 +339,10 @@ Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
 Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
 Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
 Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
@@ -800,23 +382,27 @@ Total Energy:               0.00000 (0.00000 [K])
  *** FINAL STAGE *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -4894.72762 (-5887.00777 [K])
-VDW [Guest-Guest]:          -51.91054 (-62.43406 [K])
+VDW [Host-Guest]:           -38861.22382 (-46739.33763 [K])
+VDW [Guest-Guest]:          -8780.91004 (-10561.01375 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
 Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
 Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
 Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -4946.63815 (-5949.44183 [K])
+Total Energy:               -47642.13387 (-57300.35137 [K])
 ========================================================================
  *** RUNNING DELTA_E (FINAL - CREATE MOLECULE) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -4894.72762 (-5887.00777 [K])
-VDW [Guest-Guest]:          -51.91054 (-62.43406 [K])
+VDW [Host-Guest]:           -38861.22382 (-46739.33763 [K])
+VDW [Guest-Guest]:          -8780.91004 (-10561.01375 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
 Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
@@ -825,13 +411,13 @@ Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -4946.63815 (-5949.44183 [K])
+Total Energy:               -47642.13387 (-57300.35137 [K])
 ========================================================================
  *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -4894.72762 (-5887.00777 [K])
-VDW [Guest-Guest]:          -51.91054 (-62.43406 [K])
+VDW [Host-Guest]:           -38861.22382 (-46739.33763 [K])
+VDW [Guest-Guest]:          -8780.91004 (-10561.01375 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
 Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
@@ -840,12 +426,12 @@ Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -4946.63815 (-5949.44183 [K])
+Total Energy:               -47642.13387 (-57300.35137 [K])
 ========================================================================
  *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
 VDW [Guest-Guest]:          0.00000 (0.00000 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
@@ -855,12 +441,12 @@ Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -0.00000 (-0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
 ========================================================================
  *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
 VDW [Guest-Guest]:          0.00000 (0.00000 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
@@ -870,15 +456,15 @@ Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -0.00000 (-0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
 ========================================================================
 ================================================================================
 ======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================
  *** PRODUCTION PHASE AVERAGE ENERGY *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           -24821.51943 (-29853.44420 [K])
-VDW [Guest-Guest]:          -4704.44956 (-5658.15574 [K])
+VDW [Host-Guest]:           -34200.39484 (-41133.64543 [K])
+VDW [Guest-Guest]:          -7647.65431 (-9198.01956 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
 Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
@@ -887,13 +473,13 @@ Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               -29525.96899 (-35511.59993 [K])
+Total Energy:               -41848.04915 (-50331.66498 [K])
 ========================================================================
  *** PRODUCTION PHASE AVERAGE ENERGY ERRORBAR *** 
 ========================================================================
 VDW [Host-Host]:            0.00000 (0.00000 [K])
-VDW [Host-Guest]:           21203.32162 (25501.74983 [K])
-VDW [Guest-Guest]:          5847.06276 (7032.40438 [K])
+VDW [Host-Guest]:           8431.42606 (10140.68088 [K])
+VDW [Guest-Guest]:          4121.13281 (4956.58651 [K])
 Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
 Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
 Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
@@ -902,7 +488,7 @@ Ewald [Host-Guest]:         0.00000 (0.00000 [K])
 Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
 DNN Energy:                 0.00000 (0.00000 [K])
 Tail Correction Energy:     0.00000 (0.00000 [K])
-Total Energy:               27050.38438 (32534.15421 [K])
+Total Energy:               12552.55887 (15097.26738 [K])
 ========================================================================
 ================================================================================
 DNN Rejection Summary:
@@ -917,10 +503,7 @@ Reinsertion: 0.00000
 Insertion: 0.00000
 Deletion: 0.00000
 SingleSwap: 0.00000
-Random Numbers Regenerated 2 times, offset: 140857, randomsize: 333334
-DNN Feature Preparation Time: 0.00000, DNN Prediction Time: 0.00000
-DNN GPU Time: 0.00000, DNN Sort Time: 0.00000, std::sort Time: 0.00000, Featurization Time: 0.00000
-System 0
+Summary for simulation 0
 PseudoAtom Type: C[0], #: 132
 PseudoAtom Type: H[1], #: 60
 PseudoAtom Type: Zn[2], #: 3
@@ -934,9 +517,14 @@ PseudoAtom Type: Lw[9], #: 0
 PseudoAtom Type: Hw[10], #: 0
 PseudoAtom Type: Ow[11], #: 0
 PseudoAtom Type: CH3_sp3[12], #: 0
-PseudoAtom Type: CH4_sp3[13], #: 6
+PseudoAtom Type: CH4_sp3[13], #: 59
+
+===========================
+==    END OF PROGRAM!    ==
+== PRINTING MEMORY USAGE ==
+===========================
 Total Program Size: 5578 MB
-Resident Set Size: 116 MB
-Shared Pages: 95 MB
+Resident Set Size: 122 MB
+Shared Pages: 101 MB
 Text (code): 0 MB
 Data + Stack: 68 MB

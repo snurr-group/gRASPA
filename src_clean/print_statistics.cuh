@@ -600,7 +600,7 @@ static inline void Gather_Averages_double(std::vector<double>& Array, double val
 ///////////////////////////////////////////////////////
 // Wrapper for the functions for printing statistics //
 ///////////////////////////////////////////////////////
-static inline void PrintAllStatistics(Components& SystemComponents, Simulations& Sims, size_t Cycles, int SimulationMode, size_t BlockAverageSize, Units& Constants)
+static inline void PrintAllStatistics(Components& SystemComponents, Simulations& Sims, size_t Cycles, int SimulationMode, int BlockAverageSize, Units& Constants)
 {
   for(size_t comp = 0; comp < SystemComponents.NComponents.x; comp++)
   {

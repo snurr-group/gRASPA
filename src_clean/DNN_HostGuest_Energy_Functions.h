@@ -270,3 +270,32 @@ void WriteOutliers(Components& SystemComponents, Simulations& Sim, int MoveType,
     textrestartFile << SystemComponents.TempSystem.pos[i].x << " " << SystemComponents.TempSystem.pos[i].y << " " << SystemComponents.TempSystem.pos[i].z << " " << SystemComponents.TempSystem.Type[i] << " " << Move << " " << E.DNN_E << " " << Correction << '\n';
   textrestartFile.close();
 }
+
+bool Check_DNN_Drift(Variables& Vars, size_t systemId, MoveEnergy& tot)
+{ 
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  Simulations& Sims            = Vars.Sims[systemId];
+  int&    MoveType             = SystemComponents.TempVal.MoveType;
+
+  bool REJECT = false; 
+  double correction = tot.DNN_Correction(); //If use DNN, HGVDWReal and HGEwaldE are zeroed//
+  if(fabs(correction) > SystemComponents.DNNDrift) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
+  { 
+    //printf("TRANSLATION/ROTATION: Bad Prediction, reject the move!!!\n");
+    switch(MoveType)
+    {
+      case TRANSLATION: case ROTATION:
+      {
+        SystemComponents.TranslationRotationDNNReject ++; break;
+      }
+      case SINGLE_INSERTION: case SINGLE_DELETION:
+      {
+        SystemComponents.SingleSwapDNNReject ++; break;
+      }
+    }
+    WriteOutliers(SystemComponents, Sims, NEW, tot, correction); //Print New Locations//
+    WriteOutliers(SystemComponents, Sims, OLD, tot, correction); //Print Old Locations//
+    REJECT = true;
+  } 
+  return REJECT;
+}

@@ -20,19 +20,15 @@ inline void checkCUDAErrorVDW(const char *msg)
 
 //Zhao's note: There were a few variants of the same Setup_threadblock function, some of them are slightly different//
 //This might be a point where debugging is needed//
-void Setup_threadblock(size_t arraysize, size_t *Nblock, size_t *Nthread)
+void Setup_threadblock(size_t arraysize, size_t& Nblock, size_t& Nthread)
 {
-  if(arraysize == 0)  return;
-  size_t value = arraysize;
-  if(value >= DEFAULTTHREAD) value = DEFAULTTHREAD;
-  double ratio = (double)arraysize/value;
-  size_t blockValue = ceil(ratio);
-  if(blockValue == 0) blockValue++;
   //Zhao's note: Default thread should always be 64, 128, 256, 512, ...
   // This is because we are using partial sums, if arraysize is smaller than defaultthread, we need to make sure that
   //while Nthread is dividing by 2, it does not generate ODD NUMBER (for example, 5/2 = 2, then element 5 will be ignored)//
-  *Nthread = DEFAULTTHREAD;
-  *Nblock = blockValue;
+  if(arraysize == 0)  return;
+  Nthread = DEFAULTTHREAD;
+  Nblock = arraysize/Nthread;
+  if(arraysize % Nthread > 0) Nblock ++;
 }
 
 void VDWReal_Total_CPU(Boxsize Box, Atoms* Host_System, Atoms* System, ForceField FF, Components SystemComponents, MoveEnergy& E)
@@ -1615,14 +1611,14 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   size_t HGThreadsNeeded = HG_TotalThreads / InteractionPerThread + (HG_TotalThreads % InteractionPerThread == 0 ? 0 : 1);
   size_t GGThreadsNeeded = GG_TotalThreads / InteractionPerThread + (GG_TotalThreads % InteractionPerThread == 0 ? 0 : 1);
 
-  size_t HH_Nthread=0; size_t HH_Nblock=0; Setup_threadblock(HHThreadsNeeded, &HH_Nblock, &HH_Nthread);
-  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(HGThreadsNeeded, &HG_Nblock, &HG_Nthread);
-  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(GGThreadsNeeded, &GG_Nblock, &GG_Nthread);
+  size_t HH_Nthread=0; size_t HH_Nblock=0; Setup_threadblock(HHThreadsNeeded, HH_Nblock, HH_Nthread);
+  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(HGThreadsNeeded, HG_Nblock, HG_Nthread);
+  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(GGThreadsNeeded, GG_Nblock, GG_Nthread);
   MoveEnergy E;
   
   if((HH_Nblock + HG_Nblock + GG_Nblock) == 0) return E;
   size_t Nblock = 0; size_t Nthread = 0;
-  //Setup_threadblock(Host_threads + Guest_threads, &Nblock, &Nthread);
+  //Setup_threadblock(Host_threads + Guest_threads, Nblock, Nthread);
   Nthread = std::max(GG_Nthread, HG_Nthread);
   if(HH_Nthread > Nthread) Nthread = HH_Nthread;
 

@@ -1,0 +1,2129 @@
+Finished Checking Number of Components, There are 1 framework, 2 Adsorbates, 3 total Components
+DONE Reading Model Info from simulation.input file
+Setting Maximum Number of Steps for a Cycle, Max Step = 1
+-------------------------------------------------------
+device_random[0] = 2.30000 4.50000 6.70000
+==========================================
+====== Preparing Simulation box 0 ======
+==========================================
+Parsing [1] Component
+-------------- READING AdsorbateComponent 0 (Kr) --------------
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      0.25000
+Rotation Probability:         0.25000
+Special Rotation Probability: 0.25000
+Widom Probability:            0.25000
+Reinsertion Probability:      0.50000
+Identity Swap Probability:    0.75000
+CBCF Swap Probability:        0.75000
+Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
+Sum of Probabilities:         1.00000
+==================================================
+-------------- END OF READING Component 0 (Kr) --------------
+Parsing [2] Component
+-------------- READING AdsorbateComponent 1 (Xe) --------------
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      0.33333
+Rotation Probability:         0.33333
+Special Rotation Probability: 0.33333
+Widom Probability:            0.33333
+Reinsertion Probability:      0.33333
+Identity Swap Probability:    0.66667
+CBCF Swap Probability:        0.66667
+Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
+Sum of Probabilities:         1.00000
+==================================================
+-------------- END OF READING Component 1 (Xe) --------------
+================FUGACITY COEFFICIENT CALCULATION================
+Checking: Current Fugacity Coeff for 1 component: -1.00000
+Component 1 needs PR-EOS for fugacity coeff (negative value), going to ignore the fugacity coefficient for other components and calculate all using PR-EOS!Checking: Current Fugacity Coeff for 2 component: -1.00000
+Component 2 needs PR-EOS for fugacity coeff (negative value), going to ignore the fugacity coefficient for other components and calculate all using PR-EOS!start calculating fugacity, Pressure: 100000.00000, Temperature: 273.00000
+Component 1, Pc: 5525000.00000, Tc: 209.48000, Ac: -0.00090
+Component Mol Fraction: 0.10000
+kappa: 0.37325, alpha: 0.89710
+Component 2, Pc: 5842000.00000, Tc: 289.73300, Ac: 0.00363
+Component Mol Fraction: 1.00000
+kappa: 0.38023, alpha: 1.02241
+1
+2
+Number of Solutions: 1
+Volume: 71461.71179, excess_volume: 0.00000, Pressure: 100000.00000
+TempComponents.AmountOfExcessMolecules for component 0 is 0.0000000000; Compressibility: 0.9928805485
+Fugacity Coefficient for component 1 is 0.9973953206
+Check: Computed FugaCoeff for 0, 0 is 0.9973953206
+Check: Computed FugaCoeff for 1, 0 is 0.9924222393
+TempComponents.AmountOfExcessMolecules for component 1 is 0.0000000000; Compressibility: 0.9928805485
+Fugacity Coefficient for component 2 is 0.9924222393
+Check: Computed FugaCoeff for 0, 0 is 0.9973953206
+Check: Computed FugaCoeff for 1, 0 is 0.9924222393
+================END OF FUGACITY COEFFICIENT CALCULATION================
+Rosen capacity: 10
+----------------- MEMORY ALLOCAION STATUS -----------------
+System allocate_sizes are: 1216, 10240
+Component allocate_sizes are: 1216, 10240
+Allocated 2 double3 for reinsertion!
+Allocated Blocksum size: 12001, vdw_real size: 12001, fourier_size: 0
+------------------------------------------------------------
+------------------- SIMULATION BOX PARAMETERS -----------------
+Pressure:        0.00602
+Box Volume:      71461.71179
+Box Beta:        0.00441
+Box Temperature: 273.00000
+---------------------------------------------------------------
+================= MOL FRACTIONS =================
+Component [1] (Kr), Mol Fraction: 0.10000
+Component [2] (Xe), Mol Fraction: 0.90000
+=================================================
+======================== CALCULATING INITIAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [0-2], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-2], VDW: 0.00000, Real: 0.00000
+Compoent [2-2], VDW: 0.00000, Real: 0.00000
+VDW + Real on the GPU took 0.00001 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: -67.95290, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
+Component 1, Need to create 0 full molecule
+Component 2, Need to create 0 full molecule
+======================== CALCULATING CREATE_MOLECULE STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [0-2], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-2], VDW: 0.00000, Real: 0.00000
+Compoent [2-2], VDW: 0.00000, Real: 0.00000
+VDW + Real on the GPU took 0.00003 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: -67.95290, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
+============================================
+== END OF PREPARATION, SIMULATION STARTS! ==
+============================================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 100000.00000 [Pa], temp: 273.00000 [K]
+==================================
+== RUNNING INITIALIZATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+Box 0, Volume: 71461.71179
+Total Volume: 71461.71179
+INITIALIZATION Cycle: 0, 1 Adsorbate Molecules, Total Energy: -472.40370  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 0 Molecules  ||  
+INITIALIZATION Cycle: 5000, 43 Adsorbate Molecules, Total Energy: -47227.39744  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 42 Molecules  ||  
+INITIALIZATION Cycle: 10000, 30 Adsorbate Molecules, Total Energy: -35389.28640  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+INITIALIZATION Cycle: 15000, 31 Adsorbate Molecules, Total Energy: -37407.21768  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+INITIALIZATION Cycle: 20000, 29 Adsorbate Molecules, Total Energy: -31015.36694  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+INITIALIZATION Cycle: 25000, 26 Adsorbate Molecules, Total Energy: -25039.98719  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+INITIALIZATION Cycle: 30000, 35 Adsorbate Molecules, Total Energy: -47062.20853  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 35 Molecules  ||  
+INITIALIZATION Cycle: 35000, 23 Adsorbate Molecules, Total Energy: -28400.21850  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 23 Molecules  ||  
+INITIALIZATION Cycle: 40000, 35 Adsorbate Molecules, Total Energy: -40330.05443  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+INITIALIZATION Cycle: 45000, 28 Adsorbate Molecules, Total Energy: -35384.83344  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+INITIALIZATION Cycle: 50000, 18 Adsorbate Molecules, Total Energy: -21359.56024  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 16 Molecules  ||  
+INITIALIZATION Cycle: 55000, 25 Adsorbate Molecules, Total Energy: -28419.55430  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+INITIALIZATION Cycle: 60000, 20 Adsorbate Molecules, Total Energy: -23811.02832  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 20 Molecules  ||  
+INITIALIZATION Cycle: 65000, 35 Adsorbate Molecules, Total Energy: -43060.49631  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+INITIALIZATION Cycle: 70000, 27 Adsorbate Molecules, Total Energy: -31288.45245  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+INITIALIZATION Cycle: 75000, 28 Adsorbate Molecules, Total Energy: -32909.57239  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+INITIALIZATION Cycle: 80000, 27 Adsorbate Molecules, Total Energy: -30182.47414  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+INITIALIZATION Cycle: 85000, 33 Adsorbate Molecules, Total Energy: -33027.51827  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+INITIALIZATION Cycle: 90000, 27 Adsorbate Molecules, Total Energy: -28852.23574  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+INITIALIZATION Cycle: 95000, 33 Adsorbate Molecules, Total Energy: -38244.59878  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+======================== MOVE STATISTICS FOR COMPONENT [1] (Kr) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 9150
+Translation Accepted: 4457
+Max Translation: 1.2624888569, 1.0962024591, 1.4115126277
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   6340
+Insertion Accepted:    3094
+Deletion Performed:    4790
+Deletion Accepted:     3497
+Reinsertion Performed: 9226
+Reinsertion Accepted:  6021
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [Kr (1)] TO [25.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [Kr (1)] TO [Xe (2)]: 5531 (4033 Accepted)
+=============================================================
+================================================================================================
+======================== MOVE STATISTICS FOR COMPONENT [2] (Xe) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 16405
+Translation Accepted: 7807
+Max Translation: 0.9350406079, 0.8118834540, 1.0454124947
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   8273
+Insertion Accepted:    4680
+Deletion Performed:    8162
+Deletion Accepted:     4242
+Reinsertion Performed: 0
+Reinsertion Accepted:  0
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [Xe (2)] TO [25.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [Xe (2)] TO [Kr (1)]: 9091 (4437 Accepted)
+=============================================================
+================================================================================================
+===============================
+== INITIALIZATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 100000.00000 [Pa], temp: 273.00000 [K]
+==================================
+== RUNNING EQUILIBRATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+===============================
+== EQUILIBRATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 100000.00000 [Pa], temp: 273.00000 [K]
+==================================
+==  RUNNING PRODUCTION PHASE   ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+PRODUCTION Cycle: 0, 35 Adsorbate Molecules, Total Energy: -36125.42840  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 5000, 26 Adsorbate Molecules, Total Energy: -29918.44366  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 10000, 33 Adsorbate Molecules, Total Energy: -41418.43836  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 15000, 29 Adsorbate Molecules, Total Energy: -31450.83901  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 20000, 36 Adsorbate Molecules, Total Energy: -46475.08722  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 36 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 25000, 36 Adsorbate Molecules, Total Energy: -41220.42071  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 30000, 27 Adsorbate Molecules, Total Energy: -27775.79590  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 35000, 30 Adsorbate Molecules, Total Energy: -31719.28326  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 40000, 31 Adsorbate Molecules, Total Energy: -35434.86567  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 45000, 18 Adsorbate Molecules, Total Energy: -22578.05057  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 17 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 17, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 50000, 31 Adsorbate Molecules, Total Energy: -35630.52209  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 55000, 25 Adsorbate Molecules, Total Energy: -29252.21453  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 23 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 23, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 60000, 23 Adsorbate Molecules, Total Energy: -29728.37864  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 22 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 22, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 65000, 39 Adsorbate Molecules, Total Energy: -48146.93841  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 37 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 70000, 21 Adsorbate Molecules, Total Energy: -22802.04356  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 19 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 19, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 75000, 32 Adsorbate Molecules, Total Energy: -35661.33358  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 5 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 5, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 80000, 42 Adsorbate Molecules, Total Energy: -50246.89041  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 41 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 85000, 25 Adsorbate Molecules, Total Energy: -27686.75447  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 90000, 23 Adsorbate Molecules, Total Energy: -29056.91869  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 20 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 20, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 95000, 43 Adsorbate Molecules, Total Energy: -51463.10345  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 41 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 41, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 100000, 31 Adsorbate Molecules, Total Energy: -35468.80278  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 105000, 34 Adsorbate Molecules, Total Energy: -37362.61544  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 110000, 37 Adsorbate Molecules, Total Energy: -42949.38360  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 115000, 41 Adsorbate Molecules, Total Energy: -47429.15459  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 39 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 120000, 27 Adsorbate Molecules, Total Energy: -30926.21272  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 125000, 22 Adsorbate Molecules, Total Energy: -20078.41602  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 22 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 22, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 130000, 34 Adsorbate Molecules, Total Energy: -40551.78606  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 135000, 33 Adsorbate Molecules, Total Energy: -38019.26828  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 140000, 28 Adsorbate Molecules, Total Energy: -31411.46860  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 145000, 29 Adsorbate Molecules, Total Energy: -32513.95124  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 150000, 31 Adsorbate Molecules, Total Energy: -37902.83647  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 155000, 29 Adsorbate Molecules, Total Energy: -33235.94398  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 160000, 25 Adsorbate Molecules, Total Energy: -30875.99866  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 165000, 33 Adsorbate Molecules, Total Energy: -38200.00564  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 170000, 26 Adsorbate Molecules, Total Energy: -28864.22866  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 175000, 30 Adsorbate Molecules, Total Energy: -36672.62802  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 180000, 35 Adsorbate Molecules, Total Energy: -39305.49879  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 185000, 31 Adsorbate Molecules, Total Energy: -37567.02586  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 190000, 32 Adsorbate Molecules, Total Energy: -36896.71602  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 195000, 27 Adsorbate Molecules, Total Energy: -31634.31596  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 200000, 34 Adsorbate Molecules, Total Energy: -38068.88610  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 205000, 41 Adsorbate Molecules, Total Energy: -40896.28260  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 38 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 210000, 29 Adsorbate Molecules, Total Energy: -31655.55157  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 215000, 28 Adsorbate Molecules, Total Energy: -33045.56250  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 220000, 34 Adsorbate Molecules, Total Energy: -42679.44810  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 225000, 27 Adsorbate Molecules, Total Energy: -33418.51855  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 230000, 39 Adsorbate Molecules, Total Energy: -46562.30554  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 38 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 235000, 26 Adsorbate Molecules, Total Energy: -26020.73000  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 240000, 27 Adsorbate Molecules, Total Energy: -32468.30636  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 245000, 29 Adsorbate Molecules, Total Energy: -34246.76834  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 250000, 33 Adsorbate Molecules, Total Energy: -39604.00599  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 255000, 37 Adsorbate Molecules, Total Energy: -44000.20471  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 35 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 260000, 25 Adsorbate Molecules, Total Energy: -26793.49339  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 265000, 29 Adsorbate Molecules, Total Energy: -33130.80417  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 270000, 28 Adsorbate Molecules, Total Energy: -27690.25400  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 275000, 26 Adsorbate Molecules, Total Energy: -31761.82694  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 280000, 26 Adsorbate Molecules, Total Energy: -30803.05051  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 285000, 30 Adsorbate Molecules, Total Energy: -33791.04762  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 290000, 30 Adsorbate Molecules, Total Energy: -35133.51710  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 295000, 41 Adsorbate Molecules, Total Energy: -43500.20886  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 4 Molecules  ||  Component 2 [Xe], 37 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 4, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 300000, 30 Adsorbate Molecules, Total Energy: -33245.97452  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 305000, 45 Adsorbate Molecules, Total Energy: -54086.44728  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 43 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 43, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 310000, 35 Adsorbate Molecules, Total Energy: -43027.10504  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 35 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 315000, 36 Adsorbate Molecules, Total Energy: -35228.73411  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 4 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 4, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 320000, 34 Adsorbate Molecules, Total Energy: -36301.82871  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 325000, 30 Adsorbate Molecules, Total Energy: -36069.28980  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 330000, 32 Adsorbate Molecules, Total Energy: -34191.24729  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 335000, 36 Adsorbate Molecules, Total Energy: -38123.31933  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 4 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 4, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 340000, 24 Adsorbate Molecules, Total Energy: -25619.13096  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 23 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 23, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 345000, 38 Adsorbate Molecules, Total Energy: -42939.67440  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 35 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 350000, 22 Adsorbate Molecules, Total Energy: -23072.80963  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 22 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 22, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 355000, 31 Adsorbate Molecules, Total Energy: -34870.97739  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 360000, 32 Adsorbate Molecules, Total Energy: -39195.34622  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 365000, 32 Adsorbate Molecules, Total Energy: -34783.24021  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 370000, 28 Adsorbate Molecules, Total Energy: -33304.20626  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 375000, 34 Adsorbate Molecules, Total Energy: -41861.04671  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 380000, 32 Adsorbate Molecules, Total Energy: -34093.03576  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 385000, 29 Adsorbate Molecules, Total Energy: -35231.91534  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 390000, 27 Adsorbate Molecules, Total Energy: -26737.86135  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 4 Molecules  ||  Component 2 [Xe], 23 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 4, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 23, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 395000, 40 Adsorbate Molecules, Total Energy: -40505.45183  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 38 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 400000, 28 Adsorbate Molecules, Total Energy: -29514.28955  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 405000, 31 Adsorbate Molecules, Total Energy: -37829.97988  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 410000, 27 Adsorbate Molecules, Total Energy: -28983.30976  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 415000, 33 Adsorbate Molecules, Total Energy: -39063.87202  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 420000, 33 Adsorbate Molecules, Total Energy: -36833.82721  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 425000, 23 Adsorbate Molecules, Total Energy: -26816.18415  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 23 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 23, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 430000, 39 Adsorbate Molecules, Total Energy: -46558.10947  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 38 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 38, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 435000, 33 Adsorbate Molecules, Total Energy: -34650.46630  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 440000, 31 Adsorbate Molecules, Total Energy: -33030.88648  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 445000, 23 Adsorbate Molecules, Total Energy: -27291.20438  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 22 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 22, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 450000, 29 Adsorbate Molecules, Total Energy: -32051.85530  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 455000, 37 Adsorbate Molecules, Total Energy: -41178.77641  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 36 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 460000, 21 Adsorbate Molecules, Total Energy: -22713.93095  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 20 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 20, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 465000, 29 Adsorbate Molecules, Total Energy: -34545.10654  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 470000, 35 Adsorbate Molecules, Total Energy: -40400.23367  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 475000, 29 Adsorbate Molecules, Total Energy: -33346.28903  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 480000, 24 Adsorbate Molecules, Total Energy: -25801.93028  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 23 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 23, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 485000, 36 Adsorbate Molecules, Total Energy: -43409.17256  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 35 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 490000, 26 Adsorbate Molecules, Total Energy: -31719.93203  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 495000, 34 Adsorbate Molecules, Total Energy: -45273.70035  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 500000, 29 Adsorbate Molecules, Total Energy: -35359.91583  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 505000, 29 Adsorbate Molecules, Total Energy: -29245.43081  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 510000, 34 Adsorbate Molecules, Total Energy: -43960.88254  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 515000, 31 Adsorbate Molecules, Total Energy: -36446.98961  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 520000, 31 Adsorbate Molecules, Total Energy: -36803.40105  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 525000, 32 Adsorbate Molecules, Total Energy: -32489.01505  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 4 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 4, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 530000, 30 Adsorbate Molecules, Total Energy: -34013.37322  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 535000, 35 Adsorbate Molecules, Total Energy: -37438.56233  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 540000, 19 Adsorbate Molecules, Total Energy: -21835.18843  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 18 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 18, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 545000, 36 Adsorbate Molecules, Total Energy: -42128.67559  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 36 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 550000, 37 Adsorbate Molecules, Total Energy: -40702.14449  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 36 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 555000, 29 Adsorbate Molecules, Total Energy: -30692.55754  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 560000, 25 Adsorbate Molecules, Total Energy: -28874.36705  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 565000, 22 Adsorbate Molecules, Total Energy: -28760.47402  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 21 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 21, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 570000, 34 Adsorbate Molecules, Total Energy: -38719.99742  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 575000, 35 Adsorbate Molecules, Total Energy: -43475.86779  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 35 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 580000, 33 Adsorbate Molecules, Total Energy: -38257.76844  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 585000, 36 Adsorbate Molecules, Total Energy: -45293.42818  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 36 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 590000, 42 Adsorbate Molecules, Total Energy: -50149.34294  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 39 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 595000, 17 Adsorbate Molecules, Total Energy: -20998.77030  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 16 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 16, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 600000, 40 Adsorbate Molecules, Total Energy: -49109.79502  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 39 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 605000, 36 Adsorbate Molecules, Total Energy: -42593.04991  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 610000, 26 Adsorbate Molecules, Total Energy: -30260.09248  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 615000, 34 Adsorbate Molecules, Total Energy: -42532.75570  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 620000, 30 Adsorbate Molecules, Total Energy: -30111.60015  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 625000, 32 Adsorbate Molecules, Total Energy: -36458.11063  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 630000, 37 Adsorbate Molecules, Total Energy: -39308.20262  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 36 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 36, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 635000, 24 Adsorbate Molecules, Total Energy: -24957.46230  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 640000, 27 Adsorbate Molecules, Total Energy: -33863.61085  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 645000, 24 Adsorbate Molecules, Total Energy: -27582.91137  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 650000, 31 Adsorbate Molecules, Total Energy: -39728.16064  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 655000, 26 Adsorbate Molecules, Total Energy: -26972.64130  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 660000, 32 Adsorbate Molecules, Total Energy: -38576.69278  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 665000, 32 Adsorbate Molecules, Total Energy: -36431.40098  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 670000, 33 Adsorbate Molecules, Total Energy: -35078.72107  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 675000, 30 Adsorbate Molecules, Total Energy: -31951.94312  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 680000, 35 Adsorbate Molecules, Total Energy: -37360.82858  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 685000, 30 Adsorbate Molecules, Total Energy: -35055.27714  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 690000, 27 Adsorbate Molecules, Total Energy: -30639.63680  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 695000, 38 Adsorbate Molecules, Total Energy: -40648.60698  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 5 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 5, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 700000, 24 Adsorbate Molecules, Total Energy: -28813.54885  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 23 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 23, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 705000, 33 Adsorbate Molecules, Total Energy: -35940.65529  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 4 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 4, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 710000, 34 Adsorbate Molecules, Total Energy: -41534.14670  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 715000, 35 Adsorbate Molecules, Total Energy: -43500.86407  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 720000, 16 Adsorbate Molecules, Total Energy: -19861.78792  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 16 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 16, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 725000, 30 Adsorbate Molecules, Total Energy: -36761.65150  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 730000, 32 Adsorbate Molecules, Total Energy: -35397.96039  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 735000, 29 Adsorbate Molecules, Total Energy: -30869.29625  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 740000, 32 Adsorbate Molecules, Total Energy: -36183.85874  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 745000, 36 Adsorbate Molecules, Total Energy: -41025.59965  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 35 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 750000, 21 Adsorbate Molecules, Total Energy: -25420.32049  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 21 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 21, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 755000, 33 Adsorbate Molecules, Total Energy: -35729.67306  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 760000, 23 Adsorbate Molecules, Total Energy: -28135.21990  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 22 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 22, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 765000, 27 Adsorbate Molecules, Total Energy: -33342.88766  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 770000, 26 Adsorbate Molecules, Total Energy: -28835.74440  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 775000, 19 Adsorbate Molecules, Total Energy: -21237.33601  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 18 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 18, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 780000, 35 Adsorbate Molecules, Total Energy: -39548.91037  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 34 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 34, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 785000, 33 Adsorbate Molecules, Total Energy: -37874.58914  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 30 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 30, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 790000, 26 Adsorbate Molecules, Total Energy: -31100.65362  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 795000, 27 Adsorbate Molecules, Total Energy: -30477.41718  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 800000, 39 Adsorbate Molecules, Total Energy: -46679.53931  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 39 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 805000, 32 Adsorbate Molecules, Total Energy: -41991.07708  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 810000, 32 Adsorbate Molecules, Total Energy: -36868.40878  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 815000, 27 Adsorbate Molecules, Total Energy: -32882.49446  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 820000, 27 Adsorbate Molecules, Total Energy: -31709.09520  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 825000, 31 Adsorbate Molecules, Total Energy: -37876.18280  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 830000, 41 Adsorbate Molecules, Total Energy: -41931.70623  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 4 Molecules  ||  Component 2 [Xe], 37 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 4, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 37, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 835000, 26 Adsorbate Molecules, Total Energy: -23080.39961  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 840000, 32 Adsorbate Molecules, Total Energy: -37963.26618  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 845000, 27 Adsorbate Molecules, Total Energy: -35017.48082  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 850000, 28 Adsorbate Molecules, Total Energy: -31659.30948  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 855000, 35 Adsorbate Molecules, Total Energy: -40159.07452  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 860000, 36 Adsorbate Molecules, Total Energy: -39675.29974  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 865000, 25 Adsorbate Molecules, Total Energy: -31061.78414  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 870000, 26 Adsorbate Molecules, Total Energy: -30805.98850  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 875000, 36 Adsorbate Molecules, Total Energy: -39772.38991  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 35 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 35, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 880000, 26 Adsorbate Molecules, Total Energy: -30391.59412  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 885000, 30 Adsorbate Molecules, Total Energy: -37413.26296  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 29 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 29, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 890000, 41 Adsorbate Molecules, Total Energy: -44375.78395  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 39 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 39, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 895000, 28 Adsorbate Molecules, Total Energy: -32131.28172  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 900000, 32 Adsorbate Molecules, Total Energy: -39766.83926  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 905000, 20 Adsorbate Molecules, Total Energy: -23135.33458  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 19 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 19, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 910000, 27 Adsorbate Molecules, Total Energy: -30087.23472  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 3 Molecules  ||  Component 2 [Xe], 24 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 3, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 24, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 915000, 32 Adsorbate Molecules, Total Energy: -39884.09883  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 31 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 31, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 920000, 27 Adsorbate Molecules, Total Energy: -34716.62086  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 925000, 29 Adsorbate Molecules, Total Energy: -36770.04535  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 930000, 28 Adsorbate Molecules, Total Energy: -33329.43326  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 935000, 26 Adsorbate Molecules, Total Energy: -32694.32978  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 940000, 23 Adsorbate Molecules, Total Energy: -28594.87418  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 22 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 22, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 945000, 26 Adsorbate Molecules, Total Energy: -31739.71208  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 950000, 29 Adsorbate Molecules, Total Energy: -30801.02566  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 2 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 2, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 955000, 29 Adsorbate Molecules, Total Energy: -35178.41949  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 960000, 34 Adsorbate Molecules, Total Energy: -40579.39525  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 33 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 33, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 965000, 27 Adsorbate Molecules, Total Energy: -33425.43904  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 26 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 26, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 970000, 32 Adsorbate Molecules, Total Energy: -39595.69543  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 0 Molecules  ||  Component 2 [Xe], 32 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 0, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 32, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 975000, 26 Adsorbate Molecules, Total Energy: -27996.26023  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 980000, 24 Adsorbate Molecules, Total Energy: -28705.60197  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 23 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 23, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 985000, 28 Adsorbate Molecules, Total Energy: -32584.52968  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 27 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 27, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 990000, 30 Adsorbate Molecules, Total Energy: -33270.67799  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 5 Molecules  ||  Component 2 [Xe], 25 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 5, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 25, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+PRODUCTION Cycle: 995000, 29 Adsorbate Molecules, Total Energy: -31769.39142  ||  Component 0 [25.cif], 1 Molecules  ||  Component 1 [Kr], 1 Molecules  ||  Component 2 [Xe], 28 Molecules  ||  
+Printing: Component: 0 [ 25.cif ], NumMol: 1, Molsize: 1216
+Printing: Component: 1 [ Kr ], NumMol: 1, Molsize: 1
+Printing: Component: 2 [ Xe ], NumMol: 28, Molsize: 1
+Component 0, Molsize: 1216
+Component 1, Molsize: 1
+Component 2, Molsize: 1
+======================== MOVE STATISTICS FOR COMPONENT [1] (Kr) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 102691
+Translation Accepted: 52063
+Max Translation: 1.1410602148, 0.9907675672, 1.2757505884
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   69021
+Insertion Accepted:    33191
+Deletion Performed:    51801
+Deletion Accepted:     37406
+Reinsertion Performed: 103147
+Reinsertion Accepted:  66544
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [Kr (1)] TO [25.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [Kr (1)] TO [Xe (2)]: 60448 (44140 Accepted)
+=============================================================
+================================================================================================
+======================== MOVE STATISTICS FOR COMPONENT [2] (Xe) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 182522
+Translation Accepted: 91541
+Max Translation: 0.9340651645, 0.8110364893, 1.0443219103
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   91757
+Insertion Accepted:    51424
+Deletion Performed:    91592
+Deletion Accepted:     47179
+Reinsertion Performed: 0
+Reinsertion Accepted:  0
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [Xe (2)] TO [25.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [Xe (2)] TO [Kr (1)]: 99970 (48356 Accepted)
+=============================================================
+================================================================================================
+============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========
+COMPONENT [1] (Kr)
+BLOCK [0], Blocksize: 200000, Average: -10.24404
+BLOCK [1], Blocksize: 200000, Average: -9.78401
+BLOCK [2], Blocksize: 200000, Average: -9.65379
+BLOCK [3], Blocksize: 200000, Average: -9.63494
+BLOCK [4], Blocksize: 200000, Average: -9.40668
+Overall: Average: -9.74469, ErrorBar: 0.55530
+-----------------------------
+COMPONENT [2] (Xe)
+BLOCK [0], Blocksize: 200000, Average: -13.70813
+BLOCK [1], Blocksize: 200000, Average: -13.30247
+BLOCK [2], Blocksize: 200000, Average: -13.54345
+BLOCK [3], Blocksize: 200000, Average: -13.39270
+BLOCK [4], Blocksize: 200000, Average: -13.47698
+Overall: Average: -13.48475, ErrorBar: 0.27583
+-----------------------------
+==============================================================
+=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============
+COMPONENT [0] (25.cif)
+BLOCK [0], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 200000, Average: 1.00000, ErrorBar: 0.00000
+Overall: Average: 1.00000, ErrorBar: 0.00000
+---------- EXCESS LOADING (# MOLECULES) ----------
+BLOCK [0], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+Overall: Average: 0.00000, ErrorBar: 0.00000
+------------------------------------
+----------------------------------------------------------
+COMPONENT [1] (Kr)
+BLOCK [0], Blocksize: 200000, Average: 1.22794, ErrorBar: 2.06194
+BLOCK [1], Blocksize: 200000, Average: 1.22637, ErrorBar: 2.05509
+BLOCK [2], Blocksize: 200000, Average: 1.23710, ErrorBar: 2.06379
+BLOCK [3], Blocksize: 200000, Average: 1.23312, ErrorBar: 2.04454
+BLOCK [4], Blocksize: 200000, Average: 1.22532, ErrorBar: 2.05587
+Overall: Average: 1.22997, ErrorBar: 0.00892
+---------- EXCESS LOADING (# MOLECULES) ----------
+BLOCK [0], Blocksize: 200000, Average: 1.22794, ErrorBar: 2.06194
+BLOCK [1], Blocksize: 200000, Average: 1.22637, ErrorBar: 2.05509
+BLOCK [2], Blocksize: 200000, Average: 1.23710, ErrorBar: 2.06379
+BLOCK [3], Blocksize: 200000, Average: 1.23312, ErrorBar: 2.04454
+BLOCK [4], Blocksize: 200000, Average: 1.22532, ErrorBar: 2.05587
+Overall: Average: 1.22997, ErrorBar: 0.00892
+------------------------------------
+----------------------------------------------------------
+COMPONENT [2] (Xe)
+BLOCK [0], Blocksize: 200000, Average: 28.77549, ErrorBar: 10.76928
+BLOCK [1], Blocksize: 200000, Average: 29.40564, ErrorBar: 11.07453
+BLOCK [2], Blocksize: 200000, Average: 29.29033, ErrorBar: 11.40804
+BLOCK [3], Blocksize: 200000, Average: 29.12090, ErrorBar: 10.65898
+BLOCK [4], Blocksize: 200000, Average: 29.21631, ErrorBar: 10.28175
+Overall: Average: 29.16173, ErrorBar: 0.42882
+---------- EXCESS LOADING (# MOLECULES) ----------
+BLOCK [0], Blocksize: 200000, Average: 28.77549, ErrorBar: 10.76928
+BLOCK [1], Blocksize: 200000, Average: 29.40564, ErrorBar: 11.07453
+BLOCK [2], Blocksize: 200000, Average: 29.29033, ErrorBar: 11.40804
+BLOCK [3], Blocksize: 200000, Average: 29.12090, ErrorBar: 10.65898
+BLOCK [4], Blocksize: 200000, Average: 29.21631, ErrorBar: 10.28175
+Overall: Average: 29.16173, ErrorBar: 0.42882
+------------------------------------
+----------------------------------------------------------
+======================================================================
+=====================BLOCK AVERAGES (LOADING: mg/g)=============
+COMPONENT [0] (25.cif)
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 125.00000, ErrorBar: -nan
+BLOCK [1], Blocksize: 200000, Average: 125.00000, ErrorBar: -nan
+BLOCK [2], Blocksize: 200000, Average: 125.00000, ErrorBar: -nan
+BLOCK [3], Blocksize: 200000, Average: 125.00000, ErrorBar: -nan
+BLOCK [4], Blocksize: 200000, Average: 125.00000, ErrorBar: -nan
+Overall: Average: 125.00000, ErrorBar: -nan
+---------- EXCESS LOADING (mg/g) ----------
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+Overall: Average: 0.00000, ErrorBar: 0.00000
+------------------------------------
+----------------------------------------------------------
+COMPONENT [1] (Kr)
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 7.25409, ErrorBar: 12.18099
+BLOCK [1], Blocksize: 200000, Average: 7.24481, ErrorBar: 12.14048
+BLOCK [2], Blocksize: 200000, Average: 7.30820, ErrorBar: 12.19187
+BLOCK [3], Blocksize: 200000, Average: 7.28469, ErrorBar: 12.07817
+BLOCK [4], Blocksize: 200000, Average: 7.23858, ErrorBar: 12.14509
+Overall: Average: 7.26607, ErrorBar: 0.05271
+---------- EXCESS LOADING (mg/g) ----------
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 7.25409, ErrorBar: 12.18099
+BLOCK [1], Blocksize: 200000, Average: 7.24481, ErrorBar: 12.14048
+BLOCK [2], Blocksize: 200000, Average: 7.30820, ErrorBar: 12.19187
+BLOCK [3], Blocksize: 200000, Average: 7.28469, ErrorBar: 12.07817
+BLOCK [4], Blocksize: 200000, Average: 7.23858, ErrorBar: 12.14509
+Overall: Average: 7.26607, ErrorBar: 0.05271
+------------------------------------
+----------------------------------------------------------
+COMPONENT [2] (Xe)
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 266.32743, ErrorBar: 99.67353
+BLOCK [1], Blocksize: 200000, Average: 272.15974, ErrorBar: 102.49875
+BLOCK [2], Blocksize: 200000, Average: 271.09250, ErrorBar: 105.58549
+BLOCK [3], Blocksize: 200000, Average: 269.52437, ErrorBar: 98.65266
+BLOCK [4], Blocksize: 200000, Average: 270.40742, ErrorBar: 95.16125
+Overall: Average: 269.90229, ErrorBar: 3.96891
+---------- EXCESS LOADING (mg/g) ----------
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 266.32743, ErrorBar: 99.67353
+BLOCK [1], Blocksize: 200000, Average: 272.15974, ErrorBar: 102.49875
+BLOCK [2], Blocksize: 200000, Average: 271.09250, ErrorBar: 105.58549
+BLOCK [3], Blocksize: 200000, Average: 269.52437, ErrorBar: 98.65266
+BLOCK [4], Blocksize: 200000, Average: 270.40742, ErrorBar: 95.16125
+Overall: Average: 269.90229, ErrorBar: 3.96891
+------------------------------------
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: mol/kg)=============
+COMPONENT [0] (25.cif)
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 0.07050, ErrorBar: -nan
+BLOCK [1], Blocksize: 200000, Average: 0.07050, ErrorBar: -nan
+BLOCK [2], Blocksize: 200000, Average: 0.07050, ErrorBar: -nan
+BLOCK [3], Blocksize: 200000, Average: 0.07050, ErrorBar: -nan
+BLOCK [4], Blocksize: 200000, Average: 0.07050, ErrorBar: -nan
+Overall: Average: 0.07050, ErrorBar: 0.00000
+---------- EXCESS LOADING (mol/kg) ----------
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 200000, Average: 0.00000, ErrorBar: 0.00000
+Overall: Average: 0.00000, ErrorBar: 0.00000
+------------------------------------
+----------------------------------------------------------
+COMPONENT [1] (Kr)
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 0.08656, ErrorBar: 0.14536
+BLOCK [1], Blocksize: 200000, Average: 0.08645, ErrorBar: 0.14487
+BLOCK [2], Blocksize: 200000, Average: 0.08721, ErrorBar: 0.14549
+BLOCK [3], Blocksize: 200000, Average: 0.08693, ErrorBar: 0.14413
+BLOCK [4], Blocksize: 200000, Average: 0.08638, ErrorBar: 0.14493
+Overall: Average: 0.08671, ErrorBar: 0.00063
+---------- EXCESS LOADING (mol/kg) ----------
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 0.08656, ErrorBar: 0.14536
+BLOCK [1], Blocksize: 200000, Average: 0.08645, ErrorBar: 0.14487
+BLOCK [2], Blocksize: 200000, Average: 0.08721, ErrorBar: 0.14549
+BLOCK [3], Blocksize: 200000, Average: 0.08693, ErrorBar: 0.14413
+BLOCK [4], Blocksize: 200000, Average: 0.08638, ErrorBar: 0.14493
+Overall: Average: 0.08671, ErrorBar: 0.00063
+------------------------------------
+----------------------------------------------------------
+COMPONENT [2] (Xe)
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 2.02854, ErrorBar: 0.75919
+BLOCK [1], Blocksize: 200000, Average: 2.07297, ErrorBar: 0.78070
+BLOCK [2], Blocksize: 200000, Average: 2.06484, ErrorBar: 0.80422
+BLOCK [3], Blocksize: 200000, Average: 2.05289, ErrorBar: 0.75141
+BLOCK [4], Blocksize: 200000, Average: 2.05962, ErrorBar: 0.72482
+Overall: Average: 2.05577, ErrorBar: 0.03023
+---------- EXCESS LOADING (mol/kg) ----------
+Framework component 0, molar mass: 1773.16200
+Framework total mass: 14185.29600
+BLOCK [0], Blocksize: 200000, Average: 2.02854, ErrorBar: 0.75919
+BLOCK [1], Blocksize: 200000, Average: 2.07297, ErrorBar: 0.78070
+BLOCK [2], Blocksize: 200000, Average: 2.06484, ErrorBar: 0.80422
+BLOCK [3], Blocksize: 200000, Average: 2.05289, ErrorBar: 0.75141
+BLOCK [4], Blocksize: 200000, Average: 2.05962, ErrorBar: 0.72482
+Overall: Average: 2.05577, ErrorBar: 0.03023
+------------------------------------
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: g/L)=============
+COMPONENT [1] (Kr)
+Total Unit Cells 8 
+BLOCK [0], Blocksize: 200000, Average: 4.78219, ErrorBar: -nan
+BLOCK [1], Blocksize: 200000, Average: 4.77608, ErrorBar: -nan
+BLOCK [2], Blocksize: 200000, Average: 4.81786, ErrorBar: -nan
+BLOCK [3], Blocksize: 200000, Average: 4.80236, ErrorBar: -nan
+BLOCK [4], Blocksize: 200000, Average: 4.77197, ErrorBar: -nan
+Overall: Average: 4.79009, ErrorBar: 0.03475
+---------- EXCESS LOADING (g/L) ----------
+Total Unit Cells 8 
+BLOCK [0], Blocksize: 200000, Average: 170871.74714, ErrorBar: 286926.06232
+BLOCK [1], Blocksize: 200000, Average: 170653.27666, ErrorBar: 285972.00919
+BLOCK [2], Blocksize: 200000, Average: 172146.39020, ErrorBar: 287182.42762
+BLOCK [3], Blocksize: 200000, Average: 171592.56057, ErrorBar: 284504.10735
+BLOCK [4], Blocksize: 200000, Average: 170506.47006, ErrorBar: 286080.53394
+Overall: Average: 171154.08892, ErrorBar: 1241.56650
+------------------------------------
+----------------------------------------------------------
+COMPONENT [2] (Xe)
+Total Unit Cells 8 
+BLOCK [0], Blocksize: 200000, Average: 175.57391, ErrorBar: -nan
+BLOCK [1], Blocksize: 200000, Average: 179.41880, ErrorBar: -nan
+BLOCK [2], Blocksize: 200000, Average: 178.71524, ErrorBar: -nan
+BLOCK [3], Blocksize: 200000, Average: 177.68146, ErrorBar: -nan
+BLOCK [4], Blocksize: 200000, Average: 178.26361, ErrorBar: -nan
+Overall: Average: 177.93060, ErrorBar: 2.61647
+---------- EXCESS LOADING (g/L) ----------
+Total Unit Cells 8 
+BLOCK [0], Blocksize: 200000, Average: 6273406.00480, ErrorBar: 2347833.72958
+BLOCK [1], Blocksize: 200000, Average: 6410787.46548, ErrorBar: 2414382.44555
+BLOCK [2], Blocksize: 200000, Average: 6385648.48185, ErrorBar: 2487091.36975
+BLOCK [3], Blocksize: 200000, Average: 6348710.67943, ErrorBar: 2323786.96007
+BLOCK [4], Blocksize: 200000, Average: 6369511.22083, ErrorBar: 2241545.98720
+Overall: Average: 6357612.77048, ErrorBar: 93488.60479
+------------------------------------
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (VOLUME Å^3)================
+BLOCK [0], Blocksize: 200000, Average: 71461.71179, ErrorBar: 0.05335
+BLOCK [1], Blocksize: 200000, Average: 71461.71179, ErrorBar: 0.05335
+BLOCK [2], Blocksize: 200000, Average: 71461.71179, ErrorBar: 0.05335
+BLOCK [3], Blocksize: 200000, Average: 71461.71179, ErrorBar: 0.05335
+BLOCK [4], Blocksize: 200000, Average: 71461.71179, ErrorBar: 0.05335
+Overall: Average: 71461.71179, ErrorBar: 0.00138
+----------------------------------------------------------
+==============================================================
+===============================
+== PRODUCTION PHASE ENDS ==
+===============================
+Work took 29.721785 seconds
+========================
+== END OF SIMULATION! ==
+========================
+======================================
+CHECKING FINAL ENERGY FOR SYSTEM [0]
+======================================
+======================== CALCULATING FINAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: -36137.58574; Real: 0.00000
+Guest-Guest VDW: -821.59451; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: -1193.81325, Real: 0.00000
+Compoent [0-2], VDW: -34943.77249, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-2], VDW: 0.00000, Real: 0.00000
+Compoent [2-2], VDW: -821.59451, Real: 0.00000
+VDW + Real on the GPU took 0.00040 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -36137.58574, HGReal: 0.00000, GGVDW: -821.59451, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: -67.95290, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+====================== DONE CALCULATING FINAL STAGE ENERGY ======================
+======================================
+Random Numbers Regenerated 15 times, offset: 103851, randomsize: 333334
+DNN Feature Preparation Time: 0.00000, DNN Prediction Time: 0.00000
+DNN GPU Time: 0.00000, DNN Sort Time: 0.00000, std::sort Time: 0.00000, Featurization Time: 0.00000
+======================== ENERGY SUMMARY (Simulation 0) =========================
+ *** INITIAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     -67.95290 (-81.72860 [K])
+Total Energy:               -67.95290 (-81.72860 [K])
+========================================================================
+ *** CREATE MOLECULE STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     -67.95290 (-81.72860 [K])
+Total Energy:               -67.95290 (-81.72860 [K])
+========================================================================
+ *** RUNNING DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** CHECK DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** FINAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -36137.58574 (-43463.55196 [K])
+VDW [Guest-Guest]:          -821.59451 (-988.15167 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     -67.95290 (-81.72860 [K])
+Total Energy:               -37027.13315 (-44533.43223 [K])
+========================================================================
+ *** RUNNING DELTA_E (FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -36137.58574 (-43463.55196 [K])
+VDW [Guest-Guest]:          -821.59451 (-988.15167 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -36959.18025 (-44451.70363 [K])
+========================================================================
+ *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -36137.58574 (-43463.55196 [K])
+VDW [Guest-Guest]:          -821.59451 (-988.15167 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -36959.18025 (-44451.70363 [K])
+========================================================================
+ *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Guest-Guest]:          -0.00000 (-0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -0.00000 (-0.00000 [K])
+========================================================================
+ *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+================================================================================
+======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================
+ *** PRODUCTION PHASE AVERAGE ENERGY *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -33952.04955 (-40834.95451 [K])
+VDW [Guest-Guest]:          -947.62557 (-1139.73229 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -34899.67512 (-41974.68680 [K])
+========================================================================
+ *** PRODUCTION PHASE AVERAGE ENERGY ERRORBAR *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           425.06893 (511.24072 [K])
+VDW [Guest-Guest]:          27.98083 (33.65323 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               453.04976 (544.89395 [K])
+========================================================================
+================================================================================
+DNN Rejection Summary:
+Translation+Rotation: 0
+Reinsertion: 0
+Insertion: 0
+Deletion: 0
+SingleSwap: 0
+DNN Drift Summary:
+Translation+Rotation: 0.00000
+Reinsertion: 0.00000
+Insertion: 0.00000
+Deletion: 0.00000
+SingleSwap: 0.00000
+Summary for simulation 0
+PseudoAtom Type: C[0], #: 672
+PseudoAtom Type: Cr[1], #: 48
+PseudoAtom Type: N[2], #: 0
+PseudoAtom Type: O[3], #: 208
+PseudoAtom Type: H[4], #: 288
+PseudoAtom Type: Xe[5], #: 29
+PseudoAtom Type: Kr[6], #: 1
+
+===========================
+==    END OF PROGRAM!    ==
+== PRINTING MEMORY USAGE ==
+===========================
+Total Program Size: 5580 MB
+Resident Set Size: 125 MB
+Shared Pages: 101 MB
+Text (code): 0 MB
+Data + Stack: 70 MB

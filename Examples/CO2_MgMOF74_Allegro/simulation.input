@@ -1,9 +1,9 @@
 UseGPUReduction no
 Useflag yes
 
-NumberOfInitializationCycles 500000
+NumberOfInitializationCycles 5000
 NumberOfEquilibrationCycles  0
-NumberOfProductionCycles     500000
+NumberOfProductionCycles     5000
 
 UseMaxStep  yes
 MaxStepPerCycle 1

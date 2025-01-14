@@ -190,7 +190,7 @@ static inline std::vector<double> Calcuate_Feature_from_Distance(double dist_sq,
 std::vector<std::vector<double>> CalculatePairDistances_GPU(Simulations& Sim, Components& SystemComponents, std::vector<double>& Features, int DNN_CalcType, size_t NMol)
 {
   size_t NFrameworkAtoms = SystemComponents.Moleculesize[0] * SystemComponents.NumberOfMolecule_for_Component[0];
-  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(NFrameworkAtoms, &Nblock, &Nthread);
+  size_t Nblock = 0; size_t Nthread = 0; Setup_threadblock(NFrameworkAtoms, Nblock, Nthread);
   size_t ads_comp = 1;
 
   double time = omp_get_wtime();
