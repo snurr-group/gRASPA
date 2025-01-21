@@ -17,8 +17,14 @@ __global__ void Prepare_LambdaChange(Atoms* d_a, Atoms Mol, Simulations Sims, Fo
   device_flag[i] = false;
 }
 
-static inline MoveEnergy CBCF_LambdaChange(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent, double2 oldScale, double2 newScale, size_t& start_position, int MoveType, bool& SuccessConstruction)
+static inline MoveEnergy CBCF_LambdaChange(Variables& Vars, size_t systemId, size_t SelectedMolInComponent, size_t SelectedComponent, double2 oldScale, double2 newScale, size_t& start_position, int MoveType, bool& SuccessConstruction)
 {
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  Simulations& Sims            = Vars.Sims[systemId];
+  ForceField& FF               = Vars.device_FF;
+  //RandomNumber& Random         = Vars.Random;
+  WidomStruct& Widom           = Vars.Widom[systemId];
+
   MoveEnergy tot;
   //double result = 0.0;
   size_t Atomsize = 0;
@@ -44,9 +50,9 @@ static inline MoveEnergy CBCF_LambdaChange(Components& SystemComponents, Simulat
     NGuestAtom+= SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
 
 
-  size_t HH_Nthread=0; size_t HH_Nblock=0; Setup_threadblock(NHostAtom  * Molsize, &HH_Nblock, &HH_Nthread);
-  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NHostAtom  * Molsize, &HG_Nblock, &HG_Nthread);
-  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * Molsize, &GG_Nblock, &GG_Nthread);
+  size_t HH_Nthread=0; size_t HH_Nblock=0; Setup_threadblock(NHostAtom  * Molsize, HH_Nblock, HH_Nthread);
+  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NHostAtom  * Molsize, HG_Nblock, HG_Nthread);
+  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * Molsize, GG_Nblock, GG_Nthread);
 
   size_t CrossTypeNthread = 0;
   if(SelectedComponent < SystemComponents.NComponents.y) //Framework-Framework + Framework-Adsorbate//
@@ -211,10 +217,19 @@ __global__ void update_CBCF_scale(Atoms* d_a, size_t start_position, size_t Sele
 
 ////////////////////////////////////////
 
-MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent);
-
-static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent)
+static inline MoveEnergy CBCFMove(Variables& Vars, size_t systemId)
 {
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  Simulations& Sims            = Vars.Sims[systemId];
+  ForceField& FF               = Vars.device_FF;
+  //RandomNumber& Random         = Vars.Random;
+  WidomStruct& Widom           = Vars.Widom[systemId];
+
+  size_t& SelectedMolInComponent = SystemComponents.TempVal.molecule;
+  size_t& SelectedComponent = SystemComponents.TempVal.component;
+
+  size_t& UpdateLocation = SystemComponents.TempVal.UpdateLocation; 
+
   //Get Number of Molecules for this component (For updating TMMC)//
   double NMol = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
   if(SystemComponents.hasfractionalMolecule[SelectedComponent]) NMol--;
@@ -263,7 +278,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
   //////////////////
   if(SelectednewBin > static_cast<int>(nbin))
   {
-    //MoveType = CBCF_INSERTION;
+    SystemComponents.TempVal.MoveType = CBCF_INSERTION;
     
     //return 0.0;
     SystemComponents.Moves[SelectedComponent].CBCFInsertionTotal ++;
@@ -278,7 +293,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
     //////////////////////////////////////////////////////////////////////////////
     size_t start_position = 1;
     bool   SuccessConstruction = false;
-    energy = CBCF_LambdaChange(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, oldScale, InterScale, start_position, CBCF_INSERTION, SuccessConstruction);
+    energy = CBCF_LambdaChange(Vars, systemId, SelectedMolInComponent, SelectedComponent, oldScale, InterScale, start_position, CBCF_INSERTION, SuccessConstruction);
     if(!SuccessConstruction) 
     {
       //If unsuccessful move (Overlap), Pacc = 0//
@@ -292,12 +307,14 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
            SuccessConstruction = false;
     double Rosenbluth          = 0.0;
     size_t SelectedTrial       = 0;
-    double preFactor           = 0.0;
+    double& preFactor          = SystemComponents.TempVal.preFactor; preFactor = 0.0;
     bool   Accepted            = false;
+    CBMC_Variables& InsertionVariables = SystemComponents.CBMC_New[0];
     /////////////////////////////////////////////////////
     //Second step: Insertion of the fractional molecule//
     /////////////////////////////////////////////////////
-    MoveEnergy second_step_energy = Insertion_Body(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, Rosenbluth, SuccessConstruction, SelectedTrial, preFactor, true, newScale);
+    //SystemComponents.TempVal.previous_step = true;
+    MoveEnergy second_step_energy = Insertion_Body(Vars, systemId, InsertionVariables);
     if(SuccessConstruction)
     {
       energy += second_step_energy;
@@ -319,9 +336,11 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
       { // accept the move
         SystemComponents.Moves[SelectedComponent].CBCFInsertionAccepted ++;
         SystemComponents.Moves[SelectedComponent].CBCFAccepted ++;
-        size_t UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
+        
+        UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
+
         //Zhao's note: here needs more consideration: need to update after implementing polyatomic molecule
-        Update_insertion_data<<<1,1>>>(Sims.d_a, Sims.Old, Sims.New, SelectedTrial, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent]);
+        Update_insertion_data_Parallel<<<1,SystemComponents.Moleculesize[SelectedComponent]>>>(Sims.d_a, Sims.Old, Sims.New, SelectedTrial, SelectedComponent, UpdateLocation, (int) SystemComponents.Moleculesize[SelectedComponent]);
         Update_NumberOfMolecules(SystemComponents, Sims.d_a, SelectedComponent, CBCF_INSERTION);
         //Update the ID of the fractional molecule on the host//
         SystemComponents.Lambda[SelectedComponent].FractionalMoleculeID = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent] - 1;
@@ -346,6 +365,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
     double newLambda = delta * static_cast<double>(newBin);
     //Zhao's note: Set the Scaling factors for VDW and Coulombic Interaction depending on the mode//
     double2 oldScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(oldLambda);
+    SystemComponents.TempVal.Scale = oldScale;
     double2 InterScale= SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0);
     double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(newLambda);
     //////////////////////////////////////////////
@@ -354,9 +374,11 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
     bool SuccessConstruction = false;
     MoveEnergy energy;
     double Rosenbluth = 0.0;
-    double preFactor  = 0.0;
-    size_t UpdateLocation = SelectedMolInComponent * SystemComponents.Moleculesize[SelectedComponent];
-    energy = Deletion_Body(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, UpdateLocation, Rosenbluth, SuccessConstruction, preFactor, oldScale);
+    double& preFactor = SystemComponents.TempVal.preFactor;
+    UpdateLocation = SelectedMolInComponent * SystemComponents.Moleculesize[SelectedComponent];
+
+    CBMC_Variables& DeletionVariables = SystemComponents.CBMC_Old[0];
+    energy = Deletion_Body(Vars, systemId, DeletionVariables);
 
     //printf("Deletion First Step E: "); energy.print();
  
@@ -381,7 +403,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
       MoveEnergy second_step_energy;
       
       SuccessConstruction = false;
-      second_step_energy = CBCF_LambdaChange(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, InterScale, newScale, start_position, CBCF_DELETION, SuccessConstruction); //Fractional deletion, lambda change is the second step (that uses the temporary tempEik vector)
+      second_step_energy = CBCF_LambdaChange(Vars, systemId, SelectedMolInComponent, SelectedComponent, InterScale, newScale, start_position, CBCF_DELETION, SuccessConstruction); //Fractional deletion, lambda change is the second step (that uses the temporary tempEik vector)
       
       //Account for the biasing terms of different lambdas//
       double biasTerm = SystemComponents.Lambda[SelectedComponent].biasFactor[newBin] - SystemComponents.Lambda[SelectedComponent].biasFactor[oldBin];
@@ -434,7 +456,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
     double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(newLambda);
     size_t start_position = 1;
     bool   SuccessConstruction = false;
-    energy = CBCF_LambdaChange(SystemComponents, Sims, FF, Random, Widom, SelectedMolInComponent, SelectedComponent, oldScale, newScale, start_position, CBCF_LAMBDACHANGE, SuccessConstruction);
+    energy = CBCF_LambdaChange(Vars, systemId, SelectedMolInComponent, SelectedComponent, oldScale, newScale, start_position, CBCF_LAMBDACHANGE, SuccessConstruction);
     if(!SuccessConstruction) 
     {
       //If unsuccessful move (Overlap), Pacc = 0//
@@ -445,7 +467,7 @@ static inline MoveEnergy CBCFMove(Components& SystemComponents, Simulations& Sim
     //Account for the biasing terms of different lambdas//
     double biasTerm = SystemComponents.Lambda[SelectedComponent].biasFactor[newBin] - SystemComponents.Lambda[SelectedComponent].biasFactor[oldBin];
     TMMCPacc = std::exp(-SystemComponents.Beta * energy.total() + biasTerm);
-    double preFactor = 1.0;
+    double& preFactor = SystemComponents.TempVal.preFactor; preFactor = 1.0;
     SystemComponents.Tmmc[SelectedComponent].ApplyTMBiasCBCF(preFactor, NMol, Binchange);
 
     bool Accepted = false;

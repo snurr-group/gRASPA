@@ -3,29 +3,39 @@
 ////////////////////////////////////////////////
 // Generalized function for single Body moves //
 ////////////////////////////////////////////////
-static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulations& Sims, WidomStruct& Widom, ForceField& FF, RandomNumber& Random, size_t SelectedMolInComponent, size_t SelectedComponent, int MoveType)
+
+//Zhao's note: decompose the single body move into different sections: preparation, calculation, and acceptance //
+//For easier manipulation of moves, to use for, for example, MLP //
+inline void SingleBody_Prepare(Variables& Vars, size_t systemId)
 {
-  //Get Number of Molecules for this component (For updating TMMC)//
-  double NMol = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
-  if(SystemComponents.hasfractionalMolecule[SelectedComponent]) NMol--;
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  Simulations& Sims            = Vars.Sims[systemId];
+  ForceField& FF               = Vars.device_FF;
+  RandomNumber& Random         = Vars.Random;
+  WidomStruct& Widom           = Vars.Widom[systemId];
 
-  bool Do_New = false;
-  bool Do_Old = false;
+  size_t& SelectedMolInComponent = SystemComponents.TempVal.molecule;
+  size_t& SelectedComponent      = SystemComponents.TempVal.component;
+  int&    MoveType               = SystemComponents.TempVal.MoveType;
 
-  size_t Atomsize = 0;
-  for(size_t ijk = 0; ijk < SystemComponents.NComponents.x; ijk++)
-    Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
+  bool& Do_New  = SystemComponents.TempVal.Do_New;
+  bool& Do_Old  = SystemComponents.TempVal.Do_Old;
+  Do_New = false;
+  Do_Old = false;
+
+  SystemComponents.TempVal.CheckOverlap = true;
+
   size_t Molsize = SystemComponents.Moleculesize[SelectedComponent]; //Get the size of the selected Molecule
   //Set up Old position and New position arrays
   if(Molsize >= 1024)
   {
     throw std::runtime_error("Molecule size is greater than allocated size, Why so big?\n");
   }
-  size_t start_position = SelectedMolInComponent*SystemComponents.Moleculesize[SelectedComponent];
+  size_t& start_position = SystemComponents.TempVal.start_position; 
+  start_position = SelectedMolInComponent*SystemComponents.Moleculesize[SelectedComponent];
 
   SystemComponents.Moves[SelectedComponent].Record_Move_Total(MoveType);
   double3 MaxChange = {0.0, 0.0, 0.0};
-  bool CheckOverlap = true;
   switch (MoveType)
   {
     case TRANSLATION:
@@ -44,8 +54,8 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
     {
       Do_New = true; Do_Old = true;
       MaxChange = SystemComponents.MaxSpecialRotation[SelectedComponent];
+      SystemComponents.TempVal.CheckOverlap = false;
       //Zhao's note: if we separate framework components, there might be lots of overlaps between different species (node and linker overlaps), we can turn this Overlap flag off//
-      CheckOverlap = false;
       //printf("Performing move on %zu comp, %zu mol\n", SelectedComponent, SelectedMolInComponent);
       break;
     }
@@ -67,7 +77,24 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
   Random.Check(Molsize);
   get_new_position<<<1, Molsize>>>(Sims, FF, start_position, SelectedComponent, MaxChange, Random.device_random, Random.offset, MoveType);
   Random.Update(Molsize);
+}
 
+inline MoveEnergy SingleBody_Calculation(Variables& Vars, size_t systemId)
+{
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  Simulations& Sims            = Vars.Sims[systemId];
+  ForceField& FF               = Vars.device_FF;
+  WidomStruct& Widom           = Vars.Widom[systemId];
+
+  //size_t& SelectedMolInComponent = SystemComponents.TempVal.molecule;
+  size_t& SelectedComponent      = SystemComponents.TempVal.component;
+  int&    MoveType               = SystemComponents.TempVal.MoveType;
+
+  bool& CheckOverlap = SystemComponents.TempVal.CheckOverlap; //CheckOverlap = true;
+  bool& Do_New  = SystemComponents.TempVal.Do_New;
+  bool& Do_Old  = SystemComponents.TempVal.Do_Old;
+
+  size_t Molsize = SystemComponents.Moleculesize[SelectedComponent]; //Get the size of the selected Molecule
   // Setup for the pairwise calculation //
   // New Features: divide the Blocks into two parts: Host-Guest + Guest-Guest //
   
@@ -81,9 +108,9 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
   size_t NCrossAtom = NHostAtom;
   if(SelectedComponent < SystemComponents.NComponents.y) //Framework component//
     NCrossAtom = NGuestAtom;
-  size_t HH_Nthread=0; size_t HH_Nblock=0; Setup_threadblock(NHostAtom *  Molsize, &HH_Nblock, &HH_Nthread);
-  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NCrossAtom * Molsize, &HG_Nblock, &HG_Nthread);
-  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * Molsize, &GG_Nblock, &GG_Nthread);
+  size_t HH_Nthread=0; size_t HH_Nblock=0; Setup_threadblock(NHostAtom *  Molsize, HH_Nblock, HH_Nthread);
+  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NCrossAtom * Molsize, HG_Nblock, HG_Nthread);
+  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * Molsize, GG_Nblock, GG_Nthread);
 
   size_t SameTypeNthread = 0;
   if(SelectedComponent < SystemComponents.NComponents.y) //Framework-Framework + Framework-Adsorbate//
@@ -97,35 +124,39 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
   int3 NBlocks = {(int) HH_Nblock, (int) HG_Nblock, (int) GG_Nblock}; //x: HH_Nblock, y: HG_Nblock, z: GG_Nblock;
   //printf("Total_Comp: %zu, Host Comp: %zu, Adsorbate Comp: %zu\n", SystemComponents.NComponents.x, SystemComponents.NComponents.y, SystemComponents.NComponents.z);
   //printf("NHostAtom: %zu, HH_Nblock: %zu, HG_Nblock: %zu, NGuestAtom: %zu, GG_Nblock: %zu\n", NHostAtom, HH_Nblock, HG_Nblock, NGuestAtom, GG_Nblock);
+  size_t Atomsize = 0;
+  for(size_t ijk = 0; ijk < SystemComponents.NComponents.x; ijk++)
+    Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
+
   if(Atomsize != 0)
   {
     Calculate_Single_Body_Energy_VDWReal<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents);
 
     cudaMemcpy(SystemComponents.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
   }
-  MoveEnergy tot; bool Accept = false; double Pacc = 0.0;
+  MoveEnergy tot; 
   if(!SystemComponents.flag[0] || !CheckOverlap)
   {
-    double BlockResult[Total_Nblock + Total_Nblock];
-    cudaMemcpy(BlockResult, Sims.Blocksum, 2 * Total_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+    //double BlockResult[Total_Nblock + Total_Nblock];
+    cudaMemcpy(SystemComponents.host_array, Sims.Blocksum, 2 * Total_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
    
     //VDW Part and Real Part Coulomb//
     for(size_t i = 0; i < HH_Nblock; i++) 
     {
-      tot.HHVDW += BlockResult[i];
-      tot.HHReal+= BlockResult[i + Total_Nblock];
+      tot.HHVDW += SystemComponents.host_array[i];
+      tot.HHReal+= SystemComponents.host_array[i + Total_Nblock];
       //if(MoveType == SPECIAL_ROTATION) printf("HH Block %zu, VDW: %.5f, Real: %.5f\n", i, BlockResult[i], BlockResult[i + Total_Nblock]);
     }
     for(size_t i = HH_Nblock; i < HH_Nblock + HG_Nblock; i++) 
     {
-      tot.HGVDW += BlockResult[i];
-      tot.HGReal+= BlockResult[i + Total_Nblock];
+      tot.HGVDW += SystemComponents.host_array[i];
+      tot.HGReal+= SystemComponents.host_array[i + Total_Nblock];
       //printf("HG Block %zu, VDW: %.5f, Real: %.5f\n", i, BlockResult[i], BlockResult[i + Total_Nblock]);
     }
     for(size_t i = HH_Nblock + HG_Nblock; i < Total_Nblock; i++)
     {
-      tot.GGVDW += BlockResult[i];
-      tot.GGReal+= BlockResult[i + Total_Nblock];
+      tot.GGVDW += SystemComponents.host_array[i];
+      tot.GGReal+= SystemComponents.host_array[i + Total_Nblock];
       //printf("GG Block %zu, VDW: %.5f, Real: %.5f\n", i, BlockResult[i], BlockResult[i + Total_Nblock]);
     }
 
@@ -140,7 +171,7 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
     if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
     {
       double2 newScale  = SystemComponents.Lambda[SelectedComponent].SET_SCALE(1.0);
-      double2 EwaldE = GPU_EwaldDifference_General(Sims.Box, Sims.d_a, Sims.New, Sims.Old, FF, Sims.Blocksum, SystemComponents, SelectedComponent, MoveType, 0, newScale);
+      double2 EwaldE = GPU_EwaldDifference_General(Sims, FF, SystemComponents, SelectedComponent, MoveType, 0, newScale);
       if(HH_Nblock == 0)
       {
         tot.GGEwaldE = EwaldE.x;
@@ -159,92 +190,104 @@ static inline MoveEnergy SingleBodyMove(Components& SystemComponents, Simulation
       //Calculate DNN//
       if(!EwaldPerformed) Prepare_DNN_InitialPositions(Sims.d_a, Sims.New, Sims.Old, SystemComponents, SelectedComponent, MoveType, 0);
       tot.DNN_E = DNN_Prediction_Move(SystemComponents, Sims, SelectedComponent, MoveType);
-      double correction = tot.DNN_Correction(); //If use DNN, HGVDWReal and HGEwaldE are zeroed//
-      if(fabs(correction) > SystemComponents.DNNDrift) //If there is a huge drift in the energy correction between DNN and Classical HostGuest//
-      {
-        //printf("TRANSLATION/ROTATION: Bad Prediction, reject the move!!!\n");
-        switch(MoveType)
-        {
-          case TRANSLATION: case ROTATION:
-          {
-            SystemComponents.TranslationRotationDNNReject ++; break;
-          }
-          case SINGLE_INSERTION: case SINGLE_DELETION:
-          {
-            SystemComponents.SingleSwapDNNReject ++; break;
-          }
-        }
-        WriteOutliers(SystemComponents, Sims, NEW, tot, correction); //Print New Locations//
-        WriteOutliers(SystemComponents, Sims, OLD, tot, correction); //Print Old Locations//
-        tot.zero();
-        return tot;
-      }
-      SystemComponents.SingleMoveDNNDrift += fabs(correction);
+      tot.DNN_Replace_Energy();
     }
-
-    double preFactor = GetPrefactor(SystemComponents, Sims, SelectedComponent, MoveType);
-    Pacc = preFactor * std::exp(-SystemComponents.Beta * tot.total());
-
-    //Apply the bias according to the macrostate//
-    if(MoveType == SINGLE_INSERTION || MoveType == SINGLE_DELETION)
-    {
-      SystemComponents.Tmmc[SelectedComponent].ApplyWLBias(preFactor, NMol, MoveType);
-      SystemComponents.Tmmc[SelectedComponent].ApplyTMBias(preFactor, NMol, MoveType);
-    }
-    //if(MoveType == SINGLE_INSERTION) printf("SINGLE INSERTION, tot: %.5f, preFactor: %.5f, Pacc: %.5f\n", tot.total(), preFactor, Pacc);
-    //if(MoveType == SINGLE_DELETION)  printf("SINGLE DELETION,  tot: %.5f, preFactor: %.5f, Pacc: %.5f\n", tot.total(), preFactor, Pacc);
-    //
-    double Random = Get_Uniform_Random();
-    if(Random < preFactor * std::exp(-SystemComponents.Beta * tot.total())) Accept = true;
+    double& preFactor = SystemComponents.TempVal.preFactor;
+    double& Pacc      = SystemComponents.TempVal.Pacc;
+    preFactor = GetPrefactor(SystemComponents, Sims, SelectedComponent, MoveType);
+    Pacc      = preFactor * std::exp(-SystemComponents.Beta * tot.total());
+    SystemComponents.TempVal.Pacc = Pacc;
   }
-
-  //if(MoveType == SPECIAL_ROTATION)
-  //  printf("Framework Component Move, %zu cycle, Molecule: %zu, Energy: %.5f, %s\n", SystemComponents.CURRENTCYCLE, SelectedMolInComponent, tot.total(), Accept ? "Accept" : "Reject");
-  //if(MoveType == SPECIAL_ROTATION) Accept = true;
-
-  switch(MoveType)
-  {
-    case TRANSLATION: case ROTATION: case SPECIAL_ROTATION:
-    { 
-      if(Accept)
-      {
-        update_translation_position<<<1,Molsize>>>(Sims.d_a, Sims.New, start_position, SelectedComponent);
-        SystemComponents.Moves[SelectedComponent].Record_Move_Accept(MoveType);
-        if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
-        {
-          Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
-        }
-      }
-      else {tot.zero(); };
-      SystemComponents.Tmmc[SelectedComponent].Update(1.0, NMol, MoveType);
-      break;
-    }
-    case SINGLE_INSERTION:
-    {
-      SystemComponents.Tmmc[SelectedComponent].TreatAccOutofBound(Accept, NMol, MoveType);
-      if(Accept)
-      {
-        SystemComponents.Moves[SelectedComponent].Record_Move_Accept(MoveType);
-        AcceptInsertion(SystemComponents, Sims, SelectedComponent, 0, FF.noCharges, SINGLE_INSERTION); //0: selectedTrial//
-      }
-      else {tot.zero(); };
-      SystemComponents.Tmmc[SelectedComponent].Update(Pacc, NMol, MoveType);
-      break;
-    }
-    case SINGLE_DELETION:
-    {
-      SystemComponents.Tmmc[SelectedComponent].TreatAccOutofBound(Accept, NMol, MoveType);
-      if(Accept)
-      {
-        SystemComponents.Moves[SelectedComponent].Record_Move_Accept(MoveType);
-        size_t UpdateLocation = SelectedMolInComponent * SystemComponents.Moleculesize[SelectedComponent];
-        AcceptDeletion(SystemComponents, Sims, SelectedComponent, UpdateLocation, SelectedMolInComponent, FF.noCharges);
-      }
-      else {tot.zero(); };
-      SystemComponents.Tmmc[SelectedComponent].Update(Pacc, NMol, MoveType);
-      break;
-    }
-  }
-  //if(MoveType == SINGLE_INSERTION) {printf("Cycle %zu, ENERGY: ", SystemComponents.CURRENTCYCLE); tot.print();}
   return tot;
 }
+
+inline void SingleBody_Acceptance(Variables& Vars, size_t systemId, MoveEnergy& tot)
+{
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  //Simulations& Sims            = Vars.Sims[systemId];
+  //ForceField& FF               = Vars.device_FF;
+  WidomStruct& Widom           = Vars.Widom[systemId];
+
+  //size_t& SelectedMolInComponent = SystemComponents.TempVal.molecule;
+  size_t& SelectedComponent      = SystemComponents.TempVal.component;
+  int&    MoveType               = SystemComponents.TempVal.MoveType;
+
+  //Get Number of Molecules for this component (For updating TMMC)//
+
+  double& Pacc      = SystemComponents.TempVal.Pacc;
+  bool& Accept = SystemComponents.TempVal.Accept;
+  Accept = false;
+  //no overlap, or don't check overlap (for special moves)//
+  if(!SystemComponents.flag[0] || !SystemComponents.TempVal.CheckOverlap)
+  {
+    double Random = Get_Uniform_Random();
+    if(Random < Pacc) Accept = true;
+    //printf("Random: %.5f, Accept: %s\n", Accept ? "True" : "False");
+  }
+
+  if(Accept)
+  {
+    switch(MoveType)
+    {
+      case TRANSLATION: case ROTATION: case SPECIAL_ROTATION:
+      {
+        AcceptTranslation(Vars, systemId);
+        break;
+      }
+      case SINGLE_INSERTION:
+      {
+        AcceptInsertion(Vars, systemId, SINGLE_INSERTION, Vars.SystemComponents[systemId].CBMC_New[0]);
+        break;
+      }
+      case SINGLE_DELETION:
+      {
+        AcceptDeletion(Vars, systemId, SINGLE_DELETION);
+        break;
+      }
+    }
+    SystemComponents.Moves[SelectedComponent].Record_Move_Accept(MoveType);
+  }
+  else
+  {
+    tot.zero();
+  }
+}
+
+inline MoveEnergy SingleBodyMove(Variables& Vars, size_t systemId)
+{
+  SingleBody_Prepare(Vars, systemId);
+  //Calculates prefactor, and Pacc (unbiased)//
+  MoveEnergy tot = SingleBody_Calculation(Vars, systemId);
+  //DNN: Check for DNN correction, if drifts too much from classical (typically bad prediction), reject//
+  if(Vars.SystemComponents[systemId].UseDNNforHostGuest)
+  { 
+    bool DNN_Drift = Check_DNN_Drift(Vars, systemId, tot);
+    if(DNN_Drift) 
+    {
+      tot.zero();
+      return tot;
+    }
+  }
+  //TMMC: Apply the bias according to the macrostate and check for out of bound, apply bias to Pacc//
+  Vars.SystemComponents[systemId].ApplyTMMCBias_UpdateCMatrix(Vars.SystemComponents[systemId].TempVal.Pacc, Vars.SystemComponents[systemId].TempVal.MoveType);
+  SingleBody_Acceptance(Vars, systemId, tot);
+  return tot;
+}
+/*
+struct SingleMove
+{
+  MoveEnergy energy;
+  void Prepare(Variables& Vars, size_t systemId)
+  {
+    SingleBody_Prepare(Vars, systemId);
+  }
+  void Calculate(Variables& Vars, size_t systemId)
+  {
+    energy = SingleBody_Calculation(Vars, systemId);
+  }
+  void Acceptance(Variables& Vars, size_t systemId)
+  {
+    SingleBody_Acceptance(Vars, systemId, energy);
+  }
+};
+*/

@@ -8,6 +8,7 @@
 #include <random>
 #include <optional>
 
+//#include "axpy.h"
 //###PATCH_LCLIN_DATA_STRUCT_H###//
 
 //###PATCH_ALLEGRO_DATA_STRUCT_H###//
@@ -145,7 +146,7 @@ struct TMMC
       case TRANSLATION: case ROTATION: case REINSERTION:
       {
         if(RejectOutofBound && ((N > MaxMacrostate) || (N < MinMacrostate))) return;
-        CMatrix[BinLocation].y += Pacc; //If for GCMC, the Pacc for these moves is always 1. should check for this//
+        CMatrix[BinLocation].y += 1.0; //If for GCMC, the Pacc for these moves is always 1. should check for this//
         ln_g[BinLocation]      += WLFactor; 
         WLBias[BinLocation]     = -ln_g[N]; //WL Bias//
         Histogram[BinLocation] ++;
@@ -364,10 +365,10 @@ struct TMMC
     }
   }
   //Determine whether to reject the move if it move out of the bounds//
-  void TreatAccOutofBound(bool& Accept, size_t N, int MoveType)
+  void TreatAccOutofBound(double& Pacc, size_t N, int MoveType)
   {
     if(!DoTMMC) return;
-    if(!Accept || !RejectOutofBound) return; //if the move is already rejected, no need to reject again//
+    if(!RejectOutofBound) return;
     switch(MoveType)
     {
       case TRANSLATION: case ROTATION: case REINSERTION:
@@ -377,12 +378,12 @@ struct TMMC
       }
       case INSERTION: case SINGLE_INSERTION: 
       {
-        if(RejectOutofBound && (N + 1) > MaxMacrostate) Accept = false;
+        if(RejectOutofBound && (N + 1) > MaxMacrostate) Pacc = 0.0;
         break;
       }
       case DELETION: case SINGLE_DELETION:
       {
-        if(RejectOutofBound && (N - 1) < MinMacrostate) Accept = false;
+        if(RejectOutofBound && (N - 1) < MinMacrostate) Pacc = 0.0;
         break;
       }
     }
@@ -582,6 +583,7 @@ struct Move_Statistics
       case SPECIAL_ROTATION: {SpecialRotationTotal++; break; }
       case INSERTION: case SINGLE_INSERTION: {InsertionTotal++; break; }
       case DELETION:  case SINGLE_DELETION:  {DeletionTotal++; break; }
+      case REINSERTION: {ReinsertionTotal++; break; }
     }
   }
   void Record_Move_Accept(int MoveType)
@@ -593,6 +595,7 @@ struct Move_Statistics
       case SPECIAL_ROTATION: {SpecialRotationAccepted++; break; }
       case INSERTION: case SINGLE_INSERTION: {InsertionAccepted++; break; }
       case DELETION:  case SINGLE_DELETION:  {DeletionAccepted++; break; }
+      case REINSERTION: {ReinsertionAccepted++; break; }
     }
   }
 };
@@ -697,15 +700,18 @@ struct MoveEnergy
     printf("HHVDW: %.5f, HHReal: %.5f, HGVDW: %.5f, HGReal: %.5f, GGVDW: %.5f, GGReal: %.5f, HHEwaldE: %.5f,\n HGEwaldE: %.5f,\n GGEwaldE: %.5f, TailE: %.5f, DNN_E: %.5f\n", HHVDW, HHReal, HGVDW, HGReal, GGVDW, GGReal, HHEwaldE, HGEwaldE, GGEwaldE, TailE, DNN_E);
     printf("Stored HGVDW: %.5f, Stored HGReal: %.5f, Stored HGEwaldE: %.5f\n", storedHGVDW, storedHGReal, storedHGEwaldE);
   };
-  double DNN_Correction() //Using DNN energy to replace HGVDW, HGReal and HGEwaldE//
+  void DNN_Replace_Energy()
   {
-    double correction = DNN_E - HGVDW - HGReal - HGEwaldE;
-    storedHGVDW = HGVDW; 
+    storedHGVDW = HGVDW;
     storedHGReal= HGReal;
     storedHGEwaldE  = HGEwaldE;
-    HGVDW = 0.0; 
+    HGVDW = 0.0;
     HGReal= 0.0;
     HGEwaldE = 0.0;
+  }
+  double DNN_Correction() //Using DNN energy to replace HGVDW, HGReal and HGEwaldE//
+  {
+    double correction = DNN_E - storedHGVDW - storedHGReal - storedHGEwaldE;
     return correction;
   };
 };
@@ -868,6 +874,91 @@ struct Boxsize
 };
 //###PATCH_ALLEGRO_H###//
 
+struct CBMC_Variables
+{
+  int MoveType = CBMC_INSERTION;
+  double Rosenbluth = 0.0;
+  double StoredR = 0.0;
+  size_t  selectedTrial = 0.0;
+  size_t selectedTrialOrientation = 0;
+  size_t start_position = 0;
+  bool SuccessConstruction = false;
+  MoveEnergy FirstBeadEnergy;
+  MoveEnergy ChainEnergy;
+  void clear()
+  {
+    MoveType = CBMC_INSERTION;
+    StoredR = 0.0;
+    selectedTrial = 0;
+    selectedTrialOrientation = 0;
+    start_position = 0;
+    SuccessConstruction = false;
+    FirstBeadEnergy.zero();
+    ChainEnergy.zero();
+  }
+};
+
+//Zhao's note: we are breaking moves into different parts, 
+//so we can use some middle-storage//
+struct MoveTempStorage
+{
+  //Move Selection//
+  //Need random number, selected box, selected molecule, selected component//
+  size_t component    = 0;
+  size_t molecule     = 0;
+  int    MoveType     = TRANSLATION;
+
+  //For identity_swap//
+  size_t temp_component=0;
+  size_t temp_molecule =0;
+
+  //within the move//
+  bool   Overlap= false;
+  bool   CheckOverlap= true;
+  bool   Do_New = false;
+  bool   Do_Old = false;
+  size_t start_position = 0;
+  size_t selectedTrial = 0;
+  size_t selectedTrialOrientation = 0;
+
+  bool   Accept = false;
+  double Pacc   = 0.0;
+  size_t New_Index = 0;
+  size_t Old_Index = 0;
+
+  //Some other variables for moves, system-specific//
+  double preFactor = 0.0;
+  size_t UpdateLocation = 0;
+  //Insertion/Deletion Scale//
+  double2 Scale = {1.0, 1.0};
+  bool previous_step = false;
+
+  void Initialize()
+  {
+    component    = 0;
+    molecule     = 0;
+    MoveType     = TRANSLATION;
+
+    Overlap= false;
+    CheckOverlap= true;
+    Do_New = false;
+    Do_Old = false;
+    start_position = 0;
+    selectedTrial = 0;
+    selectedTrialOrientation = 0;
+
+    Accept = false;
+    Pacc   = 0.0;
+    New_Index = 0;
+    Old_Index = 0;
+    
+    preFactor = 0.0;
+    UpdateLocation = 0;
+    Scale = {1.0, 1.0};
+    previous_step = false;
+  }
+};
+
 //###Struct to contain almost all data on the CPU for the simulation###//
 struct Components
 {
@@ -896,6 +987,15 @@ struct Components
   size_t  EnergyEvalTimes = 0;
 
   bool*   flag;                                       // flags for checking overlaps (on host), device version in Simulations struct//
+  double* host_array;
+  //MC CBMC/Calculation variables//
+  std::vector<size_t>Trialindex;
+  std::vector<double>ExpRosen;
+  std::vector<double>Rosen;
+  std::vector<double>ShiftedBoltzmannFactors;
+  std::vector<MoveEnergy>TrialEnergies;
+  double MaxRosen = 0.0; double SumRosen=0.0;
+
   size_t EikAllocateSize = 0;
   size_t tempEikAllocateSize = 0;
 
@@ -930,6 +1030,8 @@ struct Components
   
   double HeliumVoidFraction = 0.0;
   double ExcessVolume       = 0.0;
+
+  double createmol_energy = 0.0; //total create_mol phase energy, used when computing heat of adsorption//
   //std::vector<double2>EnergyAverage;
   /*
   //Zhao's note: do not use pass by ref for DeltaE
@@ -1028,6 +1130,10 @@ struct Components
   std::vector<double3> MaxTranslation;
   std::vector<double3> MaxRotation;
   std::vector<double3> MaxSpecialRotation;
+  //Some CBCF variables//
+  std::vector<size_t> CBCFPerformed;
+  size_t WLSampled     = 0;
+  size_t WLAdjusted    = 0;
   std::vector<double>Tc;                              // Critical Temperature of the component
   std::vector<double>Pc;                              // Critical Pressure of the component
   std::vector<double>Accentric;                       // Accentric Factor of the component
@@ -1080,6 +1186,39 @@ struct Components
         break;
     }
   }
+
+  //CBMC temporary variables//
+  //for example, for RXMC, you may have multiple molecules running CBMC//
+  std::vector<CBMC_Variables> CBMC_New; size_t CBMC_New_Index = 0;
+  std::vector<CBMC_Variables> CBMC_Old; size_t CBMC_Old_Index = 0;
+
+  //Some other variables for moves, system-specific//
+  MoveTempStorage TempVal;
+
+  //TMMC bias//
+  void ApplyTMMCBias_UpdateCMatrix(double& Pacc, int MoveType)
+  {
+    size_t& SelectedComponent = TempVal.component;
+    double NMol = NumberOfMolecule_for_Component[SelectedComponent];
+    if(MoveType == SINGLE_INSERTION || MoveType == SINGLE_DELETION || MoveType == INSERTION || MoveType == DELETION)
+    {
+      if(hasfractionalMolecule[SelectedComponent]) NMol--;
+
+      //Update TMMC collection matrices//
+      Tmmc[SelectedComponent].Update(Pacc, NMol, MoveType);
+
+      Tmmc[SelectedComponent].ApplyWLBias(Pacc, NMol, MoveType);
+      Tmmc[SelectedComponent].ApplyTMBias(Pacc, NMol, MoveType);
+    
+      //TMMC Acceptance, if out of bound, Pacc = 0.0 (then the move will be rejected always)//
+      Tmmc[SelectedComponent].TreatAccOutofBound(Pacc, NMol, MoveType);
+    }
+    else
+    {
+      Tmmc[SelectedComponent].Update(1.0, NMol, MoveType);
+    }
+  }
+
   FILE* OUTPUT = stderr;
 };
 
@@ -1210,6 +1349,10 @@ struct Variables
   int NumberOfInitializationCycles = 0;
   int NumberOfEquilibrationCycles  = 0;
   int NumberOfProductionCycles     = 0;
+  int Cycles = 0; //Current cycle//
+
+  bool RunOneByOne = true;
+  bool RunTogether = false;
 
   size_t StructureFactor_Multiplier = 2; //Add extra structure factor storage for volume moves//
 
@@ -1218,6 +1361,8 @@ struct Variables
   size_t MaxStepPerCycle = 0;
   bool SetMaxStep = false;
   int SimulationMode = INITIALIZATION;
+  std::string Mode   = "INITIALIZATION";
+  int BlockAverageSize = 1; //# of cycle/steps each block has//
   //Simulation Structs//
   Units Constants; //Physical constants for the simulation//
 
@@ -1245,6 +1390,11 @@ struct Variables
   std::vector<Boxsize>Box;
 
   Gibbs GibbsStatistics;  //Gibbs Volume + Xfer moves stats
+
+  double RandomNumber;
+  double systemId;
+
+  //MC_MOVES MOVES;
 };
 
 /*

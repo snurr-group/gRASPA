@@ -43,7 +43,7 @@ __host__ MoveEnergy operator -(MoveEnergy A, MoveEnergy B);
 
 __host__ __device__ void WrapInBox(double3 posvec, double* Cell, double* InverseCell, bool Cubic);
 
-void Setup_threadblock(size_t arraysize, size_t *Nblock, size_t *Nthread);
+void Setup_threadblock(size_t arraysize, size_t& Nblock, size_t& Nthread);
 
 void checkCUDAError(const char *msg);
 template<size_t blockSize, typename T>
@@ -106,7 +106,7 @@ void Copy_Ewald_Vector(Simulations& Sim);
 
 void Update_Vector_Ewald(Boxsize& Box, bool CPU, Components& SystemComponents, size_t SelectedComponent);
 
-double2 GPU_EwaldDifference_General(Boxsize& Box, Atoms*& d_a, Atoms& New, Atoms& Old, ForceField& FF, double* Blocksum, Components& SystemComponents, size_t SelectedComponent, int MoveType, size_t Location, double2 proposed_scale);
+double2 GPU_EwaldDifference_General(Simulations& Sim, ForceField& FF, Components& SystemComponents, size_t SelectedComponent, int MoveType, size_t Location, double2 proposed_scale);
 
 double2 GPU_EwaldDifference_LambdaChange(Boxsize& Box, Atoms*& d_a, Atoms& Old, ForceField& FF, double* Blocksum, Components& SystemComponents, size_t SelectedComponent, double2 oldScale, double2 newScale, int MoveType);
 
@@ -114,7 +114,7 @@ void Skip_Ewald(Boxsize& Box);
 
 __global__ void TotalVDWRealCoulomb(Boxsize Box, Atoms* System, ForceField FF, double* Blocksum, bool* flag, size_t totalthreads, size_t Host_threads, size_t NAds, size_t NFrameworkAtomsPerThread, bool HostHost, bool UseOffset);
 
-void Setup_threadblock_EW(size_t arraysize, size_t *Nblock, size_t *Nthread);
+void Setup_threadblock_EW(size_t arraysize, size_t& Nblock, size_t& Nthread);
 
 __global__ void Double3_CacheCheck(double* Array, Complex* Vector, size_t totsize);
 
@@ -158,6 +158,8 @@ void WriteOutliers(Components& SystemComponents, Simulations& Sim, int MoveType,
 double DNN_Prediction_Move(Components& SystemComponents, Simulations& Sims, size_t SelectedComponent, int MoveType);
 double DNN_Prediction_Reinsertion(Components& SystemComponents, Simulations& Sims, size_t SelectedComponent, double3* temp);
 double DNN_Prediction_Total(Components& SystemComponents, Simulations& Sims);
+
+bool Check_DNN_Drift(Variables& Vars, size_t systemId, MoveEnergy& tot);
 ////////////////////
 // LCLin's Model  //
 ////////////////////

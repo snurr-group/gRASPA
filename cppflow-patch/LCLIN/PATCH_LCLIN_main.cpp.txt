@@ -6,13 +6,13 @@ PATCH_LCLIN_MAIN_READMODEL
       }
 
 PATCH_LCLIN_MAIN_PREP
-      if(SystemComponents[a].UseLCLin)
+      if(Vars.SystemComponents[a].UseLCLin)
       {
         for(size_t x = 0; x < Comp_for_DNN_Model[a].DNNModel.size(); x++)
         {
-          SystemComponents[a].DNNModel.push_back(Comp_for_DNN_Model[a].DNNModel[x]);
-          SystemComponents[a].DNNMinMax = Comp_for_DNN_Model[a].DNNMinMax;
-          SystemComponents[a].InputLayer= Comp_for_DNN_Model[a].InputLayer;
+          Vars.SystemComponents[a].DNNModel.push_back(Comp_for_DNN_Model[a].DNNModel[x]);
+          Vars.SystemComponents[a].DNNMinMax = Comp_for_DNN_Model[a].DNNMinMax;
+          Vars.SystemComponents[a].InputLayer= Comp_for_DNN_Model[a].InputLayer;
         }
-        Prepare_FeatureMatrix(Sims[a], SystemComponents[a], SystemComponents[a].HostSystem, Box[a]);
+        Prepare_FeatureMatrix(Vars.Sims[a], Vars.SystemComponents[a], Vars.SystemComponents[a].HostSystem, Vars.Box[a]);
       }

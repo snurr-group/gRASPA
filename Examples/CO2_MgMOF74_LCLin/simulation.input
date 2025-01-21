@@ -5,7 +5,7 @@ NumberOfProductionCycles     0
 UseMaxStep  yes
 MaxStepPerCycle 1
 
-UseChargesFromCIFFile no
+UseChargesFromCIFFile yes
 
 RestartFile no
 RandomSeed  0

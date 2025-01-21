@@ -225,7 +225,7 @@ void VolumeMove(Components& SystemComponents, Simulations& Sim, ForceField FF)
     if(TotSize * 2 > SystemComponents.Allocate_size[comp]) throw std::runtime_error("Allocate More space for adsorbates on the GPU!!!");
   }
   Sim.Box.Volume = newV;
-  Setup_threadblock(totMol, &Nblock, &Nthread);
+  Setup_threadblock(totMol, Nblock, Nthread);
   ScalePositions<<<Nblock, Nthread>>>(Sim.d_a, Sim.Box, Scale, SystemComponents.NComponents.x, ScaleFirstComponentFramework, totMol, FF.noCharges, Sim.device_flag, newV);
   checkCUDAError("VolumeMove: Error in ScalePositions\n");
 
@@ -286,7 +286,7 @@ void VolumeMove(Components& SystemComponents, Simulations& Sim, ForceField FF)
       if(TotSize * 2 > SystemComponents.Allocate_size[comp]) throw std::runtime_error("Allocate More space for adsorbates on the GPU!!!");
     }
     //Zhao's note: here the energies are only considering VDW + Real//
-    Setup_threadblock(totMol, &Nblock, &Nthread);
+    Setup_threadblock(totMol, Nblock, Nthread);
     //Copy xyz data from new to old, also update box lengths//
     totMol = SystemComponents.TotalNumberOfMolecules - SystemComponents.NumberOfFrameworks;
     CopyScaledPositions<<<Nblock, Nthread>>>(Sim.d_a, SystemComponents.NComponents.x, ScaleFirstComponentFramework, totMol);
@@ -382,7 +382,7 @@ void NVTGibbsMove(std::vector<Components>& SystemComponents, Simulations*& Sims,
         size_t TotSize = SystemComponents[sim].Moleculesize[comp] * SystemComponents[sim].NumberOfMolecule_for_Component[comp];
         if(TotSize * 2 > SystemComponents[sim].Allocate_size[comp]) throw std::runtime_error("Allocate More space for adsorbates on the GPU!!!");
       }
-      Setup_threadblock(totMol, &Nblock, &Nthread);
+      Setup_threadblock(totMol, Nblock, Nthread);
 
       Sims[sim].Box.Volume = newV[sim];
       //if(Get_TotalNumberOfMolecule_In_Box(SystemComponents[sim]) > 1e-10)
@@ -448,7 +448,7 @@ void NVTGibbsMove(std::vector<Components>& SystemComponents, Simulations*& Sims,
       }
       //Zhao's note: here the energies are only considering VDW + Real//
       SystemComponents[sim].deltaE += DeltaE[sim];
-      Setup_threadblock(totMol, &Nblock, &Nthread);
+      Setup_threadblock(totMol, Nblock, Nthread);
       //Copy xyz data from new to old, also update box lengths//
       if(Get_TotalNumberOfMolecule_In_Box(SystemComponents[sim]) > 1e-10)
       CopyScaledPositions<<<Nblock, Nthread>>>(Sims[sim].d_a, SystemComponents[sim].NComponents.x, ScaleFramework, totMol);

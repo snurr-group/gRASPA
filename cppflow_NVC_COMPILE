@@ -2,21 +2,28 @@
 
 rm nvc_main.x
 
+export PATH=/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/compilers/bin:$PATH
+export LIBRARY_PATH=$LIBRARY_PATH:/$HOME/ctensorflow/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/$HOME/ctensorflow/lib
+export PATH=$PATH:/$HOME/ctensorflow/include
+
 CXX="nvc++"
 
-LINKFLAG="-ltensorflow -L/opt/nvidia/hpc_sdk/Linux_x86_64/22.5/cuda/lib64 -L/usr/lib64/ -L/opt/local/lib/gcc11/"
+LINKFLAG="-ltensorflow -L/usr/lib64/ -L/opt/local/lib/gcc11/ -I/$HOME/ctensorflow/include"
 
 NVCFLAG="-O3 -std=c++20 -target=gpu -Minline -fopenmp -cuda -stdpar=multicore"
 
-$CXX $NVCFLAG $LINKFLAG -c axpy.cu
+$CXX $NVCFLAG $LINKFLAG -c axpy.cu && echo "Finished axpy.cu" &
 
-$CXX $NVCFLAG $LINKFLAG -c main.cpp
+$CXX $NVCFLAG $LINKFLAG -c main.cpp && echo "Finished main.cpp" &
 
-$CXX $NVCFLAG $LINKFLAG -c read_data.cpp
+$CXX $NVCFLAG $LINKFLAG -c read_data.cpp && echo "Finished read_data.cpp" &
 
-$CXX $NVCFLAG $LINKFLAG -c data_struct.cpp
+$CXX $NVCFLAG $LINKFLAG -c data_struct.cpp && echo "Finished data_struct.cpp" &
 
-$CXX $NVCFLAG $LINKFLAG -c VDW_Coulomb.cu
+$CXX $NVCFLAG $LINKFLAG -c VDW_Coulomb.cu && echo "Finished data_struct.cpp" &
+
+wait
 
 $CXX $NVCFLAG $LINKFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x
 

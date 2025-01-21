@@ -3,7 +3,9 @@
 #include <cuda_fp16.h>
 #include <thrust/device_ptr.h>
 #include <thrust/reduce.h>
-static inline size_t SelectTrialPosition(std::vector <double> LogBoltzmannFactors) //In Zhao's code, LogBoltzmannFactors = Rosen
+
+
+static inline size_t SelectTrialPosition(std::vector<double>& LogBoltzmannFactors) //In Zhao's code, LogBoltzmannFactors = Rosen
 {
     std::vector<double> ShiftedBoltzmannFactors(LogBoltzmannFactors.size());
 
@@ -31,57 +33,80 @@ static inline size_t SelectTrialPosition(std::vector <double> LogBoltzmannFactor
 }
 
 template<typename T>
-inline void Host_sum_Widom_HGGG_SEPARATE(size_t NumberWidomTrials, double Beta, T* energy_array, bool* flag, size_t HG_Nblock, size_t HGGG_Nblock, std::vector<MoveEnergy>& energies, std::vector<size_t>& Trialindex, std::vector<double>& Rosen, size_t Cycle, bool VDWRealBiasing)
+inline void Host_sum_Widom_HGGG_SEPARATE(Components& SystemComponents, size_t NumberWidomTrials, T* energy_array, bool* flag, size_t HG_Nblock, size_t HGGG_Nblock, bool VDWRealBiasing)
 {
-  std::vector<size_t>reasonable_trials;
+  std::vector<size_t>& Trialindex        = SystemComponents.Trialindex;
+  std::vector<double>& Rosen             = SystemComponents.Rosen;
+  std::vector<MoveEnergy>& TrialEnergies = SystemComponents.TrialEnergies;
   for(size_t i = 0; i < NumberWidomTrials; i++)
   {
     if(!flag[i])
     {
-      reasonable_trials.push_back(i);
+      Trialindex.emplace_back(i);
     }
     //else printf("THERE IS OVERLAP FOR TRIAL %zu, flag = %s\n", i, flag[i] ? "true" : "false");
   }
-  T host_array[HGGG_Nblock * 2];
 
-  size_t reasonable_trials_size = reasonable_trials.size();
-  Trialindex.resize(reasonable_trials_size, 0);
-  energies.resize(reasonable_trials_size);
-  Rosen.resize(reasonable_trials_size, 0.0);
-
-  for(size_t i = 0; i < reasonable_trials.size(); i++)
+  size_t Trialsize = Trialindex.size();
+  for(size_t i = 0; i < Trialsize; i++)
   {
-    size_t trial = reasonable_trials[i];
-    cudaMemcpy(host_array, &energy_array[trial*HGGG_Nblock * 2], 2 * HGGG_Nblock*sizeof(T), cudaMemcpyDeviceToHost);
+    size_t trial = Trialindex[i];
+    cudaMemcpy(SystemComponents.host_array, &energy_array[trial*HGGG_Nblock * 2], 2 * HGGG_Nblock*sizeof(T), cudaMemcpyDeviceToHost);
     T HG_vdw = 0.0; T HG_real = 0.0;
     T GG_vdw = 0.0; T GG_real = 0.0;
     //Zhao's note: If during the pairwise interaction, there is no overlap, then don't check overlap in the summation//
     //Otherwise, it will cause issues when using the fractional molecule (energy drift in retrace)//
     //So translation/rotation summation of energy are not checking the overlaps, so this is the reason for the discrepancy//
-    for(size_t ijk=0; ijk < HG_Nblock; ijk++)           HG_vdw+=host_array[ijk];
-    for(size_t ijk=HG_Nblock; ijk < HGGG_Nblock; ijk++) GG_vdw+=host_array[ijk];
-
-    for(size_t ijk=HGGG_Nblock; ijk < HG_Nblock + HGGG_Nblock; ijk++) HG_real+=host_array[ijk];
-    for(size_t ijk=HG_Nblock + HGGG_Nblock; ijk < HGGG_Nblock + HGGG_Nblock; ijk++) GG_real+=host_array[ijk];
-
-    double tot = static_cast<double>(HG_vdw + GG_vdw);
-    if(VDWRealBiasing) tot += static_cast<double>(HG_real + GG_real);
-
-    MoveEnergy E;
+    for(size_t ijk=0; ijk < HG_Nblock; ijk++)           HG_vdw+=SystemComponents.host_array[ijk];
+    for(size_t ijk=HG_Nblock; ijk < HGGG_Nblock; ijk++) GG_vdw+=SystemComponents.host_array[ijk];
+    
+    for(size_t ijk=HGGG_Nblock; ijk < HG_Nblock + HGGG_Nblock; ijk++) HG_real+=SystemComponents.host_array[ijk];
+    for(size_t ijk=HG_Nblock + HGGG_Nblock; ijk < HGGG_Nblock + HGGG_Nblock; ijk++) GG_real+=SystemComponents.host_array[ijk];
+     
+    MoveEnergy E; 
     E.HGVDW = static_cast<double>(HG_vdw);
     E.HGReal= static_cast<double>(HG_real);
     E.GGVDW = static_cast<double>(GG_vdw);
     E.GGReal= static_cast<double>(GG_real);
+
+    double tot = E.HGVDW + E.GGVDW;
+    if(VDWRealBiasing) tot += E.HGReal + E.GGReal;
+
+    TrialEnergies.emplace_back(E);
+    Rosen.emplace_back(-SystemComponents.Beta*tot);
     //printf("trial: %zu, HG: %.5f, GG: %.5f, tot: %.5f\n", i, HG_vdw + HG_real, GG_vdw + GG_real, tot);
-    Trialindex[i] = trial;
-    energies[i] = E;
-    Rosen[i] = -Beta*tot;
-    //energies.push_back(E);
-    //Trialindex.push_back(trial);
-    //Rosen.push_back(-Beta*tot);
-    //printf("Trial %zu ", trial); E.print();
   }
 }
+
+inline void CBMC_PairwiseInteractions(Variables& Vars, size_t systemId, Components& SystemComponents, Simulations& Sims, size_t NTrials, size_t chainsize)
+{
+  size_t NHostAtom = 0; size_t NGuestAtom = 0;
+  for(size_t i = 0; i < SystemComponents.NComponents.y; i++)
+    NHostAtom += SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
+  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
+    NGuestAtom+= SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
+
+  size_t Atomsize = NHostAtom+NGuestAtom;
+  size_t threadsNeeded = Atomsize * NTrials * chainsize;
+  size_t& component = SystemComponents.TempVal.component;
+  // Setup the pairwise calculation //
+  // Setup Number of Blocks and threads for separated HG + GG calculations //
+
+  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NHostAtom  * chainsize, HG_Nblock, HG_Nthread);
+  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * chainsize, GG_Nblock, GG_Nthread);
+  size_t HGGG_Nthread = std::max(HG_Nthread, GG_Nthread);
+  size_t HGGG_Nblock  = HG_Nblock + GG_Nblock;
+  if(Atomsize != 0)
+  {
+    Calculate_Multiple_Trial_Energy_VDWReal<<<HGGG_Nblock * NTrials, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, Vars.device_FF, Sims.Blocksum, component, Atomsize, Sims.device_flag, threadsNeeded, chainsize, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG)");
+    cudaMemcpy(SystemComponents.flag, Sims.device_flag, NTrials*sizeof(bool), cudaMemcpyDeviceToHost);
+  } 
+  //printf("OldNBlock: %zu, HG_Nblock: %zu, GG_Nblock: %zu, HGGG_Nblock: %zu\n", Nblock, HG_Nblock, GG_Nblock, HGGG_Nblock); 
+  
+  //printf("FIRST BEAD ENERGIES\n");
+  Host_sum_Widom_HGGG_SEPARATE(SystemComponents, NTrials, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, Vars.device_FF.VDWRealBias);
+}
+
 
 __global__ void get_random_trial_position(Boxsize Box, Atoms* d_a, Atoms NewMol, bool* device_flag, RandomNumber Random, size_t start_position, size_t SelectedComponent, size_t MolID, int MoveType, double2 proposed_scale)
 {
@@ -266,24 +291,110 @@ __global__ void get_random_trial_orientation(Boxsize Box, Atoms* d_a, Atoms Mol,
     device_flag[trial] = false;
 }
 
-
-static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent, int MoveType, double &StoredR, size_t *REAL_Selected_Trial, bool *SuccessConstruction, MoveEnergy *energy, double2 proposed_scale)
+static inline void CBMC_FirstBead_Finish(Variables& Vars, size_t systemId, CBMC_Variables& CBMC)
 {
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  WidomStruct& Widom           = Vars.Widom[systemId];
+  ForceField& FF               = Vars.device_FF;
 
+  size_t& SelectedComponent = SystemComponents.TempVal.component;
   bool Goodconstruction = false; size_t SelectedTrial = 0; double Rosenbluth = 0.0;
-  size_t Atomsize = 0;
-  for(size_t ijk = 0; ijk < SystemComponents.NComponents.x; ijk++)
+
+  double& StoredR = CBMC.StoredR;
+
+  int& MoveType = CBMC.MoveType;
+
+  std::vector<double>&Rosen        = SystemComponents.Rosen;
+  std::vector<MoveEnergy>&energies = SystemComponents.TrialEnergies;
+  std::vector<size_t>&Trialindex   = SystemComponents.Trialindex;
+
+  //Three variables to settle: NumberOfTrials, start_position, SelectedMolID
+  //start_position: where to copy data from
+  //SelectedMolID : MolID to assign to the new molecule 
+  size_t start_position = SystemComponents.TempVal.molecule*SystemComponents.Moleculesize[SelectedComponent];
+
+  double averagedRosen = 0.0;
+  size_t REALselected  = 0;
+  //Zhao's note: The final part of the CBMC seems complicated, using a switch may help understand how each case is processed//
+  switch(MoveType)
   {
-    Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
+    case CBMC_INSERTION: case REINSERTION_INSERTION:
+    {
+      if(Rosen.size() == 0) break;
+      SelectedTrial = SelectTrialPosition(Rosen);
+      for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
+      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(SystemComponents.Rosen)::value_type(0));
+      if(Rosenbluth < 1e-150) break;
+      Goodconstruction = true;
+      break;
+    }
+    case IDENTITY_SWAP_NEW:
+    {
+      if(Rosen.size() == 0) break;
+      SelectedTrial = 0;
+      for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
+      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(SystemComponents.Rosen)::value_type(0));
+      if(Rosenbluth < 1e-150) break;
+      Goodconstruction = true;
+      break;
+    }
+    case CBMC_DELETION: case REINSERTION_RETRACE: case IDENTITY_SWAP_OLD:
+    {
+      SelectedTrial = 0;
+      for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
+      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(SystemComponents.Rosen)::value_type(0));
+      Goodconstruction = true;
+      break;
+    }
   }
-  std::vector<double>Rosen; std::vector<MoveEnergy>energies; std::vector<size_t>Trialindex;
- 
+
+  if(!Goodconstruction) return;
+  REALselected = Trialindex[SelectedTrial];
+
+  if(MoveType == REINSERTION_INSERTION) StoredR = Rosenbluth - Rosen[SelectedTrial];
+  if(MoveType == REINSERTION_RETRACE) Rosenbluth += StoredR;
+  //For 1st bead for identity swap, there is only 1 bead used for insertion/retrace, don't divide.//
+  averagedRosen = Rosenbluth;
+  if(MoveType != IDENTITY_SWAP_OLD && MoveType != IDENTITY_SWAP_NEW)
+    averagedRosen /= double(Widom.NumberWidomTrials);
+
+  //Calculate Rosenbluth correction if real-charge is not included when selecting the trials//
+  if(!FF.VDWRealBias)
+  {
+    double Real_Energy = energies[SelectedTrial].HGReal + energies[SelectedTrial].GGReal;
+    averagedRosen*=std::exp(-SystemComponents.Beta*Real_Energy);
+  }
+
+  CBMC.selectedTrial = REALselected;
+  CBMC.SuccessConstruction = Goodconstruction;
+  CBMC.FirstBeadEnergy = energies[SelectedTrial];
+  CBMC.Rosenbluth = averagedRosen;
+}
+
+inline void Widom_Move_FirstBead_PARTIAL(Variables& Vars, size_t systemId, CBMC_Variables& CBMC)
+{
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  Simulations& Sims            = Vars.Sims[systemId];
+  RandomNumber& Random         = Vars.Random;
+  WidomStruct& Widom           = Vars.Widom[systemId];
+
+  double2& proposed_scale = SystemComponents.TempVal.Scale;
+
+  size_t& SelectedComponent = SystemComponents.TempVal.component;
+
+  int& MoveType = CBMC.MoveType;
+
+  std::vector<double>&Rosen        = SystemComponents.Rosen;
+  std::vector<MoveEnergy>&energies = SystemComponents.TrialEnergies;
+  std::vector<size_t>&Trialindex   = SystemComponents.Trialindex;
+  Rosen.clear(); energies.clear(); Trialindex.clear();
+
   //Three variables to settle: NumberOfTrials, start_position, SelectedMolID
   //start_position: where to copy data from
   //SelectedMolID : MolID to assign to the new molecule 
   size_t NumberOfTrials = Widom.NumberWidomTrials;
-  size_t start_position = SelectedMolInComponent*SystemComponents.Moleculesize[SelectedComponent];
-  size_t SelectedMolID  = SelectedMolInComponent;
+  size_t start_position = SystemComponents.TempVal.molecule*SystemComponents.Moleculesize[SelectedComponent];
+  size_t SelectedMolID  = SystemComponents.TempVal.molecule;
   switch(MoveType)
   {
     case CBMC_INSERTION:
@@ -292,7 +403,7 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
       SelectedMolID = SystemComponents.NumberOfMolecule_for_Component[SelectedComponent];
       break; 
     }
-    case CBMC_DELETION: case REINSERTION_INSERTION: 
+    case CBMC_DELETION: case REINSERTION_INSERTION:
     {
       break; //Go With Default//
     }
@@ -310,7 +421,6 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
       break;
     }
   }
-  size_t threadsNeeded = Atomsize * NumberOfTrials;
 
   Random.Check(NumberOfTrials);
 
@@ -319,110 +429,44 @@ static inline double Widom_Move_FirstBead_PARTIAL(Components& SystemComponents, 
   get_random_trial_position<<<1,NumberOfTrials>>>(Sims.Box, Sims.d_a, Sims.New, Sims.device_flag, Random, start_position, SelectedComponent, SelectedMolID, MoveType, proposed_scale); checkCUDAError("error getting random trials");
   Random.Update(NumberOfTrials);
 
-  //printf("Selected Component: %zu, Selected Molecule: %zu (%zu), Total in Component: %zu\n", SelectedComponent, SelectedMolID, SelectedMolInComponent, SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]);
+  //printf("Selected Component: %zu, Selected Molecule: %zu (%zu), Total in Component: %zu\n", SelectedComponent, SelectedMolID, SystemComponents.TempVal.SelectedMolInComponent, SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]);
 
   // Setup the pairwise calculation //
   // Setup Number of Blocks and threads for separated HG + GG calculations //
-  size_t NHostAtom = 0; size_t NGuestAtom = 0;
-  for(size_t i = 0; i < SystemComponents.NComponents.y; i++)
-    NHostAtom += SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
-  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
-    NGuestAtom+= SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
+  CBMC_PairwiseInteractions(Vars, systemId, SystemComponents, Sims, NumberOfTrials, 1);
 
-  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NHostAtom  * 1, &HG_Nblock, &HG_Nthread);
-  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * 1, &GG_Nblock, &GG_Nthread);
-  size_t HGGG_Nthread = std::max(HG_Nthread, GG_Nthread);
-  size_t HGGG_Nblock  = HG_Nblock + GG_Nblock;
-  if(Atomsize != 0)
-  {
-    Calculate_Multiple_Trial_Energy_VDWReal<<<HGGG_Nblock * NumberOfTrials, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Sims.device_flag, threadsNeeded,1, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG)");
-    cudaMemcpy(SystemComponents.flag, Sims.device_flag, NumberOfTrials*sizeof(bool), cudaMemcpyDeviceToHost);
-  }
-  //printf("OldNBlock: %zu, HG_Nblock: %zu, GG_Nblock: %zu, HGGG_Nblock: %zu\n", Nblock, HG_Nblock, GG_Nblock, HGGG_Nblock);
-
-  //printf("FIRST BEAD ENERGIES\n");
-  Host_sum_Widom_HGGG_SEPARATE(NumberOfTrials, SystemComponents.Beta, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE, FF.VDWRealBias);
-
-  double averagedRosen = 0.0;
-  size_t REALselected  = 0;
-  //Zhao's note: The final part of the CBMC seems complicated, using a switch may help understand how each case is processed//
-  switch(MoveType)
-  {
-    case CBMC_INSERTION: case REINSERTION_INSERTION:
-    {
-      if(Rosen.size() == 0) break;
-      SelectedTrial = SelectTrialPosition(Rosen);
-      for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
-      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(Rosen)::value_type(0));
-      if(Rosenbluth < 1e-150) break;
-      Goodconstruction = true;
-      break;
-    }
-    case IDENTITY_SWAP_NEW:
-    {
-      if(Rosen.size() == 0) break;
-      SelectedTrial = 0;
-      for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
-      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(Rosen)::value_type(0));
-      if(Rosenbluth < 1e-150) break;
-      Goodconstruction = true;
-      break;
-    }
-    case CBMC_DELETION: case REINSERTION_RETRACE: case IDENTITY_SWAP_OLD:
-    {
-      SelectedTrial = 0;
-      for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
-      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(Rosen)::value_type(0));
-      Goodconstruction = true;
-      break;
-    }
-  }
-
-  if(!Goodconstruction) return 0.0;
-  REALselected = Trialindex[SelectedTrial];
-
-  if(MoveType == REINSERTION_INSERTION) StoredR = Rosenbluth - Rosen[SelectedTrial];
-  if(MoveType == REINSERTION_RETRACE) Rosenbluth += StoredR;
-  //For 1st bead for identity swap, there is only 1 bead used for insertion/retrace, don't divide.//
-  averagedRosen = Rosenbluth;
-  if(MoveType != IDENTITY_SWAP_OLD && MoveType != IDENTITY_SWAP_NEW) 
-    averagedRosen /= double(Widom.NumberWidomTrials);
-
-  //Calculate Rosenbluth correction if real-charge is not included when selecting the trials//
-  if(!FF.VDWRealBias)
-  {
-    double Real_Energy = energies[SelectedTrial].HGReal + energies[SelectedTrial].GGReal;
-    averagedRosen*=std::exp(-SystemComponents.Beta*Real_Energy);
-  }
-
-  *REAL_Selected_Trial = REALselected;
-  *SuccessConstruction = Goodconstruction;
-  *energy = energies[SelectedTrial];
-  return averagedRosen;
+  CBMC_FirstBead_Finish(Vars, systemId, CBMC);
 }
 
-static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simulations& Sims, ForceField& FF, RandomNumber& Random, WidomStruct& Widom, size_t SelectedMolInComponent, size_t SelectedComponent, int MoveType, size_t *REAL_Selected_Trial, bool *SuccessConstruction, MoveEnergy *energy, size_t FirstBeadTrial, double2 proposed_scale)
+inline void Widom_Move_Chain_PARTIAL(Variables& Vars, size_t systemId, CBMC_Variables& CBMC)
 {
-  MoveEnergy TEMP;
-  *energy = TEMP;
+  Components& SystemComponents = Vars.SystemComponents[systemId];
+  Simulations& Sims            = Vars.Sims[systemId];
+  ForceField& FF               = Vars.device_FF;
+  RandomNumber& Random         = Vars.Random;
+  WidomStruct& Widom           = Vars.Widom[systemId];
+
+  size_t& SelectedComponent = SystemComponents.TempVal.component;
+
+  int& MoveType = CBMC.MoveType;
+  size_t& FirstBeadTrial = CBMC.selectedTrial;
+
+  double2& proposed_scale = SystemComponents.TempVal.Scale;
+
   //printf("DOING RANDOM ORIENTAITONS\n");
-  size_t Atomsize = 0;
   size_t chainsize = SystemComponents.Moleculesize[SelectedComponent]-1; //size for the data of trial orientations are the number of trial orientations times the size of molecule excluding the first bead//
   bool Goodconstruction = false; size_t SelectedTrial = 0; double Rosenbluth = 0.0;
 
-  // here, the Atomsize is the total number of atoms in the system
-  for(size_t ijk = 0; ijk < SystemComponents.NComponents.x; ijk++)
-  {
-    Atomsize += SystemComponents.Moleculesize[ijk] * SystemComponents.NumberOfMolecule_for_Component[ijk];
-  }
-
-  std::vector<double>Rosen; std::vector<MoveEnergy>energies; std::vector<size_t>Trialindex;
+  std::vector<double>& Rosen        = SystemComponents.Rosen;
+  std::vector<MoveEnergy>& energies = SystemComponents.TrialEnergies;
+  std::vector<size_t>& Trialindex   = SystemComponents.Trialindex;
+  Rosen.clear(); energies.clear(); Trialindex.clear();
 
   //Two variables to settle: start_position, SelectedMolID
   //start_position: where to copy data from
   //SelectedMolID : MolID to assign to the new molecule
-  size_t start_position = SelectedMolInComponent*SystemComponents.Moleculesize[SelectedComponent] + 1;
-  size_t SelectedMolID  = SelectedMolInComponent;
+  size_t start_position = SystemComponents.TempVal.molecule*SystemComponents.Moleculesize[SelectedComponent] + 1;
+  size_t SelectedMolID  = SystemComponents.TempVal.molecule;
   switch(MoveType)
   {
     case CBMC_INSERTION:
@@ -442,39 +486,16 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
       break;
     }
   }
-  // number of threads needed = Atomsize*Widom.NumberWidomTrialsOrientations;
-  size_t threadsNeeded = Atomsize*Widom.NumberWidomTrialsOrientations*chainsize;
-
   Random.Check(Widom.NumberWidomTrialsOrientations);
   //Get the first bead positions, and setup trial orientations//
-  size_t trialO_Nthread=0; size_t trialO_Nblock=0; Setup_threadblock(Widom.NumberWidomTrialsOrientations*chainsize, &trialO_Nblock, &trialO_Nthread);
+  size_t trialO_Nthread=0; size_t trialO_Nblock=0; Setup_threadblock(Widom.NumberWidomTrialsOrientations*chainsize, trialO_Nblock, trialO_Nthread);
   get_random_trial_orientation<<<trialO_Nblock,trialO_Nthread>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, Sims.device_flag, Random.device_random, Random.offset, FirstBeadTrial, start_position, SelectedComponent, SelectedMolID, chainsize, MoveType, proposed_scale, SystemComponents.CURRENTCYCLE); checkCUDAError("error getting random trials orientations");
 
   Random.Update(Widom.NumberWidomTrialsOrientations);
 
   // Setup the pairwise calculation //
   // Setup Number of Blocks and threads for separated HG + GG calculations //
-  size_t NHostAtom = 0; size_t NGuestAtom = 0;
-  for(size_t i = 0; i < SystemComponents.NComponents.y; i++)
-    NHostAtom += SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
-  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
-    NGuestAtom+= SystemComponents.Moleculesize[i] * SystemComponents.NumberOfMolecule_for_Component[i];
-
-  size_t HG_Nthread=0; size_t HG_Nblock=0; Setup_threadblock(NHostAtom  * chainsize, &HG_Nblock, &HG_Nthread);
-  size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * chainsize, &GG_Nblock, &GG_Nthread);
-  size_t HGGG_Nthread = std::max(HG_Nthread, GG_Nthread);
-  size_t HGGG_Nblock  = HG_Nblock + GG_Nblock;
-
-  //Setup calculation for separated HG + GG interactions//
-  if(Atomsize != 0)
-  {
-    Calculate_Multiple_Trial_Energy_VDWReal<<<HGGG_Nblock * Widom.NumberWidomTrialsOrientations, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Sims.device_flag, threadsNeeded, chainsize, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG Orientation)");
-
-    cudaMemcpy(SystemComponents.flag, Sims.device_flag, Widom.NumberWidomTrialsOrientations*sizeof(bool), cudaMemcpyDeviceToHost);
-  }
-  //printf("CHAIN ENERGIES\n");
-
-  Host_sum_Widom_HGGG_SEPARATE(Widom.NumberWidomTrialsOrientations, SystemComponents.Beta, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, energies, Trialindex, Rosen, SystemComponents.CURRENTCYCLE, FF.VDWRealBias);
+  CBMC_PairwiseInteractions(Vars, systemId, SystemComponents, Sims, Widom.NumberWidomTrialsOrientations, chainsize);
 
   double averagedRosen= 0.0; 
   size_t REALselected = 0;
@@ -488,7 +509,7 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
       SelectedTrial = SelectTrialPosition(Rosen); 
 
       for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
-      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(Rosen)::value_type(0));
+      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(SystemComponents.Rosen)::value_type(0));
       if(Rosenbluth < 1e-150) break;
       Goodconstruction = true;
       break;
@@ -497,12 +518,16 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
     {
       SelectedTrial = 0;
       for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
-      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(Rosen)::value_type(0));
+      Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(SystemComponents.Rosen)::value_type(0));
       Goodconstruction = true;
       break;
     }
   }
-  if(!Goodconstruction) return 0.0;
+  if(!Goodconstruction)
+  {
+    CBMC.Rosenbluth = 0.0;
+    return;
+  }
   REALselected = Trialindex[SelectedTrial];
 
   averagedRosen = Rosenbluth/double(Widom.NumberWidomTrialsOrientations);
@@ -512,9 +537,10 @@ static inline double Widom_Move_Chain_PARTIAL(Components& SystemComponents, Simu
     double Real_Energy = energies[SelectedTrial].HGReal + energies[SelectedTrial].GGReal;
     averagedRosen*=std::exp(-SystemComponents.Beta*Real_Energy);
   }
-  *REAL_Selected_Trial = REALselected;
-  *SuccessConstruction = Goodconstruction;
-  *energy = energies[SelectedTrial];
+  CBMC.selectedTrialOrientation = REALselected;
+  CBMC.SuccessConstruction      = Goodconstruction;
+  CBMC.ChainEnergy = energies[SelectedTrial];
+  CBMC.Rosenbluth *= averagedRosen;
   //if(SystemComponents.CURRENTCYCLE == 687347) energies[SelectedTrial].print();
-  return averagedRosen;
+  //return averagedRosen;
 }
