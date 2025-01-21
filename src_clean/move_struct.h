@@ -4,11 +4,13 @@ struct InsertionMove
   double preFactor = 0.0;
   double Pacc = 0.0;
   bool Accept = false;
+  bool CreateMoleculePhase = false;
   CBMC_Variables InsertionVariables;
   void Initialize()
   {
     InsertionVariables.clear();
     energy.zero(); preFactor = 0.0; Pacc = 0.0; Accept = false;
+    CreateMoleculePhase = false;
   }
   void Calculate(Variables& Vars, size_t systemId)
   {
@@ -22,19 +24,19 @@ struct InsertionMove
     preFactor = GetPrefactor(SystemComponents, Sims, SelectedComponent, INSERTION);
     Pacc = preFactor * InsertionVariables.Rosenbluth / IdealRosen;
   }
-  void Acceptance(Variables& Vars, size_t systemId, bool CreateMolecule)
+  void Acceptance(Variables& Vars, size_t systemId)
   {
     Components& SystemComponents = Vars.SystemComponents[systemId];
 
     double RANDOM = 1e-100;
-    if(!CreateMolecule) RANDOM = Get_Uniform_Random();
+    if(!CreateMoleculePhase) RANDOM = Get_Uniform_Random();
     if(RANDOM < Pacc) Accept = true;
 
     if(Accept)
     {
       //SystemComponents.CBMC_New[0].selectedTrial = InsertionVariables.selectedTrial;
       //SystemComponents.CBMC_New[0].selectedTrialOrientation = InsertionVariables.selectedTrialOrientation;
-      AcceptInsertion(Vars, systemId, INSERTION, InsertionVariables);
+      AcceptInsertion(Vars, InsertionVariables, systemId, INSERTION);
     }
     else
       energy.zero();
@@ -55,7 +57,7 @@ struct InsertionMove
     //TMMC Adjust Pacc and record C-matrix//
     Vars.SystemComponents[systemId].ApplyTMMCBias_UpdateCMatrix(Pacc, INSERTION);
 
-    Acceptance(Vars, systemId, false);
+    Acceptance(Vars, systemId);
     if(Accept) Vars.SystemComponents[systemId].Moves[SelectedComponent].Record_Move_Accept(INSERTION);
     return energy;
   }
@@ -68,12 +70,13 @@ struct InsertionMove
   MoveEnergy CreateMolecule(Variables& Vars, size_t systemId)
   {
     Initialize();
+    CreateMoleculePhase = true;
     Calculate(Vars, systemId);
     if(!InsertionVariables.SuccessConstruction)
     {
       return energy;
     }
-    Acceptance(Vars, systemId, true);
+    Acceptance(Vars, systemId);
     return energy;
   }
 };
@@ -219,7 +222,8 @@ struct ReinsertionMove
     bool EwaldPerformed = false;
     if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
     {
-      double2 EwaldE = GPU_EwaldDifference_Reinsertion(Sims.Box, Sims.d_a, Sims.Old, SystemComponents.tempMolStorage, FF, Sims.Blocksum, SystemComponents, SelectedComponent, UpdateLocation);
+      double2 EwaldE = GPU_EwaldDifference_General(Sims, FF, SystemComponents, SelectedComponent, REINSERTION, UpdateLocation, {1.0, 1.0});
+      //double2 EwaldE = GPU_EwaldDifference_Reinsertion(Sims.Box, Sims.d_a, Sims.Old, SystemComponents.tempMolStorage, FF, Sims.Blocksum, SystemComponents, SelectedComponent, UpdateLocation);
 
       energy.GGEwaldE = EwaldE.x;
       energy.HGEwaldE = EwaldE.y;
@@ -230,7 +234,9 @@ struct ReinsertionMove
     //Put it after Ewald summation, the required positions are already in place (done by the preparation parts of Ewald Summation)//
     if(SystemComponents.UseDNNforHostGuest)
     {
-      if(!EwaldPerformed) Prepare_DNN_InitialPositions_Reinsertion(Sims.d_a, Sims.Old, SystemComponents.tempMolStorage, SystemComponents, SelectedComponent, UpdateLocation);
+      if(!EwaldPerformed)
+        Prepare_DNN_InitialPositions(Sims.d_a, Sims.New, Sims.Old, SystemComponents.tempMolStorage, SystemComponents, SelectedComponent, REINSERTION, UpdateLocation);
+      //Prepare_DNN_InitialPositions_Reinsertion(Sims.d_a, Sims.Old, SystemComponents.tempMolStorage, SystemComponents, SelectedComponent, UpdateLocation);
       energy.DNN_E = DNN_Prediction_Reinsertion(SystemComponents, Sims, SelectedComponent, SystemComponents.tempMolStorage);
       //Correction of DNN - HostGuest energy to the Rosenbluth weight//
       energy.DNN_Replace_Energy();
@@ -382,7 +388,7 @@ struct GibbsParticleXferMove
     if(Get_Uniform_Random()< Pacc) Accept = true;
     if(Accept)
     {
-      AcceptInsertion(Vars, SelectedBox, INSERTION, InsertionVariables);
+      AcceptInsertion(Vars, InsertionVariables, SelectedBox, INSERTION);
       AcceptDeletion(Vars, OtherBox, DELETION);
       SystemComponents[SelectedBox].deltaE += energy;
       SystemComponents[OtherBox].deltaE    -= old_energy;

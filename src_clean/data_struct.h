@@ -1229,6 +1229,7 @@ struct Simulations //For multiple simulations//
   Atoms*  d_a;                  // Pointer For Atom Data in the Simulation Box //
   Atoms   Old;                  // Temporary data storage for Old Configuration //
   Atoms   New;                  // Temporary data storage for New Configuration //
+  Atoms   Temp;                 // Temporary storage (for xfering data and accepting move) //
   int2*   ExcludeList;          // Atoms to exclude during energy calculations: x: component, y: molecule-ID (may need to add z and make it int3, z: atom-ID)
   double* Blocksum;             // Block sums for partial reduction //
   bool*   device_flag;          // flags for overlaps on the device //

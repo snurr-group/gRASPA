@@ -57,7 +57,7 @@ inline MoveEnergy Insertion_Body(Variables& Vars, size_t systemId, CBMC_Variable
   //Put it after Ewald summation, the required positions are already in place (done by the preparation parts of Ewald Summation)//
   if(SystemComponents.UseDNNforHostGuest)
   {
-    if(!EwaldPerformed) Prepare_DNN_InitialPositions(Sims.d_a, Sims.New, Sims.Old, SystemComponents, SelectedComponent, SystemComponents.TempVal.MoveType, SelectedTrial);
+    if(!EwaldPerformed) Prepare_DNN_InitialPositions(Sims.d_a, Sims.New, Sims.Old, SystemComponents.tempMolStorage, SystemComponents, SelectedComponent, SystemComponents.TempVal.MoveType, SelectedTrial);
     double DNN_New = DNN_Prediction_Move(SystemComponents, Sims, SelectedComponent, INSERTION);
     energy.DNN_E   = DNN_New;
 
@@ -149,7 +149,7 @@ inline MoveEnergy Deletion_Body(Variables& Vars, size_t systemId, CBMC_Variables
   //Put it after Ewald summation, the required positions are already in place (done by the preparation parts of Ewald Summation)//
   if(SystemComponents.UseDNNforHostGuest)
   {
-    if(!EwaldPerformed) Prepare_DNN_InitialPositions(Sims.d_a, Sims.New, Sims.Old, SystemComponents, SelectedComponent, DELETION, UpdateLocation);
+    if(!EwaldPerformed) Prepare_DNN_InitialPositions(Sims.d_a, Sims.New, Sims.Old, SystemComponents.tempMolStorage, SystemComponents, SelectedComponent, DELETION, UpdateLocation);
     //Deletion positions stored in Old//
     double DNN_New = DNN_Prediction_Move(SystemComponents, Sims, SelectedComponent, DELETION);
     energy.DNN_E   = DNN_New;

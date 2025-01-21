@@ -16,6 +16,8 @@ void Calculate_Exclusion_Energy_Rigid(Boxsize& Box, Atoms* System, ForceField FF
 void Check_WaveVector_CPUGPU(Boxsize& Box, Components& SystemComponents);
 */
 
+void RunMoves(Variables& Vars, size_t box_index, int Cycle);
+
 double CreateMolecule_InOneBox(Variables& Vars, size_t systemId, bool AlreadyHasFractionalMolecule);
 
 void Run_Simulation_MultipleBoxes(Variables& Vars);
@@ -49,7 +51,10 @@ __global__ void StoreNewLocation_Reinsertion(Atoms Mol, Atoms NewMol, double3* t
 __global__ void Update_Reinsertion_data(Atoms* d_a, double3* temp, size_t SelectedComponent, size_t UpdateLocation);
 
 double GetPrefactor(Components& SystemComponents, Simulations& Sims, size_t SelectedComponent, int MoveType);
-void AcceptInsertion(Variables& Vars, size_t systemId, int MoveType, CBMC_Variables& InsertionVariables);
+
+//void AcceptInsertion(Variables& Vars, size_t systemId, int MoveType, CBMC_Variables& InsertionVariables);
+void AcceptInsertion(Variables& Vars, CBMC_Variables& InsertionVariables, size_t systemId, int MoveType);
+
 void AcceptDeletion(Variables& Vars, size_t systemId, int MoveType);
 MoveEnergy Insertion_Body(Variables& Vars, size_t systemId, CBMC_Variables& CBMC);
 MoveEnergy Deletion_Body(Variables& Vars, size_t systemId, CBMC_Variables& CBMC);
@@ -71,15 +76,5 @@ struct SingleMove
     SingleBody_Acceptance(Vars, systemId, energy);
   }
 };
-
-//struct InsertionMove;
-//struct InsertionMove {};
-//struct MC_MOVES {};
-/*
-struct MC_MOVES
-{
-  InsertionMove INSERTION;
-};
-*/
 
 #include "move_struct.h"

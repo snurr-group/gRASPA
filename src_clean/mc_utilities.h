@@ -349,7 +349,7 @@ inline double GetPrefactor(Components& SystemComponents, Simulations& Sims, size
 // ACCEPTION OF MOVES //
 ////////////////////////
 
-static inline void AcceptInsertion(Variables& Vars, size_t systemId, int MoveType, CBMC_Variables& InsertionVariables)
+void AcceptInsertion(Variables& Vars, CBMC_Variables& InsertionVariables, size_t systemId, int MoveType)
 {
   Components& SystemComponents = Vars.SystemComponents[systemId];
   Simulations& Sims            = Vars.Sims[systemId];
