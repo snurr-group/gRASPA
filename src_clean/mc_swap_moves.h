@@ -161,7 +161,7 @@ static inline void GibbsParticleTransfer(Variables& Vars, size_t SelectedCompone
     ///////////////////////////////////////////
     // UPDATE INSERTION FOR THE SELECTED BOX //
     ///////////////////////////////////////////
-    AcceptInsertion(Vars, SelectedBox, INSERTION, Vars.SystemComponents[SelectedBox].CBMC_New[0]);
+    AcceptInsertion(Vars, Vars.SystemComponents[SelectedBox].CBMC_New[0], SelectedBox, INSERTION);
 
     SystemComponents[SelectedBox].deltaE += InsertionEnergy;
 

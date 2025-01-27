@@ -98,8 +98,6 @@ __global__ void Energy_difference_LambdaChange(Boxsize Box, Atoms* System, Atoms
 //////////////////////
 double CPU_EwaldDifference(Boxsize& Box, Atoms& New, Atoms& Old, ForceField& FF, Components& SystemComponents, size_t SelectedComponent, bool Swap, size_t SelectedTrial);
 
-double2 GPU_EwaldDifference_Reinsertion(Boxsize& Box, Atoms*& d_a, Atoms& Old, double3* temp, ForceField& FF, double* Blocksum, Components& SystemComponents, size_t SelectedComponent, size_t UpdateLocation);
-
 double2 GPU_EwaldDifference_IdentitySwap(Boxsize& Box, Atoms*& d_a, Atoms& Old, double3* temp, ForceField& FF, double* Blocksum, Components& SystemComponents, size_t OLDComponent, size_t NEWComponent, size_t UpdateLocation);
 
 void Copy_Ewald_Vector(Simulations& Sim);
@@ -149,7 +147,7 @@ double TailCorrectionIdentitySwap(Components& SystemComponents, size_t NEWCompon
 // Deep Potential For Host-Guest //
 //             General Functions //
 ///////////////////////////////////
-void Prepare_DNN_InitialPositions(Atoms*& d_a, Atoms& New, Atoms& Old, Components& SystemComponents, size_t SelectedComponent, int MoveType, size_t Location);
+void Prepare_DNN_InitialPositions(Atoms*& d_a, Atoms& New, Atoms& Old, double3* temp, Components& SystemComponents, size_t SelectedComponent, int MoveType, size_t Location);
 
 void Prepare_DNN_InitialPositions_Reinsertion(Atoms*& d_a, Atoms& Old, double3* temp, Components& SystemComponents, size_t SelectedComponent, size_t Location);
 

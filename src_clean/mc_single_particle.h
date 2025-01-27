@@ -188,7 +188,7 @@ inline MoveEnergy SingleBody_Calculation(Variables& Vars, size_t systemId)
     if(SystemComponents.UseDNNforHostGuest)
     {
       //Calculate DNN//
-      if(!EwaldPerformed) Prepare_DNN_InitialPositions(Sims.d_a, Sims.New, Sims.Old, SystemComponents, SelectedComponent, MoveType, 0);
+      if(!EwaldPerformed) Prepare_DNN_InitialPositions(Sims.d_a, Sims.New, Sims.Old, SystemComponents.tempMolStorage, SystemComponents, SelectedComponent, MoveType, 0);
       tot.DNN_E = DNN_Prediction_Move(SystemComponents, Sims, SelectedComponent, MoveType);
       tot.DNN_Replace_Energy();
     }
@@ -236,7 +236,7 @@ inline void SingleBody_Acceptance(Variables& Vars, size_t systemId, MoveEnergy& 
       }
       case SINGLE_INSERTION:
       {
-        AcceptInsertion(Vars, systemId, SINGLE_INSERTION, Vars.SystemComponents[systemId].CBMC_New[0]);
+        AcceptInsertion(Vars, Vars.SystemComponents[systemId].CBMC_New[0], systemId, SINGLE_INSERTION);
         break;
       }
       case SINGLE_DELETION:
@@ -253,7 +253,7 @@ inline void SingleBody_Acceptance(Variables& Vars, size_t systemId, MoveEnergy& 
   }
 }
 
-inline MoveEnergy SingleBodyMove(Variables& Vars, size_t systemId)
+MoveEnergy SingleBodyMove(Variables& Vars, size_t systemId)
 {
   SingleBody_Prepare(Vars, systemId);
   //Calculates prefactor, and Pacc (unbiased)//

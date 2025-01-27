@@ -28,6 +28,11 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
   * A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
   * 🤯: RTX 3090/4090 is faster than A40/A100 for gRASPA
 * gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
+
+### Pybind Extension (testing)
+* Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down **MC moves**, add their **modifications**
+* Access the pybind-gRASPA extension [here](https://github.com/Zhaoli2042/gRASPA_pybind), as a patch to the original code
+
 ## Quick Start
 * Go to [```Examples/```](Examples/) folder and read more!
 
@@ -75,11 +80,11 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
 
 ## Authors
-* Zhao Li (Northwestern University, currently at Purdue University)
-* Kaihang Shi (Northwestern University, currently at University at Buffalo)
-* David Dubbeldam (University of Amsterdam)
-* Mark Dewing (Argonne National Laboratory)
-* Christopher Knight (Argonne National Laboratory)
-* Alvaro Vazquez Mayagoitia (Argonne National Laboratory)
-* Randall Q. Snurr (Northwestern University)
+* Zhao Li (Northwestern University, currently at Purdue University/University of Notre Dame, zhaoli2023@u.northwestern.edu)
+* Kaihang Shi (Northwestern University, currently at University at Buffalo, kaihangs@buffalo.edu)
+* David Dubbeldam (University of Amsterdam, d.dubbeldam@uva.nl)
+* Mark Dewing (Argonne National Laboratory, markdewing@yahoo.com)
+* Christopher Knight (Argonne National Laboratory, knightc@anl.gov)
+* Alvaro Vazquez Mayagoitia (Argonne National Laboratory, vama@alcf.anl.gov)
+* Randall Q. Snurr (Northwestern University, snurr@northwestern.edu)
 

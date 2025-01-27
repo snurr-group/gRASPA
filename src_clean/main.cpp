@@ -272,8 +272,9 @@ Variables Initialize(void) //for pybind
     Prepare_TempSystem_On_Host(Vars.SystemComponents[a].TempSystem);
     cudaMemcpy(Vars.Sims[a].d_a, device_System, sizeof(Atoms)*NComponents.x, cudaMemcpyHostToDevice);
     // SET UP TEMPORARY ARRAYS //
-    Setup_Temporary_Atoms_Structure(Vars.Sims[a].Old, Vars.SystemComponents[a].HostSystem);
-    Setup_Temporary_Atoms_Structure(Vars.Sims[a].New, Vars.SystemComponents[a].HostSystem);
+    Setup_Temporary_Atoms_Structure(Vars.Sims[a].Old,  Vars.SystemComponents[a].HostSystem);
+    Setup_Temporary_Atoms_Structure(Vars.Sims[a].New,  Vars.SystemComponents[a].HostSystem);
+    Setup_Temporary_Atoms_Structure(Vars.Sims[a].Temp, Vars.SystemComponents[a].HostSystem);
 
     if(Vars.SystemComponents[a].UseDNNforHostGuest)
     {

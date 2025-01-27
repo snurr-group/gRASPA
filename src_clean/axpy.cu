@@ -99,7 +99,7 @@ void Select_Box_Component_Molecule(Variables& Vars, size_t box_index)
 
   Vars.RandomNumber = Get_Uniform_Random();
 }
-inline void RunMoves(Variables& Vars, size_t box_index, int Cycle)
+void RunMoves(Variables& Vars, size_t box_index, int Cycle)
 {
   MC_MOVES MOVES;
 
