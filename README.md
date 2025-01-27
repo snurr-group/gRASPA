@@ -28,6 +28,11 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
   * A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
   * 🤯: RTX 3090/4090 is faster than A40/A100 for gRASPA
 * gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
+
+### Pybind Extension (testing)
+* Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down MC moves, add their modifications
+* Access the pybind-gRASPA extension [here](https://github.com/Zhaoli2042/gRASPA_pybind), as a patch to the original code
+
 ## Quick Start
 * Go to [```Examples/```](Examples/) folder and read more!
 
