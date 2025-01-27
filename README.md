@@ -75,11 +75,11 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
 
 ## Authors
-* Zhao Li (Northwestern University, currently at Purdue University)
-* Kaihang Shi (Northwestern University, currently at University at Buffalo)
-* David Dubbeldam (University of Amsterdam)
-* Mark Dewing (Argonne National Laboratory)
-* Christopher Knight (Argonne National Laboratory)
-* Alvaro Vazquez Mayagoitia (Argonne National Laboratory)
-* Randall Q. Snurr (Northwestern University)
+* Zhao Li (Northwestern University, currently at Purdue University/University of Notre Dame, zhaoli2042@gmail.com)
+* Kaihang Shi (Northwestern University, currently at University at Buffalo, kaihangs@buffalo.edu)
+* David Dubbeldam (University of Amsterdam, d.dubbeldam@uva.nl)
+* Mark Dewing (Argonne National Laboratory, markdewing@yahoo.com)
+* Christopher Knight (Argonne National Laboratory, knightc@anl.gov)
+* Alvaro Vazquez Mayagoitia (Argonne National Laboratory, vama@alcf.anl.gov)
+* Randall Q. Snurr (Northwestern University, snurr@northwestern.edu)
 
