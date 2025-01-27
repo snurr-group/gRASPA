@@ -30,7 +30,7 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
 * gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
 
 ### Pybind Extension (testing)
-* Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down MC moves, add their modifications
+* Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down **MC moves**, add their **modifications**
 * Access the pybind-gRASPA extension [here](https://github.com/Zhaoli2042/gRASPA_pybind), as a patch to the original code
 
 ## Quick Start
