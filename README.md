@@ -16,37 +16,9 @@ gRASPA (pronounced “gee raspa”) is a GPU-accelerated Monte Carlo simulation 
 
 </div>
 
-## Installation
-### Installation in clusters
-To install gRASPA on NERSC (DOE) and QUEST (Northwestern) clusters, check out [Cluster-Setup](Cluster-Setup/)
+<details>
+<summary><h3>Table of Code Capabilities (👇Click!)</h3></summary>
 
-### Installation on local machines
-A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in the manual [here](https://zhaoli2042.github.io/gRASPA-mkdoc/Installation.html)
-
-### Compatible GPUs
-* For NVIDIA GPUs, gRASPA code has been tested on the following NVIDIA GPUs:
-  * A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
-  * 🤯: RTX 3090/4090 is faster than A40/A100 for gRASPA
-* gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
-
-### Pybind Extension (testing)
-* Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down **MC moves**, add their **modifications**
-* Access the pybind-gRASPA extension [here](https://github.com/Zhaoli2042/gRASPA_pybind), as a patch to the original code
-
-## Quick Start
-* Go to [```Examples/```](Examples/) folder and read more!
-
-## gRASPA Manual
-* gRASPA manual is available online @ https://zhaoli2042.github.io/gRASPA-mkdoc
-  * also available in [Chinese](https://zhaoli2042.github.io/gRASPA-mkdoc/Chinese)
-* a doxygen documentation is also available @ https://zhaoli2042.github.io/gRASPA
-## Reference
-* gRASPA paper is now published. Please kindly cite it if you find it useful.
-  * Li, Shi, Dubbeldam, Dewing, Knight, Vázquez-Mayagoitia, Snurr, 
-    "Efficient Implementation of Monte Carlo Algorithms on Graphical Processing Units for Simulation of Adsorption in Porous Materials", _J. Chem. Theory Comput_. 2024, 20, 23, 10649–10666
-  * DOI: [10.1021/acs.jctc.4c01058](https://pubs.acs.org/doi/10.1021/acs.jctc.4c01058)
-* Also, please give our repository a :star: if our code helps!
-## Table of Code Capabilities
 | Functionalities | gRASPA | gRASPA-fast | gRASPA-HTC |
 | :---------------: | :---------------------: | :-----------------------: | :-----------------------: |
 | ***Simulation Types*** |||
@@ -78,6 +50,39 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
 | Read: Restart files | :heavy_check_mark: | :heavy_check_mark: |
 | Peng-Robinson Equation of State | :heavy_check_mark: |
 | Automatic Determination<br>of # unit cells | | | :heavy_check_mark: |
+
+</details>
+
+## Installation
+### Installation in clusters
+To install gRASPA on NERSC (DOE) and QUEST (Northwestern) clusters, check out [Cluster-Setup](Cluster-Setup/)
+
+### Installation on local machines
+A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in the manual [here](https://zhaoli2042.github.io/gRASPA-mkdoc/Installation.html)
+
+### Compatible GPUs
+* For NVIDIA GPUs, gRASPA code has been tested on the following NVIDIA GPUs:
+  * A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
+  * 🤯: RTX 3090/4090 is faster than A40/A100 for gRASPA
+* gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
+
+### Pybind Extension (testing)
+* Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down **MC moves**, add their **modifications**
+* Access the pybind-gRASPA extension [here](https://github.com/Zhaoli2042/gRASPA_pybind), as a patch to the original code
+
+## Quick Start
+* Go to [```Examples/```](Examples/) folder and read more!
+
+## gRASPA Manual
+* gRASPA manual is available online @ https://zhaoli2042.github.io/gRASPA-mkdoc
+  * also available in [Chinese](https://zhaoli2042.github.io/gRASPA-mkdoc/Chinese)
+* a doxygen documentation is also available @ https://zhaoli2042.github.io/gRASPA
+## Reference
+* gRASPA paper is now published. Please kindly cite it if you find it useful.
+  * Li, Shi, Dubbeldam, Dewing, Knight, Vázquez-Mayagoitia, Snurr, 
+    "Efficient Implementation of Monte Carlo Algorithms on Graphical Processing Units for Simulation of Adsorption in Porous Materials", _J. Chem. Theory Comput_. 2024, 20, 23, 10649–10666
+  * DOI: [10.1021/acs.jctc.4c01058](https://pubs.acs.org/doi/10.1021/acs.jctc.4c01058)
+* Also, please give our repository a :star: if our code helps!
 
 ## Authors
 * Zhao Li (Northwestern University, currently at Purdue University/University of Notre Dame, zhaoli2023@u.northwestern.edu)
