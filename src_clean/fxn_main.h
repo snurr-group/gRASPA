@@ -455,7 +455,7 @@ inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units
     case DELTA_CHECK: {stage_name = "CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE)"; E = SystemComponents.Final_Energy - SystemComponents.CreateMol_Energy; break;}
     case DRIFT: {stage_name = "ENERGY DRIFT (CPU FINAL - RUNNING FINAL)"; E = SystemComponents.CreateMol_Energy + SystemComponents.deltaE - SystemComponents.Final_Energy; break;}
     case GPU_DRIFT: {stage_name = "GPU DRIFT (GPU FINAL - CPU FINAL)"; E = SystemComponents.Final_Energy - SystemComponents.GPU_Energy; break;}
-    case AVERAGE: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY"; E = SystemComponents.AverageEnergy;break;}
+    case AVERAGE: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY"; E = SystemComponents.AverageEnergy + SystemComponents.Initial_Energy;break;}
     case AVERAGE_ERR: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY ERRORBAR"; E = SystemComponents.AverageEnergy_Errorbar; break;}
   }
   fprintf(SystemComponents.OUTPUT, " *** %s *** \n", stage_name.c_str());

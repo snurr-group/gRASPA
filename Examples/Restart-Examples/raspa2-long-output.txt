@@ -1,0 +1,635 @@
+------------------GENERAL SIMULATION SETUP-------------
+Finished Checking Number of Components, There are 1 framework, 1 Adsorbates, 2 total Components
+DONE Reading Model Info from simulation.input file
+Setting Maximum Number of Steps for a Cycle, Max Step = 1
+-------------------------------------------------------
+device_random[0] = 2.30000 4.50000 6.70000
+==========================================
+====== Preparing Simulation box 0 ======
+==========================================
+Parsing [1] Component
+-------------- READING AdsorbateComponent 0 (TIP4P) --------------
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      0.25000
+Rotation Probability:         0.50000
+Special Rotation Probability: 0.50000
+Widom Probability:            0.50000
+Reinsertion Probability:      0.75000
+Identity Swap Probability:    0.75000
+CBCF Swap Probability:        0.75000
+Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
+Sum of Probabilities:         1.00000
+==================================================
+-------------- END OF READING Component 0 (TIP4P) --------------
+================FUGACITY COEFFICIENT CALCULATION================
+Checking: Current Fugacity Coeff for 1 component: 1.00000
+Every Adsorbate Component has fugacity coefficient assigned, skip EOS calculation!
+Rosen capacity: 10
+----------------- MEMORY ALLOCAION STATUS -----------------
+System allocate_sizes are: 0, 10240
+Component allocate_sizes are: 0, 10240
+Allocated 8 double3 for reinsertion!
+Allocated Blocksum size: 24001, vdw_real size: 24001, fourier_size: 0
+------------------------------------------------------------
+------------------- SIMULATION BOX PARAMETERS -----------------
+Pressure:        0.27810
+Box Volume:      16777.21600
+Box Beta:        0.00404
+Box Temperature: 298.00000
+---------------------------------------------------------------
+======================== CALCULATING INITIAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 115396.99098; Real: -1244709.72826
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 115396.99098, Real: -1244709.72826
+****** Calculating Ewald Energy (CPU) ******
+CPU Guest-Guest Fourier: 13848.41298, Host-Host Fourier: 0.00000, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 1, SelfAtomE: 15059438.06105 (18112351.86996 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 14976141.88732 (18012169.53899 kJ/mol)
+HostEwald took 0.01920 sec
+Ewald Summation (total energy) on the CPU took 0.01920 secs
+DEBUG: comp: 0, IntraE: 0.00000, SelfE: 0.00000
+Component 1, Intra Exclusion Energy: -31330.84077 (-37682.36305 kJ/mol)
+Component 1, Atom Self Exclusion Energy: 31505.10055 (37891.94952 kJ/mol)
+DEBUG: comp: 1, IntraE: -31330.84077, SelfE: 31505.10055
+******   Allocating Ewald WaveVectors + StructureFactors (INITIAL STAGE ONLY)   ******
+Allocated 30592 30592 30592 space for eikxyz
+Structure Factor 0 is 0.00000 0.00000
+Structure Factor 1 is 0.00000 0.00000
+Structure Factor 2 is 0.00000 0.00000
+Structure Factor 3 is 0.00000 0.00000
+Structure Factor 4 is 0.00000 0.00000
+Structure Factor 5 is 11.07554 -4.40671
+Structure Factor 6 is -3.07544 6.03871
+Structure Factor 7 is 7.45485 -1.63878
+Structure Factor 8 is 2.79749 -8.30132
+Structure Factor 9 is -1.36669 5.28235
+****** DONE Allocating Ewald WaveVectors + StructureFactors(INITIAL STAGE ONLY) ******
+ ****** CHECKING StructureFactors (SF) Stored on CPU vs. GPU ****** 
+CPU SF: 1800, GPU SF: 1800
+StructureFactor 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 2, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 3, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 4, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 5, CPU: 11.07554 -4.40671, GPU: 11.07554 -4.40671
+StructureFactor 6, CPU: -3.07544 6.03871, GPU: -3.07544 6.03871
+StructureFactor 7, CPU: 7.45485 -1.63878, GPU: 7.45485 -1.63878
+StructureFactor 8, CPU: 2.79749 -8.30132, GPU: 2.79749 -8.30132
+StructureFactor 9, CPU: -1.36669 5.28235, GPU: -1.36669 5.28235
+ ****** CHECKING Framework StructureFactors Stored on CPU ****** 
+Framework Structure Factor 0, real: 0.00000 imag: 0.00000
+Framework Structure Factor 1, real: 0.00000 imag: 0.00000
+Framework Structure Factor 2, real: 0.00000 imag: 0.00000
+Framework Structure Factor 3, real: 0.00000 imag: 0.00000
+Framework Structure Factor 4, real: 0.00000 imag: 0.00000
+Framework Structure Factor 5, real: 0.00000 imag: 0.00000
+Framework Structure Factor 6, real: 0.00000 imag: 0.00000
+Framework Structure Factor 7, real: 0.00000 imag: 0.00000
+Framework Structure Factor 8, real: 0.00000 imag: 0.00000
+Framework Structure Factor 9, real: 0.00000 imag: 0.00000
+VDW + Real on the GPU took 0.00091 secs
+Ewald Summation (total energy) on the GPU took 0.00199 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 115396.99098, GGReal: -1244709.72826, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: -69447.76075, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
+Component 1, Need to create 0 full molecule
+======================== CALCULATING CREATE_MOLECULE STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 115396.99098; Real: -1244709.72826
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 115396.99098, Real: -1244709.72826
+****** Calculating Ewald Energy (CPU) ******
+CPU Guest-Guest Fourier: 13848.41298, Host-Host Fourier: 0.00000, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 1, SelfAtomE: 15059438.06105 (18112351.86996 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 14976141.88732 (18012169.53899 kJ/mol)
+HostEwald took 0.01910 sec
+Ewald Summation (total energy) on the CPU took 0.01910 secs
+ ****** CHECKING StructureFactors (SF) Stored on CPU vs. GPU ****** 
+CPU SF: 1800, GPU SF: 1800
+StructureFactor 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 2, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 3, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 4, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 5, CPU: 11.07554 -4.40671, GPU: 11.07554 -4.40671
+StructureFactor 6, CPU: -3.07544 6.03871, GPU: -3.07544 6.03871
+StructureFactor 7, CPU: 7.45485 -1.63878, GPU: 7.45485 -1.63878
+StructureFactor 8, CPU: 2.79749 -8.30132, GPU: 2.79749 -8.30132
+StructureFactor 9, CPU: -1.36669 5.28235, GPU: -1.36669 5.28235
+ ****** CHECKING Framework StructureFactors Stored on CPU ****** 
+Framework Structure Factor 0, real: 0.00000 imag: 0.00000
+Framework Structure Factor 1, real: 0.00000 imag: 0.00000
+Framework Structure Factor 2, real: 0.00000 imag: 0.00000
+Framework Structure Factor 3, real: 0.00000 imag: 0.00000
+Framework Structure Factor 4, real: 0.00000 imag: 0.00000
+Framework Structure Factor 5, real: 0.00000 imag: 0.00000
+Framework Structure Factor 6, real: 0.00000 imag: 0.00000
+Framework Structure Factor 7, real: 0.00000 imag: 0.00000
+Framework Structure Factor 8, real: 0.00000 imag: 0.00000
+Framework Structure Factor 9, real: 0.00000 imag: 0.00000
+VDW + Real on the GPU took 0.00095 secs
+Ewald Summation (total energy) on the GPU took 0.00133 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 115396.99098, GGReal: -1244709.72826, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: -69447.76075, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
+============================================
+== END OF PREPARATION, SIMULATION STARTS! ==
+============================================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 4618000.11927 [Pa], temp: 298.00000 [K]
+==================================
+== RUNNING INITIALIZATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+Box 0, Volume: 16777.21600
+Total Volume: 16777.21600
+INITIALIZATION Cycle: 0, 478 Adsorbate Molecules, Total Energy: -1198760.49802  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 478 Molecules  ||  
+Cannot Open Restart/System_0//restartfile or Restart/System_0//previous_restartfile
+INITIALIZATION Cycle: 5000, 505 Adsorbate Molecules, Total Energy: -1365636.90076  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 505 Molecules  ||  
+INITIALIZATION Cycle: 10000, 522 Adsorbate Molecules, Total Energy: -1482425.43962  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 522 Molecules  ||  
+INITIALIZATION Cycle: 15000, 530 Adsorbate Molecules, Total Energy: -1589689.35697  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 530 Molecules  ||  
+INITIALIZATION Cycle: 20000, 539 Adsorbate Molecules, Total Energy: -1680908.62250  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 539 Molecules  ||  
+INITIALIZATION Cycle: 25000, 543 Adsorbate Molecules, Total Energy: -1755790.09676  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 543 Molecules  ||  
+INITIALIZATION Cycle: 30000, 550 Adsorbate Molecules, Total Energy: -1815905.61464  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 550 Molecules  ||  
+INITIALIZATION Cycle: 35000, 554 Adsorbate Molecules, Total Energy: -1853051.50692  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 554 Molecules  ||  
+INITIALIZATION Cycle: 40000, 554 Adsorbate Molecules, Total Energy: -1874230.80345  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 554 Molecules  ||  
+INITIALIZATION Cycle: 45000, 558 Adsorbate Molecules, Total Energy: -1908478.27371  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 558 Molecules  ||  
+INITIALIZATION Cycle: 50000, 561 Adsorbate Molecules, Total Energy: -1940179.69517  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 561 Molecules  ||  
+INITIALIZATION Cycle: 55000, 561 Adsorbate Molecules, Total Energy: -1967847.79161  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 561 Molecules  ||  
+INITIALIZATION Cycle: 60000, 565 Adsorbate Molecules, Total Energy: -1997977.01554  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 565 Molecules  ||  
+INITIALIZATION Cycle: 65000, 569 Adsorbate Molecules, Total Energy: -2023252.40203  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 569 Molecules  ||  
+INITIALIZATION Cycle: 70000, 574 Adsorbate Molecules, Total Energy: -2052243.31893  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 574 Molecules  ||  
+INITIALIZATION Cycle: 75000, 576 Adsorbate Molecules, Total Energy: -2078651.49721  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 576 Molecules  ||  
+INITIALIZATION Cycle: 80000, 578 Adsorbate Molecules, Total Energy: -2079201.00401  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 578 Molecules  ||  
+INITIALIZATION Cycle: 85000, 579 Adsorbate Molecules, Total Energy: -2085642.97394  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 579 Molecules  ||  
+INITIALIZATION Cycle: 90000, 581 Adsorbate Molecules, Total Energy: -2114416.68292  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 581 Molecules  ||  
+INITIALIZATION Cycle: 95000, 581 Adsorbate Molecules, Total Energy: -2119552.56043  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 581 Molecules  ||  
+======================== MOVE STATISTICS FOR COMPONENT [1] (TIP4P) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 24604
+Translation Accepted: 10249
+Max Translation: 0.1718559019, 0.1718559019, 0.1718559019
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 25329
+Rotation Accepted: 12527
+Max Rotation: 0.2129574255, 0.2129574255, 0.2129574255
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   12547
+Insertion Accepted:    137
+Deletion Performed:    12411
+Deletion Accepted:     31
+Reinsertion Performed: 24860
+Reinsertion Accepted:  11
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+================================================================================================
+===============================
+== INITIALIZATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 4618000.11927 [Pa], temp: 298.00000 [K]
+==================================
+== RUNNING EQUILIBRATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+===============================
+== EQUILIBRATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 4618000.11927 [Pa], temp: 298.00000 [K]
+==================================
+==  RUNNING PRODUCTION PHASE   ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+PRODUCTION Cycle: 0, 584 Adsorbate Molecules, Total Energy: -2141579.51004  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 584 Molecules  ||  
+Printing: Component: 0 [ box.cif ], NumMol: 1, Molsize: 0
+Printing: Component: 1 [ TIP4P ], NumMol: 584, Molsize: 4
+Component 0, Molsize: 0
+Component 1, Molsize: 4
+PRODUCTION Cycle: 5000, 585 Adsorbate Molecules, Total Energy: -2143446.96395  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 585 Molecules  ||  
+PRODUCTION Cycle: 10000, 589 Adsorbate Molecules, Total Energy: -2154865.72265  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 589 Molecules  ||  
+PRODUCTION Cycle: 15000, 589 Adsorbate Molecules, Total Energy: -2162232.92738  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 589 Molecules  ||  
+PRODUCTION Cycle: 20000, 592 Adsorbate Molecules, Total Energy: -2178052.42156  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 592 Molecules  ||  
+PRODUCTION Cycle: 25000, 593 Adsorbate Molecules, Total Energy: -2183601.60359  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 593 Molecules  ||  
+PRODUCTION Cycle: 30000, 593 Adsorbate Molecules, Total Energy: -2190483.11388  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 593 Molecules  ||  
+PRODUCTION Cycle: 35000, 592 Adsorbate Molecules, Total Energy: -2195358.77678  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 592 Molecules  ||  
+PRODUCTION Cycle: 40000, 593 Adsorbate Molecules, Total Energy: -2206903.11295  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 593 Molecules  ||  
+PRODUCTION Cycle: 45000, 596 Adsorbate Molecules, Total Energy: -2214336.54184  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 596 Molecules  ||  
+PRODUCTION Cycle: 50000, 599 Adsorbate Molecules, Total Energy: -2237968.05682  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 599 Molecules  ||  
+PRODUCTION Cycle: 55000, 601 Adsorbate Molecules, Total Energy: -2262972.69668  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 601 Molecules  ||  
+PRODUCTION Cycle: 60000, 600 Adsorbate Molecules, Total Energy: -2261193.62378  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 600 Molecules  ||  
+PRODUCTION Cycle: 65000, 602 Adsorbate Molecules, Total Energy: -2262108.58284  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 602 Molecules  ||  
+PRODUCTION Cycle: 70000, 603 Adsorbate Molecules, Total Energy: -2286456.86760  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 603 Molecules  ||  
+PRODUCTION Cycle: 75000, 604 Adsorbate Molecules, Total Energy: -2291507.48226  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 604 Molecules  ||  
+PRODUCTION Cycle: 80000, 603 Adsorbate Molecules, Total Energy: -2301401.75288  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 603 Molecules  ||  
+PRODUCTION Cycle: 85000, 603 Adsorbate Molecules, Total Energy: -2322510.33892  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 603 Molecules  ||  
+PRODUCTION Cycle: 90000, 604 Adsorbate Molecules, Total Energy: -2312984.53873  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 604 Molecules  ||  
+PRODUCTION Cycle: 95000, 604 Adsorbate Molecules, Total Energy: -2321869.77039  ||  Component 0 [box.cif], 1 Molecules  ||  Component 1 [TIP4P], 604 Molecules  ||  
+======================== MOVE STATISTICS FOR COMPONENT [1] (TIP4P) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 49470
+Translation Accepted: 22717
+Max Translation: 0.1634505080, 0.1634505080, 0.1634505080
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 50444
+Rotation Accepted: 25235
+Max Rotation: 0.2238619616, 0.2238619616, 0.2238619616
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   25161
+Insertion Accepted:    173
+Deletion Performed:    24998
+Deletion Accepted:     47
+Reinsertion Performed: 49690
+Reinsertion Accepted:  11
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+================================================================================================
+============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========
+COMPONENT [1] (TIP4P)
+BLOCK [0], Blocksize: 20000, Average: -1806.56628
+BLOCK [1], Blocksize: 20000, Average: -34131.63564
+BLOCK [2], Blocksize: 20000, Average: -2355.01650
+BLOCK [3], Blocksize: 20000, Average: -5755.04664
+BLOCK [4], Blocksize: 20000, Average: -26585.26025
+Overall: Average: -14126.70506, ErrorBar: 27068.15074
+-----------------------------
+==============================================================
+=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============
+COMPONENT [0] (box.cif)
+BLOCK [0], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 20000, Average: 1.00000, ErrorBar: 0.00000
+Overall: Average: 1.00000, ErrorBar: 0.00000
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
+----------------------------------------------------------
+COMPONENT [1] (TIP4P)
+BLOCK [0], Blocksize: 20000, Average: 588.04205, ErrorBar: 5.22241
+BLOCK [1], Blocksize: 20000, Average: 592.56730, ErrorBar: 1.18536
+BLOCK [2], Blocksize: 20000, Average: 598.15600, ErrorBar: 4.59685
+BLOCK [3], Blocksize: 20000, Average: 602.22640, ErrorBar: 2.90953
+BLOCK [4], Blocksize: 20000, Average: 603.76045, ErrorBar: 1.34353
+Overall: Average: 596.95044, ErrorBar: 11.80633
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
+----------------------------------------------------------
+======================================================================
+=====================BLOCK AVERAGES (LOADING: mg/g)=============
+COMPONENT [0] (box.cif)
+Framework component 0, molar mass: 0.00000
+Framework total mass: 0.00000
+BLOCK [0], Blocksize: 20000, Average: -nan, ErrorBar: -nan
+BLOCK [1], Blocksize: 20000, Average: -nan, ErrorBar: -nan
+BLOCK [2], Blocksize: 20000, Average: -nan, ErrorBar: -nan
+BLOCK [3], Blocksize: 20000, Average: -nan, ErrorBar: -nan
+BLOCK [4], Blocksize: 20000, Average: -nan, ErrorBar: -nan
+Overall: Average: -nan, ErrorBar: -nan
+----------------------------------------------------------
+COMPONENT [1] (TIP4P)
+Framework component 0, molar mass: 0.00000
+Framework total mass: 0.00000
+BLOCK [0], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [1], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [2], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [3], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [4], Blocksize: 20000, Average: inf, ErrorBar: -nan
+Overall: Average: inf, ErrorBar: -nan
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: mol/kg)=============
+COMPONENT [0] (box.cif)
+Framework component 0, molar mass: 0.00000
+Framework total mass: 0.00000
+BLOCK [0], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [1], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [2], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [3], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [4], Blocksize: 20000, Average: inf, ErrorBar: -nan
+Overall: Average: inf, ErrorBar: -nan
+----------------------------------------------------------
+COMPONENT [1] (TIP4P)
+Framework component 0, molar mass: 0.00000
+Framework total mass: 0.00000
+BLOCK [0], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [1], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [2], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [3], Blocksize: 20000, Average: inf, ErrorBar: -nan
+BLOCK [4], Blocksize: 20000, Average: inf, ErrorBar: -nan
+Overall: Average: inf, ErrorBar: -nan
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: g/L)=============
+COMPONENT [1] (TIP4P)
+Total Unit Cells 1 
+BLOCK [0], Blocksize: 20000, Average: 1047.69272, ErrorBar: 9.30457
+BLOCK [1], Blocksize: 20000, Average: 1055.75519, ErrorBar: 2.11192
+BLOCK [2], Blocksize: 20000, Average: 1065.71236, ErrorBar: 8.19004
+BLOCK [3], Blocksize: 20000, Average: 1072.96445, ErrorBar: 5.18380
+BLOCK [4], Blocksize: 20000, Average: 1075.69761, ErrorBar: 2.39371
+Overall: Average: 1063.56446, ErrorBar: 21.03489
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (VOLUME Å^3)================
+BLOCK [0], Blocksize: 20000, Average: 16777.21600, ErrorBar: -nan
+BLOCK [1], Blocksize: 20000, Average: 16777.21600, ErrorBar: -nan
+BLOCK [2], Blocksize: 20000, Average: 16777.21600, ErrorBar: -nan
+BLOCK [3], Blocksize: 20000, Average: 16777.21600, ErrorBar: -nan
+BLOCK [4], Blocksize: 20000, Average: 16777.21600, ErrorBar: -nan
+Overall: Average: 16777.21600, ErrorBar: 0.00025
+----------------------------------------------------------
+==============================================================
+===============================
+== PRODUCTION PHASE ENDS ==
+===============================
+Work took 15.095628 seconds
+========================
+== END OF SIMULATION! ==
+========================
+======================================
+CHECKING FINAL ENERGY FOR SYSTEM [0]
+======================================
+======================== CALCULATING FINAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 364584.27278; Real: -2579687.36812
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 364584.27278, Real: -2579687.36812
+****** Calculating Ewald Energy (CPU) ******
+CPU Guest-Guest Fourier: 9731.06648, Host-Host Fourier: 0.00000, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 1, SelfAtomE: 19029080.72986 (22886737.50932 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 18923827.82415 (22760147.28358 kJ/mol)
+HostEwald took 0.02488 sec
+Ewald Summation (total energy) on the CPU took 0.02488 secs
+ ****** CHECKING StructureFactors (SF) Stored on CPU vs. GPU ****** 
+CPU SF: 1800, GPU SF: 1800
+StructureFactor 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 2, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 3, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 4, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 5, CPU: 1.48858 -2.56539, GPU: 1.48858 -2.56539
+StructureFactor 6, CPU: 6.12659 6.06054, GPU: 6.12659 6.06054
+StructureFactor 7, CPU: 0.16806 -6.59250, GPU: 0.16806 -6.59250
+StructureFactor 8, CPU: 9.34636 -1.28405, GPU: 9.34636 -1.28405
+StructureFactor 9, CPU: 4.14806 9.46016, GPU: 4.14806 9.46016
+ ****** CHECKING Framework StructureFactors Stored on CPU ****** 
+Framework Structure Factor 0, real: 0.00000 imag: 0.00000
+Framework Structure Factor 1, real: 0.00000 imag: 0.00000
+Framework Structure Factor 2, real: 0.00000 imag: 0.00000
+Framework Structure Factor 3, real: 0.00000 imag: 0.00000
+Framework Structure Factor 4, real: 0.00000 imag: 0.00000
+Framework Structure Factor 5, real: 0.00000 imag: 0.00000
+Framework Structure Factor 6, real: 0.00000 imag: 0.00000
+Framework Structure Factor 7, real: 0.00000 imag: 0.00000
+Framework Structure Factor 8, real: 0.00000 imag: 0.00000
+Framework Structure Factor 9, real: 0.00000 imag: 0.00000
+VDW + Real on the GPU took 0.00087 secs
+Ewald Summation (total energy) on the GPU took 0.00108 secs
+Total GPU Energy: 
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 364584.27278, GGReal: -2579687.36812, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: -95521.83923, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+====================== DONE CALCULATING FINAL STAGE ENERGY ======================
+======================================
+Random Numbers Regenerated 7 times, offset: 265564, randomsize: 333334
+DNN Feature Preparation Time: 0.00000, DNN Prediction Time: 0.00000
+DNN GPU Time: 0.00000, DNN Sort Time: 0.00000, std::sort Time: 0.00000, Featurization Time: 0.00000
+======================== ENERGY SUMMARY (Simulation 0) =========================
+ *** INITIAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          115396.99098 (138790.76344 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -1244709.72826 (-1497042.61757 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        -69447.76075 (-83526.50837 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -1198760.49802 (-1441778.36251 [K])
+========================================================================
+ *** CREATE MOLECULE STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          115396.99098 (138790.76344 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -1244709.72826 (-1497042.61757 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        -69447.76075 (-83526.50837 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -1198760.49802 (-1441778.36251 [K])
+========================================================================
+ *** RUNNING DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** CHECK DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** FINAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          364584.27278 (438494.35869 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -2579687.36812 (-3102652.64458 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        -95521.83924 (-114886.43577 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -2310624.93458 (-2779044.72165 [K])
+========================================================================
+ *** RUNNING DELTA_E (FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          249187.28180 (299703.59526 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -1334977.63987 (-1605610.02700 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        -26074.07848 (-31359.92739 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -1111864.43655 (-1337266.35914 [K])
+========================================================================
+ *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          249187.28180 (299703.59526 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -1334977.63987 (-1605610.02700 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        -26074.07848 (-31359.92739 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -1111864.43655 (-1337266.35914 [K])
+========================================================================
+ *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          -0.00000 (-0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -0.00000 (-0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        -0.00000 (-0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -0.00000 (-0.00000 [K])
+========================================================================
+================================================================================
+======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================
+ *** PRODUCTION PHASE AVERAGE ENERGY *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          325240.28804 (391174.39279 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: -2464231.57631 (-2963791.15996 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        -96096.07717 (-115577.08568 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -2235087.36545 (-2688193.85285 [K])
+========================================================================
+ *** PRODUCTION PHASE AVERAGE ENERGY ERRORBAR *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          51474.28121 (61909.36805 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 165311.67104 (198824.36131 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        1868.02474 (2246.71872 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               218653.97700 (262980.44808 [K])
+========================================================================
+================================================================================
+DNN Rejection Summary:
+Translation+Rotation: 0
+Reinsertion: 0
+Insertion: 0
+Deletion: 0
+SingleSwap: 0
+DNN Drift Summary:
+Translation+Rotation: 0.00000
+Reinsertion: 0.00000
+Insertion: 0.00000
+Deletion: 0.00000
+SingleSwap: 0.00000
+Summary for simulation 0
+PseudoAtom Type: Ow[0], #: 604
+PseudoAtom Type: Hw[1], #: 1208
+PseudoAtom Type: Lw[2], #: 604
+
+===========================
+==    END OF PROGRAM!    ==
+== PRINTING MEMORY USAGE ==
+===========================
+Total Program Size: 5581 MB
+Resident Set Size: 126 MB
+Shared Pages: 101 MB
+Text (code): 0 MB
+Data + Stack: 71 MB

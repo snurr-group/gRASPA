@@ -1,6 +1,6 @@
-NumberOfInitializationCycles 0
+NumberOfInitializationCycles 100000
 NumberOfEquilibrationCycles  0
-NumberOfProductionCycles     0
+NumberOfProductionCycles     100000
 
 UseMaxStep  yes
 MaxStepPerCycle 1
@@ -49,4 +49,3 @@ Component 0 MoleculeName             TIP4P
             TMMCMax 22
             UpdateTMMCEvery 1000000
             CreateNumberOfMolecules  0
-
