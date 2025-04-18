@@ -433,9 +433,9 @@ void GatherStatisticsDuringSimulation(Variables& Vars, size_t systemId, size_t c
         {
           double NxNj = SystemComponents.NumberOfMolecule_for_Component[comp] * SystemComponents.NumberOfMolecule_for_Component[compj];
           Gather_Averages_double(SystemComponents.Moves[comp].MolSQPerComponent[compj], NxNj, i, BlockAverageSize, SystemComponents.Nblock);
-          Gather_Averages_Types(SystemComponents.DensityPerComponent[comp], SystemComponents.NumberOfMolecule_for_Component[comp] / Sims.Box.Volume, 0.0, i, BlockAverageSize, SystemComponents.Nblock);
         }
       }
+      Gather_Averages_Types(SystemComponents.DensityPerComponent[comp], SystemComponents.NumberOfMolecule_for_Component[comp] / Sims.Box.Volume, 0.0, i, BlockAverageSize, SystemComponents.Nblock);
     }
     Gather_Averages_Types(SystemComponents.VolumeAverage, Sims.Box.Volume, 0.0, i, BlockAverageSize, SystemComponents.Nblock);
     Gather_Averages_MoveEnergy(SystemComponents, i, BlockAverageSize, SystemComponents.deltaE);
