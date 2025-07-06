@@ -182,6 +182,8 @@ inline void Prepare_Widom(WidomStruct& Widom, Boxsize Box, Simulations& Sims, Co
   fprintf(SystemComponents.OUTPUT, "Component allocate_sizes are: %zu, %zu\n", SystemComponents.Allocate_size[0], SystemComponents.Allocate_size[1]);
 
   SystemComponents.flag        = (bool*)malloc(MaxTrialsize * sizeof(bool));
+  // initialize the overlap flags to false (no overlap)
+  for (size_t i = 0; i < MaxTrialsize; ++i) SystemComponents.flag[i] = false;
   cudaMallocHost(&Sims.device_flag,          MaxTrialsize * sizeof(bool));
  
   size_t vdw_real_size = (MaxResultsize/DEFAULTTHREAD + 1);
