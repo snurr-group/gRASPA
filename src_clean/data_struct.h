@@ -56,7 +56,7 @@ struct Units
   double TimeUnit          = {1e-12};
   double LengthUnit        = {1e-10};
   double energy_to_kelvin  = {1.2027242847};
-  double BoltzmannConstant = {1.38e-23};
+  double BoltzmannConstant = {1.380649e-23};
   double Avogadro          = {6.02214076e23};  // NIST standards [1/mol]
   double gas_constant      = {8.314462618}; // NIST standards [J/mol/K]
 };
@@ -160,7 +160,7 @@ struct TMMC
         //if(OldN > CMatrix.size()) printf("At the limit, OldN: %zu, N: %zu, NewN: %zu\n", OldN, N, NewN);
         if(RejectOutofBound && ((N + 1) > MaxMacrostate))
         {
-          Histogram[N] ++; 
+          Histogram[BinLocation] ++; 
           return;
         }
         Histogram[NewBinLocation] ++;
