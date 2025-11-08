@@ -94,7 +94,7 @@ static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize 
   double2 totMu    = {0.0, 0.0};
   double2 totHenry = {0.0, 0.0};
   double2 totFuga  = {0.0, 0.0};
-  fprintf(SystemComponents.OUTPUT, "=====================Rosenbluth Summary=====================\n");
+  fprintf(SystemComponents.OUTPUT, "=====================Rosenbluth Summary For Component [%zu] (%s)=====================\n", comp, SystemComponents.MoleculeName[comp].c_str());
   fprintf(SystemComponents.OUTPUT, "There are %zu blocks\n", SystemComponents.Nblock);
   for(size_t i = 0; i < SystemComponents.Nblock; i++)
   {
@@ -497,6 +497,9 @@ static inline void Print_HeatOfAdsorption(Components& SystemComponents, int Cycl
 
 static inline void Print_Averages(Components& SystemComponents, int Cycles, int Blocksize, Simulations& Sims, Units& Constants)
 {
+  for(size_t i = SystemComponents.NComponents.y; i < SystemComponents.NComponents.x; i++)
+    Print_Widom_Statistics(SystemComponents, Sims.Box, Constants, i);
+
   fprintf(SystemComponents.OUTPUT, "============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========\n");
   Print_HeatOfAdsorption(SystemComponents, Cycles, Blocksize, SystemComponents.Nblock, Constants);
   fprintf(SystemComponents.OUTPUT, "==============================================================\n");

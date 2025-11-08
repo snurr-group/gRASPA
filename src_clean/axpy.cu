@@ -170,7 +170,14 @@ void RunMoves(Variables& Vars, size_t box_index, int Cycle)
     double2& newScale = SystemComponents.TempVal.Scale; 
     newScale = SystemComponents.Lambda[comp].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0)//
     double Rosenbluth = MOVES.INSERTION.WidomMove(Vars, box_index);
-    SystemComponents.Moves[comp].RecordRosen(Rosenbluth, WIDOM);
+
+    if(Vars.SimulationMode == PRODUCTION)
+    {
+      size_t blockID = Cycle/Vars.BlockAverageSize;
+      if(blockID >= SystemComponents.Nblock) blockID --;
+      SystemComponents.Moves[comp].BlockID = blockID;
+      SystemComponents.Moves[comp].RecordRosen(Rosenbluth, WIDOM);
+    }
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].ReinsertionProb)
   {
