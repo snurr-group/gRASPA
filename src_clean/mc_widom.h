@@ -51,17 +51,19 @@ inline void Host_sum_Widom_HGGG_SEPARATE(Components& SystemComponents, size_t Nu
   for(size_t i = 0; i < Trialsize; i++)
   {
     size_t trial = Trialindex[i];
-    cudaMemcpy(SystemComponents.host_array, &energy_array[trial*HGGG_Nblock * 2], 2 * HGGG_Nblock*sizeof(T), cudaMemcpyDeviceToHost);
+    //Use Async?
+    //Pinned mem, since already on host, why not directly use it?
     T HG_vdw = 0.0; T HG_real = 0.0;
     T GG_vdw = 0.0; T GG_real = 0.0;
     //Zhao's note: If during the pairwise interaction, there is no overlap, then don't check overlap in the summation//
     //Otherwise, it will cause issues when using the fractional molecule (energy drift in retrace)//
     //So translation/rotation summation of energy are not checking the overlaps, so this is the reason for the discrepancy//
-    for(size_t ijk=0; ijk < HG_Nblock; ijk++)           HG_vdw+=SystemComponents.host_array[ijk];
-    for(size_t ijk=HG_Nblock; ijk < HGGG_Nblock; ijk++) GG_vdw+=SystemComponents.host_array[ijk];
+    size_t location = trial*HGGG_Nblock * 2;
+    for(size_t ijk=0; ijk < HG_Nblock; ijk++)           HG_vdw+=energy_array[location + ijk];
+    for(size_t ijk=HG_Nblock; ijk < HGGG_Nblock; ijk++) GG_vdw+=energy_array[location + ijk];
     
-    for(size_t ijk=HGGG_Nblock; ijk < HG_Nblock + HGGG_Nblock; ijk++) HG_real+=SystemComponents.host_array[ijk];
-    for(size_t ijk=HG_Nblock + HGGG_Nblock; ijk < HGGG_Nblock + HGGG_Nblock; ijk++) GG_real+=SystemComponents.host_array[ijk];
+    for(size_t ijk=HGGG_Nblock; ijk < HG_Nblock + HGGG_Nblock; ijk++) HG_real+=energy_array[location + ijk];
+    for(size_t ijk=HG_Nblock + HGGG_Nblock; ijk < HGGG_Nblock + HGGG_Nblock; ijk++) GG_real+=energy_array[location + ijk];
      
     MoveEnergy E; 
     E.HGVDW = static_cast<double>(HG_vdw);
@@ -99,12 +101,15 @@ inline void CBMC_PairwiseInteractions(Variables& Vars, size_t systemId, Componen
   if(Atomsize != 0)
   {
     Calculate_Multiple_Trial_Energy_VDWReal<<<HGGG_Nblock * NTrials, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, Vars.device_FF, Sims.Blocksum, component, Atomsize, Sims.device_flag, threadsNeeded, chainsize, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG)");
-    cudaMemcpy(SystemComponents.flag, Sims.device_flag, NTrials*sizeof(bool), cudaMemcpyDeviceToHost);
+    //use Async?
+    //cudaMemcpy(SystemComponents.flag, Sims.device_flag, NTrials*sizeof(bool), cudaMemcpyDeviceToHost);
+    cudaDeviceSynchronize();
+    //for (size_t a = 0; a < NTrials; a++) SystemComponents.flag[a] = Sims.device_flag[a];
   } 
   //printf("OldNBlock: %zu, HG_Nblock: %zu, GG_Nblock: %zu, HGGG_Nblock: %zu\n", Nblock, HG_Nblock, GG_Nblock, HGGG_Nblock); 
   
   //printf("FIRST BEAD ENERGIES\n");
-  Host_sum_Widom_HGGG_SEPARATE(SystemComponents, NTrials, Sims.Blocksum, SystemComponents.flag, HG_Nblock, HGGG_Nblock, Vars.device_FF.VDWRealBias);
+  Host_sum_Widom_HGGG_SEPARATE(SystemComponents, NTrials, Sims.Blocksum, Sims.device_flag, HG_Nblock, HGGG_Nblock, Vars.device_FF.VDWRealBias);
 }
 
 

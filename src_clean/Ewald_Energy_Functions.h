@@ -536,9 +536,11 @@ double2 GPU_EwaldDifference_General(Simulations& Sim, ForceField& FF, Components
   Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, UseTempVector, Nblock);
   
   double SameSum = 0.0; double CrossSum = 0.0;
-  cudaMemcpy(SystemComponents.host_array, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost); //HG + GG Energies//
-  for(size_t i = 0; i < Nblock; i++){SameSum += SystemComponents.host_array[i];}
-  for(size_t i = Nblock; i < 2 * Nblock; i++){CrossSum += SystemComponents.host_array[i];}
+
+  cudaDeviceSynchronize();
+
+  for(size_t i = 0; i < Nblock; i++){SameSum += Blocksum[i];}
+  for(size_t i = Nblock; i < 2 * Nblock; i++){CrossSum += Blocksum[i];}
   //Zhao's note: when adding fractional molecules, this might not be correct//
   double deltaExclusion = 0.0;
   
@@ -606,11 +608,12 @@ double2 GPU_EwaldDifference_IdentitySwap(Boxsize& Box, Atoms*& d_a, Atoms& Old, 
   size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
   Nblock = 0; Nthread = 0; Setup_threadblock(numberOfStructureFactors, Nblock, Nthread);
   Fourier_Ewald_Diff<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, false, Nblock);
-  double sum[Nblock * 2]; double SameSum = 0.0;  double CrossSum = 0.0;
-  cudaMemcpy(sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+  double SameSum = 0.0;  double CrossSum = 0.0;
+  //cudaMemcpy(sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
 
-  for(size_t i = 0; i < Nblock; i++){SameSum += sum[i];}
-  for(size_t i = Nblock; i < 2 * Nblock; i++){CrossSum += sum[i];}
+  for(size_t i = 0; i < Nblock; i++){SameSum += Blocksum[i];}
+  for(size_t i = Nblock; i < 2 * Nblock; i++){CrossSum += Blocksum[i];}
 
   //Exclusion parts//
   if(SystemComponents.rigid[NEWComponent] && SystemComponents.hasPartialCharge[NEWComponent])
@@ -771,10 +774,11 @@ double2 GPU_EwaldDifference_LambdaChange(Boxsize& Box, Atoms*& d_a, Atoms& Old, 
 
   Fourier_Ewald_Diff_LambdaChange<<<Nblock * 2, Nthread, Nthread * sizeof(double)>>>(Box, SameType, CrossType, Old, alpha_squared, prefactor, Box.kmax, Oldsize, Newsize, Blocksum, UseTempVector, Nblock, newScale.y);
  
-  double Host_sum[Nblock * 2]; double SameSum = 0.0; double CrossSum = 0.0;
-  cudaMemcpy(Host_sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
-  for(size_t i = 0; i < Nblock; i++){SameSum += Host_sum[i];}
-  for(size_t i = Nblock; i < 2 * Nblock; i++){CrossSum += Host_sum[i];}
+  double SameSum = 0.0; double CrossSum = 0.0;
+  //cudaMemcpy(Host_sum, Blocksum, 2 * Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+  cudaDeviceSynchronize();
+  for(size_t i = 0; i < Nblock; i++){SameSum += Blocksum[i];}
+  for(size_t i = Nblock; i < 2 * Nblock; i++){CrossSum += Blocksum[i];}
   //printf("Fourier GPU lambda Change: %.5f\n", tot);
   double delta_scale = std::pow(newScale.y,2) - std::pow(oldScale.y,2);
   double deltaExclusion = (SystemComponents.ExclusionIntra[SelectedComponent] + SystemComponents.ExclusionAtom[SelectedComponent]) * delta_scale;
@@ -1304,16 +1308,6 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
     Complex* eikz; cudaMalloc(&eikz, NTotalAtom * (Box.kmax.z + 1) * sizeof(Complex));
     Setup_Wave_Vector_Ewald<<<Nblock, Nthread>>>(Box, eikx, eiky, eikz, d_a, NTotalAtom, SystemComponents.NComponents.x, UseOffSet);
 
-    /*
-    Complex* host_eikx; Complex* host_eiky; Complex* host_eikz;
-    host_eikx = (Complex*) malloc(NTotalAtom * (Box.kmax.x + 1)*sizeof(Complex));
-    host_eiky = (Complex*) malloc(NTotalAtom * (Box.kmax.y + 1)*sizeof(Complex));
-    host_eikz = (Complex*) malloc(NTotalAtom * (Box.kmax.z + 1)*sizeof(Complex));
-
-    cudaMemcpy(host_eikx, eikx, NTotalAtom * (Box.kmax.x + 1)*sizeof(Complex), cudaMemcpyDeviceToHost);
-    cudaMemcpy(host_eiky, eiky, NTotalAtom * (Box.kmax.y + 1)*sizeof(Complex), cudaMemcpyDeviceToHost);
-    cudaMemcpy(host_eikz, eikz, NTotalAtom * (Box.kmax.z + 1)*sizeof(Complex), cudaMemcpyDeviceToHost);
-    */
     Nblock = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
     if(Nblock > SystemComponents.tempEikAllocateSize)
     {

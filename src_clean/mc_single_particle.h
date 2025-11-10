@@ -132,31 +132,29 @@ inline MoveEnergy SingleBody_Calculation(Variables& Vars, size_t systemId)
   {
     Calculate_Single_Body_Energy_VDWReal<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents);
 
-    cudaMemcpy(SystemComponents.flag, Sims.device_flag, sizeof(bool), cudaMemcpyDeviceToHost);
+    SystemComponents.flag = Sims.device_flag;
+    cudaDeviceSynchronize();
   }
   MoveEnergy tot; 
   if(!SystemComponents.flag[0] || !CheckOverlap)
   {
-    //double BlockResult[Total_Nblock + Total_Nblock];
-    cudaMemcpy(SystemComponents.host_array, Sims.Blocksum, 2 * Total_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
-   
     //VDW Part and Real Part Coulomb//
     for(size_t i = 0; i < HH_Nblock; i++) 
     {
-      tot.HHVDW += SystemComponents.host_array[i];
-      tot.HHReal+= SystemComponents.host_array[i + Total_Nblock];
+      tot.HHVDW += Sims.Blocksum[i];
+      tot.HHReal+= Sims.Blocksum[i + Total_Nblock];
       //if(MoveType == SPECIAL_ROTATION) printf("HH Block %zu, VDW: %.5f, Real: %.5f\n", i, BlockResult[i], BlockResult[i + Total_Nblock]);
     }
     for(size_t i = HH_Nblock; i < HH_Nblock + HG_Nblock; i++) 
     {
-      tot.HGVDW += SystemComponents.host_array[i];
-      tot.HGReal+= SystemComponents.host_array[i + Total_Nblock];
+      tot.HGVDW += Sims.Blocksum[i];
+      tot.HGReal+= Sims.Blocksum[i + Total_Nblock];
       //printf("HG Block %zu, VDW: %.5f, Real: %.5f\n", i, BlockResult[i], BlockResult[i + Total_Nblock]);
     }
     for(size_t i = HH_Nblock + HG_Nblock; i < Total_Nblock; i++)
     {
-      tot.GGVDW += SystemComponents.host_array[i];
-      tot.GGReal+= SystemComponents.host_array[i + Total_Nblock];
+      tot.GGVDW += Sims.Blocksum[i];
+      tot.GGReal+= Sims.Blocksum[i + Total_Nblock];
       //printf("GG Block %zu, VDW: %.5f, Real: %.5f\n", i, BlockResult[i], BlockResult[i + Total_Nblock]);
     }
 
@@ -273,21 +271,3 @@ MoveEnergy SingleBodyMove(Variables& Vars, size_t systemId)
   SingleBody_Acceptance(Vars, systemId, tot);
   return tot;
 }
-/*
-struct SingleMove
-{
-  MoveEnergy energy;
-  void Prepare(Variables& Vars, size_t systemId)
-  {
-    SingleBody_Prepare(Vars, systemId);
-  }
-  void Calculate(Variables& Vars, size_t systemId)
-  {
-    energy = SingleBody_Calculation(Vars, systemId);
-  }
-  void Acceptance(Variables& Vars, size_t systemId)
-  {
-    SingleBody_Acceptance(Vars, systemId, energy);
-  }
-};
-*/
