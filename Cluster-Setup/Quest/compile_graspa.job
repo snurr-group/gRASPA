@@ -1,0 +1,68 @@
+#!/bin/bash
+###############################################################################
+# Quest Job Submission Script for gRASPA Compilation
+#
+# NOTE: This file was AI-generated and tested on Quest cluster.
+#
+# This script submits a GPU job to compile gRASPA on Quest.
+# 
+# Usage:
+#   sbatch compile_graspa.job
+#
+# IMPORTANT: Update the following before submitting:
+#   - --account: Your Quest account/project ID
+#   - --gres: GPU type (a100, v100, etc.) - adjust based on availability
+#   - Source directory path in the script
+###############################################################################
+
+#SBATCH --account=YOUR_ACCOUNT_HERE        # CHANGE THIS: Your Quest account/project ID
+#SBATCH --partition=gengpu                 # GPU partition
+#SBATCH --gres=gpu:a100:1                  # GPU type - adjust as needed (a100, v100, etc.)
+#SBATCH --job-name=gRASPA_compile
+#SBATCH -N 1                                # Number of nodes
+#SBATCH --ntasks-per-node=1                # Tasks per node
+#SBATCH --mem=4G                           # Memory per node
+#SBATCH --time=02:00:00                    # Time limit (2 hours should be enough)
+#SBATCH --error=compile_error.%J           # Error log file
+#SBATCH --output=compile_output.%J         # Output log file
+
+###############################################################################
+# CHANGE THIS: Set to your gRASPA source directory
+###############################################################################
+GRASPA_SRC_DIR="/path/to/gRASPA/src_clean"
+
+# Navigate to source directory
+cd ${GRASPA_SRC_DIR}
+
+echo "=========================================="
+echo "gRASPA Compilation Job"
+echo "=========================================="
+echo "Job ID: ${SLURM_JOB_ID}"
+echo "Node: ${SLURM_NODELIST}"
+echo "Working directory: $(pwd)"
+echo "=========================================="
+echo ""
+
+# Run the compilation script
+./NVC_COMPILE_QUEST_VANILLA
+
+# Check if compilation was successful
+if [ -f nvc_main.x ]; then
+    echo ""
+    echo "=========================================="
+    echo "SUCCESS: gRASPA executable created"
+    echo "=========================================="
+    ls -lh nvc_main.x
+    echo ""
+    echo "To run gRASPA, submit a GPU job and execute:"
+    echo "  ./nvc_main.x <input_file>"
+    echo "=========================================="
+else
+    echo ""
+    echo "=========================================="
+    echo "ERROR: Compilation failed"
+    echo "Check compile_error.${SLURM_JOB_ID} for details"
+    echo "=========================================="
+    exit 1
+fi
+

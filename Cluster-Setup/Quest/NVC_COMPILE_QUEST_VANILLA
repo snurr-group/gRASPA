@@ -1,0 +1,95 @@
+#!/bin/bash
+
+###############################################################################
+# Quest (Northwestern University) Compilation Script for gRASPA (Vanilla)
+#
+# NOTE: This file was AI-generated and tested on Quest cluster.
+#       It has been verified to work with nvhpc/21.9-gcc and CUDA 11.2.2.
+#
+# This script compiles gRASPA on Quest cluster without ML potential support.
+# It uses NVIDIA HPC SDK (nvhpc) compiler with CUDA support.
+#
+# Usage:
+#   1. Navigate to gRASPA source directory (src_clean/)
+#   2. Make this script executable: chmod +x NVC_COMPILE_QUEST_VANILLA
+#   3. Run: ./NVC_COMPILE_QUEST_VANILLA
+#   4. Or submit as a job: sbatch compile_graspa.job
+#
+# Requirements:
+#   - Access to Quest GPU nodes
+#   - NVIDIA HPC SDK module (nvhpc)
+#   - CUDA module
+#   - gRASPA source code in src_clean/ directory
+###############################################################################
+
+# Load required modules
+# The script tries nvhpc/21.9-gcc first (known working version), 
+# then falls back to nvhpc/24.1-gcc-10.4.0
+module purge
+module use /hpc/software/spack_v17d2/spack/share/spack/modules/linux-rhel7-x86_64/ 2>/dev/null || true
+module load cuda/11.2.2-gcc 2>/dev/null || module load cuda/cuda-12.1.0-openmpi-4.1.4
+module load nvhpc/21.9-gcc 2>/dev/null || module load nvhpc/24.1-gcc-10.4.0
+
+# Clean previous build artifacts
+rm -f *.o nvc_main.x
+
+CXX="nvc++"
+
+# Detect CUDA library path
+# The script automatically detects the CUDA path from nvhpc installation
+# Falls back to standard path if detection fails
+if command -v nvc++ >/dev/null 2>&1; then
+    NVHPC_BASE=$(dirname $(dirname $(which nvc++)))
+    CUDA_LIB_PATH="${NVHPC_BASE}/cuda/lib64"
+    # Check if path exists, otherwise use fallback path
+    if [ ! -d "${CUDA_LIB_PATH}" ]; then
+        CUDA_LIB_PATH="/opt/nvidia/hpc_sdk/Linux_x86_64/22.5/cuda/lib64"
+    fi
+else
+    CUDA_LIB_PATH="/opt/nvidia/hpc_sdk/Linux_x86_64/22.5/cuda/lib64"
+fi
+
+# Compiler flags
+# -O3: Maximum optimization
+# -std=c++20: C++20 standard
+# -Minline: Inline function expansion
+# -fopenmp: OpenMP support
+# -cuda: CUDA support
+# -stdpar=multicore: Standard parallelism for multicore
+NVCFLAG="-O3 -std=c++20 -Minline -fopenmp -cuda -stdpar=multicore"
+
+# Linker flags
+# Includes CUDA libraries and system libraries
+LINKFLAG="-L${CUDA_LIB_PATH} -L/usr/lib64/ -L/opt/local/lib/gcc11/"
+
+echo "=========================================="
+echo "gRASPA Vanilla Compilation on Quest"
+echo "=========================================="
+echo "Compiler: ${CXX}"
+echo "NVHPC path: ${NVHPC_BASE}"
+echo "CUDA lib path: ${CUDA_LIB_PATH}"
+echo "=========================================="
+echo ""
+
+# Compile source files
+echo "Compiling source files..."
+$CXX $NVCFLAG $LINKFLAG -c axpy.cu && echo "  ✓ Finished axpy.cu" || exit 1
+$CXX $NVCFLAG $LINKFLAG -c main.cpp && echo "  ✓ Finished main.cpp" || exit 1
+$CXX $NVCFLAG $LINKFLAG -c read_data.cpp && echo "  ✓ Finished read_data.cpp" || exit 1
+$CXX $NVCFLAG $LINKFLAG -c data_struct.cpp && echo "  ✓ Finished data_struct.cpp" || exit 1
+$CXX $NVCFLAG $LINKFLAG -c VDW_Coulomb.cu && echo "  ✓ Finished VDW_Coulomb.cu" || exit 1
+
+# Link object files into executable
+echo ""
+echo "Linking..."
+$CXX $NVCFLAG $LINKFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x && echo "  ✓ Finished Linking" || exit 1
+
+# Clean up object files
+rm -f *.o
+
+echo ""
+echo "=========================================="
+echo "Compilation complete!"
+echo "Executable: nvc_main.x"
+echo "=========================================="
+
