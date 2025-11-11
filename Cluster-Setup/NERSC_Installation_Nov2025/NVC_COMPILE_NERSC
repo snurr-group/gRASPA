@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Updated for NERSC's new module system (November 2024+)
+# The nvhpc module is deprecated - use PrgEnv-nvidia + cuda instead
+# This script is for ML versions (Allegro with PyTorch, or LCLIN with TensorFlow/CppFlow)
+
+# Restore module system defaults if needed
+if [ -f /opt/cray/pe/cpe/24.07/restore_lmod_system_defaults.sh ]; then
+    source /opt/cray/pe/cpe/24.07/restore_lmod_system_defaults.sh
+fi
+
+module purge
+module load PrgEnv-nvidia
+module load cuda/12.4
+
+rm -f *.o nvc_main.x
+
+CXX="nvc++"
+
+# PyTorch/LibTorch paths (for Allegro version)
+# Check multiple possible locations
+if [ -d "${HOME}/libtorch/lib" ]; then
+    # User-installed LibTorch
+    torchDir="${HOME}/libtorch"
+elif [ -d "/global/common/software/nersc/pm-2022q4/sw/pytorch/2.0.1/lib/python3.9/site-packages/torch" ]; then
+    # NERSC PyTorch installation
+    torchDir="/global/common/software/nersc/pm-2022q4/sw/pytorch/2.0.1/lib/python3.9/site-packages/torch"
+else
+    # Try to find any PyTorch installation
+    torchDir=""
+fi
+
+# Change the following cppflow and tensorflow directory to your own ones
+# CppFlow is typically installed in ctensorflow/usr/local
+cppflowDir="${HOME}/ctensorflow/usr/local"   
+tfDir="${HOME}/ctensorflow"
+
+# Check if TensorFlow is installed (required for LCLIN)
+if [ ! -d "${tfDir}/lib" ] || ([ ! -f "${tfDir}/lib/libtensorflow.so" ] && [ ! -f "${tfDir}/lib/libtensorflow.so.2" ]); then
+    echo "ERROR: TensorFlow library not found in ${tfDir}/lib"
+    echo "TensorFlow is required for LCLIN version."
+    echo ""
+    echo "To install TensorFlow C++ API:"
+    echo "  mkdir -p ~/ctensorflow"
+    echo "  cd ~/ctensorflow"
+    echo "  wget https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-gpu-linux-x86_64-2.11.0.tar.gz"
+    echo "  tar -xvf libtensorflow-gpu-linux-x86_64-2.11.0.tar.gz"
+    echo ""
+    echo "Then install CppFlow:"
+    echo "  git clone https://github.com/serizba/cppflow"
+    echo "  cd cppflow && mkdir build && cd build"
+    echo "  cmake -DCMAKE_PREFIX_PATH=~/ctensorflow/ .."
+    echo "  make install DESTDIR=~/ctensorflow/"
+    echo ""
+    echo "For Allegro version (PyTorch only), use a different compilation script."
+    exit 1
+fi
+
+# Check if PyTorch is available (for Allegro version, optional for LCLIN)
+if [ -n "$torchDir" ] && [ -d "${torchDir}/lib" ] && ([ -f "${torchDir}/lib/libtorch.so" ] || [ -f "${torchDir}/lib/libtorch.so.2" ] || [ -f "${torchDir}/lib/libtorch_cpu.so" ]); then
+    HAS_PYTORCH=true
+    echo "Found PyTorch/LibTorch at: ${torchDir}"
+else
+    HAS_PYTORCH=false
+    echo "PyTorch/LibTorch not found (optional for LCLIN, required for Allegro)"
+fi
+
+# Build link flags
+# For LCLIN: TensorFlow/CppFlow only (no PyTorch needed)
+# For Allegro: PyTorch only (would need different source code from patch)
+if [ "$HAS_PYTORCH" = true ]; then
+    # Full ML support: TensorFlow/CppFlow (LCLIN) + PyTorch (Allegro) - supports both
+    LINKFLAG="-lstdc++fs -I${cppflowDir}/include/ -I${tfDir}/include/ -L${tfDir}/lib -ltensorflow -D_GLIBCXX_USE_CXX11_ABI=1 -L${torchDir}/lib -I${torchDir}/include/ -I${torchDir}/include/torch/csrc/api/include -Wl,-R${torchDir}/lib -ltorch -ltorch_cpu -lc10 -ltorch_cuda -L/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda/lib64 -L/usr/lib64/"
+else
+    # LCLIN version: TensorFlow/CppFlow only (no PyTorch)
+    LINKFLAG="-lstdc++fs -I${cppflowDir}/include/ -I${tfDir}/include/ -L${tfDir}/lib -ltensorflow -D_GLIBCXX_USE_CXX11_ABI=1 -L/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda/lib64 -L/usr/lib64/"
+fi
+
+NVCFLAG="-O3 -std=c++20 -Minline -mp -target=gpu -cuda"
+
+$CXX $NVCFLAG -c axpy.cu $LINKFLAG
+
+$CXX $NVCFLAG -c main.cpp $LINKFLAG
+
+$CXX $NVCFLAG -c read_data.cpp $LINKFLAG
+
+$CXX $NVCFLAG -c data_struct.cpp $LINKFLAG
+
+$CXX $NVCFLAG -c VDW_Coulomb.cu $LINKFLAG
+
+$CXX $NVCFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x $LINKFLAG
