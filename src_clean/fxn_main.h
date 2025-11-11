@@ -442,7 +442,7 @@ inline void Copy_AtomData_from_Device(Atoms* System, Atoms* Host_System, Atoms* 
   }
 }
 
-inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units& Constants)
+inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units& Constants, size_t comp)
 {
   std::string stage_name;
   MoveEnergy  E;
@@ -459,6 +459,8 @@ inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units
     case GPU_DRIFT: {stage_name = "GPU DRIFT (GPU FINAL - CPU FINAL)"; E = SystemComponents.Final_Energy - SystemComponents.GPU_Energy; break;}
     case AVERAGE: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY"; E = SystemComponents.AverageEnergy + SystemComponents.Initial_Energy;break;}
     case AVERAGE_ERR: {stage_name = "PRODUCTION PHASE AVERAGE ENERGY ERRORBAR"; E = SystemComponents.AverageEnergy_Errorbar; break;}
+    case WIDOM_AVG: {stage_name = "AVERAGE WIDOM ADSORPTION ENERGY for " + SystemComponents.MoleculeName[comp]; E = SystemComponents.Moves[comp].WidomEnergy;break;}
+    case WIDOM_ERR: {stage_name = "WIDOM ADSORPTION ENERGY ERRORBAR for " + SystemComponents.MoleculeName[comp]; E = SystemComponents.Moves[comp].WidomEnergy_ERR;break;}
   }
   fprintf(SystemComponents.OUTPUT, " *** %s *** \n", stage_name.c_str());
   fprintf(SystemComponents.OUTPUT, "========================================================================\n");
@@ -501,19 +503,28 @@ void ENERGY_SUMMARY(Variables& Vars)
   for(size_t i = 0; i < NumberOfSimulations; i++)
   {
     fprintf(SystemComponents[i].OUTPUT, "======================== ENERGY SUMMARY (Simulation %zu) =========================\n", i);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], INITIAL, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], CREATEMOL, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], CREATEMOL_DELTA, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], CREATEMOL_DELTA_CHECK, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], FINAL, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA_CHECK, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], DRIFT, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], GPU_DRIFT, Constants);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], INITIAL, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], CREATEMOL, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], CREATEMOL_DELTA, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], CREATEMOL_DELTA_CHECK, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], FINAL, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], DELTA_CHECK, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], DRIFT, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], GPU_DRIFT, Constants, 0);
     fprintf(SystemComponents[i].OUTPUT, "================================================================================\n");
     fprintf(SystemComponents[i].OUTPUT, "======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation %zu) =========================\n", i);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE, Constants);
-    PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE_ERR, Constants);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE, Constants, 0);
+    PRINT_ENERGY_AT_STAGE(SystemComponents[i], AVERAGE_ERR, Constants, 0);
+    fprintf(SystemComponents[i].OUTPUT, "================================================================================\n");
+    
+    fprintf(SystemComponents[i].OUTPUT, "======================== WIDOM ADSORPTION ENERGIES (Simulation %zu) =========================\n", i);
+    for(size_t j = 1; j < SystemComponents[i].NComponents.x; j++)
+    {
+      if(SystemComponents[i].Moves[j].WidomProb < 1e-10) continue;
+      PRINT_ENERGY_AT_STAGE(SystemComponents[i], WIDOM_AVG, Constants, j);
+      PRINT_ENERGY_AT_STAGE(SystemComponents[i], WIDOM_ERR, Constants, j);
+    }
     fprintf(SystemComponents[i].OUTPUT, "================================================================================\n");
 
     fprintf(SystemComponents[i].OUTPUT, "DNN Rejection Summary:\nTranslation+Rotation: %zu\nReinsertion: %zu\nInsertion: %zu\nDeletion: %zu\nSingleSwap: %zu\n", SystemComponents[i].TranslationRotationDNNReject, SystemComponents[i].ReinsertionDNNReject, SystemComponents[i].InsertionDNNReject, SystemComponents[i].DeletionDNNReject, SystemComponents[i].SingleSwapDNNReject);

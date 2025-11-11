@@ -89,11 +89,14 @@ static inline void ComputeFugacity(double& AverageWr, double& AverageMu, double&
 
 static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize Box, Units& Constants, size_t comp)
 {
-  Move_Statistics MoveStats = SystemComponents.Moves[comp];
+  Move_Statistics& MoveStats = SystemComponents.Moves[comp];
   double2 totRosen = {0.0, 0.0};
   double2 totMu    = {0.0, 0.0};
   double2 totHenry = {0.0, 0.0};
-  double2 totFuga  = {0.0, 0.0};
+  double2 totFuga  = {0.0, 0.0};    
+  MoveEnergy AverageEnergy;
+  MoveEnergy AverageEnergy_SQ;
+
   fprintf(SystemComponents.OUTPUT, "=====================Rosenbluth Summary For Component [%zu] (%s)=====================\n", comp, SystemComponents.MoleculeName[comp].c_str());
   fprintf(SystemComponents.OUTPUT, "There are %zu blocks\n", SystemComponents.Nblock);
   for(size_t i = 0; i < SystemComponents.Nblock; i++)
@@ -129,7 +132,21 @@ static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize 
       fprintf(SystemComponents.OUTPUT, "(Deletion) Averaged Excess Mu: %.10f\n", AverageMu);
       fprintf(SystemComponents.OUTPUT, "(Deletion) Converted to Fugacity: %.10f [Pascal], Temp: %.5f [K]\n", Fugacity, SystemComponents.Temperature);
     }
+
+    //Add Widom Delta Energy
+    //Calculate just the overall, now//
+    if(MoveStats.Rosen[i].Total.z > 0)
+    {
+      printf("Raw WIDOM %zu", i); MoveStats.Rosen[i].widom_energy.print();
+      MoveEnergy Average = MoveStats.Rosen[i].widom_energy / static_cast<double>(MoveStats.Rosen[i].Total.z);
+      printf("AVG WIDOM %zu", i); Average.print();
+      AverageEnergy += Average / static_cast<double>(SystemComponents.Nblock);
+      AverageEnergy_SQ += Average * Average / static_cast<double>(SystemComponents.Nblock);
+    }
   }
+  MoveEnergy AverageEnergy_Errorbar = sqrt_MoveEnergy(AverageEnergy_SQ - AverageEnergy * AverageEnergy) * 2.0;
+  SystemComponents.Moves[comp].WidomEnergy = AverageEnergy;
+  SystemComponents.Moves[comp].WidomEnergy_ERR = AverageEnergy_Errorbar;
 
   double2 AvgBlockRosen = {0.0, 0.0};
   AvgBlockRosen.x = totRosen.x / (double) SystemComponents.Nblock;
