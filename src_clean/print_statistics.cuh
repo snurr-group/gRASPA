@@ -103,6 +103,7 @@ static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize 
   {
     fprintf(SystemComponents.OUTPUT, "=====BLOCK %zu=====\n", i);
     fprintf(SystemComponents.OUTPUT, "Widom Performed: %.1f\n", MoveStats.Rosen[i].Total.z);
+    double OverallAvgWr = 0.0;
     if(MoveStats.Rosen[i].Total.z > 0)
     {
       double AverageWr = 0.0; double AverageMu = 0.0; double AverageHenry = 0.0; double Fugacity = 0.0;
@@ -115,6 +116,8 @@ static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize 
       totMu.x    += AverageMu; totMu.y    += AverageMu * AverageMu;
       totHenry.x += AverageHenry; totHenry.y += AverageHenry * AverageHenry;
       totFuga.x  += Fugacity;  totFuga.y  += Fugacity * Fugacity;
+
+      OverallAvgWr = AverageWr;
     }
     if(MoveStats.Rosen[i].Insertion.z > 0)
     {
@@ -138,7 +141,7 @@ static inline void Print_Widom_Statistics(Components& SystemComponents, Boxsize 
     if(MoveStats.Rosen[i].Total.z > 0)
     {
       printf("Raw WIDOM %zu", i); MoveStats.Rosen[i].widom_energy.print();
-      MoveEnergy Average = MoveStats.Rosen[i].widom_energy / static_cast<double>(MoveStats.Rosen[i].Total.z);
+      MoveEnergy Average = MoveStats.Rosen[i].widom_energy / static_cast<double>(MoveStats.Rosen[i].Total.z) / OverallAvgWr;
       printf("AVG WIDOM %zu", i); Average.print();
       AverageEnergy += Average / static_cast<double>(SystemComponents.Nblock);
       AverageEnergy_SQ += Average * Average / static_cast<double>(SystemComponents.Nblock);
