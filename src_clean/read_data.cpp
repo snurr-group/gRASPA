@@ -2109,6 +2109,9 @@ void read_component_values_from_simulation_input(Variables& Vars, Components& Sy
   size_t CreateMolecule = 0; double idealrosen = 0.0; double fugacoeff = 0.0; double Molfrac = 1.0; //Set Molfraction = 1.0
   bool temp_hasfracmol = false;
   int  LambdaType = SHI_MAGINN;
+  // BlockPockets default values
+  bool temp_blockpockets = false;
+  std::string temp_blockpocketsfilename = "";
 
   TMMC temp_tmmc;
 
@@ -2331,6 +2334,32 @@ void read_component_values_from_simulation_input(Variables& Vars, Components& Sy
         Split_Tab_Space(termsScannedLined, str); 
         sscanf(termsScannedLined[1 + BoxIndex].c_str(), "%zu", &CreateMolecule);
       }
+      // BlockPockets functionality - check BlockPocketsFilename first to avoid substring match
+      if (str.find("BlockPocketsFilename", 0) != std::string::npos)
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        temp_blockpocketsfilename = termsScannedLined[1];
+      }
+      else if (str.find("BlockPockets", 0) != std::string::npos)
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        if(termsScannedLined.size() < 2)
+        {
+          throw std::runtime_error("BlockPockets requires a value ('yes' or 'no')");
+        }
+        if(caseInSensStringCompare(termsScannedLined[1], "yes"))
+        {
+          temp_blockpockets = true;
+        }
+        else if(caseInSensStringCompare(termsScannedLined[1], "no"))
+        {
+          temp_blockpockets = false;
+        }
+        else
+        {
+          throw std::runtime_error("BlockPockets must be 'yes' or 'no', got: '" + termsScannedLined[1] + "'");
+        }
+      }
     }
     counter++;
   }
@@ -2371,6 +2400,12 @@ void read_component_values_from_simulation_input(Variables& Vars, Components& Sy
   //Zhao's note: for now, Molfraction = 1.0
   SystemComponents.MolFraction.push_back(Molfrac);
   SystemComponents.hasfractionalMolecule.push_back(temp_hasfracmol);
+  // BlockPockets initialization
+  SystemComponents.BlockPockets.push_back(temp_blockpockets);
+  SystemComponents.BlockPocketsFilename.push_back(temp_blockpocketsfilename);
+  SystemComponents.NumberOfBlockCenters.push_back(0);
+  SystemComponents.BlockCenters.push_back(std::vector<double3>());
+  SystemComponents.BlockDistance.push_back(std::vector<double>());
   
   LAMBDA lambda;
   //Zhao's note: for bin number = 10, there are 11 bins, the first is when lambda = 0.0, last for lambda = 1.0//
@@ -3059,3 +3094,211 @@ void ReadDNNModelSetup(Components& SystemComponents)
 
 //###PATCH_LCLIN_READDATA###//
 //###PATCH_ALLEGRO_READDATA###//
+
+// BlockPockets functionality implementation
+void ReadBlockingPockets(Components& SystemComponents, Boxsize& Box, size_t SystemIndex)
+{
+  // Read blocking pocket definitions from .block files for each component
+  for(size_t CurrentComponent = 0; CurrentComponent < SystemComponents.NComponents.x; CurrentComponent++)
+  {
+    if(CurrentComponent < SystemComponents.BlockPockets.size() && SystemComponents.BlockPockets[CurrentComponent])
+    {
+      FILE* FilePtr = nullptr;
+      std::string filename;
+      
+      // Try current directory first
+      filename = "./" + SystemComponents.BlockPocketsFilename[CurrentComponent] + ".block";
+      FilePtr = fopen(filename.c_str(), "r");
+      
+      // If not found, try in a potential share directory (optional, can be extended)
+      if(!FilePtr)
+      {
+        // For now, just try current directory
+        fprintf(stderr, "Warning: Blocking-pocket file not found: %s\n", filename.c_str());
+        fprintf(stderr, "  Searched: %s\n", filename.c_str());
+        SystemComponents.BlockPockets[CurrentComponent] = false;
+        continue;
+      }
+      
+      // Read number of pocket centers per unit cell
+      int num_pockets_per_uc = 0;
+      if(fscanf(FilePtr, "%d\n", &num_pockets_per_uc) != 1)
+      {
+        fprintf(stderr, "Error reading number of pockets from %s\n", filename.c_str());
+        fclose(FilePtr);
+        SystemComponents.BlockPockets[CurrentComponent] = false;
+        continue;
+      }
+      
+      // Calculate total number of pockets (including unit cell replications)
+      size_t nr_pockets = num_pockets_per_uc * 
+                          SystemComponents.NumberofUnitCells.x *
+                          SystemComponents.NumberofUnitCells.y *
+                          SystemComponents.NumberofUnitCells.z;
+      
+      // Allocate memory for pocket data
+      SystemComponents.BlockCenters[CurrentComponent].clear();
+      SystemComponents.BlockDistance[CurrentComponent].clear();
+      SystemComponents.BlockCenters[CurrentComponent].reserve(nr_pockets);
+      SystemComponents.BlockDistance[CurrentComponent].reserve(nr_pockets);
+      
+      // Read pocket definitions and replicate across unit cells
+      for(int i = 0; i < num_pockets_per_uc; i++)
+      {
+        double3 tempr = {0.0, 0.0, 0.0};
+        double temp = 0.0;
+        
+        // Read: x, y, z (fractional), radius
+        if(fscanf(FilePtr, "%lf %lf %lf %lf\n", &tempr.x, &tempr.y, &tempr.z, &temp) != 4)
+        {
+          fprintf(stderr, "Error reading pocket %d from %s\n", i, filename.c_str());
+          break;
+        }
+        
+        // Replicate across all unit cells
+        for(int j = 0; j < SystemComponents.NumberofUnitCells.x; j++)
+        {
+          for(int k = 0; k < SystemComponents.NumberofUnitCells.y; k++)
+          {
+            for(int l = 0; l < SystemComponents.NumberofUnitCells.z; l++)
+            {
+              // Normalize fractional coordinates
+              double3 vec;
+              vec.x = (tempr.x + j) / SystemComponents.NumberofUnitCells.x;
+              vec.y = (tempr.y + k) / SystemComponents.NumberofUnitCells.y;
+              vec.z = (tempr.z + l) / SystemComponents.NumberofUnitCells.z;
+              
+              // Convert ABC (fractional) to XYZ (Cartesian)
+              // Using the same conversion as in torch_allegro.h GetRealCoordFromFractional
+              double3 xyz_pos;
+              xyz_pos.x = Box.Cell[0*3+0]*vec.x + Box.Cell[1*3+0]*vec.y + Box.Cell[2*3+0]*vec.z;
+              xyz_pos.y = Box.Cell[0*3+1]*vec.x + Box.Cell[1*3+1]*vec.y + Box.Cell[2*3+1]*vec.z;
+              xyz_pos.z = Box.Cell[0*3+2]*vec.x + Box.Cell[1*3+2]*vec.y + Box.Cell[2*3+2]*vec.z;
+              
+              SystemComponents.BlockCenters[CurrentComponent].push_back(xyz_pos);
+              SystemComponents.BlockDistance[CurrentComponent].push_back(temp);
+            }
+          }
+        }
+      }
+      
+      // Update total count
+      SystemComponents.NumberOfBlockCenters[CurrentComponent] = SystemComponents.BlockCenters[CurrentComponent].size();
+      
+      fclose(FilePtr);
+      printf("Read %zu blocking pockets for component %zu from %s\n", 
+             SystemComponents.NumberOfBlockCenters[CurrentComponent], CurrentComponent, filename.c_str());
+      
+      // Print block pocket information to stdout (preparation stage)
+      printf("===================== BLOCK POCKETS FOR COMPONENT %zu =====================\n", CurrentComponent);
+      printf("BlockPocketsFilename: %s\n", SystemComponents.BlockPocketsFilename[CurrentComponent].c_str());
+      printf("Number of Block Centers: %zu\n", SystemComponents.NumberOfBlockCenters[CurrentComponent]);
+      printf("Unit Cells: %d x %d x %d\n", 
+             SystemComponents.NumberofUnitCells.x, 
+             SystemComponents.NumberofUnitCells.y, 
+             SystemComponents.NumberofUnitCells.z);
+      printf("Pocket Centers (Cartesian XYZ) and Radii:\n");
+      for(size_t i = 0; i < SystemComponents.NumberOfBlockCenters[CurrentComponent] && i < 10; i++)
+      {
+        printf("  Pocket %zu: Center = (%.6f, %.6f, %.6f) Angstrom, Radius = %.6f Angstrom\n",
+               i,
+               SystemComponents.BlockCenters[CurrentComponent][i].x,
+               SystemComponents.BlockCenters[CurrentComponent][i].y,
+               SystemComponents.BlockCenters[CurrentComponent][i].z,
+               SystemComponents.BlockDistance[CurrentComponent][i]);
+      }
+      if(SystemComponents.NumberOfBlockCenters[CurrentComponent] > 10)
+      {
+        printf("  ... (showing first 10 of %zu pockets)\n", SystemComponents.NumberOfBlockCenters[CurrentComponent]);
+      }
+      printf("================================================================================\n");
+    }
+  }
+}
+
+// Helper function to apply periodic boundary conditions
+double3 ApplyBoundaryConditionUnitCell(double3 dr, Boxsize& Box)
+{
+  // For now, implement simple periodic wrapping for cubic/rectangular cells
+  // This can be extended for triclinic cells if needed
+  if(Box.Cubic)
+  {
+    // Simple periodic wrapping
+    double lx = Box.Cell[0];
+    double ly = Box.Cell[4];
+    double lz = Box.Cell[8];
+    
+    auto nint = [](double x) -> int {
+      return (x >= 0.0) ? static_cast<int>(std::floor(x + 0.5)) : static_cast<int>(std::ceil(x - 0.5));
+    };
+    
+    dr.x -= lx * nint(dr.x / lx);
+    dr.y -= ly * nint(dr.y / ly);
+    dr.z -= lz * nint(dr.z / lz);
+  }
+  else
+  {
+    // For triclinic cells, convert to fractional, wrap, then convert back
+    // This is a simplified version - can be extended for full triclinic support
+    double* InverseCell = Box.InverseCell;
+    double3 s;
+    s.x = InverseCell[0*3+0]*dr.x + InverseCell[1*3+0]*dr.y + InverseCell[2*3+0]*dr.z;
+    s.y = InverseCell[0*3+1]*dr.x + InverseCell[1*3+1]*dr.y + InverseCell[2*3+1]*dr.z;
+    s.z = InverseCell[0*3+2]*dr.x + InverseCell[1*3+2]*dr.y + InverseCell[2*3+2]*dr.z;
+    
+    auto nint = [](double x) -> int {
+      return (x >= 0.0) ? static_cast<int>(std::floor(x + 0.5)) : static_cast<int>(std::ceil(x - 0.5));
+    };
+    
+    double3 t;
+    t.x = s.x - nint(s.x);
+    t.y = s.y - nint(s.y);
+    t.z = s.z - nint(s.z);
+    
+    dr.x = Box.Cell[0*3+0]*t.x + Box.Cell[1*3+0]*t.y + Box.Cell[2*3+0]*t.z;
+    dr.y = Box.Cell[0*3+1]*t.x + Box.Cell[1*3+1]*t.y + Box.Cell[2*3+1]*t.z;
+    dr.z = Box.Cell[0*3+2]*t.x + Box.Cell[1*3+2]*t.y + Box.Cell[2*3+2]*t.z;
+  }
+  
+  return dr;
+}
+
+// Check if a position is blocked by BlockPockets (simplified - not used yet, just for future reference)
+bool BlockedPocket(Components& SystemComponents, double3 pos, size_t component, size_t SystemIndex, Boxsize& Box)
+{
+  if(component >= SystemComponents.BlockPockets.size() || !SystemComponents.BlockPockets[component])
+  {
+    return false; // Blocking not enabled, allow position
+  }
+  
+  if(component >= SystemComponents.NumberOfBlockCenters.size() || 
+     SystemComponents.NumberOfBlockCenters[component] == 0)
+  {
+    return false; // No pockets defined
+  }
+  
+  // NORMAL MODE: Molecules are blocked when INSIDE pockets
+  for(size_t i = 0; i < SystemComponents.NumberOfBlockCenters[component]; i++)
+  {
+    // Calculate distance vector
+    double3 dr;
+    dr.x = SystemComponents.BlockCenters[component][i].x - pos.x;
+    dr.y = SystemComponents.BlockCenters[component][i].y - pos.y;
+    dr.z = SystemComponents.BlockCenters[component][i].z - pos.z;
+    
+    // Apply periodic boundary conditions
+    dr = ApplyBoundaryConditionUnitCell(dr, Box);
+    
+    // Calculate distance
+    double r = sqrt(dr.x*dr.x + dr.y*dr.y + dr.z*dr.z);
+    
+    // If inside any pocket, block it (return true = blocked)
+    if(r < SystemComponents.BlockDistance[component][i])
+    {
+      return true; // Position is blocked
+    }
+  }
+  
+  // Not inside any pocket, so allow it
+  return false; // Position is allowed
+}

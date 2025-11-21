@@ -1122,6 +1122,12 @@ struct Components
   std::vector<LAMBDA> Lambda;                         // Vector of Lambda struct
   std::vector<TMMC>   Tmmc;                           // Vector of TMMC struct
   std::vector<bool>   rigid;                          // Determine if the component is rigid.
+  // BlockPockets functionality
+  std::vector<bool>   BlockPockets;                    // Whether blocking is enabled per component
+  std::vector<std::string> BlockPocketsFilename;       // Filename per component (without .block extension)
+  std::vector<size_t> NumberOfBlockCenters;             // Number of pocket centers per component (after replication)
+  std::vector<std::vector<double3>> BlockCenters;      // Center coordinates for each pocket (Cartesian XYZ) per component
+  std::vector<std::vector<double>> BlockDistance;      // Radius for each pocket (Angstroms) per component
   std::vector<double> ExclusionIntra;                 // For Ewald Summation, Intra Molecular exclusion
   std::vector<double> ExclusionAtom;                  // For Ewald Summation, Atom-self exclusion
   std::vector<std::string> MoleculeName;              // Name of the molecule
