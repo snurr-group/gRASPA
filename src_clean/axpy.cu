@@ -170,6 +170,9 @@ void RunMoves(Variables& Vars, size_t box_index, int Cycle)
     double2& newScale = SystemComponents.TempVal.Scale; 
     newScale = SystemComponents.Lambda[comp].SET_SCALE(1.0); //Set scale for full molecule (lambda = 1.0)//
     double Rosenbluth = MOVES.INSERTION.WidomMove(Vars, box_index);
+    //Also record move energy (delta energy)
+    //MoveEnergy widom_e = MOVES.INSERTION.energy;
+    //printf("Widom E: "); widom_e.print();
 
     if(Vars.SimulationMode == PRODUCTION)
     {
@@ -177,6 +180,8 @@ void RunMoves(Variables& Vars, size_t box_index, int Cycle)
       if(blockID >= SystemComponents.Nblock) blockID --;
       SystemComponents.Moves[comp].BlockID = blockID;
       SystemComponents.Moves[comp].RecordRosen(Rosenbluth, WIDOM);
+      //weight with Rosenbluth (heavy weight on low (attractive) energy, lower on high energy)
+      SystemComponents.Moves[comp].Rosen[blockID].widom_energy += MOVES.INSERTION.energy * Rosenbluth;
     }
   }
   else if(RANDOMNUMBER < SystemComponents.Moves[comp].ReinsertionProb)

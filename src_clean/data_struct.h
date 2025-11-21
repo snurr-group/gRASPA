@@ -35,7 +35,7 @@ enum INTERACTION_TYPES {HH = 0, HG, GG};
 enum RESTART_FILE_TYPES {RASPA_RESTART = 0, LAMMPS_DATA};
 
 //Zhao's note: For the stage of evaluating total energy of the system//
-enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT, GPU_DRIFT, AVERAGE, AVERAGE_ERR};
+enum ENERGYEVALSTAGE {INITIAL = 0, CREATEMOL, FINAL, CREATEMOL_DELTA, DELTA, CREATEMOL_DELTA_CHECK, DELTA_CHECK, DRIFT, GPU_DRIFT, AVERAGE, AVERAGE_ERR, WIDOM_AVG, WIDOM_ERR};
 
 struct EnergyComplex
 {
@@ -409,6 +409,82 @@ struct TMMC
   }
 };
 
+//Temporary energies for a move//
+//Zhao's note: consider making this the default return variable for moves, like RASPA-3?//
+struct MoveEnergy
+{
+  double storedHGVDW=0.0;
+  double storedHGReal=0.0;
+  double storedHGEwaldE=0.0;
+  // van der Waals //
+  double HHVDW=0.0;
+  double HGVDW=0.0;
+  double GGVDW=0.0;
+  // Real Part of Coulomb //
+  double HHReal=0.0;
+  double HGReal=0.0;
+  double GGReal=0.0;
+  // Long-Range Ewald Energy //
+  double HHEwaldE=0.0;
+  double HGEwaldE=0.0;
+  double GGEwaldE=0.0;
+  // Other Energies //
+  double TailE =0.0;
+  double DNN_E =0.0;
+  double total()
+  {
+    return HHVDW + HGVDW + GGVDW + 
+           HHReal + HGReal + GGReal + 
+           HHEwaldE + HGEwaldE + GGEwaldE + 
+           TailE + DNN_E;
+  };
+  void take_negative()
+  {
+    storedHGVDW *= -1.0;
+    storedHGReal*= -1.0;
+    storedHGEwaldE  *= -1.0;
+    HHVDW *= -1.0; HHReal *= -1.0;
+    HGVDW *= -1.0; HGReal *= -1.0;
+    GGVDW *= -1.0; GGReal *= -1.0;
+    HHEwaldE *= -1.0; HGEwaldE *= -1.0; GGEwaldE  *= -1.0;
+    TailE     *= -1.0;
+    DNN_E     *= -1.0;
+  };
+  void zero()
+  {
+    storedHGVDW =0.0;
+    storedHGReal=0.0;
+    storedHGEwaldE=0.0;
+    HHVDW=0.0; HHReal=0.0;
+    HGVDW=0.0; HGReal=0.0;
+    GGVDW=0.0; GGReal=0.0;
+    HHEwaldE =0.0;
+    HGEwaldE =0.0;
+    GGEwaldE =0.0;
+    TailE    =0.0;
+    DNN_E    =0.0;
+  };
+  void print()
+  {
+    printf("HHVDW: %.5f, HHReal: %.5f, HGVDW: %.5f, HGReal: %.5f, GGVDW: %.5f, GGReal: %.5f, HHEwaldE: %.5f,\n HGEwaldE: %.5f,\n GGEwaldE: %.5f, TailE: %.5f, DNN_E: %.5f\n", HHVDW, HHReal, HGVDW, HGReal, GGVDW, GGReal, HHEwaldE, HGEwaldE, GGEwaldE, TailE, DNN_E);
+    printf("Stored HGVDW: %.5f, Stored HGReal: %.5f, Stored HGEwaldE: %.5f\n", storedHGVDW, storedHGReal, storedHGEwaldE);
+  };
+  void DNN_Replace_Energy()
+  {
+    storedHGVDW = HGVDW;
+    storedHGReal= HGReal;
+    storedHGEwaldE  = HGEwaldE;
+    HGVDW = 0.0;
+    HGReal= 0.0;
+    HGEwaldE = 0.0;
+  }
+  double DNN_Correction() //Using DNN energy to replace HGVDW, HGReal and HGEwaldE//
+  {
+    double correction = DNN_E - storedHGVDW - storedHGReal - storedHGEwaldE;
+    return correction;
+  };
+};
+
 //Zhao's note: keep track of the Rosenbluth weights during the simulation//
 struct RosenbluthWeight
 {
@@ -417,6 +493,7 @@ struct RosenbluthWeight
   double3 Insertion      = {0.0, 0.0, 0.0};
   double3 Deletion       = {0.0, 0.0, 0.0};
   //NOTE: DO NOT RECORD FOR REINSERTIONS, SINCE THE DELETION PART OF REINSERTION IS MODIFIED//
+  MoveEnergy widom_energy;
 };
 
 struct Move_Statistics
@@ -483,6 +560,10 @@ struct Move_Statistics
   std::vector<std::vector<double>>MolSQPerComponent;
   //x: average; y: average^2; z: Number of Widom insertion performed//
   std::vector<RosenbluthWeight>Rosen; //vector over Nblocks//
+
+  MoveEnergy WidomEnergy;
+  MoveEnergy WidomEnergy_ERR;
+
   void NormalizeProbabilities()
   {
     //Zhao's note: the probabilities here are what we defined in simulation.input, raw values//
@@ -640,81 +721,7 @@ struct Tail
   double Energy  = {0.0};
 };
 
-//Temporary energies for a move//
-//Zhao's note: consider making this the default return variable for moves, like RASPA-3?//
-struct MoveEnergy
-{
-  double storedHGVDW=0.0;
-  double storedHGReal=0.0;
-  double storedHGEwaldE=0.0;
-  // van der Waals //
-  double HHVDW=0.0;
-  double HGVDW=0.0;
-  double GGVDW=0.0;
-  // Real Part of Coulomb //
-  double HHReal=0.0;
-  double HGReal=0.0;
-  double GGReal=0.0;
-  // Long-Range Ewald Energy //
-  double HHEwaldE=0.0;
-  double HGEwaldE=0.0;
-  double GGEwaldE=0.0;
-  // Other Energies //
-  double TailE =0.0;
-  double DNN_E =0.0;
-  double total()
-  {
-    return HHVDW + HGVDW + GGVDW + 
-           HHReal + HGReal + GGReal + 
-           HHEwaldE + HGEwaldE + GGEwaldE + 
-           TailE + DNN_E;
-  };
-  void take_negative()
-  {
-    storedHGVDW *= -1.0;
-    storedHGReal*= -1.0;
-    storedHGEwaldE  *= -1.0;
-    HHVDW *= -1.0; HHReal *= -1.0;
-    HGVDW *= -1.0; HGReal *= -1.0;
-    GGVDW *= -1.0; GGReal *= -1.0;
-    HHEwaldE *= -1.0; HGEwaldE *= -1.0; GGEwaldE  *= -1.0;
-    TailE     *= -1.0;
-    DNN_E     *= -1.0;
-  };
-  void zero()
-  {
-    storedHGVDW =0.0;
-    storedHGReal=0.0;
-    storedHGEwaldE=0.0;
-    HHVDW=0.0; HHReal=0.0;
-    HGVDW=0.0; HGReal=0.0;
-    GGVDW=0.0; GGReal=0.0;
-    HHEwaldE =0.0;
-    HGEwaldE =0.0;
-    GGEwaldE =0.0;
-    TailE    =0.0;
-    DNN_E    =0.0;
-  };
-  void print()
-  {
-    printf("HHVDW: %.5f, HHReal: %.5f, HGVDW: %.5f, HGReal: %.5f, GGVDW: %.5f, GGReal: %.5f, HHEwaldE: %.5f,\n HGEwaldE: %.5f,\n GGEwaldE: %.5f, TailE: %.5f, DNN_E: %.5f\n", HHVDW, HHReal, HGVDW, HGReal, GGVDW, GGReal, HHEwaldE, HGEwaldE, GGEwaldE, TailE, DNN_E);
-    printf("Stored HGVDW: %.5f, Stored HGReal: %.5f, Stored HGEwaldE: %.5f\n", storedHGVDW, storedHGReal, storedHGEwaldE);
-  };
-  void DNN_Replace_Energy()
-  {
-    storedHGVDW = HGVDW;
-    storedHGReal= HGReal;
-    storedHGEwaldE  = HGEwaldE;
-    HGVDW = 0.0;
-    HGReal= 0.0;
-    HGEwaldE = 0.0;
-  }
-  double DNN_Correction() //Using DNN energy to replace HGVDW, HGReal and HGEwaldE//
-  {
-    double correction = DNN_E - storedHGVDW - storedHGReal - storedHGEwaldE;
-    return correction;
-  };
-};
+
 /*
 __host__ MoveEnergy MoveEnergy_Multiply(MoveEnergy A, MoveEnergy B)
 {
