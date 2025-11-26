@@ -1,0 +1,25 @@
+#!/bin/bash
+
+rm nvc_main.x
+
+CXX="nvc++"
+
+LINKFLAG="-L/opt/nvidia/hpc_sdk/Linux_x86_64/22.5/cuda/lib64 -L/usr/lib64/ -L/opt/local/lib/gcc11/"
+
+NVCFLAG="-O3 -std=c++20 -target=gpu -Minline -fopenmp -cuda -stdpar=multicore"
+
+$CXX $NVCFLAG $LINKFLAG -c src_clean/axpy.cu && echo "Finished src_clean/axpy.cu" &
+
+$CXX $NVCFLAG $LINKFLAG -c src_clean/main.cpp && echo "Finished src_clean/main.cpp" &
+
+$CXX $NVCFLAG $LINKFLAG -c src_clean/read_data.cpp && echo "Finished src_clean/read_data.cpp" &
+
+$CXX $NVCFLAG $LINKFLAG -c src_clean/data_struct.cpp && echo "Finished src_clean/data_struct.cpp" &
+
+$CXX $NVCFLAG $LINKFLAG -c src_clean/VDW_Coulomb.cu && echo "Finished src_clean/VDW_Coulomb.cu" &
+
+wait
+
+$CXX $NVCFLAG $LINKFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x ; echo "Finished Linking"
+
+rm *.o
