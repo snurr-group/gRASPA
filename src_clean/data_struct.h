@@ -922,6 +922,7 @@ struct MoveTempStorage
   //within the move//
   bool   Overlap= false;
   bool   CheckOverlap= true;
+  bool   BlockedByPockets = false;
   bool   Do_New = false;
   bool   Do_Old = false;
   size_t start_position = 0;
@@ -948,6 +949,7 @@ struct MoveTempStorage
 
     Overlap= false;
     CheckOverlap= true;
+    BlockedByPockets = false;
     Do_New = false;
     Do_Old = false;
     start_position = 0;
@@ -1119,6 +1121,12 @@ struct Components
  
   std::vector<bool>   hasPartialCharge;               // Whether this component has partial charge
   std::vector<bool>   hasfractionalMolecule;          // Whether this component has fractional molecules
+  std::vector<bool>   UseBlockPockets;                // Whether to use block pockets for this component
+  std::vector<std::vector<double3>> BlockPocketCenters; // Block pocket centers for each component [component][pocket]
+  std::vector<std::vector<double>> BlockPocketRadii;  // Block pocket radii for each component [component][pocket]
+  // Block pocket statistics
+  std::vector<size_t> BlockPocketTotalAttempts;       // Total insertion attempts for each component
+  std::vector<size_t> BlockPocketBlockedCount;        // Number of blocked insertions for each component
   std::vector<LAMBDA> Lambda;                         // Vector of Lambda struct
   std::vector<TMMC>   Tmmc;                           // Vector of TMMC struct
   std::vector<bool>   rigid;                          // Determine if the component is rigid.

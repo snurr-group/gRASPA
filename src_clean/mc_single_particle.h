@@ -1,4 +1,5 @@
 #include "mc_utilities.h"
+#include "read_data.h"
 
 ////////////////////////////////////////////////
 // Generalized function for single Body moves //
@@ -77,6 +78,50 @@ inline void SingleBody_Prepare(Variables& Vars, size_t systemId)
   Random.Check(Molsize);
   get_new_position<<<1, Molsize>>>(Sims, FF, start_position, SelectedComponent, MaxChange, Random.device_random, Random.offset, MoveType);
   Random.Update(Molsize);
+  
+  // Check block pockets for single insertion, translation, and rotation moves
+  // Store blocking status to preserve across kernel calls
+  bool blocked_by_pockets = false;
+  // Blocking check: Check if the new position is within a block pocket
+  // Add extensive defensive checks to prevent segfault
+  // Re-enable step by step to isolate segfault
+  // Match RASPA2: check blocking for SINGLE_INSERTION, TRANSLATION, ROTATION, SPECIAL_ROTATION
+  if((MoveType == SINGLE_INSERTION || MoveType == TRANSLATION || MoveType == ROTATION || MoveType == SPECIAL_ROTATION) && 
+     SelectedComponent < SystemComponents.UseBlockPockets.size() && 
+     SystemComponents.UseBlockPockets[SelectedComponent] &&
+     Molsize > 0 && Molsize < 10000) // Sanity check on molecule size
+  {
+    // Ensure statistics vectors are large enough
+    if(SelectedComponent >= SystemComponents.BlockPocketTotalAttempts.size())
+    {
+      SystemComponents.BlockPocketTotalAttempts.resize(SelectedComponent + 1, 0);
+      SystemComponents.BlockPocketBlockedCount.resize(SelectedComponent + 1, 0);
+    }
+    
+    // Match RASPA2: check all atoms, if any blocked, reject immediately
+    cudaDeviceSynchronize();
+    
+    double3* host_positions = new double3[Molsize];
+    cudaMemcpy(host_positions, Sims.New.pos, Molsize * sizeof(double3), cudaMemcpyDeviceToHost);
+    
+    // RASPA2: for(i=0; i<nr_atoms; i++) { if(BlockedPocket(TrialPosition[i])) return 0; }
+    for(size_t i = 0; i < Molsize; i++)
+    {
+      if(CheckBlockedPosition(SystemComponents, SelectedComponent, host_positions[i], Sims.Box))
+      {
+        blocked_by_pockets = true;
+        SystemComponents.BlockPocketBlockedCount[SelectedComponent]++;
+        break;
+      }
+    }
+    
+    delete[] host_positions;
+    SystemComponents.BlockPocketTotalAttempts[SelectedComponent] += Molsize;
+  }
+  
+  // Store blocking status in a way that persists across kernel calls
+  // We'll check this after the energy calculation kernel
+  SystemComponents.TempVal.BlockedByPockets = blocked_by_pockets;
 }
 
 inline MoveEnergy SingleBody_Calculation(Variables& Vars, size_t systemId)
@@ -130,12 +175,48 @@ inline MoveEnergy SingleBody_Calculation(Variables& Vars, size_t systemId)
 
   if(Atomsize != 0)
   {
+    // Set flag BEFORE energy kernel if blocked (energy kernel will check this flag)
+    // This ensures blocking is checked even if energy kernel doesn't detect overlap
+    if(SystemComponents.TempVal.BlockedByPockets)
+    {
+      Sims.device_flag[0] = true; // Direct assignment since device_flag is pinned host memory
+    }
+    
     Calculate_Single_Body_Energy_VDWReal<<<Total_Nblock, Nthread, Nthread * 2 * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.Old, Sims.New, FF, Sims.Blocksum, SelectedComponent, Atomsize, Molsize, Sims.device_flag, NBlocks, Do_New, Do_Old, SystemComponents.NComponents);
 
+    // Use pointer assignment like backup2 (both are host memory)
     SystemComponents.flag = Sims.device_flag;
     cudaDeviceSynchronize();
+    
+    // Restore blocking flag if blocked by pockets (energy kernel might have reset it)
+    // Do this AFTER synchronize to ensure energy kernel has finished
+    if(SystemComponents.TempVal.BlockedByPockets)
+    {
+      Sims.device_flag[0] = true; // Direct assignment since device_flag is pinned host memory
+      // Since flag points to device_flag, this automatically updates flag[0]
+    }
+  }
+  else
+  {
+    // Even if no energy calculation, preserve blocking flag
+    if(SystemComponents.TempVal.BlockedByPockets)
+    {
+      Sims.device_flag[0] = true; // Direct assignment since device_flag is pinned host memory
+    }
+    // Use pointer assignment like backup2
+    SystemComponents.flag = Sims.device_flag;
   }
   MoveEnergy tot; 
+  // CRITICAL: If blocked by pockets, skip energy calculation and set Pacc to 0
+  // This ensures blocked moves are rejected even if flag gets reset
+  if(SystemComponents.TempVal.BlockedByPockets)
+  {
+    tot.zero();
+    SystemComponents.TempVal.Pacc = 0.0;
+    SystemComponents.TempVal.preFactor = 0.0;
+    return tot;
+  }
+  
   if(!SystemComponents.flag[0] || !CheckOverlap)
   {
     //VDW Part and Real Part Coulomb//
@@ -190,6 +271,19 @@ inline MoveEnergy SingleBody_Calculation(Variables& Vars, size_t systemId)
       tot.DNN_E = DNN_Prediction_Move(SystemComponents, Sims, SelectedComponent, MoveType);
       tot.DNN_Replace_Energy();
     }
+    
+    // CRITICAL: Ensure blocking flag is preserved after energy calculation
+    // The energy kernel may have reset device_flag, so we must restore it if blocked
+    if(SystemComponents.TempVal.BlockedByPockets)
+    {
+      Sims.device_flag[0] = true; // Ensure flag is set for rejection
+      // Also ensure flag is copied to host if using pointer assignment
+      if(SystemComponents.flag != nullptr)
+      {
+        SystemComponents.flag[0] = true;
+      }
+    }
+    
     double& preFactor = SystemComponents.TempVal.preFactor;
     double& Pacc      = SystemComponents.TempVal.Pacc;
     preFactor = GetPrefactor(SystemComponents, Sims, SelectedComponent, MoveType);
@@ -215,7 +309,17 @@ inline void SingleBody_Acceptance(Variables& Vars, size_t systemId, MoveEnergy& 
   double& Pacc      = SystemComponents.TempVal.Pacc;
   bool& Accept = SystemComponents.TempVal.Accept;
   Accept = false;
+  
+  // Explicitly reject if blocked by pockets (must check BEFORE probability check)
+  if(SystemComponents.TempVal.BlockedByPockets)
+  {
+    Accept = false;
+    tot.zero();
+    return;
+  }
+  
   //no overlap, or don't check overlap (for special moves)//
+  // Note: SystemComponents.flag points to Sims.device_flag, so checking flag[0] checks the current value
   if(!SystemComponents.flag[0] || !SystemComponents.TempVal.CheckOverlap)
   {
     double Random = Get_Uniform_Random();

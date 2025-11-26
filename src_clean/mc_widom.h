@@ -3,6 +3,8 @@
 #include <cuda_fp16.h>
 #include <thrust/device_ptr.h>
 #include <thrust/reduce.h>
+#include "read_data.h"
+#include "mc_utilities.h"  // For CheckBlockedPosition
 
 
 static inline size_t SelectTrialPosition(std::vector<double>& LogBoltzmannFactors) //In Zhao's code, LogBoltzmannFactors = Rosen
@@ -98,6 +100,15 @@ inline void CBMC_PairwiseInteractions(Variables& Vars, size_t systemId, Componen
   size_t GG_Nthread=0; size_t GG_Nblock=0; Setup_threadblock(NGuestAtom * chainsize, GG_Nblock, GG_Nthread);
   size_t HGGG_Nthread = std::max(HG_Nthread, GG_Nthread);
   size_t HGGG_Nblock  = HG_Nblock + GG_Nblock;
+  // Store blocking flags before energy calculation (energy kernel may reset them)
+  bool* saved_blocking_flags = nullptr;
+  if(component < SystemComponents.UseBlockPockets.size() && 
+     SystemComponents.UseBlockPockets[component])
+  {
+    saved_blocking_flags = new bool[NTrials];
+    cudaMemcpy(saved_blocking_flags, Sims.device_flag, NTrials * sizeof(bool), cudaMemcpyDeviceToHost);
+  }
+  
   if(Atomsize != 0)
   {
     Calculate_Multiple_Trial_Energy_VDWReal<<<HGGG_Nblock * NTrials, HGGG_Nthread, 2 * HGGG_Nthread * sizeof(double)>>>(Sims.Box, Sims.d_a, Sims.New, Vars.device_FF, Sims.Blocksum, component, Atomsize, Sims.device_flag, threadsNeeded, chainsize, HGGG_Nblock, HG_Nblock, SystemComponents.NComponents, Sims.ExcludeList); checkCUDAError("Error calculating energies (PARTIAL SUM HGGG)");
@@ -106,6 +117,24 @@ inline void CBMC_PairwiseInteractions(Variables& Vars, size_t systemId, Componen
     cudaDeviceSynchronize();
     //for (size_t a = 0; a < NTrials; a++) SystemComponents.flag[a] = Sims.device_flag[a];
   } 
+  
+  // Restore blocking flags after energy calculation (OR with energy kernel flags)
+  if(saved_blocking_flags != nullptr)
+  {
+    bool* current_flags = new bool[NTrials];
+    cudaMemcpy(current_flags, Sims.device_flag, NTrials * sizeof(bool), cudaMemcpyDeviceToHost);
+    
+    // OR the flags: blocked if either blocking OR energy overlap detected
+    for(size_t i = 0; i < NTrials; i++)
+    {
+      current_flags[i] = current_flags[i] || saved_blocking_flags[i];
+    }
+    
+    cudaMemcpy(Sims.device_flag, current_flags, NTrials * sizeof(bool), cudaMemcpyHostToDevice);
+    delete[] current_flags;
+    delete[] saved_blocking_flags;
+  }
+  
   //printf("OldNBlock: %zu, HG_Nblock: %zu, GG_Nblock: %zu, HGGG_Nblock: %zu\n", Nblock, HG_Nblock, GG_Nblock, HGGG_Nblock); 
   
   //printf("FIRST BEAD ENERGIES\n");
@@ -329,6 +358,7 @@ static inline void CBMC_FirstBead_Finish(Variables& Vars, size_t systemId, CBMC_
       SelectedTrial = SelectTrialPosition(Rosen);
       for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
       Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(SystemComponents.Rosen)::value_type(0));
+      // If Rosenbluth is too small (all trials blocked or very high energy), reject
       if(Rosenbluth < 1e-150) break;
       Goodconstruction = true;
       break;
@@ -353,7 +383,26 @@ static inline void CBMC_FirstBead_Finish(Variables& Vars, size_t systemId, CBMC_
     }
   }
 
-  if(!Goodconstruction) return;
+  // CRITICAL: If construction failed (all trials blocked or high energy), mark as failed
+  if(!Goodconstruction)
+  {
+    CBMC.SuccessConstruction = false;
+    CBMC.Rosenbluth = 0.0;
+    // If all trials were blocked, count them
+    if(SelectedComponent < SystemComponents.UseBlockPockets.size() && 
+       SystemComponents.UseBlockPockets[SelectedComponent] &&
+       Rosen.size() == 0)
+    {
+      if(SelectedComponent >= SystemComponents.BlockPocketTotalAttempts.size())
+      {
+        SystemComponents.BlockPocketTotalAttempts.resize(SelectedComponent + 1, 0);
+        SystemComponents.BlockPocketBlockedCount.resize(SelectedComponent + 1, 0);
+      }
+      // All trials were blocked - this was already counted in Widom_Move_FirstBead_PARTIAL
+      // but ensure SuccessConstruction is false
+    }
+    return;
+  }
   REALselected = Trialindex[SelectedTrial];
 
   if(MoveType == REINSERTION_INSERTION) StoredR = Rosenbluth - Rosen[SelectedTrial];
@@ -434,6 +483,52 @@ inline void Widom_Move_FirstBead_PARTIAL(Variables& Vars, size_t systemId, CBMC_
   get_random_trial_position<<<1,NumberOfTrials>>>(Sims.Box, Sims.d_a, Sims.New, Sims.device_flag, Random, start_position, SelectedComponent, SelectedMolID, MoveType, proposed_scale); checkCUDAError("error getting random trials");
   Random.Update(NumberOfTrials);
 
+  // Check block pockets for insertion moves (first bead only, matching RASPA2)
+  // RASPA2 checks BlockedPocket for: CBMC_INSERTION, REINSERTION_INSERTION, IDENTITY_SWAP_NEW
+  if((MoveType == CBMC_INSERTION || MoveType == REINSERTION_INSERTION || MoveType == IDENTITY_SWAP_NEW) && 
+     SelectedComponent < SystemComponents.UseBlockPockets.size() && 
+     SystemComponents.UseBlockPockets[SelectedComponent])
+  {
+    std::vector<double3> trial_positions(NumberOfTrials);
+    cudaMemcpy(trial_positions.data(), Sims.New.pos, NumberOfTrials * sizeof(double3), cudaMemcpyDeviceToHost);
+    bool* host_flags = new bool[NumberOfTrials];
+    cudaMemcpy(host_flags, Sims.device_flag, NumberOfTrials * sizeof(bool), cudaMemcpyDeviceToHost);
+    
+    // Ensure statistics vectors are large enough
+    if(SelectedComponent >= SystemComponents.BlockPocketTotalAttempts.size())
+    {
+      SystemComponents.BlockPocketTotalAttempts.resize(SelectedComponent + 1, 0);
+      SystemComponents.BlockPocketBlockedCount.resize(SelectedComponent + 1, 0);
+    }
+    
+    // RASPA2: BlockedPocket() uses center-only check (no atom radius)
+    // Check all first bead trial positions
+    for(size_t i = 0; i < NumberOfTrials; i++)
+    {
+      SystemComponents.BlockPocketTotalAttempts[SelectedComponent]++;
+      
+      // RASPA2: if(BlockedPocket(TrialPosition[i])) mark as blocked
+      if(CheckBlockedPosition(SystemComponents, SelectedComponent, trial_positions[i], Sims.Box))
+      {
+        host_flags[i] = true; // Mark as blocked/overlap
+        SystemComponents.BlockPocketBlockedCount[SelectedComponent]++;
+      }
+    }
+    cudaMemcpy(Sims.device_flag, host_flags, NumberOfTrials * sizeof(bool), cudaMemcpyHostToDevice);
+    delete[] host_flags;
+    
+    // Debug: Print statistics every 1000 attempts for testing
+    if(SystemComponents.BlockPocketTotalAttempts[SelectedComponent] % 1000 == 0 && 
+       SystemComponents.BlockPocketTotalAttempts[SelectedComponent] > 0)
+    {
+      size_t total = SystemComponents.BlockPocketTotalAttempts[SelectedComponent];
+      size_t blocked = SystemComponents.BlockPocketBlockedCount[SelectedComponent];
+      double percentage = (100.0 * blocked / total);
+      fprintf(SystemComponents.OUTPUT, "BlockPocket[comp=%zu] stats: %zu attempts, %zu blocked (%.2f%%)\n", 
+              SelectedComponent, total, blocked, percentage);
+    }
+  }
+
   //printf("Selected Component: %zu, Selected Molecule: %zu (%zu), Total in Component: %zu\n", SelectedComponent, SelectedMolID, SystemComponents.TempVal.SelectedMolInComponent, SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]);
 
   // Setup the pairwise calculation //
@@ -510,12 +605,22 @@ inline void Widom_Move_Chain_PARTIAL(Variables& Vars, size_t systemId, CBMC_Vari
   {
     case CBMC_INSERTION: case REINSERTION_INSERTION: case IDENTITY_SWAP_NEW:
     {
-      if(Rosen.size() == 0) break;
+      // CRITICAL: If all trials are blocked (empty Rosen), mark as failed
+      if(Rosen.size() == 0)
+      {
+        Goodconstruction = false;
+        break;
+      }
       SelectedTrial = SelectTrialPosition(Rosen); 
 
       for(size_t a = 0; a < Rosen.size(); a++) Rosen[a] = std::exp(Rosen[a]);
       Rosenbluth =std::accumulate(Rosen.begin(), Rosen.end(), decltype(SystemComponents.Rosen)::value_type(0));
-      if(Rosenbluth < 1e-150) break;
+      // CRITICAL: If Rosenbluth is too small (all trials blocked or very high energy), reject
+      if(Rosenbluth < 1e-150)
+      {
+        Goodconstruction = false;
+        break;
+      }
       Goodconstruction = true;
       break;
     }
@@ -528,9 +633,14 @@ inline void Widom_Move_Chain_PARTIAL(Variables& Vars, size_t systemId, CBMC_Vari
       break;
     }
   }
+  // CRITICAL: If construction failed (all trials blocked or high energy), mark as failed
   if(!Goodconstruction)
   {
+    CBMC.SuccessConstruction = false;
     CBMC.Rosenbluth = 0.0;
+    // Ensure device_flag is set to reject
+    Simulations& Sims = Vars.Sims[systemId];
+    Sims.device_flag[0] = true;
     return;
   }
   REALselected = Trialindex[SelectedTrial];

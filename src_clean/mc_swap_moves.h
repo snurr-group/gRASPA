@@ -2,6 +2,7 @@
 #include "mc_swap_utilities.h"
 #include "lambda.h"
 #include "mc_cbcfc.h"
+#include "mc_utilities.h"  // For CheckBlockedPosition
 /*
 __global__ void StoreNewLocation_Reinsertion(Atoms Mol, Atoms NewMol, double3* temp, size_t SelectedTrial, size_t Moleculesize)
 {

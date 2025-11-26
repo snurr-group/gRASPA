@@ -1,8 +1,13 @@
+#ifndef MC_UTILITIES_H
+#define MC_UTILITIES_H
+
+#include "read_data.h"  // For ReplicateBlockPockets
+
 ////////////////////////////////////////////////////////////
 // FUNCATIONS RELATED TO ALLOCATING MORE SPACE ON THE GPU //
 ////////////////////////////////////////////////////////////
 
-__global__ void AllocateMoreSpace_CopyToTemp(Atoms* d_a, Atoms temp, size_t Space, size_t SelectedComponent)
+static __global__ void AllocateMoreSpace_CopyToTemp(Atoms* d_a, Atoms temp, size_t Space, size_t SelectedComponent)
 {
   for(size_t i = 0; i < Space; i++)
   {
@@ -15,7 +20,7 @@ __global__ void AllocateMoreSpace_CopyToTemp(Atoms* d_a, Atoms temp, size_t Spac
   }
 }
 
-__global__ void AllocateMoreSpace_CopyBack(Atoms* d_a, Atoms temp, size_t Space, size_t Newspace, size_t SelectedComponent)
+static __global__ void AllocateMoreSpace_CopyBack(Atoms* d_a, Atoms temp, size_t Space, size_t Newspace, size_t SelectedComponent)
 {
   d_a[SelectedComponent].Allocate_size = Newspace;
   for(size_t i = 0; i < Space; i++)
@@ -42,7 +47,7 @@ __global__ void AllocateMoreSpace_CopyBack(Atoms* d_a, Atoms temp, size_t Space,
   }*/
 }
 
-void AllocateMoreSpace(Atoms*& d_a, size_t SelectedComponent, Components& SystemComponents)
+inline void AllocateMoreSpace(Atoms*& d_a, size_t SelectedComponent, Components& SystemComponents)
 {
   printf("Allocating more space on device\n");
   Atoms temp; // allocate a struct on the device for copying data.
@@ -110,7 +115,7 @@ static inline void Update_NumberOfMolecules(Components& SystemComponents, Atoms*
   }
 }
 
-__global__ void Update_SINGLE_INSERTION_data(Atoms* d_a, Atoms New, size_t SelectedComponent)
+static __global__ void Update_SINGLE_INSERTION_data(Atoms* d_a, Atoms New, size_t SelectedComponent)
 {
   //Assuming single thread//
   size_t Molsize = d_a[SelectedComponent].Molsize;
@@ -127,7 +132,7 @@ __global__ void Update_SINGLE_INSERTION_data(Atoms* d_a, Atoms New, size_t Selec
   d_a[SelectedComponent].size  += Molsize;
 }
 
-__global__ void Update_deletion_data(Atoms* d_a, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize, size_t LastLocation)
+static __global__ void Update_deletion_data(Atoms* d_a, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize, size_t LastLocation)
 {
   size_t i = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -155,7 +160,7 @@ __global__ void Update_deletion_data(Atoms* d_a, size_t SelectedComponent, size_
   }
 }
 
-__global__ void Update_deletion_data_Parallel(Atoms* d_a, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize, size_t LastLocation)
+static __global__ void Update_deletion_data_Parallel(Atoms* d_a, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize, size_t LastLocation)
 {
   size_t i = blockIdx.x * blockDim.x + threadIdx.x;
   
@@ -183,7 +188,7 @@ __global__ void Update_deletion_data_Parallel(Atoms* d_a, size_t SelectedCompone
   }
 } 
 
-__global__ void Update_insertion_data_Parallel(Atoms* d_a, Atoms Mol, Atoms NewMol, size_t SelectedTrial, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize)
+static __global__ void Update_insertion_data_Parallel(Atoms* d_a, Atoms Mol, Atoms NewMol, size_t SelectedTrial, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize)
 {
   size_t i = blockIdx.x * blockDim.x + threadIdx.x;
   //UpdateLocation should be the last position of the dataset
@@ -228,7 +233,7 @@ __global__ void Update_insertion_data_Parallel(Atoms* d_a, Atoms Mol, Atoms NewM
 }
 
 
-__global__ void Update_insertion_data(Atoms* d_a, Atoms Mol, Atoms NewMol, size_t SelectedTrial, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize)
+static __global__ void Update_insertion_data(Atoms* d_a, Atoms Mol, Atoms NewMol, size_t SelectedTrial, size_t SelectedComponent, size_t UpdateLocation, int Moleculesize)
 {
   size_t i = blockIdx.x * blockDim.x + threadIdx.x;
   //UpdateLocation should be the last position of the dataset
@@ -277,7 +282,7 @@ __global__ void Update_insertion_data(Atoms* d_a, Atoms Mol, Atoms NewMol, size_
   }
 }
 
-__global__ void update_translation_position(Atoms* d_a, Atoms NewMol, size_t start_position, size_t SelectedComponent)
+static __global__ void update_translation_position(Atoms* d_a, Atoms NewMol, size_t start_position, size_t SelectedComponent)
 {
   size_t i = blockIdx.x * blockDim.x + threadIdx.x;
   d_a[SelectedComponent].pos[start_position+i] = NewMol.pos[i];
@@ -286,7 +291,7 @@ __global__ void update_translation_position(Atoms* d_a, Atoms NewMol, size_t sta
   d_a[SelectedComponent].scaleCoul[start_position+i] = NewMol.scaleCoul[i];
 }
 
-void AcceptTranslation(Variables& Vars, size_t systemId)
+inline void AcceptTranslation(Variables& Vars, size_t systemId)
 {
   Components& SystemComponents = Vars.SystemComponents[systemId];
   Simulations& Sims            = Vars.Sims[systemId];
@@ -349,7 +354,7 @@ inline double GetPrefactor(Components& SystemComponents, Simulations& Sims, size
 // ACCEPTION OF MOVES //
 ////////////////////////
 
-void AcceptInsertion(Variables& Vars, CBMC_Variables& InsertionVariables, size_t systemId, int MoveType)
+inline void AcceptInsertion(Variables& Vars, CBMC_Variables& InsertionVariables, size_t systemId, int MoveType)
 {
   Components& SystemComponents = Vars.SystemComponents[systemId];
   Simulations& Sims            = Vars.Sims[systemId];
@@ -415,7 +420,7 @@ inline void AcceptDeletion(Variables& Vars, size_t systemId, int MoveType)
 // PREPARING NEW (TRIAL) LOCATIONS/ORIENTATIONS //
 //////////////////////////////////////////////////
 
-__device__ void Rotate_Quaternions(double3 &Vec, double3 RANDOM)
+static __device__ void Rotate_Quaternions(double3 &Vec, double3 RANDOM)
 {
   //https://stackoverflow.com/questions/31600717/how-to-generate-a-random-quaternion-quickly
   //https://stackoverflow.com/questions/38978441/creating-uniform-random-quaternion-and-multiplication-of-two-quaternions
@@ -451,7 +456,7 @@ __device__ void Rotate_Quaternions(double3 &Vec, double3 RANDOM)
   Vec={r, s, c};
 }
 
-__device__ void RotationAroundAxis(double3* pos, size_t i, double theta, double3 Axis)
+static __device__ void RotationAroundAxis(double3* pos, size_t i, double theta, double3 Axis)
 {
   double w,s,c,rot[3*3];
 
@@ -477,7 +482,7 @@ __device__ void RotationAroundAxis(double3* pos, size_t i, double theta, double3
   pos[i].z=c;
 }
 
-__global__ void get_new_position(Simulations& Sim, ForceField FF, size_t start_position, size_t SelectedComponent, double3 MaxChange, double3* RANDOM, size_t index, int MoveType)
+static __global__ void get_new_position(Simulations& Sim, ForceField FF, size_t start_position, size_t SelectedComponent, double3 MaxChange, double3* RANDOM, size_t index, int MoveType)
 {
   const size_t i = blockIdx.x * blockDim.x + threadIdx.x;
   const size_t real_pos = start_position + i;
@@ -705,3 +710,370 @@ static inline void Update_Max_VolumeChange(Components& SystemComponents)
   SystemComponents.VolumeMoveAccepted = 0;
   SystemComponents.VolumeMoveAttempts = 0;
 }
+
+////////////////////////////////////////////////
+// BLOCK POCKET CHECKING FUNCTION //
+////////////////////////////////////////////////
+
+// Check if a position is blocked by any block pocket
+// Moved from read_data.cpp to mc_utilities.h as it's a runtime MC function
+// RASPA2 uses center-only check: distance(atom_center, block_center) < block_radius
+// NO atom radius is added - matches RASPA2's BlockedPocket() function exactly
+inline bool CheckBlockedPosition(const Components& SystemComponents, size_t component, const double3& pos, Boxsize& Box)
+{
+  // Match RASPA2's BlockedPocket() function exactly
+  if(component >= SystemComponents.UseBlockPockets.size() || !SystemComponents.UseBlockPockets[component])
+    return false;
+  
+  if(component >= SystemComponents.BlockPocketCenters.size() || component >= SystemComponents.BlockPocketRadii.size())
+    return false;
+  
+  const auto& centers = SystemComponents.BlockPocketCenters[component];
+  const auto& radii = SystemComponents.BlockPocketRadii[component];
+  
+  if(centers.size() != radii.size() || centers.size() == 0)
+    return false;
+  
+  // Copy Box data to host for PBC calculation
+  double host_Cell[9];
+  double host_InverseCell[9];
+  cudaMemcpy(host_Cell, Box.Cell, 9 * sizeof(double), cudaMemcpyDeviceToHost);
+  cudaMemcpy(host_InverseCell, Box.InverseCell, 9 * sizeof(double), cudaMemcpyDeviceToHost);
+  
+  bool box_cubic = Box.Cubic;
+  
+  // RASPA2's ApplyBoundaryConditionUnitCell - simplified, no defensive checks
+  auto apply_pbc_raspa2 = [&](double3& dr_vec) {
+    if(box_cubic)
+    {
+      double unit_x = host_Cell[0*3+0];
+      double unit_y = host_Cell[1*3+1];
+      double unit_z = host_Cell[2*3+2];
+      
+      // RASPA2: dr.x -= UnitCellSize.x * NINT(dr.x/UnitCellSize.x)
+      dr_vec.x -= unit_x * static_cast<int>(dr_vec.x / unit_x + ((dr_vec.x >= 0.0) ? 0.5 : -0.5));
+      dr_vec.y -= unit_y * static_cast<int>(dr_vec.y / unit_y + ((dr_vec.y >= 0.0) ? 0.5 : -0.5));
+      dr_vec.z -= unit_z * static_cast<int>(dr_vec.z / unit_z + ((dr_vec.z >= 0.0) ? 0.5 : -0.5));
+    }
+    else
+    {
+      // RASPA2 TRICLINIC case: convert to fractional, apply NINT, convert back
+      double3 s;
+      s.x = host_InverseCell[0*3+0]*dr_vec.x + host_InverseCell[1*3+0]*dr_vec.y + host_InverseCell[2*3+0]*dr_vec.z;
+      s.y = host_InverseCell[0*3+1]*dr_vec.x + host_InverseCell[1*3+1]*dr_vec.y + host_InverseCell[2*3+1]*dr_vec.z;
+      s.z = host_InverseCell[0*3+2]*dr_vec.x + host_InverseCell[1*3+2]*dr_vec.y + host_InverseCell[2*3+2]*dr_vec.z;
+      
+      // RASPA2: t = s - NINT(s)
+      double3 t;
+      t.x = s.x - static_cast<int>(s.x + ((s.x >= 0.0) ? 0.5 : -0.5));
+      t.y = s.y - static_cast<int>(s.y + ((s.y >= 0.0) ? 0.5 : -0.5));
+      t.z = s.z - static_cast<int>(s.z + ((s.z >= 0.0) ? 0.5 : -0.5));
+      
+      // Convert back to Cartesian
+      dr_vec.x = host_Cell[0*3+0]*t.x + host_Cell[1*3+0]*t.y + host_Cell[2*3+0]*t.z;
+      dr_vec.y = host_Cell[0*3+1]*t.x + host_Cell[1*3+1]*t.y + host_Cell[2*3+1]*t.z;
+      dr_vec.z = host_Cell[0*3+2]*t.x + host_Cell[1*3+2]*t.y + host_Cell[2*3+2]*t.z;
+    }
+  };
+  
+  // RASPA2: for(i=0; i<NumberOfBlockCenters; i++)
+  for(size_t i = 0; i < centers.size(); i++)
+  {
+    // RASPA2: dr = BlockCenters[i] - pos
+    double3 dr;
+    dr.x = centers[i].x - pos.x;
+    dr.y = centers[i].y - pos.y;
+    dr.z = centers[i].z - pos.z;
+    
+    // RASPA2: dr = ApplyBoundaryConditionUnitCell(dr)
+    apply_pbc_raspa2(dr);
+    
+    // RASPA2: r = sqrt(SQR(dr.x) + SQR(dr.y) + SQR(dr.z))
+    // Match RASPA2 exactly: use sqrt of sum of squares
+    double r = sqrt(dr.x*dr.x + dr.y*dr.y + dr.z*dr.z);
+    
+    // RASPA2: if(r < BlockDistance[i]) return TRUE
+    // Match RASPA2 exactly: strict less-than comparison
+    if(r < radii[i])
+    {
+      return true;
+    }
+  }
+  
+  return false;
+  
+  #if 0
+  // OLD CODE - REMOVED: This was duplicate code with atom radius logic
+  // Now using center-only check like RASPA2
+  if(component >= SystemComponents.UseBlockPockets.size())
+    return false;
+  
+  if(!SystemComponents.UseBlockPockets[component])
+    return false;
+  
+  if(component >= SystemComponents.BlockPocketCenters.size())
+    return false;
+  
+  // Check if Box pointers are valid before accessing
+  if(Box.Cell == nullptr || Box.InverseCell == nullptr)
+  {
+    return false; // Box not properly initialized
+  }
+  
+  // Lazy replication: if block pockets haven't been replicated yet, do it now
+  // This is needed for adsorbate components which are read after framework replication runs
+  // TEMPORARY: Disable lazy replication to avoid segfault - assume replication was done during initialization
+  /*
+  Components& nonConstSystemComponents = const_cast<Components&>(SystemComponents);
+  int3& UnitCellsCheck = nonConstSystemComponents.NumberofUnitCells;
+  size_t numUnitCells = UnitCellsCheck.x * UnitCellsCheck.y * UnitCellsCheck.z;
+  
+  // Check if replication is needed (for adsorbate components that were read after framework replication)
+  if(numUnitCells > 1 && nonConstSystemComponents.BlockPocketCenters[component].size() > 0)
+  {
+    // Estimate original size: if current size is not a multiple of numUnitCells, it's not replicated
+    size_t currentSize = nonConstSystemComponents.BlockPocketCenters[component].size();
+    if(currentSize % numUnitCells != 0 || currentSize < numUnitCells)
+    {
+      // Not replicated yet - need to replicate now
+      ReplicateBlockPockets(nonConstSystemComponents, component, Box);
+    }
+  }
+  */
+  
+  // Add defensive checks before accessing vectors
+  if(component >= SystemComponents.BlockPocketCenters.size() ||
+     component >= SystemComponents.BlockPocketRadii.size())
+  {
+    return false; // Invalid component index
+  }
+  
+  const auto& centers = SystemComponents.BlockPocketCenters[component];
+  const auto& radii = SystemComponents.BlockPocketRadii[component];
+  
+  if(centers.size() != radii.size())
+    return false;
+  
+  if(centers.size() == 0)
+    return false;
+  
+  // Copy Box data to host for PBC calculation
+  // Box.Cell and Box.InverseCell are device pointers, so we need host copies
+  // Add defensive checks to avoid segfault
+  if(Box.Cell == nullptr || Box.InverseCell == nullptr)
+  {
+    // Box not properly initialized, skip blocking check
+    return false;
+  }
+  
+  double host_Cell[9];
+  double host_InverseCell[9];
+  
+  // Check for CUDA errors - add error checking
+  cudaError_t err1 = cudaMemcpy(host_Cell, Box.Cell, 9 * sizeof(double), cudaMemcpyDeviceToHost);
+  if(err1 != cudaSuccess)
+  {
+    // CUDA error, skip blocking check
+    return false;
+  }
+  
+  cudaError_t err2 = cudaMemcpy(host_InverseCell, Box.InverseCell, 9 * sizeof(double), cudaMemcpyDeviceToHost);
+  if(err2 != cudaSuccess)
+  {
+    // CUDA error, skip blocking check
+    return false;
+  }
+  
+  // Additional sanity check on copied data
+  bool valid_cell = false;
+  for(int i = 0; i < 9; i++)
+  {
+    if(host_Cell[i] != 0.0 || host_InverseCell[i] != 0.0)
+    {
+      valid_cell = true;
+      break;
+    }
+  }
+  if(!valid_cell)
+  {
+    // Cell data appears invalid, skip blocking check
+    return false;
+  }
+  
+  // PBC helper function matching RASPA2's ApplyBoundaryConditionUnitCell
+  // RASPA2 uses: dr -= UnitCellSize * NINT(dr/UnitCellSize)
+  bool box_cubic = false;
+  try
+  {
+    box_cubic = Box.Cubic;
+  }
+  catch(...)
+  {
+    box_cubic = false; // Default to non-cubic if access fails
+  }
+  
+  auto apply_pbc_raspa2 = [&](double3& dr_vec) {
+    try
+    {
+      if(box_cubic)
+      {
+        // For cubic: UnitCellSize = Cell diagonal elements
+        double unit_x = host_Cell[0*3+0];
+        double unit_y = host_Cell[1*3+1];
+        double unit_z = host_Cell[2*3+2];
+        
+        // Check for zero or invalid values
+        if(unit_x < 1e-10 || unit_y < 1e-10 || unit_z < 1e-10 ||
+           !(unit_x == unit_x) || !(unit_y == unit_y) || !(unit_z == unit_z))
+        {
+          return; // Invalid cell data, skip PBC
+        }
+        
+        // NINT(x) = round to nearest integer
+        dr_vec.x -= unit_x * static_cast<int>(dr_vec.x / unit_x + ((dr_vec.x >= 0.0) ? 0.5 : -0.5));
+        dr_vec.y -= unit_y * static_cast<int>(dr_vec.y / unit_y + ((dr_vec.y >= 0.0) ? 0.5 : -0.5));
+        dr_vec.z -= unit_z * static_cast<int>(dr_vec.z / unit_z + ((dr_vec.z >= 0.0) ? 0.5 : -0.5));
+      }
+      else
+      {
+        // Convert to fractional coordinates
+        double3 s;
+        s.x = host_InverseCell[0*3+0]*dr_vec.x + host_InverseCell[1*3+0]*dr_vec.y + host_InverseCell[2*3+0]*dr_vec.z;
+        s.y = host_InverseCell[0*3+1]*dr_vec.x + host_InverseCell[1*3+1]*dr_vec.y + host_InverseCell[2*3+1]*dr_vec.z;
+        s.z = host_InverseCell[0*3+2]*dr_vec.x + host_InverseCell[1*3+2]*dr_vec.y + host_InverseCell[2*3+2]*dr_vec.z;
+        
+        // Check for NaN or Inf
+        if(!(s.x == s.x) || !(s.y == s.y) || !(s.z == s.z) ||
+           s.x > 1e10 || s.y > 1e10 || s.z > 1e10)
+        {
+          return; // Invalid fractional coordinates, skip PBC
+        }
+        
+        // Apply: t = s - NINT(s)
+        double3 t;
+        t.x = s.x - static_cast<int>(s.x + ((s.x >= 0.0) ? 0.5 : -0.5));
+        t.y = s.y - static_cast<int>(s.y + ((s.y >= 0.0) ? 0.5 : -0.5));
+        t.z = s.z - static_cast<int>(s.z + ((s.z >= 0.0) ? 0.5 : -0.5));
+        
+        // Convert back to Cartesian
+        dr_vec.x = host_Cell[0*3+0]*t.x + host_Cell[1*3+0]*t.y + host_Cell[2*3+0]*t.z;
+        dr_vec.y = host_Cell[0*3+1]*t.x + host_Cell[1*3+1]*t.y + host_Cell[2*3+1]*t.z;
+        dr_vec.z = host_Cell[0*3+2]*t.x + host_Cell[1*3+2]*t.y + host_Cell[2*3+2]*t.z;
+        
+        // Final check for NaN or Inf
+        if(!(dr_vec.x == dr_vec.x) || !(dr_vec.y == dr_vec.y) || !(dr_vec.z == dr_vec.z))
+        {
+          dr_vec.x = 0.0;
+          dr_vec.y = 0.0;
+          dr_vec.z = 0.0;
+        }
+      }
+    }
+    catch(...)
+    {
+      dr_vec.x = 0.0;
+      dr_vec.y = 0.0;
+      dr_vec.z = 0.0;
+    }
+  };
+  
+  // Check against all block centers
+  // Block centers should be replicated during framework reading
+  size_t max_centers = centers.size();
+  if(max_centers > 100000) // Sanity check - prevent excessive iterations
+  {
+    return false;
+  }
+  
+  for(size_t i = 0; i < max_centers; i++)
+  {
+    if(i >= centers.size() || i >= radii.size())
+    {
+      break; // Out of bounds
+    }
+    
+    double3 center_pos = centers[i];
+    double block_radius = radii[i];
+    
+    // Calculate distance vector: center - position (same as RASPA2: BlockCenters[i] - pos)
+    double3 dr;
+    dr.x = center_pos.x - pos.x;
+    dr.y = center_pos.y - pos.y;
+    dr.z = center_pos.z - pos.z;
+    
+    // Check for NaN or Inf values
+    if(!(dr.x == dr.x) || !(dr.y == dr.y) || !(dr.z == dr.z) || // NaN check
+       dr.x > 1e10 || dr.y > 1e10 || dr.z > 1e10 || // Inf check
+       dr.x < -1e10 || dr.y < -1e10 || dr.z < -1e10)
+    {
+      continue; // Invalid distance, skip this center
+    }
+    
+    // Apply PBC matching RASPA2's ApplyBoundaryConditionUnitCell
+    // Add defensive check before calling lambda
+    try
+    {
+      apply_pbc_raspa2(dr);
+      
+      // Check result for validity
+      if(!(dr.x == dr.x) || !(dr.y == dr.y) || !(dr.z == dr.z) ||
+         dr.x > 1e10 || dr.y > 1e10 || dr.z > 1e10 ||
+         dr.x < -1e10 || dr.y < -1e10 || dr.z < -1e10)
+      {
+        continue; // Invalid PBC result, skip this center
+      }
+    }
+    catch(...)
+    {
+      continue; // PBC calculation failed, skip this center
+    }
+    
+    // Calculate squared distance (more efficient and avoids sqrt precision issues)
+    // RASPA2 blocks if: distance(atom_center, block_center) < (block_radius + atom_sigma)
+    // This accounts for the atom's physical size, not just its center position
+    double dist_sq = dot(dr, dr);
+    
+    // Check for NaN or Inf in distance
+    if(!(dist_sq == dist_sq) || dist_sq > 1e20)
+    {
+      continue; // Invalid distance, skip this center
+    }
+    
+    // block_radius already retrieved above with try-catch
+    
+    // Sanity check on block radius
+    if(block_radius < 0.0 || block_radius > 1000.0)
+    {
+      continue; // Invalid radius, skip this center
+    }
+    
+    // CRITICAL: Account for atom radius if atom_sigma is provided
+    // RASPA2 checks if the atom (with its radius) overlaps with the blocking sphere
+    double effective_radius = block_radius;
+    if(atom_sigma > 0.0 && atom_sigma < 100.0) // Sanity check: sigma should be in Angstroms
+    {
+      // RASPA2 blocks if atom overlaps with blocking sphere: dist < (block_radius + atom_sigma)
+      effective_radius = block_radius + atom_sigma;
+    }
+    
+    double effective_radius_sq = effective_radius * effective_radius;
+    
+    // CRITICAL: Check if distance is exactly 0 (position exactly at center) - should be blocked
+    if(dist_sq < 1e-20)  // Very close to center, definitely blocked
+    {
+      return true;
+    }
+    
+    // Use squared distance comparison (mathematically equivalent to sqrt comparison)
+    // This avoids sqrt precision issues and is more efficient
+    // Match RASPA2's comparison: dist < (block_radius + atom_sigma) (strict less than)
+    // Equivalent to: dist_sq < (block_radius + atom_sigma)^2 (strict less than)
+    if(dist_sq < effective_radius_sq)
+    {
+      return true; // Position is blocked (atom overlaps with blocking sphere)
+    }
+  }
+  #endif
+}
+
+#endif // MC_UTILITIES_H
