@@ -218,6 +218,9 @@ Variables Initialize(void) //for pybind
         ReadFrameworkComponentMoves(MoveStats, Vars.TempComponents, comp);
         Vars.TempComponents.Moves.push_back(MoveStats);
       }
+      
+      // Read BlockPockets after all components are read
+      ReadBlockingPockets(Vars.TempComponents, Vars.Box[a], a);
 
       Vars.SystemComponents.push_back(Vars.TempComponents);
     

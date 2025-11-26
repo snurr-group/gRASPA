@@ -59,6 +59,10 @@ void ReplicateBlockPockets(Components& SystemComponents, size_t component, Boxsi
 //###PATCH_LCLIN_READDATA_H###//
 //###PATCH_ALLEGRO_READDATA_H###//
 
+// BlockPockets functionality
+void ReadBlockingPockets(Components& SystemComponents, Boxsize& Box, size_t SystemIndex);
+bool BlockedPocket(Components& SystemComponents, double3 pos, size_t component, size_t SystemIndex, Boxsize& Box);
+
 //Weird issues with using vector.data() for double and double3//
 //So we keep this function, for now//
 template<typename T>
