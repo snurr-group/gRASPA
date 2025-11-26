@@ -1812,6 +1812,15 @@ void ReadFramework(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, size_t Frame
 
     ReadFrameworkSpeciesDefinitions(SystemComponents);
     CheckFrameworkCIF(Box, PseudoAtom, FrameworkFile, UseChargesFromCIFFile, NumberUnitCells, SystemComponents);
+    
+    // Replicate block pockets across unit cells now that Box is initialized
+    for(size_t comp = 0; comp < SystemComponents.NComponents.x; comp++)
+    {
+      if(comp < SystemComponents.UseBlockPockets.size() && SystemComponents.UseBlockPockets[comp])
+      {
+        ReplicateBlockPockets(SystemComponents, comp, Box);
+      }
+    }
     //printf("Reading CIF File\n");
   }
   else
@@ -2331,6 +2340,50 @@ void read_component_values_from_simulation_input(Variables& Vars, Components& Sy
         Split_Tab_Space(termsScannedLined, str); 
         sscanf(termsScannedLined[1 + BoxIndex].c_str(), "%zu", &CreateMolecule);
       }
+      if (str.find("BlockPockets", 0) != std::string::npos)
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        if(caseInSensStringCompare(termsScannedLined[1 + BoxIndex], "yes"))
+        {
+          size_t actualComponentIndex = SystemComponents.NComponents.y + AdsorbateComponent;
+          if(SystemComponents.UseBlockPockets.size() <= actualComponentIndex)
+          {
+            SystemComponents.UseBlockPockets.resize(actualComponentIndex + 1, false);
+            SystemComponents.InvertBlockPockets.resize(actualComponentIndex + 1, false);
+            SystemComponents.BlockPocketCenters.resize(actualComponentIndex + 1);
+            SystemComponents.BlockPocketRadii.resize(actualComponentIndex + 1);
+            SystemComponents.BlockPocketTotalAttempts.resize(actualComponentIndex + 1, 0);
+            SystemComponents.BlockPocketBlockedCount.resize(actualComponentIndex + 1, 0);
+          }
+          SystemComponents.UseBlockPockets[actualComponentIndex] = true;
+        }
+      }
+      if (str.find("InvertBlockPockets", 0) != std::string::npos)
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        size_t actualComponentIndex = SystemComponents.NComponents.y + AdsorbateComponent;
+        if(SystemComponents.InvertBlockPockets.size() <= actualComponentIndex)
+        {
+          SystemComponents.InvertBlockPockets.resize(actualComponentIndex + 1, false);
+        }
+        if(caseInSensStringCompare(termsScannedLined[1 + BoxIndex], "yes"))
+        {
+          SystemComponents.InvertBlockPockets[actualComponentIndex] = true;
+        }
+        else if(caseInSensStringCompare(termsScannedLined[1 + BoxIndex], "no"))
+        {
+          SystemComponents.InvertBlockPockets[actualComponentIndex] = false;
+        }
+      }
+      if (str.find("BlockPocketsFilename", 0) != std::string::npos)
+      {
+        Split_Tab_Space(termsScannedLined, str);
+        std::string blockFilename = termsScannedLined[1 + BoxIndex] + ".block";
+        size_t actualComponentIndex = SystemComponents.NComponents.y + AdsorbateComponent;
+        // Read block pockets - Box is not available yet, so we'll read coordinates as-is
+        // and handle coordinate conversion/replication in CheckBlockedPosition if needed
+        ReadBlockPockets(SystemComponents, actualComponentIndex, blockFilename);
+      }
     }
     counter++;
   }
@@ -2371,6 +2424,18 @@ void read_component_values_from_simulation_input(Variables& Vars, Components& Sy
   //Zhao's note: for now, Molfraction = 1.0
   SystemComponents.MolFraction.push_back(Molfrac);
   SystemComponents.hasfractionalMolecule.push_back(temp_hasfracmol);
+  
+  // Initialize block pocket vectors (already done above if BlockPockets was specified)
+  size_t actualComponentIndex = SystemComponents.NComponents.y + AdsorbateComponent;
+  if(SystemComponents.UseBlockPockets.size() <= actualComponentIndex)
+  {
+    SystemComponents.UseBlockPockets.resize(actualComponentIndex + 1, false);
+    SystemComponents.InvertBlockPockets.resize(actualComponentIndex + 1, false);
+    SystemComponents.BlockPocketCenters.resize(actualComponentIndex + 1);
+    SystemComponents.BlockPocketRadii.resize(actualComponentIndex + 1);
+    SystemComponents.BlockPocketTotalAttempts.resize(actualComponentIndex + 1, 0);
+    SystemComponents.BlockPocketBlockedCount.resize(actualComponentIndex + 1, 0);
+  }
   
   LAMBDA lambda;
   //Zhao's note: for bin number = 10, there are 11 bins, the first is when lambda = 0.0, last for lambda = 1.0//
@@ -3059,3 +3124,294 @@ void ReadDNNModelSetup(Components& SystemComponents)
 
 //###PATCH_LCLIN_READDATA###//
 //###PATCH_ALLEGRO_READDATA###//
+
+// Read block pockets from file
+// Note: Box is not available at this point, so we read coordinates as-is
+// Coordinate conversion and replication will be handled in CheckBlockedPosition using Box
+void ReadBlockPockets(Components& SystemComponents, size_t component, const std::string& filename)
+{
+  std::ifstream file(filename);
+  if(!file.is_open())
+  {
+    throw std::runtime_error("Cannot open block pocket file: " + filename);
+  }
+  
+  size_t numPockets;
+  file >> numPockets;
+  
+  // Ensure vectors are large enough
+  if(component >= SystemComponents.BlockPocketCenters.size())
+  {
+    SystemComponents.BlockPocketCenters.resize(component + 1);
+    SystemComponents.BlockPocketRadii.resize(component + 1);
+  }
+  
+  SystemComponents.BlockPocketCenters[component].clear();
+  SystemComponents.BlockPocketRadii[component].clear();
+  SystemComponents.BlockPocketCenters[component].reserve(numPockets);
+  SystemComponents.BlockPocketRadii[component].reserve(numPockets);
+  
+  // Read block centers directly (coordinates are assumed to be in correct format)
+  // Box is not available at this point, so we read as-is
+  // Coordinate conversion/replication can be handled later if needed
+  for(size_t i = 0; i < numPockets; i++)
+  {
+    double3 center;
+    double radius;
+    file >> center.x >> center.y >> center.z >> radius;
+    SystemComponents.BlockPocketCenters[component].push_back(center);
+    SystemComponents.BlockPocketRadii[component].push_back(radius);
+  }
+  
+  file.close();
+  fprintf(SystemComponents.OUTPUT, "Read %zu block pockets for component %zu from %s\n", 
+          numPockets, component, filename.c_str());
+}
+
+// Replicate block pockets across unit cells (like RASPA2) after Box is initialized
+// This converts coordinates to fractional, replicates, then converts back to Cartesian
+void ReplicateBlockPockets(Components& SystemComponents, size_t component, Boxsize& Box)
+{
+  if(component >= SystemComponents.BlockPocketCenters.size())
+    return;
+  
+  if(!SystemComponents.UseBlockPockets[component])
+    return;
+  
+  // Get original block centers (stored temporarily)
+  std::vector<double3> originalCenters = SystemComponents.BlockPocketCenters[component];
+  std::vector<double> originalRadii = SystemComponents.BlockPocketRadii[component];
+  
+  if(originalCenters.empty())
+    return;
+  
+  // Copy Box data to host (Box.Cell is a device pointer)
+  double host_Cell[9];
+  double host_InverseCell[9];
+  cudaMemcpy(host_Cell, Box.Cell, 9 * sizeof(double), cudaMemcpyDeviceToHost);
+  cudaMemcpy(host_InverseCell, Box.InverseCell, 9 * sizeof(double), cudaMemcpyDeviceToHost);
+  
+  int3& UnitCells = SystemComponents.NumberofUnitCells;
+  size_t numPockets = originalCenters.size();
+  size_t totalPockets = numPockets * UnitCells.x * UnitCells.y * UnitCells.z;
+  
+  // Detect coordinate system: if max > 1.5, assume Cartesian
+  double maxCoord = 0.0;
+  for(const auto& center : originalCenters)
+  {
+    maxCoord = std::max({maxCoord, std::abs(center.x), std::abs(center.y), std::abs(center.z)});
+  }
+  
+  // Convert Cartesian to fractional if needed
+  bool isCartesian = (maxCoord > 1.5);
+  std::vector<double3> fractionalCenters = originalCenters;
+  
+  if(isCartesian)
+  {
+    // Convert Cartesian to fractional: frac = cart / cell_size
+    double cell_x = host_Cell[0*3+0] / UnitCells.x;
+    double cell_y = host_Cell[1*3+1] / UnitCells.y;
+    double cell_z = host_Cell[2*3+2] / UnitCells.z;
+    
+    for(size_t i = 0; i < numPockets; i++)
+    {
+      fractionalCenters[i].x /= cell_x;
+      fractionalCenters[i].y /= cell_y;
+      fractionalCenters[i].z /= cell_z;
+    }
+  }
+  
+  // Clear and reserve space for replicated centers
+  SystemComponents.BlockPocketCenters[component].clear();
+  SystemComponents.BlockPocketRadii[component].clear();
+  SystemComponents.BlockPocketCenters[component].reserve(totalPockets);
+  SystemComponents.BlockPocketRadii[component].reserve(totalPockets);
+  
+  // Replicate across unit cells (matching RASPA2's logic)
+  // RASPA2: vec = (tempr + j) / NumberOfUnitCells, then ConvertFromABCtoXYZ
+  for(size_t i = 0; i < numPockets; i++)
+  {
+    double3 tempr = fractionalCenters[i];
+    double radius = originalRadii[i];
+    
+    // Replicate across unit cells
+    for(int j = 0; j < UnitCells.x; j++)
+    {
+      for(int k = 0; k < UnitCells.y; k++)
+      {
+        for(int l = 0; l < UnitCells.z; l++)
+        {
+          // RASPA2: vec = (tempr + j) / NumberOfUnitCells (fractional coordinates)
+          double3 vec;
+          vec.x = (tempr.x + j) / UnitCells.x;
+          vec.y = (tempr.y + k) / UnitCells.y;
+          vec.z = (tempr.z + l) / UnitCells.z;
+          
+          // Convert fractional to Cartesian: xyz = Cell * frac
+          double3 cartesian;
+          cartesian.x = host_Cell[0*3+0] * vec.x + host_Cell[1*3+0] * vec.y + host_Cell[2*3+0] * vec.z;
+          cartesian.y = host_Cell[0*3+1] * vec.x + host_Cell[1*3+1] * vec.y + host_Cell[2*3+1] * vec.z;
+          cartesian.z = host_Cell[0*3+2] * vec.x + host_Cell[1*3+2] * vec.y + host_Cell[2*3+2] * vec.z;
+          
+          SystemComponents.BlockPocketCenters[component].push_back(cartesian);
+          SystemComponents.BlockPocketRadii[component].push_back(radius);
+        }
+      }
+    }
+  }
+  
+  fprintf(SystemComponents.OUTPUT, "Replicated block pockets for component %zu: %zu -> %zu total (%s coordinates)\n", 
+          component, numPockets, totalPockets, isCartesian ? "Cartesian->fractional" : "fractional");
+}
+
+/*********************************************************************************************************
+ * Name       | BlockedPocket                                                                            *
+ * ----------------------------------------------------------------------------------------------------- *
+ * Function   | Check whether a position is blocked or not. Matches RASPA2 implementation exactly.     *
+ * Parameters | Components& SystemComponents: component data structure                                    *
+ *            | size_t component: component index                                                         *
+ *            | const double3& pos: the position of the 'probe-point'                                    *
+ *            | Boxsize& Box: simulation box for PBC calculations                                        *
+ * Returns    | true if position is blocked, false if allowed                                           *
+ *********************************************************************************************************/
+bool BlockedPocket(Components& SystemComponents, size_t component, const double3& pos, Boxsize& Box)
+{
+  // Early return if no components or block pockets not enabled
+  if(SystemComponents.NComponents.x == 0) return false;
+  
+  if(component >= SystemComponents.UseBlockPockets.size())
+    return false;
+  
+  if(!SystemComponents.UseBlockPockets[component])
+    return false;
+  
+  if(component >= SystemComponents.BlockPocketCenters.size())
+    return false;
+  
+  const auto& centers = SystemComponents.BlockPocketCenters[component];
+  const auto& radii = SystemComponents.BlockPocketRadii[component];
+  
+  if(centers.size() != radii.size() || centers.size() == 0)
+    return false;
+  
+  // Track the call (matching RASPA2 statistics)
+  if(component < SystemComponents.BlockPocketTotalAttempts.size())
+  {
+    SystemComponents.BlockPocketTotalAttempts[component] += 1.0;
+  }
+  
+  // Copy Box data to host for PBC calculation
+  // Box.Cell and Box.InverseCell are device pointers, so we need host copies
+  double host_Cell[9];
+  double host_InverseCell[9];
+  cudaMemcpy(host_Cell, Box.Cell, 9 * sizeof(double), cudaMemcpyDeviceToHost);
+  cudaMemcpy(host_InverseCell, Box.InverseCell, 9 * sizeof(double), cudaMemcpyDeviceToHost);
+  
+  // PBC helper function matching RASPA2's ApplyBoundaryConditionUnitCell
+  // RASPA2 uses: dr -= UnitCellSize * NINT(dr/UnitCellSize)
+  auto apply_pbc_raspa2 = [&](double3& dr_vec) {
+    if(Box.Cubic)
+    {
+      // For cubic: UnitCellSize = Cell diagonal elements
+      double unit_x = host_Cell[0*3+0];
+      double unit_y = host_Cell[1*3+1];
+      double unit_z = host_Cell[2*3+2];
+      
+      // NINT(x) = round to nearest integer
+      dr_vec.x -= unit_x * static_cast<int>(dr_vec.x / unit_x + ((dr_vec.x >= 0.0) ? 0.5 : -0.5));
+      dr_vec.y -= unit_y * static_cast<int>(dr_vec.y / unit_y + ((dr_vec.y >= 0.0) ? 0.5 : -0.5));
+      dr_vec.z -= unit_z * static_cast<int>(dr_vec.z / unit_z + ((dr_vec.z >= 0.0) ? 0.5 : -0.5));
+    }
+    else
+    {
+      // Convert to fractional coordinates
+      double3 s;
+      s.x = host_InverseCell[0*3+0]*dr_vec.x + host_InverseCell[1*3+0]*dr_vec.y + host_InverseCell[2*3+0]*dr_vec.z;
+      s.y = host_InverseCell[0*3+1]*dr_vec.x + host_InverseCell[1*3+1]*dr_vec.y + host_InverseCell[2*3+1]*dr_vec.z;
+      s.z = host_InverseCell[0*3+2]*dr_vec.x + host_InverseCell[1*3+2]*dr_vec.y + host_InverseCell[2*3+2]*dr_vec.z;
+      
+      // Apply: t = s - NINT(s)
+      double3 t;
+      t.x = s.x - static_cast<int>(s.x + ((s.x >= 0.0) ? 0.5 : -0.5));
+      t.y = s.y - static_cast<int>(s.y + ((s.y >= 0.0) ? 0.5 : -0.5));
+      t.z = s.z - static_cast<int>(s.z + ((s.z >= 0.0) ? 0.5 : -0.5));
+      
+      // Convert back to Cartesian
+      dr_vec.x = host_Cell[0*3+0]*t.x + host_Cell[1*3+0]*t.y + host_Cell[2*3+0]*t.z;
+      dr_vec.y = host_Cell[0*3+1]*t.x + host_Cell[1*3+1]*t.y + host_Cell[2*3+1]*t.z;
+      dr_vec.z = host_Cell[0*3+2]*t.x + host_Cell[1*3+2]*t.y + host_Cell[2*3+2]*t.z;
+    }
+  };
+  
+  bool result = false;
+  bool invertBlockPockets = (component < SystemComponents.InvertBlockPockets.size()) && 
+                             SystemComponents.InvertBlockPockets[component];
+  
+  // molecules must be inside the block-pockets for 'InvertBlockPockets'
+  if(invertBlockPockets)
+  {
+    // Check if position is inside any block pocket
+    for(size_t i = 0; i < centers.size(); i++)
+    {
+      // Calculate distance vector: center - position (same as RASPA2: BlockCenters[i] - pos)
+      double3 dr;
+      dr.x = centers[i].x - pos.x;
+      dr.y = centers[i].y - pos.y;
+      dr.z = centers[i].z - pos.z;
+      
+      // Apply PBC matching RASPA2's ApplyBoundaryConditionUnitCell
+      apply_pbc_raspa2(dr);
+      
+      // Calculate distance (RASPA2 uses sqrt)
+      double r = sqrt(dr.x*dr.x + dr.y*dr.y + dr.z*dr.z);
+      
+      // if inside blockPockets, then it is allowed (return 'false' for blocking)
+      if(r < radii[i])
+      {
+        result = false;
+        goto track_and_return;
+      }
+    }
+    
+    // molecule is not in any of the blocking-pockets, so block it
+    result = true;
+    goto track_and_return;
+  }
+  else
+  {
+    // molecules are blocked when inside any of the block-pockets
+    for(size_t i = 0; i < centers.size(); i++)
+    {
+      // Calculate distance vector: center - position (same as RASPA2: BlockCenters[i] - pos)
+      double3 dr;
+      dr.x = centers[i].x - pos.x;
+      dr.y = centers[i].y - pos.y;
+      dr.z = centers[i].z - pos.z;
+      
+      // Apply PBC matching RASPA2's ApplyBoundaryConditionUnitCell
+      apply_pbc_raspa2(dr);
+      
+      // Calculate distance (RASPA2 uses sqrt)
+      double r = sqrt(dr.x*dr.x + dr.y*dr.y + dr.z*dr.z);
+      
+      // if inside block-pocket, then block (return 'true')
+      if(r < radii[i])
+      {
+        result = true;
+        goto track_and_return;
+      }
+    }
+    
+    // molecule is not in any of the blocking-pockets, is is allowed (return 'false' for blocking)
+    result = false;
+    goto track_and_return;
+  }
+  
+track_and_return:
+  // Track if blocked (matching RASPA2 statistics)
+  if(result == true && component < SystemComponents.BlockPocketBlockedCount.size())
+  {
+    SystemComponents.BlockPocketBlockedCount[component] += 1.0;
+  }
+  return result;
+}

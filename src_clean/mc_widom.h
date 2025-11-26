@@ -3,6 +3,7 @@
 #include <cuda_fp16.h>
 #include <thrust/device_ptr.h>
 #include <thrust/reduce.h>
+#include "read_data.h"
 
 
 static inline size_t SelectTrialPosition(std::vector<double>& LogBoltzmannFactors) //In Zhao's code, LogBoltzmannFactors = Rosen
@@ -433,6 +434,36 @@ inline void Widom_Move_FirstBead_PARTIAL(Variables& Vars, size_t systemId, CBMC_
 
   get_random_trial_position<<<1,NumberOfTrials>>>(Sims.Box, Sims.d_a, Sims.New, Sims.device_flag, Random, start_position, SelectedComponent, SelectedMolID, MoveType, proposed_scale); checkCUDAError("error getting random trials");
   Random.Update(NumberOfTrials);
+
+  // Check block pockets for insertion moves (matching RASPA2)
+  // RASPA2 checks BlockedPocket for all trial positions in CBMC_INSERTION, REINSERTION_INSERTION, and IDENTITY_SWAP_NEW
+  if((MoveType == CBMC_INSERTION || MoveType == REINSERTION_INSERTION || MoveType == IDENTITY_SWAP_NEW) && 
+     SelectedComponent < SystemComponents.UseBlockPockets.size() && 
+     SystemComponents.UseBlockPockets[SelectedComponent])
+  {
+    // Ensure statistics vectors are large enough
+    if(SelectedComponent >= SystemComponents.BlockPocketTotalAttempts.size())
+    {
+      SystemComponents.BlockPocketTotalAttempts.resize(SelectedComponent + 1, 0);
+      SystemComponents.BlockPocketBlockedCount.resize(SelectedComponent + 1, 0);
+    }
+    
+    std::vector<double3> trial_positions(NumberOfTrials);
+    cudaMemcpy(trial_positions.data(), Sims.New.pos, NumberOfTrials * sizeof(double3), cudaMemcpyDeviceToHost);
+    bool* host_flags = new bool[NumberOfTrials];
+    cudaMemcpy(host_flags, Sims.device_flag, NumberOfTrials * sizeof(bool), cudaMemcpyDeviceToHost);
+    
+    // Check each trial position (matching RASPA2: if(BlockedPocket(TrialPosition[i])) return 0;)
+    for(size_t i = 0; i < NumberOfTrials; i++)
+    {
+      if(BlockedPocket(SystemComponents, SelectedComponent, trial_positions[i], Sims.Box))
+      {
+        host_flags[i] = true; // Mark as blocked/overlap
+      }
+    }
+    cudaMemcpy(Sims.device_flag, host_flags, NumberOfTrials * sizeof(bool), cudaMemcpyHostToDevice);
+    delete[] host_flags;
+  }
 
   //printf("Selected Component: %zu, Selected Molecule: %zu (%zu), Total in Component: %zu\n", SelectedComponent, SelectedMolID, SystemComponents.TempVal.SelectedMolInComponent, SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]);
 

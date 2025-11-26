@@ -1,3 +1,7 @@
+// Hardcoded flag to enable/disable blockpocket statistics output
+// Set to true to print blockpocket statistics, false to disable
+static constexpr bool ENABLE_BLOCKPOCKET_STATISTICS = true;
+
 static inline void Print_Cycle_Statistics(size_t Cycle, Components& SystemComponents, std::string& Mode)
 {
   /*std::string Mode;
@@ -12,6 +16,24 @@ static inline void Print_Cycle_Statistics(size_t Cycle, Components& SystemCompon
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
     fprintf(SystemComponents.OUTPUT, "Component %zu [%s], %zu Molecules  ||  ", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i]);
   fprintf(SystemComponents.OUTPUT, "\n");
+  
+  // Print block pocket statistics periodically (every 10000 attempts) - only if enabled
+  if(ENABLE_BLOCKPOCKET_STATISTICS)
+  {
+    for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
+    {
+      if(i < SystemComponents.UseBlockPockets.size() && SystemComponents.UseBlockPockets[i] && 
+         SystemComponents.BlockPocketTotalAttempts[i] > 0 && 
+         SystemComponents.BlockPocketTotalAttempts[i] % 10000 == 0)
+      {
+        size_t total = SystemComponents.BlockPocketTotalAttempts[i];
+        size_t blocked = SystemComponents.BlockPocketBlockedCount[i];
+        double percentage = (total > 0) ? (100.0 * blocked / total) : 0.0;
+        fprintf(SystemComponents.OUTPUT, "BlockPocket[comp=%zu] stats: %zu attempts, %zu blocked (%.2f%%)\n", 
+                i, total, blocked, percentage);
+      }
+    }
+  }
 }
 
 static inline void Print_Translation_Statistics(Move_Statistics MoveStats, double3 MaxTranslation, FILE* OUTPUT)
@@ -199,6 +221,28 @@ static inline void Print_IdentitySwap_Statistics(Components& SystemComponents, s
     if(j != i) fprintf(SystemComponents.OUTPUT, "Identity Swap Performed, FROM [%s (%zu)] TO [%s (%zu)]: %zu (%zu Accepted)\n", SystemComponents.MoleculeName[i].c_str(), i, SystemComponents.MoleculeName[j].c_str(), j, SystemComponents.Moves[i].IdentitySwap_Total_TO[j], SystemComponents.Moves[i].IdentitySwap_Acc_TO[j]);
   }
   fprintf(SystemComponents.OUTPUT, "=============================================================\n");
+}
+
+static inline void Print_BlockPocket_Statistics(Components& SystemComponents, size_t comp, FILE* OUTPUT)
+{
+  // Only print if statistics are enabled
+  if(!ENABLE_BLOCKPOCKET_STATISTICS)
+    return;
+  
+  if(comp >= SystemComponents.UseBlockPockets.size() || 
+     !SystemComponents.UseBlockPockets[comp] || 
+     SystemComponents.BlockPocketTotalAttempts[comp] == 0)
+    return;
+  
+  size_t total = SystemComponents.BlockPocketTotalAttempts[comp];
+  size_t blocked = SystemComponents.BlockPocketBlockedCount[comp];
+  double percentage = (total > 0) ? (100.0 * blocked / total) : 0.0;
+  
+  fprintf(OUTPUT, "=====================BLOCK POCKET STATISTICS FOR COMPONENT [%zu]=====================\n", comp);
+  fprintf(OUTPUT, "Total Insertion Attempts: %zu\n", total);
+  fprintf(OUTPUT, "Blocked Insertions: %zu\n", blocked);
+  fprintf(OUTPUT, "Blocking Percentage: %.2f%%\n", percentage);
+  fprintf(OUTPUT, "================================================================================\n");
 }
 
 static inline void Print_CBCF_Statistics(Move_Statistics MoveStats, FILE* OUTPUT)
@@ -635,6 +679,11 @@ static inline void PrintAllStatistics(Components& SystemComponents, Simulations&
     Print_Swap_Statistics(SystemComponents.Moves[comp], SystemComponents.OUTPUT);
     Print_IdentitySwap_Statistics(SystemComponents, comp);
     if(SystemComponents.hasfractionalMolecule[comp]) Print_CBCF_Statistics(SystemComponents.Moves[comp], SystemComponents.OUTPUT);
+    // Print blockpocket statistics only if enabled
+    if(ENABLE_BLOCKPOCKET_STATISTICS)
+    {
+      Print_BlockPocket_Statistics(SystemComponents, comp, SystemComponents.OUTPUT);
+    }
     fprintf(SystemComponents.OUTPUT, "================================================================================================\n");
   }
   if(SimulationMode == PRODUCTION)

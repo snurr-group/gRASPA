@@ -1,4 +1,5 @@
 #include "mc_utilities.h"
+#include "read_data.h"
 
 ////////////////////////////////////////////////
 // Generalized function for single Body moves //
@@ -77,6 +78,35 @@ inline void SingleBody_Prepare(Variables& Vars, size_t systemId)
   Random.Check(Molsize);
   get_new_position<<<1, Molsize>>>(Sims, FF, start_position, SelectedComponent, MaxChange, Random.device_random, Random.offset, MoveType);
   Random.Update(Molsize);
+  
+  // Check block pockets for all moves that create new positions (matching RASPA2)
+  // RASPA2 checks BlockedPocket for all atoms in TrialPosition for translation, rotation, etc.
+  if(Do_New && 
+     SelectedComponent < SystemComponents.UseBlockPockets.size() && 
+     SystemComponents.UseBlockPockets[SelectedComponent])
+  {
+    // Ensure statistics vectors are large enough
+    if(SelectedComponent >= SystemComponents.BlockPocketTotalAttempts.size())
+    {
+      SystemComponents.BlockPocketTotalAttempts.resize(SelectedComponent + 1, 0);
+      SystemComponents.BlockPocketBlockedCount.resize(SelectedComponent + 1, 0);
+    }
+    
+    // Check all atoms in the molecule (matching RASPA2: for(i=0;i<nr_atoms;i++) if(BlockedPocket(TrialPosition[i])) return 0;)
+    std::vector<double3> trial_positions(Molsize);
+    cudaMemcpy(trial_positions.data(), &Sims.New.pos[start_position], Molsize * sizeof(double3), cudaMemcpyDeviceToHost);
+    
+    for(size_t i = 0; i < Molsize; i++)
+    {
+      if(BlockedPocket(SystemComponents, SelectedComponent, trial_positions[i], Sims.Box))
+      {
+        // Block the move (set flag to indicate overlap/blocked)
+        bool blocked = true;
+        cudaMemcpy(Sims.device_flag, &blocked, sizeof(bool), cudaMemcpyHostToDevice);
+        return; // Early return, matching RASPA2 behavior
+      }
+    }
+  }
 }
 
 inline MoveEnergy SingleBody_Calculation(Variables& Vars, size_t systemId)
