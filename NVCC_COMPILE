@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# gRASPA Compilation Script using nvcc (CUDA Compiler)
+# 
+# This script compiles gRASPA using nvcc instead of nvc++ (NVIDIA HPC SDK).
+# 
+# Prerequisites:
+#   - CUDA Toolkit installed (nvcc available)
+#   - C++ compiler (g++ or clang++) for host code
+#   - CUDA-capable GPU
+#
+# Usage:
+#   chmod +x NVCC_COMPILE
+#   ./NVCC_COMPILE
+#
+# Reference: https://zhaoli2042.github.io/gRASPA-mkdoc/
+
+rm -f *.o nvc_main.x
+
+# Check if nvcc is available
+if ! command -v nvcc &> /dev/null; then
+    echo "ERROR: nvcc not found. Please install CUDA Toolkit."
+    exit 1
+fi
+
+# Get CUDA version
+CUDA_VERSION=$(nvcc --version | grep "release" | sed 's/.*release \([0-9]\+\.[0-9]\+\).*/\1/')
+echo "Using CUDA version: $CUDA_VERSION"
+
+# Detect GPU architecture (common values: sm_75, sm_80, sm_86, sm_89, sm_90)
+# Default to sm_75 (Turing) - adjust based on your GPU
+# Check your GPU with: nvidia-smi --query-gpu=compute_cap --format=csv
+GPU_ARCH="sm_86"  # Change this to match your GPU architecture
+
+# Compiler flags
+# Note: Using C++17 instead of C++20 for better nvcc compatibility
+# Define macro to handle inline functions in CUDA context
+NVCC_FLAGS="-O3 -std=c++17 -arch=${GPU_ARCH} -Xcompiler -fopenmp -Xcompiler -Wno-narrowing -DNVCC_COMPILE -Xcompiler -Wno-error"
+INCLUDE_FLAGS="-I. -I../"
+LINK_FLAGS="-lcudart -lcurand -lcublas -lcusolver -lcurand"
+
+# Compile source files
+echo "Compiling axpy.cu..."
+nvcc $NVCC_FLAGS $INCLUDE_FLAGS -c axpy.cu -o axpy.o || exit 1
+
+echo "Compiling main.cpp..."
+nvcc $NVCC_FLAGS $INCLUDE_FLAGS -x cu -c main.cpp -o main.o || exit 1
+
+echo "Compiling read_data.cpp..."
+nvcc $NVCC_FLAGS $INCLUDE_FLAGS -x cu -c read_data.cpp -o read_data.o || exit 1
+
+echo "Compiling data_struct.cpp..."
+nvcc $NVCC_FLAGS $INCLUDE_FLAGS -x cu -c data_struct.cpp -o data_struct.o || exit 1
+
+echo "Compiling VDW_Coulomb.cu..."
+nvcc $NVCC_FLAGS $INCLUDE_FLAGS -c VDW_Coulomb.cu -o VDW_Coulomb.o || exit 1
+
+# Link all object files
+echo "Linking..."
+nvcc $NVCC_FLAGS main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x $LINK_FLAGS || exit 1
+
+# Clean up object files
+rm -f *.o
+
+if [ -f nvc_main.x ]; then
+    echo ""
+    echo "✓ Compilation successful!"
+    echo "  Executable: nvc_main.x"
+    ls -lh nvc_main.x
+else
+    echo ""
+    echo "✗ Compilation failed!"
+    exit 1
+fi
+
