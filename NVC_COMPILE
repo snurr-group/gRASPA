@@ -2,9 +2,9 @@
 
 rm nvc_main.x
 
-CXX="nvc++"
+CXX="/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/compilers/bin/nvc++"
 
-LINKFLAG="-L/opt/nvidia/hpc_sdk/Linux_x86_64/22.5/cuda/lib64 -L/usr/lib64/ -L/opt/local/lib/gcc11/"
+LINKFLAG="-L/opt/nvidia/hpc_sdk/Linux_x86_64/24.5/cuda/lib64 -L/usr/lib64/ -L/opt/local/lib/gcc11/"
 
 NVCFLAG="-O3 -std=c++20 -target=gpu -Minline -fopenmp -cuda -stdpar=multicore"
 
