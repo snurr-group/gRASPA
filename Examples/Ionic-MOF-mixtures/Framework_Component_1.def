@@ -1,0 +1,19 @@
+Framework_Component_Name: Li_Ion
+Number_of_Molecules_for_Framework_component: 16
+Number_of_atoms_for_each_molecule: 1
+Atom_Indices_for_Molecule 0: 100
+Atom_Indices_for_Molecule 1: 101
+Atom_Indices_for_Molecule 2: 102
+Atom_Indices_for_Molecule 3: 103
+Atom_Indices_for_Molecule 4: 104
+Atom_Indices_for_Molecule 5: 105
+Atom_Indices_for_Molecule 6: 106
+Atom_Indices_for_Molecule 7: 107
+Atom_Indices_for_Molecule 8: 108
+Atom_Indices_for_Molecule 9: 109
+Atom_Indices_for_Molecule 10: 110
+Atom_Indices_for_Molecule 11: 111
+Atom_Indices_for_Molecule 12: 112
+Atom_Indices_for_Molecule 13: 113
+Atom_Indices_for_Molecule 14: 114
+Atom_Indices_for_Molecule 15: 115

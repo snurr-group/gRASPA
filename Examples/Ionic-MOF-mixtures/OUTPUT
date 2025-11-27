@@ -1,0 +1,1128 @@
+/data/users/kaihangs/software/gRASPA_pybind-main/gRASPA/src_clean/nvc_main.x------------------GENERAL SIMULATION SETUP-------------
+Finished Checking Number of Components, There are 2 framework, 3 Adsorbates, 5 total Components
+DONE Reading Model Info from simulation.input file
+Setting Maximum Number of Steps for a Cycle, Max Step = 1
+-------------------------------------------------------
+device_random[0] = 2.30000 4.50000 6.70000
+================FUGACITY COEFFICIENT CALCULATION================
+Checking: Current Fugacity Coeff for 2 component: 1.00000
+Checking: Current Fugacity Coeff for 3 component: 1.00000
+Checking: Current Fugacity Coeff for 4 component: 1.00000
+Every Adsorbate Component has fugacity coefficient assigned, skip EOS calculation!
+----------------- MEMORY ALLOCAION STATUS -----------------
+System allocate_sizes are: 1800, 288
+Component allocate_sizes are: 1800, 288
+Allocated Blocksum size: 3516, vdw_real size: 3516, fourier_size: 0
+------------------------------------------------------------
+------------------- SIMULATION BOX PARAMETERS -----------------
+Pressure:        0.00602
+Box Volume:      47405.81407
+Box Beta:        0.00404
+Box Temperature: 298.00000
+---------------------------------------------------------------
+================= MOL FRACTIONS =================
+Component [1] (Li_Ion), Mol Fraction: 0.50000
+Component [2] (CO2), Mol Fraction: 0.07000
+Component [3] (N2), Mol Fraction: 0.42765
+Component [4] (TIP4P), Mol Fraction: 0.00235
+=================================================
+======================== CALCULATING INITIAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 639218.18991; Real: -12392910.58065
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 639435.14038, Real: -13935605.65299
+Compoent [0-2], VDW: 0.00000, Real: 0.00000
+Compoent [0-3], VDW: 0.00000, Real: 0.00000
+Compoent [0-4], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: -216.95048, Real: 1542695.07233
+Compoent [1-2], VDW: 0.00000, Real: 0.00000
+Compoent [1-3], VDW: 0.00000, Real: 0.00000
+Compoent [1-4], VDW: 0.00000, Real: 0.00000
+Compoent [2-2], VDW: 0.00000, Real: 0.00000
+Compoent [2-3], VDW: 0.00000, Real: 0.00000
+Compoent [2-4], VDW: 0.00000, Real: 0.00000
+Compoent [3-3], VDW: 0.00000, Real: 0.00000
+Compoent [3-4], VDW: 0.00000, Real: 0.00000
+Compoent [4-4], VDW: 0.00000, Real: 0.00000
+****** Calculating Ewald Energy (CPU) ******
+CPU Guest-Guest Fourier: 0.00000, Host-Host Fourier: 123772.51532, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 18915707.37631 (22750380.62376 kJ/mol)
+Component: 1, SelfAtomE: 5592621.39872 (6726381.57137 kJ/mol)
+Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 3, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 4, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: -344639963.01992 (-414506853.00216 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 3, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 4, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+HostEwald took 0.27185 sec
+Ewald Summation (total energy) on the CPU took 0.27186 secs
+Component 0, Intra Exclusion Energy: 344639963.01992 (414506853.00216 kJ/mol)
+Component 0, Atom Self Exclusion Energy: 18915707.37631 (22750380.62376 kJ/mol)
+DEBUG: comp: 0, IntraE: 344639963.01992, SelfE: 18915707.37631
+Component 1, Intra Exclusion Energy: 0.00000 (0.00000 kJ/mol)
+Component 1, Atom Self Exclusion Energy: 19418.82430 (23355.49157 kJ/mol)
+DEBUG: comp: 1, IntraE: 0.00000, SelfE: 19418.82430
+Component 2, Intra Exclusion Energy: -14237.48390 (-17123.76764 kJ/mol)
+Component 2, Atom Self Exclusion Energy: 14272.83586 (17166.28630 kJ/mol)
+DEBUG: comp: 2, IntraE: -14237.48390, SelfE: 14272.83586
+Component 3, Intra Exclusion Energy: -19089.59069 (-22959.51430 kJ/mol)
+Component 3, Atom Self Exclusion Energy: 19092.16550 (22962.61109 kJ/mol)
+DEBUG: comp: 3, IntraE: -19089.59069, SelfE: 19092.16550
+Component 4, Intra Exclusion Energy: -31330.84077 (-37682.36305 kJ/mol)
+Component 4, Atom Self Exclusion Energy: 31505.10055 (37891.94952 kJ/mol)
+DEBUG: comp: 4, IntraE: -31330.84077, SelfE: 31505.10055
+******   Allocating Ewald WaveVectors + StructureFactors (INITIAL STAGE ONLY)   ******
+Allocated 79200 72000 72000 space for eikxyz
+Structure Factor 0 is 0.00000 0.00000
+Structure Factor 1 is 0.00000 0.00000
+Structure Factor 2 is 0.00000 0.00000
+Structure Factor 3 is 0.00000 0.00000
+Structure Factor 4 is 0.00000 0.00000
+Structure Factor 5 is 0.00000 0.00000
+Structure Factor 6 is 0.00000 0.00000
+Structure Factor 7 is 0.00000 0.00000
+Structure Factor 8 is 0.00000 0.00000
+Structure Factor 9 is 0.00000 0.00000
+****** DONE Allocating Ewald WaveVectors + StructureFactors(INITIAL STAGE ONLY) ******
+ ****** CHECKING StructureFactors (SF) Stored on CPU vs. GPU ****** 
+CPU SF: 3971, GPU SF: 3971
+StructureFactor 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 2, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 3, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 4, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 5, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 6, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 7, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 8, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 9, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+ ****** CHECKING Framework StructureFactors Stored on CPU ****** 
+Framework Structure Factor 0, real: 0.00000 imag: 0.00000
+Framework Structure Factor 1, real: 0.00000 imag: 0.00000
+Framework Structure Factor 2, real: 0.00000 imag: 0.00000
+Framework Structure Factor 3, real: 0.00000 imag: 0.00000
+Framework Structure Factor 4, real: 0.00000 imag: -0.00000
+Framework Structure Factor 5, real: 0.00000 imag: -0.00000
+Framework Structure Factor 6, real: 9.28262 imag: 8.62319
+Framework Structure Factor 7, real: -0.00000 imag: 0.00000
+Framework Structure Factor 8, real: -0.00000 imag: -0.00000
+Framework Structure Factor 9, real: -9.67003 imag: 56.59803
+VDW + Real on the GPU took 0.00058 secs
+Ewald Summation (total energy) on the GPU took 0.00106 secs
+Total GPU Energy: 
+====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
+Component 2, Need to create 0 full molecule
+Component 3, Need to create 0 full molecule
+Component 4, Need to create 0 full molecule
+======================== CALCULATING CREATE_MOLECULE STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 639218.18991; Real: -12392910.58065
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 639435.14038, Real: -13935605.65299
+Compoent [0-2], VDW: 0.00000, Real: 0.00000
+Compoent [0-3], VDW: 0.00000, Real: 0.00000
+Compoent [0-4], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: -216.95048, Real: 1542695.07233
+Compoent [1-2], VDW: 0.00000, Real: 0.00000
+Compoent [1-3], VDW: 0.00000, Real: 0.00000
+Compoent [1-4], VDW: 0.00000, Real: 0.00000
+Compoent [2-2], VDW: 0.00000, Real: 0.00000
+Compoent [2-3], VDW: 0.00000, Real: 0.00000
+Compoent [2-4], VDW: 0.00000, Real: 0.00000
+Compoent [3-3], VDW: 0.00000, Real: 0.00000
+Compoent [3-4], VDW: 0.00000, Real: 0.00000
+Compoent [4-4], VDW: 0.00000, Real: 0.00000
+****** Calculating Ewald Energy (CPU) ******
+CPU Guest-Guest Fourier: 0.00000, Host-Host Fourier: 123772.51532, Framework-Guest Fourier: 0.00000
+Component: 0, SelfAtomE: 18915707.37631 (22750380.62376 kJ/mol)
+Component: 1, SelfAtomE: 5592621.39872 (6726381.57137 kJ/mol)
+Component: 2, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 3, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 4, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: -344639963.01992 (-414506853.00216 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 2, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 3, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 4, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+HostEwald took 0.27046 sec
+Ewald Summation (total energy) on the CPU took 0.27046 secs
+ ****** CHECKING StructureFactors (SF) Stored on CPU vs. GPU ****** 
+CPU SF: 3971, GPU SF: 3971
+StructureFactor 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 2, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 3, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 4, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 5, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 6, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 7, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 8, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 9, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+ ****** CHECKING Framework StructureFactors Stored on CPU ****** 
+Framework Structure Factor 0, real: 0.00000 imag: 0.00000
+Framework Structure Factor 1, real: 0.00000 imag: 0.00000
+Framework Structure Factor 2, real: 0.00000 imag: 0.00000
+Framework Structure Factor 3, real: 0.00000 imag: 0.00000
+Framework Structure Factor 4, real: 0.00000 imag: -0.00000
+Framework Structure Factor 5, real: 0.00000 imag: -0.00000
+Framework Structure Factor 6, real: 9.28262 imag: 8.62319
+Framework Structure Factor 7, real: -0.00000 imag: 0.00000
+Framework Structure Factor 8, real: -0.00000 imag: -0.00000
+Framework Structure Factor 9, real: -9.67003 imag: 56.59803
+VDW + Real on the GPU took 0.00053 secs
+Ewald Summation (total energy) on the GPU took 0.00099 secs
+Total GPU Energy: 
+====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 100000.00000 [Pa], temp: 298.00000 [K]
+==================================
+== RUNNING INITIALIZATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+Box 0, Volume: 47405.81407
+Total Volume: 47405.81407
+INITIALIZATION Cycle: 0, 0 Adsorbate Molecules, Total Energy: -11753692.39074  ||  Component 0 [RANNEB_with_Li.cif], 1 Molecules  ||  Component 1 [Li_Ion], 288 Molecules  ||  Component 2 [CO2], 0 Molecules  ||  Component 3 [N2], 0 Molecules  ||  Component 4 [TIP4P], 0 Molecules  ||  
+INITIALIZATION Cycle: 5000, 180 Adsorbate Molecules, Total Energy: -12821965.11297  ||  Component 0 [RANNEB_with_Li.cif], 1 Molecules  ||  Component 1 [Li_Ion], 288 Molecules  ||  Component 2 [CO2], 31 Molecules  ||  Component 3 [N2], 1 Molecules  ||  Component 4 [TIP4P], 148 Molecules  ||  
+INITIALIZATION Cycle: 10000, 254 Adsorbate Molecules, Total Energy: -13339796.34714  ||  Component 0 [RANNEB_with_Li.cif], 1 Molecules  ||  Component 1 [Li_Ion], 288 Molecules  ||  Component 2 [CO2], 32 Molecules  ||  Component 3 [N2], 0 Molecules  ||  Component 4 [TIP4P], 222 Molecules  ||  
+INITIALIZATION Cycle: 15000, 310 Adsorbate Molecules, Total Energy: -13750068.48302  ||  Component 0 [RANNEB_with_Li.cif], 1 Molecules  ||  Component 1 [Li_Ion], 288 Molecules  ||  Component 2 [CO2], 27 Molecules  ||  Component 3 [N2], 1 Molecules  ||  Component 4 [TIP4P], 282 Molecules  ||  
+INITIALIZATION Cycle: 20000, 350 Adsorbate Molecules, Total Energy: -14110146.58840  ||  Component 0 [RANNEB_with_Li.cif], 1 Molecules  ||  Component 1 [Li_Ion], 288 Molecules  ||  Component 2 [CO2], 17 Molecules  ||  Component 3 [N2], 0 Molecules  ||  Component 4 [TIP4P], 333 Molecules  ||  
+INITIALIZATION Cycle: 25000, 386 Adsorbate Molecules, Total Energy: -14425812.56126  ||  Component 0 [RANNEB_with_Li.cif], 1 Molecules  ||  Component 1 [Li_Ion], 288 Molecules  ||  Component 2 [CO2], 14 Molecules  ||  Component 3 [N2], 0 Molecules  ||  Component 4 [TIP4P], 372 Molecules  ||  
+======================== MOVE STATISTICS FOR COMPONENT [1] (Li_Ion) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 7409
+Translation Accepted: 604
+Max Translation: 0.1904486695, 0.1728504912, 0.1642332866
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   0
+Insertion Accepted:    0
+Deletion Performed:    0
+Deletion Accepted:     0
+Reinsertion Performed: 0
+Reinsertion Accepted:  0
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+================================================================================================
+======================== MOVE STATISTICS FOR COMPONENT [2] (CO2) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 1265
+Translation Accepted: 190
+Max Translation: 0.2571431882, 0.2333821838, 0.2217472616
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 1262
+Rotation Accepted: 531
+Max Rotation: 0.1538370750, 0.1538370750, 0.1538370750
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   1235
+Insertion Accepted:    97
+Deletion Performed:    1215
+Deletion Accepted:     22
+Reinsertion Performed: 1231
+Reinsertion Accepted:  24
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [CO2 (2)] TO [RANNEB_with_Li.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [CO2 (2)] TO [Li_Ion (1)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [CO2 (2)] TO [N2 (3)]: 568 (13 Accepted)
+Identity Swap Performed, FROM [CO2 (2)] TO [TIP4P (4)]: 585 (93 Accepted)
+=============================================================
+================================================================================================
+======================== MOVE STATISTICS FOR COMPONENT [3] (N2) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 293
+Translation Accepted: 21
+Max Translation: 0.5578213548, 0.5062765492, 0.4810368837
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 330
+Rotation Accepted: 172
+Max Rotation: 0.3495290923, 0.3495290923, 0.3495290923
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   1304
+Insertion Accepted:    117
+Deletion Performed:    292
+Deletion Accepted:     80
+Reinsertion Performed: 310
+Reinsertion Accepted:  20
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [N2 (3)] TO [RANNEB_with_Li.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [N2 (3)] TO [Li_Ion (1)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [N2 (3)] TO [CO2 (2)]: 89 (24 Accepted)
+Identity Swap Performed, FROM [N2 (3)] TO [TIP4P (4)]: 85 (42 Accepted)
+=============================================================
+================================================================================================
+======================== MOVE STATISTICS FOR COMPONENT [4] (TIP4P) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 1196
+Translation Accepted: 244
+Max Translation: 0.2571431882, 0.2333821838, 0.2217472616
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 1224
+Rotation Accepted: 604
+Max Rotation: 0.2295745749, 0.2295745749, 0.2295745749
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   1243
+Insertion Accepted:    334
+Deletion Performed:    1244
+Deletion Accepted:     34
+Reinsertion Performed: 1262
+Reinsertion Accepted:  89
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [TIP4P (4)] TO [RANNEB_with_Li.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [TIP4P (4)] TO [Li_Ion (1)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [TIP4P (4)] TO [CO2 (2)]: 627 (21 Accepted)
+Identity Swap Performed, FROM [TIP4P (4)] TO [N2 (3)]: 605 (16 Accepted)
+=============================================================
+================================================================================================
+===============================
+== INITIALIZATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 100000.00000 [Pa], temp: 298.00000 [K]
+==================================
+== RUNNING EQUILIBRATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+===============================
+== EQUILIBRATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 100000.00000 [Pa], temp: 298.00000 [K]
+==================================
+==  RUNNING PRODUCTION PHASE   ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+PRODUCTION Cycle: 0, 412 Adsorbate Molecules, Total Energy: -14660574.42100  ||  Component 0 [RANNEB_with_Li.cif], 1 Molecules  ||  Component 1 [Li_Ion], 288 Molecules  ||  Component 2 [CO2], 14 Molecules  ||  Component 3 [N2], 0 Molecules  ||  Component 4 [TIP4P], 398 Molecules  ||  
+Printing: Component: 0 [ RANNEB_with_Li.cif ], NumMol: 1, Molsize: 1800
+Printing: Component: 1 [ Li_Ion ], NumMol: 288, Molsize: 1
+Printing: Component: 2 [ CO2 ], NumMol: 14, Molsize: 3
+Printing: Component: 3 [ N2 ], NumMol: 0, Molsize: 3
+Printing: Component: 4 [ TIP4P ], NumMol: 398, Molsize: 4
+Component 0, Molsize: 1800
+Component 1, Molsize: 1
+Component 2, Molsize: 3
+Component 3, Molsize: 3
+Component 4, Molsize: 4
+PRODUCTION Cycle: 5000, 432 Adsorbate Molecules, Total Energy: -14850775.68659  ||  Component 0 [RANNEB_with_Li.cif], 1 Molecules  ||  Component 1 [Li_Ion], 288 Molecules  ||  Component 2 [CO2], 12 Molecules  ||  Component 3 [N2], 0 Molecules  ||  Component 4 [TIP4P], 420 Molecules  ||  
+Printing: Component: 0 [ RANNEB_with_Li.cif ], NumMol: 1, Molsize: 1800
+Printing: Component: 1 [ Li_Ion ], NumMol: 288, Molsize: 1
+Printing: Component: 2 [ CO2 ], NumMol: 12, Molsize: 3
+Printing: Component: 3 [ N2 ], NumMol: 0, Molsize: 3
+Printing: Component: 4 [ TIP4P ], NumMol: 420, Molsize: 4
+Component 0, Molsize: 1800
+Component 1, Molsize: 1
+Component 2, Molsize: 3
+Component 3, Molsize: 3
+Component 4, Molsize: 4
+======================== MOVE STATISTICS FOR COMPONENT [1] (Li_Ion) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 9888
+Translation Accepted: 1749
+Max Translation: 0.1375656185, 0.1248540344, 0.1186296219
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   0
+Insertion Accepted:    0
+Deletion Performed:    0
+Deletion Accepted:     0
+Reinsertion Performed: 0
+Reinsertion Accepted:  0
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+================================================================================================
+======================== MOVE STATISTICS FOR COMPONENT [2] (CO2) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 1696
+Translation Accepted: 397
+Max Translation: 0.2269020262, 0.2059354197, 0.1956688152
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 1717
+Rotation Accepted: 762
+Max Rotation: 0.1500341276, 0.1500341276, 0.1500341276
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   1663
+Insertion Accepted:    99
+Deletion Performed:    1609
+Deletion Accepted:     24
+Reinsertion Performed: 1675
+Reinsertion Accepted:  24
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [CO2 (2)] TO [RANNEB_with_Li.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [CO2 (2)] TO [Li_Ion (1)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [CO2 (2)] TO [N2 (3)]: 767 (14 Accepted)
+Identity Swap Performed, FROM [CO2 (2)] TO [TIP4P (4)]: 826 (97 Accepted)
+=============================================================
+================================================================================================
+======================== MOVE STATISTICS FOR COMPONENT [3] (N2) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 316
+Translation Accepted: 27
+Max Translation: 0.4316315309, 0.3917471429, 0.3722171709
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 361
+Rotation Accepted: 186
+Max Rotation: 0.3469141723, 0.3469141723, 0.3469141723
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   1710
+Insertion Accepted:    126
+Deletion Performed:    317
+Deletion Accepted:     84
+Reinsertion Performed: 326
+Reinsertion Accepted:  21
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [N2 (3)] TO [RANNEB_with_Li.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [N2 (3)] TO [Li_Ion (1)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [N2 (3)] TO [CO2 (2)]: 97 (27 Accepted)
+Identity Swap Performed, FROM [N2 (3)] TO [TIP4P (4)]: 89 (45 Accepted)
+=============================================================
+================================================================================================
+======================== MOVE STATISTICS FOR COMPONENT [4] (TIP4P) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 1635
+Translation Accepted: 463
+Max Translation: 0.2771850236, 0.2515720778, 0.2390303255
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 1613
+Rotation Accepted: 819
+Max Rotation: 0.2474677025, 0.2474677025, 0.2474677025
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   1636
+Insertion Accepted:    368
+Deletion Performed:    1619
+Deletion Accepted:     37
+Reinsertion Performed: 1675
+Reinsertion Accepted:  93
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+Identity Swap Performed, FROM [TIP4P (4)] TO [RANNEB_with_Li.cif (0)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [TIP4P (4)] TO [Li_Ion (1)]: 0 (0 Accepted)
+Identity Swap Performed, FROM [TIP4P (4)] TO [CO2 (2)]: 802 (21 Accepted)
+Identity Swap Performed, FROM [TIP4P (4)] TO [N2 (3)]: 813 (16 Accepted)
+=============================================================
+================================================================================================
+============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========
+COMPONENT [2] (CO2)
+BLOCK [0], Blocksize: 2000, Average: -64.50277
+BLOCK [1], Blocksize: 2000, Average: -18.09084
+BLOCK [2], Blocksize: 2000, Average: -25.14416
+BLOCK [3], Blocksize: 2000, Average: -0.96237
+BLOCK [4], Blocksize: 2000, Average: -44.76228
+Overall: Average: -30.69248, ErrorBar: 43.95051
+-----------------------------
+COMPONENT [3] (N2)
+BLOCK [0], Blocksize: 2000, Average: -61.13894
+BLOCK [1], Blocksize: 2000, Average: 21.82227
+BLOCK [2], Blocksize: 2000, Average: -57.50804
+BLOCK [3], Blocksize: 2000, Average: -27.75195
+BLOCK [4], Blocksize: 2000, Average: -16.92259
+Overall: Average: -28.29985, ErrorBar: 60.48797
+-----------------------------
+COMPONENT [4] (TIP4P)
+BLOCK [0], Blocksize: 2000, Average: -109.13443
+BLOCK [1], Blocksize: 2000, Average: -78.79184
+BLOCK [2], Blocksize: 2000, Average: -105.97844
+BLOCK [3], Blocksize: 2000, Average: -77.19810
+BLOCK [4], Blocksize: 2000, Average: -113.03837
+Overall: Average: -96.82824, ErrorBar: 31.09458
+-----------------------------
+==============================================================
+=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============
+COMPONENT [0] (RANNEB_with_Li.cif)
+BLOCK [0], Blocksize: 2000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 2000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 2000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 2000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 2000, Average: 1.00000, ErrorBar: 0.00000
+Overall: Average: 1.00000, ErrorBar: 0.00000
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
+----------------------------------------------------------
+COMPONENT [1] (Li_Ion)
+BLOCK [0], Blocksize: 2000, Average: 288.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 2000, Average: 288.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 2000, Average: 288.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 2000, Average: 288.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 2000, Average: 288.00000, ErrorBar: 0.00000
+Overall: Average: 288.00000, ErrorBar: 0.00000
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
+----------------------------------------------------------
+COMPONENT [2] (CO2)
+BLOCK [0], Blocksize: 2000, Average: 14.55550, ErrorBar: 0.99382
+BLOCK [1], Blocksize: 2000, Average: 13.25400, ErrorBar: 1.63154
+BLOCK [2], Blocksize: 2000, Average: 12.44950, ErrorBar: 0.99489
+BLOCK [3], Blocksize: 2000, Average: 12.11900, ErrorBar: 0.64758
+BLOCK [4], Blocksize: 2000, Average: 12.07550, ErrorBar: 0.52839
+Overall: Average: 12.89070, ErrorBar: 1.86725
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
+----------------------------------------------------------
+COMPONENT [3] (N2)
+BLOCK [0], Blocksize: 2000, Average: 0.01750, ErrorBar: 0.26225
+BLOCK [1], Blocksize: 2000, Average: 0.02200, ErrorBar: 0.29337
+BLOCK [2], Blocksize: 2000, Average: 0.12050, ErrorBar: 0.65109
+BLOCK [3], Blocksize: 2000, Average: 0.00350, ErrorBar: 0.11811
+BLOCK [4], Blocksize: 2000, Average: 0.10250, ErrorBar: 0.60661
+Overall: Average: 0.05320, ErrorBar: 0.09666
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
+----------------------------------------------------------
+COMPONENT [4] (TIP4P)
+BLOCK [0], Blocksize: 2000, Average: 401.41750, ErrorBar: 4.67084
+BLOCK [1], Blocksize: 2000, Average: 412.58750, ErrorBar: 6.08813
+BLOCK [2], Blocksize: 2000, Average: 420.15000, ErrorBar: 4.42606
+BLOCK [3], Blocksize: 2000, Average: 428.02150, ErrorBar: 3.75235
+BLOCK [4], Blocksize: 2000, Average: 433.23450, ErrorBar: 2.51834
+Overall: Average: 419.08220, ErrorBar: 22.54882
+NO Equation-of-State calculation, no compressibility, cannot calculate Excess Loadings
+----------------------------------------------------------
+======================================================================
+=====================BLOCK AVERAGES (LOADING: mg/g)=============
+COMPONENT [0] (RANNEB_with_Li.cif)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 53.08304, ErrorBar: -nan
+BLOCK [1], Blocksize: 2000, Average: 53.08304, ErrorBar: -nan
+BLOCK [2], Blocksize: 2000, Average: 53.08304, ErrorBar: -nan
+BLOCK [3], Blocksize: 2000, Average: 53.08304, ErrorBar: -nan
+BLOCK [4], Blocksize: 2000, Average: 53.08304, ErrorBar: -nan
+Overall: Average: 53.08304, ErrorBar: 0.00000
+----------------------------------------------------------
+COMPONENT [1] (Li_Ion)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 712.08459, ErrorBar: 0.00002
+BLOCK [1], Blocksize: 2000, Average: 712.08459, ErrorBar: 0.00002
+BLOCK [2], Blocksize: 2000, Average: 712.08459, ErrorBar: 0.00002
+BLOCK [3], Blocksize: 2000, Average: 712.08459, ErrorBar: 0.00002
+BLOCK [4], Blocksize: 2000, Average: 712.08459, ErrorBar: 0.00002
+Overall: Average: 712.08459, ErrorBar: -nan
+----------------------------------------------------------
+COMPONENT [2] (CO2)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 14.26178, ErrorBar: 0.97377
+BLOCK [1], Blocksize: 2000, Average: 12.98654, ErrorBar: 1.59862
+BLOCK [2], Blocksize: 2000, Average: 12.19827, ErrorBar: 0.97481
+BLOCK [3], Blocksize: 2000, Average: 11.87444, ErrorBar: 0.63451
+BLOCK [4], Blocksize: 2000, Average: 11.83182, ErrorBar: 0.51773
+Overall: Average: 12.63057, ErrorBar: 1.82957
+----------------------------------------------------------
+COMPONENT [3] (N2)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 0.01091, ErrorBar: 0.16356
+BLOCK [1], Blocksize: 2000, Average: 0.01372, ErrorBar: 0.18297
+BLOCK [2], Blocksize: 2000, Average: 0.07515, ErrorBar: 0.40607
+BLOCK [3], Blocksize: 2000, Average: 0.00218, ErrorBar: 0.07367
+BLOCK [4], Blocksize: 2000, Average: 0.06393, ErrorBar: 0.37833
+Overall: Average: 0.03318, ErrorBar: 0.06028
+----------------------------------------------------------
+COMPONENT [4] (TIP4P)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 161.00423, ErrorBar: 1.87342
+BLOCK [1], Blocksize: 2000, Average: 165.48439, ErrorBar: 2.44188
+BLOCK [2], Blocksize: 2000, Average: 168.51763, ErrorBar: 1.77524
+BLOCK [3], Blocksize: 2000, Average: 171.67481, ErrorBar: 1.50503
+BLOCK [4], Blocksize: 2000, Average: 173.76568, ErrorBar: 1.01008
+Overall: Average: 168.08935, ErrorBar: 9.04409
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: mol/kg)=============
+COMPONENT [0] (RANNEB_with_Li.cif)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 0.02226, ErrorBar: -nan
+BLOCK [1], Blocksize: 2000, Average: 0.02226, ErrorBar: -nan
+BLOCK [2], Blocksize: 2000, Average: 0.02226, ErrorBar: -nan
+BLOCK [3], Blocksize: 2000, Average: 0.02226, ErrorBar: -nan
+BLOCK [4], Blocksize: 2000, Average: 0.02226, ErrorBar: -nan
+Overall: Average: 0.02226, ErrorBar: 0.00000
+----------------------------------------------------------
+COMPONENT [1] (Li_Ion)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 6.41194, ErrorBar: -nan
+BLOCK [1], Blocksize: 2000, Average: 6.41194, ErrorBar: -nan
+BLOCK [2], Blocksize: 2000, Average: 6.41194, ErrorBar: -nan
+BLOCK [3], Blocksize: 2000, Average: 6.41194, ErrorBar: -nan
+BLOCK [4], Blocksize: 2000, Average: 6.41194, ErrorBar: -nan
+Overall: Average: 6.41194, ErrorBar: -nan
+----------------------------------------------------------
+COMPONENT [2] (CO2)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 0.32406, ErrorBar: 0.02213
+BLOCK [1], Blocksize: 2000, Average: 0.29508, ErrorBar: 0.03632
+BLOCK [2], Blocksize: 2000, Average: 0.27717, ErrorBar: 0.02215
+BLOCK [3], Blocksize: 2000, Average: 0.26981, ErrorBar: 0.01442
+BLOCK [4], Blocksize: 2000, Average: 0.26885, ErrorBar: 0.01176
+Overall: Average: 0.28699, ErrorBar: 0.04157
+----------------------------------------------------------
+COMPONENT [3] (N2)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 0.00039, ErrorBar: 0.00584
+BLOCK [1], Blocksize: 2000, Average: 0.00049, ErrorBar: 0.00653
+BLOCK [2], Blocksize: 2000, Average: 0.00268, ErrorBar: 0.01450
+BLOCK [3], Blocksize: 2000, Average: 0.00008, ErrorBar: 0.00263
+BLOCK [4], Blocksize: 2000, Average: 0.00228, ErrorBar: 0.01351
+Overall: Average: 0.00118, ErrorBar: 0.00215
+----------------------------------------------------------
+COMPONENT [4] (TIP4P)
+Framework component 0, molar mass: 2384.28800
+Framework component 1, molar mass: 111.05600
+Framework total mass: 44916.19200
+BLOCK [0], Blocksize: 2000, Average: 8.93703, ErrorBar: 0.10399
+BLOCK [1], Blocksize: 2000, Average: 9.18572, ErrorBar: 0.13554
+BLOCK [2], Blocksize: 2000, Average: 9.35409, ErrorBar: 0.09854
+BLOCK [3], Blocksize: 2000, Average: 9.52934, ErrorBar: 0.08354
+BLOCK [4], Blocksize: 2000, Average: 9.64540, ErrorBar: 0.05607
+Overall: Average: 9.33031, ErrorBar: 0.50202
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: g/L)=============
+COMPONENT [2] (CO2)
+Total Unit Cells 18 
+BLOCK [0], Blocksize: 2000, Average: 22.43851, ErrorBar: 1.53206
+BLOCK [1], Blocksize: 2000, Average: 20.43214, ErrorBar: 2.51516
+BLOCK [2], Blocksize: 2000, Average: 19.19194, ErrorBar: 1.53370
+BLOCK [3], Blocksize: 2000, Average: 18.68244, ErrorBar: 0.99829
+BLOCK [4], Blocksize: 2000, Average: 18.61538, ErrorBar: 0.81456
+Overall: Average: 19.87208, ErrorBar: 2.87852
+----------------------------------------------------------
+COMPONENT [3] (N2)
+Total Unit Cells 18 
+BLOCK [0], Blocksize: 2000, Average: 0.01717, ErrorBar: 0.25733
+BLOCK [1], Blocksize: 2000, Average: 0.02159, ErrorBar: 0.28787
+BLOCK [2], Blocksize: 2000, Average: 0.11824, ErrorBar: 0.63889
+BLOCK [3], Blocksize: 2000, Average: 0.00343, ErrorBar: 0.11590
+BLOCK [4], Blocksize: 2000, Average: 0.10058, ErrorBar: 0.59524
+Overall: Average: 0.05220, ErrorBar: 0.09484
+----------------------------------------------------------
+COMPONENT [4] (TIP4P)
+Total Unit Cells 18 
+BLOCK [0], Blocksize: 2000, Average: 253.31313, ErrorBar: 2.94752
+BLOCK [1], Blocksize: 2000, Average: 260.36192, ErrorBar: 3.84190
+BLOCK [2], Blocksize: 2000, Average: 265.13421, ErrorBar: 2.79305
+BLOCK [3], Blocksize: 2000, Average: 270.10149, ErrorBar: 2.36791
+BLOCK [4], Blocksize: 2000, Average: 273.39114, ErrorBar: 1.58919
+Overall: Average: 264.46038, ErrorBar: 14.22936
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (VOLUME Å^3)================
+BLOCK [0], Blocksize: 2000, Average: 47405.81407, ErrorBar: 0.00713
+BLOCK [1], Blocksize: 2000, Average: 47405.81407, ErrorBar: 0.00713
+BLOCK [2], Blocksize: 2000, Average: 47405.81407, ErrorBar: 0.00713
+BLOCK [3], Blocksize: 2000, Average: 47405.81407, ErrorBar: 0.00713
+BLOCK [4], Blocksize: 2000, Average: 47405.81407, ErrorBar: 0.00713
+Overall: Average: 47405.81407, ErrorBar: -nan
+----------------------------------------------------------
+==============================================================
+===============================
+== PRODUCTION PHASE ENDS ==
+===============================
+Work took 4.798721 seconds
+======================================
+CHECKING FINAL ENERGY FOR SYSTEM [0]
+======================================
+======================== CALCULATING FINAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 506337.92172; Real: -12027782.30549
+Host-Guest  VDW: 291388.66633; Real: -3601012.56100
+Guest-Guest VDW: 18320.84192; Real: -82739.30220
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 506564.81923, Real: -13604442.53097
+Compoent [0-2], VDW: -16415.14277, Real: 5682.68623
+Compoent [0-3], VDW: 0.00000, Real: 0.00000
+Compoent [0-4], VDW: 8592.48117, Real: -1284416.57032
+Compoent [1-1], VDW: -226.89751, Real: 1576660.22548
+Compoent [1-2], VDW: 3109.26508, Real: -55812.59188
+Compoent [1-3], VDW: 0.00000, Real: 0.00000
+Compoent [1-4], VDW: 296102.06284, Real: -2266466.08504
+Compoent [2-2], VDW: -154.80015, Real: 150.03233
+Compoent [2-3], VDW: 0.00000, Real: 0.00000
+Compoent [2-4], VDW: -2180.17499, Real: -2107.61252
+Compoent [3-3], VDW: 0.00000, Real: 0.00000
+Compoent [3-4], VDW: 0.00000, Real: 0.00000
+Compoent [4-4], VDW: 20655.81706, Real: -80781.72200
+****** Calculating Ewald Energy (CPU) ******
+CPU Guest-Guest Fourier: 50538.89642, Host-Host Fourier: 130716.44274, Framework-Guest Fourier: -89545.85964
+Component: 0, SelfAtomE: 18915707.37631 (22750380.62376 kJ/mol)
+Component: 1, SelfAtomE: 5592621.39872 (6726381.57137 kJ/mol)
+Component: 2, SelfAtomE: 171274.03034 (205995.43562 kJ/mol)
+Component: 3, SelfAtomE: 0.00000 (0.00000 kJ/mol)
+Component: 4, SelfAtomE: 13736223.83811 (16520889.99017 kJ/mol)
+Component: 0, Intra-Molecular ExclusionE: -344639963.01992 (-414506853.00216 kJ/mol)
+Component: 1, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 2, Intra-Molecular ExclusionE: 170849.80684 (205485.21172 kJ/mol)
+Component: 3, Intra-Molecular ExclusionE: 0.00000 (0.00000 kJ/mol)
+Component: 4, Intra-Molecular ExclusionE: 13660246.57505 (16429510.29080 kJ/mol)
+HostEwald took 0.35243 sec
+Ewald Summation (total energy) on the CPU took 0.35244 secs
+ ****** CHECKING StructureFactors (SF) Stored on CPU vs. GPU ****** 
+CPU SF: 3971, GPU SF: 3971
+StructureFactor 0, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 1, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 2, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 3, CPU: 0.00000 0.00000, GPU: 0.00000 0.00000
+StructureFactor 4, CPU: -10.47576 9.43379, GPU: -10.47576 9.43379
+StructureFactor 5, CPU: -12.30545 -6.05493, GPU: -12.30545 -6.05493
+StructureFactor 6, CPU: -3.62047 5.01875, GPU: -3.62047 5.01875
+StructureFactor 7, CPU: 0.32054 1.70220, GPU: 0.32054 1.70220
+StructureFactor 8, CPU: -0.62227 2.88765, GPU: -0.62227 2.88765
+StructureFactor 9, CPU: 8.25527 -9.59580, GPU: 8.25527 -9.59580
+ ****** CHECKING Framework StructureFactors Stored on CPU ****** 
+Framework Structure Factor 0, real: 0.00000 imag: 0.00000
+Framework Structure Factor 1, real: 0.00000 imag: 0.00000
+Framework Structure Factor 2, real: 0.00000 imag: 0.00000
+Framework Structure Factor 3, real: 0.00000 imag: 0.00000
+Framework Structure Factor 4, real: 2.31787 imag: 1.07571
+Framework Structure Factor 5, real: 0.43852 imag: 2.93587
+Framework Structure Factor 6, real: 5.88773 imag: 2.90762
+Framework Structure Factor 7, real: -3.58068 imag: 4.81097
+Framework Structure Factor 8, real: -4.74846 imag: 2.47570
+Framework Structure Factor 9, real: -8.85393 imag: 51.24766
+VDW + Real on the GPU took 0.00184 secs
+Ewald Summation (total energy) on the GPU took 0.00149 secs
+Total GPU Energy: 
+====================== DONE CALCULATING FINAL STAGE ENERGY ======================
+======================================
+Random Numbers Regenerated 1 times, offset: 89386, randomsize: 333334
+DNN Feature Preparation Time: 0.00000, DNN Prediction Time: 0.00000
+DNN GPU Time: 0.00000, DNN Sort Time: 0.00000, std::sort Time: 0.00000, Featurization Time: 0.00000
+======================== ENERGY SUMMARY (Simulation 0) =========================
+ *** INITIAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            639218.18991 (768803.24023 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   -12392910.58065 (-14905254.51347 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      -369024519.27961 (-443834750.98733 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      -369024519.27961 (-443834750.98733 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -11753692.39074 (-14136451.27324 [K])
+========================================================================
+ *** CREATE MOLECULE STAGE *** 
+========================================================================
+VDW [Host-Host]:            639218.18991 (768803.24023 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   -12392910.58065 (-14905254.51347 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      -369024519.27961 (-443834750.98733 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      -369024519.27961 (-443834750.98733 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -11753692.39074 (-14136451.27324 [K])
+========================================================================
+ *** RUNNING DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** CHECK DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** FINAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            506337.92172 (608984.91472 [K])
+VDW [Host-Guest]:           291388.66633 (350460.22528 [K])
+VDW [Guest-Guest]:          18320.84192 (22034.92149 [K])
+Real Coulomb [Host-Host]:   -12027782.30549 (-14466105.86990 [K])
+Real Coulomb [Host-Guest]:  -3601012.56100 (-4331025.25662 [K])
+Real Coulomb [Guest-Guest]: -82739.30220 (-99512.56805 [K])
+Ewald [Host-Host]:          6943.92741 (8351.63013 [K])
+ --> Total Ewald [Host-Host]:
+      -369017575.35219 (-443826399.35720 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      -369024519.27961 (-443834750.98733 [K])
+Ewald [Host-Guest]:         -89545.85964 (-107698.97998 [K])
+Ewald [Guest-Guest]:        -25862.59017 (-31105.56526 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -15003951.26111 (-18045616.54820 [K])
+========================================================================
+ *** RUNNING DELTA_E (FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            -132880.26819 (-159818.32551 [K])
+VDW [Host-Guest]:           291388.66633 (350460.22528 [K])
+VDW [Guest-Guest]:          18320.84192 (22034.92149 [K])
+Real Coulomb [Host-Host]:   365128.27516 (439148.64357 [K])
+Real Coulomb [Host-Guest]:  -3601012.56100 (-4331025.25662 [K])
+Real Coulomb [Guest-Guest]: -82739.30220 (-99512.56805 [K])
+Ewald [Host-Host]:          6943.92741 (8351.63013 [K])
+Ewald [Host-Guest]:         -89545.85964 (-107698.97998 [K])
+Ewald [Guest-Guest]:        -25862.59015 (-31105.56523 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -3250258.87035 (-3909165.27493 [K])
+========================================================================
+ *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            -132880.26819 (-159818.32551 [K])
+VDW [Host-Guest]:           291388.66633 (350460.22528 [K])
+VDW [Guest-Guest]:          18320.84192 (22034.92149 [K])
+Real Coulomb [Host-Host]:   365128.27516 (439148.64357 [K])
+Real Coulomb [Host-Guest]:  -3601012.56100 (-4331025.25662 [K])
+Real Coulomb [Guest-Guest]: -82739.30220 (-99512.56805 [K])
+Ewald [Host-Host]:          6943.92741 (8351.63013 [K])
+Ewald [Host-Guest]:         -89545.85964 (-107698.97998 [K])
+Ewald [Guest-Guest]:        -25862.59017 (-31105.56526 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -3250258.87037 (-3909165.27496 [K])
+========================================================================
+ *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  -0.00000 (-0.00000 [K])
+Real Coulomb [Guest-Guest]: -0.00000 (-0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00002 (0.00003 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00002 (0.00003 [K])
+========================================================================
+ *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
+========================================================================
+VDW [Host-Host]:            -0.00000 (-0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          -0.00000 (-0.00000 [K])
+Real Coulomb [Host-Host]:   -0.00000 (-0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          -0.00002 (-0.00002 [K])
+Ewald [Host-Guest]:         -0.00000 (-0.00000 [K])
+Ewald [Guest-Guest]:        -0.00002 (-0.00003 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -0.00004 (-0.00005 [K])
+========================================================================
+================================================================================
+======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================
+ *** PRODUCTION PHASE AVERAGE ENERGY *** 
+========================================================================
+VDW [Host-Host]:            512050.24605 (615855.26591 [K])
+VDW [Host-Guest]:           261610.66892 (314645.50465 [K])
+VDW [Guest-Guest]:          7864.39122 (9458.69431 [K])
+Real Coulomb [Host-Host]:   -12045972.44628 (-14487983.59397 [K])
+Real Coulomb [Host-Guest]:  -3406103.72309 (-4096603.66397 [K])
+Real Coulomb [Guest-Guest]: -77847.42015 (-93628.98271 [K])
+Ewald [Host-Host]:          9291.16401 (11174.70858 [K])
+Ewald [Host-Guest]:         -84132.01460 (-101187.61708 [K])
+Ewald [Guest-Guest]:        -24934.07411 (-29988.81644 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -14848173.20803 (-17858258.50073 [K])
+========================================================================
+ *** PRODUCTION PHASE AVERAGE ENERGY ERRORBAR *** 
+========================================================================
+VDW [Host-Host]:            26692.08879 (32103.22340 [K])
+VDW [Host-Guest]:           33829.29177 (40687.31075 [K])
+VDW [Guest-Guest]:          9605.54339 (11552.82030 [K])
+Real Coulomb [Host-Host]:   42440.78420 (51044.56182 [K])
+Real Coulomb [Host-Guest]:  237268.22178 (285368.25232 [K])
+Real Coulomb [Guest-Guest]: 5915.93509 (7115.23880 [K])
+Ewald [Host-Host]:          2194.97006 (2639.94380 [K])
+Ewald [Host-Guest]:         6584.75375 (7919.64325 [K])
+Ewald [Guest-Guest]:        1028.82506 (1237.39289 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               365560.41391 (439668.38733 [K])
+========================================================================
+================================================================================
+DNN Rejection Summary:
+Translation+Rotation: 0
+Reinsertion: 0
+Insertion: 0
+Deletion: 0
+SingleSwap: 0
+DNN Drift Summary:
+Translation+Rotation: 0.00000
+Reinsertion: 0.00000
+Insertion: 0.00000
+Deletion: 0.00000
+SingleSwap: 0.00000
+Summary for simulation 0
+PseudoAtom Type: Ac[0], #: 0
+PseudoAtom Type: Ag[1], #: 0
+PseudoAtom Type: Al[2], #: 0
+PseudoAtom Type: Am[3], #: 0
+PseudoAtom Type: Ar[4], #: 0
+PseudoAtom Type: As[5], #: 0
+PseudoAtom Type: At[6], #: 0
+PseudoAtom Type: Au[7], #: 0
+PseudoAtom Type: B[8], #: 0
+PseudoAtom Type: Ba[9], #: 0
+PseudoAtom Type: Be[10], #: 0
+PseudoAtom Type: Bi[11], #: 0
+PseudoAtom Type: Bk[12], #: 0
+PseudoAtom Type: Br[13], #: 0
+PseudoAtom Type: C[14], #: 576
+PseudoAtom Type: Ca[15], #: 0
+PseudoAtom Type: Cd[16], #: 0
+PseudoAtom Type: Ce[17], #: 0
+PseudoAtom Type: Cf[18], #: 0
+PseudoAtom Type: Cl[19], #: 0
+PseudoAtom Type: Cm[20], #: 0
+PseudoAtom Type: Co[21], #: 0
+PseudoAtom Type: Cr[22], #: 0
+PseudoAtom Type: Cs[23], #: 0
+PseudoAtom Type: Cu[24], #: 0
+PseudoAtom Type: Dy[25], #: 0
+PseudoAtom Type: Er[26], #: 0
+PseudoAtom Type: Es[27], #: 0
+PseudoAtom Type: Eu[28], #: 0
+PseudoAtom Type: F[29], #: 0
+PseudoAtom Type: Fe[30], #: 0
+PseudoAtom Type: Fm[31], #: 0
+PseudoAtom Type: Fr[32], #: 0
+PseudoAtom Type: Ga[33], #: 0
+PseudoAtom Type: Gd[34], #: 0
+PseudoAtom Type: Ge[35], #: 0
+PseudoAtom Type: H[36], #: 0
+PseudoAtom Type: He[37], #: 0
+PseudoAtom Type: Hf[38], #: 0
+PseudoAtom Type: Hg[39], #: 0
+PseudoAtom Type: Ho[40], #: 0
+PseudoAtom Type: I[41], #: 0
+PseudoAtom Type: In[42], #: 0
+PseudoAtom Type: Ir[43], #: 0
+PseudoAtom Type: K[44], #: 0
+PseudoAtom Type: Kr[45], #: 0
+PseudoAtom Type: La[46], #: 0
+PseudoAtom Type: Li[47], #: 288
+PseudoAtom Type: Lu[48], #: 0
+PseudoAtom Type: Md[49], #: 0
+PseudoAtom Type: Mg[50], #: 0
+PseudoAtom Type: Mn[51], #: 0
+PseudoAtom Type: Mo[52], #: 0
+PseudoAtom Type: N[53], #: 0
+PseudoAtom Type: Na[54], #: 0
+PseudoAtom Type: Nb[55], #: 0
+PseudoAtom Type: Nd[56], #: 0
+PseudoAtom Type: Ne[57], #: 0
+PseudoAtom Type: Ni[58], #: 0
+PseudoAtom Type: No[59], #: 0
+PseudoAtom Type: Np[60], #: 0
+PseudoAtom Type: O[61], #: 1152
+PseudoAtom Type: Os[62], #: 0
+PseudoAtom Type: P[63], #: 0
+PseudoAtom Type: Pa[64], #: 0
+PseudoAtom Type: Pb[65], #: 0
+PseudoAtom Type: Pd[66], #: 0
+PseudoAtom Type: Pm[67], #: 0
+PseudoAtom Type: Po[68], #: 0
+PseudoAtom Type: Pr[69], #: 0
+PseudoAtom Type: Pt[70], #: 0
+PseudoAtom Type: Pu[71], #: 72
+PseudoAtom Type: Ra[72], #: 0
+PseudoAtom Type: Rb[73], #: 0
+PseudoAtom Type: Re[74], #: 0
+PseudoAtom Type: Rh[75], #: 0
+PseudoAtom Type: Rn[76], #: 0
+PseudoAtom Type: Ru[77], #: 0
+PseudoAtom Type: S[78], #: 0
+PseudoAtom Type: Sb[79], #: 0
+PseudoAtom Type: Sc[80], #: 0
+PseudoAtom Type: Se[81], #: 0
+PseudoAtom Type: Si[82], #: 0
+PseudoAtom Type: Sm[83], #: 0
+PseudoAtom Type: Sn[84], #: 0
+PseudoAtom Type: Sr[85], #: 0
+PseudoAtom Type: Ta[86], #: 0
+PseudoAtom Type: Tb[87], #: 0
+PseudoAtom Type: Tc[88], #: 0
+PseudoAtom Type: Te[89], #: 0
+PseudoAtom Type: Th[90], #: 0
+PseudoAtom Type: Ti[91], #: 0
+PseudoAtom Type: Tl[92], #: 0
+PseudoAtom Type: Tm[93], #: 0
+PseudoAtom Type: U[94], #: 0
+PseudoAtom Type: V[95], #: 0
+PseudoAtom Type: W[96], #: 0
+PseudoAtom Type: Xe[97], #: 0
+PseudoAtom Type: Y[98], #: 0
+PseudoAtom Type: Yb[99], #: 0
+PseudoAtom Type: Zn[100], #: 0
+PseudoAtom Type: Zr[101], #: 0
+PseudoAtom Type: C_co2[102], #: 12
+PseudoAtom Type: O_co2[103], #: 24
+PseudoAtom Type: N_n2[104], #: 0
+PseudoAtom Type: N_com[105], #: 0
+PseudoAtom Type: Ow[106], #: 436
+PseudoAtom Type: Hw[107], #: 872
+PseudoAtom Type: Lw[108], #: 436
+PseudoAtom Type: Li_c[109], #: 0
+==========================================
+====== Preparing Simulation box 0 ======
+==========================================
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      1.00000
+Rotation Probability:         1.00000
+Special Rotation Probability: 1.00000
+Widom Probability:            1.00000
+Reinsertion Probability:      1.00000
+Identity Swap Probability:    1.00000
+CBCF Swap Probability:        1.00000
+Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
+Sum of Probabilities:         1.00000
+==================================================
+Parsing [2] Component
+-------------- READING AdsorbateComponent 0 (CO2) --------------
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      0.16667
+Rotation Probability:         0.33333
+Special Rotation Probability: 0.33333
+Widom Probability:            0.33333
+Reinsertion Probability:      0.50000
+Identity Swap Probability:    0.66667
+CBCF Swap Probability:        0.66667
+Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
+Sum of Probabilities:         1.00000
+==================================================
+-------------- END OF READING Component 0 (CO2) --------------
+Parsing [3] Component
+-------------- READING AdsorbateComponent 1 (N2) --------------
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      0.16667
+Rotation Probability:         0.33333
+Special Rotation Probability: 0.33333
+Widom Probability:            0.33333
+Reinsertion Probability:      0.50000
+Identity Swap Probability:    0.66667
+CBCF Swap Probability:        0.66667
+Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
+Sum of Probabilities:         1.00000
+==================================================
+-------------- END OF READING Component 1 (N2) --------------
+Parsing [4] Component
+-------------- READING AdsorbateComponent 2 (TIP4P) --------------
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      0.16667
+Rotation Probability:         0.33333
+Special Rotation Probability: 0.33333
+Widom Probability:            0.33333
+Reinsertion Probability:      0.50000
+Identity Swap Probability:    0.66667
+CBCF Swap Probability:        0.66667
+Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
+Sum of Probabilities:         1.00000
+==================================================
+-------------- END OF READING Component 2 (TIP4P) --------------
+Rosen capacity: 10
+Allocated 8 double3 for reinsertion!
+HHVDW: 639218.18991, HHReal: -12392910.58065, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00002,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+HHVDW: 639218.18991, HHReal: -12392910.58065, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00002,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+============================================
+== END OF PREPARATION, SIMULATION STARTS! ==
+============================================
+========================
+== END OF SIMULATION! ==
+========================
+HHVDW: 506337.92172, HHReal: -12027782.30549, HGVDW: 291388.66633, HGReal: -3601012.56100, GGVDW: 18320.84192, GGReal: -82739.30220, HHEwaldE: 6943.92743,
+ HGEwaldE: -89545.85964,
+ GGEwaldE: -25862.59015, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+
+===========================
+==    END OF PROGRAM!    ==
+== PRINTING MEMORY USAGE ==
+===========================
+Total Program Size: 9555 MB
+Resident Set Size: 137 MB
+Shared Pages: 98 MB
+Text (code): 0 MB
+Data + Stack: 91 MB
