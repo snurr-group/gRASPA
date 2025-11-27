@@ -711,15 +711,10 @@ static inline void Update_Max_VolumeChange(Components& SystemComponents)
   SystemComponents.VolumeMoveAttempts = 0;
 }
 
-////////////////////////////////////////////////
-// BLOCK POCKET CHECKING FUNCTION //
-////////////////////////////////////////////////
-
-// Check if a position is blocked by any block pocket
-// Moved from read_data.cpp to mc_utilities.h as it's a runtime MC function
-// RASPA2 uses center-only check: distance(atom_center, block_center) < block_radius
-// NO atom radius is added - matches RASPA2's BlockedPocket() function exactly
-inline bool CheckBlockedPosition(const Components& SystemComponents, size_t component, const double3& pos, Boxsize& Box)
+// Note: CheckBlockedPosition is defined in read_data.h - do not duplicate here
+#if 0
+// OLD DUPLICATE CODE - REMOVED
+inline bool CheckBlockedPosition_DUPLICATE(const Components& SystemComponents, size_t component, const double3& pos, Boxsize& Box)
 {
   // Match RASPA2's BlockedPocket() function exactly
   if(component >= SystemComponents.UseBlockPockets.size() || !SystemComponents.UseBlockPockets[component])
@@ -1075,5 +1070,6 @@ inline bool CheckBlockedPosition(const Components& SystemComponents, size_t comp
   }
   #endif
 }
+#endif // #if 0 - OLD DUPLICATE CODE
 
 #endif // MC_UTILITIES_H

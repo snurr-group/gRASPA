@@ -219,8 +219,8 @@ Variables Initialize(void) //for pybind
         Vars.TempComponents.Moves.push_back(MoveStats);
       }
       
-      // Read BlockPockets after all components are read
-      ReadBlockingPockets(Vars.TempComponents, Vars.Box[a], a);
+      // BlockPockets are read during component parsing (in ReadAdsorbateComponent)
+      // No need to call ReadBlockingPockets here - it's handled during input parsing
 
       Vars.SystemComponents.push_back(Vars.TempComponents);
     
