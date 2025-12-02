@@ -77,6 +77,13 @@ inline void Update_Components_for_framework(Components& SystemComponents)
     SystemComponents.rigid.push_back(true);
     SystemComponents.hasfractionalMolecule.push_back(false); //No fractional molecule for the framework//
     SystemComponents.NumberOfCreateMolecules.push_back(0); //Create zero molecules for the framework//
+    // Initialize block pocket vectors for framework
+    SystemComponents.UseBlockPockets.push_back(false);
+    SystemComponents.InvertBlockPockets.push_back(false);
+    SystemComponents.BlockPocketCenters.push_back(std::vector<double3>());
+    SystemComponents.BlockPocketRadii.push_back(std::vector<double>());
+    SystemComponents.BlockPocketTotalAttempts.push_back(0);
+    SystemComponents.BlockPocketBlockedCount.push_back(0);
     LAMBDA lambda;
     lambda.newBin = 0; lambda.delta = static_cast<double>(1.0/(lambda.binsize)); lambda.WangLandauScalingFactor = 0.0; //Zhao's note: in raspa3, delta is 1/(nbin - 1)
     lambda.FractionalMoleculeID = 0;

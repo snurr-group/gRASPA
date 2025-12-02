@@ -1,3 +1,7 @@
+#ifndef READ_DATA_H
+#define READ_DATA_H
+
+#include <cuda_runtime.h>
 //#include "VDW_Coulomb.cuh"
 
 void Check_Inputs_In_read_data_cpp(std::string& exepath);
@@ -48,13 +52,25 @@ std::vector<double2> ReadMinMax();
 void ReadVoidFraction(Variables& Vars);
 
 void ReadDNNModelSetup(Components& SystemComponents);
+
+void ReadBlockPockets(Components& SystemComponents, size_t component, const std::string& filename);
+void ReplicateBlockPockets(Components& SystemComponents, size_t component, Boxsize& Box);
+// Universal BlockedPocket function matching RASPA2 implementation
+// Returns true if position is blocked, false if allowed
+bool BlockedPocket(Components& SystemComponents, size_t component, const double3& pos, Boxsize& Box);
+// Legacy function name for backward compatibility
+inline bool CheckBlockedPosition(const Components& SystemComponents, size_t component, const double3& pos, Boxsize& Box)
+{
+  Components& nonConst = const_cast<Components&>(SystemComponents);
+  return BlockedPocket(nonConst, component, pos, const_cast<Boxsize&>(Box));
+}
 //###PATCH_LCLIN_READDATA_H###//
 //###PATCH_ALLEGRO_READDATA_H###//
 
 //Weird issues with using vector.data() for double and double3//
 //So we keep this function, for now//
 template<typename T>
-T* convert1DVectortoArray(std::vector<T>& Vector)
+inline T* convert1DVectortoArray(std::vector<T>& Vector)
 {
   size_t Vectorsize = Vector.size();
   T* result=new T[Vectorsize];
@@ -67,3 +83,5 @@ T* convert1DVectortoArray(std::vector<T>& Vector)
 //void write_ReplicaPos(auto& pos, auto& ij2type, size_t ntotal, size_t nstep);
 
 //void write_edges(auto& edges, auto& ij2type, size_t nedges, size_t nstep);
+
+#endif // READ_DATA_H

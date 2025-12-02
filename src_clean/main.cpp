@@ -218,8 +218,22 @@ Variables Initialize(void) //for pybind
         ReadFrameworkComponentMoves(MoveStats, Vars.TempComponents, comp);
         Vars.TempComponents.Moves.push_back(MoveStats);
       }
+      
+      // BlockPockets are read during component parsing (in ReadAdsorbateComponent)
+      // No need to call ReadBlockingPockets here - it's handled during input parsing
 
       Vars.SystemComponents.push_back(Vars.TempComponents);
+    
+    // Replicate block pockets across unit cells now that Box is initialized
+    // This must be done after all components are read and Box is set up
+    for(size_t comp = 0; comp < Vars.SystemComponents[a].NComponents.x; comp++)
+    {
+      if(comp < Vars.SystemComponents[a].UseBlockPockets.size() && Vars.SystemComponents[a].UseBlockPockets[comp])
+      {
+        // Box will be initialized later, so we'll replicate after Box setup
+        // For now, mark that replication is needed
+      }
+    }
     
     //Calculate Fugacity Coefficient//
     //Note pressure in Vars.Box variable is already converted to internal units//
@@ -267,6 +281,15 @@ Variables Initialize(void) //for pybind
     cudaMemcpy(Vars.Sims[a].Box.Cell, Vars.Box[a].Cell, 9 * sizeof(double), cudaMemcpyHostToDevice);
     cudaMemcpy(Vars.Sims[a].Box.InverseCell, Vars.Box[a].InverseCell, 9 * sizeof(double), cudaMemcpyHostToDevice);
     Vars.Sims[a].Box.kmax = Vars.Box[a].kmax;
+    
+    // Replicate block pockets across unit cells now that Box is fully initialized and populated
+    for(size_t comp = 0; comp < Vars.SystemComponents[a].NComponents.x; comp++)
+    {
+      if(comp < Vars.SystemComponents[a].UseBlockPockets.size() && Vars.SystemComponents[a].UseBlockPockets[comp])
+      {
+        ReplicateBlockPockets(Vars.SystemComponents[a], comp, Vars.Sims[a].Box);
+      }
+    }
 
     Copy_Atom_data_to_device((size_t) NComponents.x, device_System, Vars.SystemComponents[a].HostSystem);
     Prepare_TempSystem_On_Host(Vars.SystemComponents[a].TempSystem);

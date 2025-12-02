@@ -1103,6 +1103,15 @@ struct Components
   double DeletionDNNDrift=0.0;
   double SingleSwapDNNDrift=0.0;
   double DNNDrift = 100000.0;
+  
+  // Blockpocket statistics tracking
+  std::vector<double> BlockPocketCalls;      // Number of blockpocket checks per component
+  std::vector<double> BlockPocketBlocked;     // Number of blocked positions per component
+  // Per-move-type blockpocket statistics: [component][move_type]
+  // Move types: 0=Translation, 1=Rotation, 2=Insertion, 3=Deletion, 4=Reinsertion, 5=IdentitySwap, 6=Widom, 7=Other
+  std::vector<std::vector<double>> BlockPocketCallsByMove;      // [component][move_type]
+  std::vector<std::vector<double>> BlockPocketBlockedByMove;   // [component][move_type]
+  int CurrentBlockedPocketMoveType = 7;  // Current move type (7 = Other)
   double DNNEnergyConversion;
   bool UseAllegro = false;
   bool UseLCLin = false;
@@ -1119,6 +1128,13 @@ struct Components
  
   std::vector<bool>   hasPartialCharge;               // Whether this component has partial charge
   std::vector<bool>   hasfractionalMolecule;          // Whether this component has fractional molecules
+  std::vector<bool>   UseBlockPockets;                // Whether to use block pockets for this component
+  std::vector<bool>   InvertBlockPockets;             // Invert block pocket logic (allow only inside pockets)
+  std::vector<std::vector<double3>> BlockPocketCenters; // Block pocket centers for each component [component][pocket]
+  std::vector<std::vector<double>> BlockPocketRadii;  // Block pocket radii for each component [component][pocket]
+  // Block pocket statistics
+  std::vector<size_t> BlockPocketTotalAttempts;       // Total insertion attempts for each component
+  std::vector<size_t> BlockPocketBlockedCount;        // Number of blocked insertions for each component
   std::vector<LAMBDA> Lambda;                         // Vector of Lambda struct
   std::vector<TMMC>   Tmmc;                           // Vector of TMMC struct
   std::vector<bool>   rigid;                          // Determine if the component is rigid.

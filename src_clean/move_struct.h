@@ -1,3 +1,6 @@
+#include "read_data.h"
+#include "mc_utilities.h"  // For CheckBlockedPosition
+
 struct InsertionMove
 {
   MoveEnergy energy;
@@ -20,13 +23,36 @@ struct InsertionMove
     //CBMC_Variables& InsertionVariables = SystemComponents.CBMC_New[0]; InsertionVariables.clear();
     energy = Insertion_Body(Vars, systemId, InsertionVariables);
 
+    // CRITICAL: If construction failed (blocked), ensure Pacc is 0
+    if(!InsertionVariables.SuccessConstruction)
+    {
+      Pacc = 0.0;
+      preFactor = 0.0;
+      return;
+    }
+
     double IdealRosen = SystemComponents.IdealRosenbluthWeight[SelectedComponent];
     preFactor = GetPrefactor(SystemComponents, Sims, SelectedComponent, INSERTION);
     Pacc = preFactor * InsertionVariables.Rosenbluth / IdealRosen;
+    
+    // CRITICAL: If Rosenbluth is 0 (blocked), ensure Pacc is 0
+    if(InsertionVariables.Rosenbluth <= 1e-150)
+    {
+      Pacc = 0.0;
+    }
   }
   void Acceptance(Variables& Vars, size_t systemId)
   {
     Components& SystemComponents = Vars.SystemComponents[systemId];
+
+    // Blocking check is already done in Insertion_Body (before Pacc calculation)
+    // If SuccessConstruction is false, it means the move was blocked or failed
+    if(!InsertionVariables.SuccessConstruction)
+    {
+      Accept = false;
+      energy.zero();
+      return;
+    }
 
     double RANDOM = 1e-100;
     if(!CreateMoleculePhase) RANDOM = Get_Uniform_Random();
@@ -172,12 +198,69 @@ struct ReinsertionMove
     {
       return;
     }
+    
 
     if(SystemComponents.Moleculesize[SelectedComponent] > 1)
     {
       Widom_Move_Chain_PARTIAL(Vars, systemId, InsertionVariables); //True for doing insertion for reinsertion, different in MoleculeID//
       if(Rosenbluth <= 1e-150) InsertionVariables.SuccessConstruction = false; //Zhao's note: added this protection bc of weird error when testing GibbsParticleXfer
+      if(!InsertionVariables.SuccessConstruction)
+      {
+        return;
+      }
     }
+    
+    // RASPA2: After chain growth for REINSERTION, check ALL atoms for blocking
+    // RASPA2 line 4487-4491: for(i=0; i<Components[CurrentComponent].NumberOfAtoms; i++) { if(BlockedPocket(TrialPosition[i])) return 0; }
+    // Check IMMEDIATELY after chain growth, BEFORE storing (matching RASPA2's timing exactly)
+    // CRITICAL: Widom_Move_Chain_PARTIAL sets Sims.Old.pos[0] = selected first bead trial (line 263 in mc_widom.h)
+    // StoreNewLocation_Reinsertion stores: Sims.Old.pos[0] for multi-atom first bead, Sims.New.pos[SelectedTrial] for single atom
+    // So we check the exact positions that will be stored
+    if(InsertionVariables.SuccessConstruction &&
+       SelectedComponent < SystemComponents.UseBlockPockets.size() && 
+       SystemComponents.UseBlockPockets[SelectedComponent] &&
+       SystemComponents.Moleculesize[SelectedComponent] > 0)
+    {
+      cudaDeviceSynchronize();
+      size_t molsize = SystemComponents.Moleculesize[SelectedComponent];
+      double3* host_positions = new double3[molsize];
+      
+      size_t SelectedTrial = InsertionVariables.selectedTrial;
+      if(molsize > 1) SelectedTrial = InsertionVariables.selectedTrialOrientation;
+      
+      if(molsize == 1)
+      {
+        // Single atom: StoreNewLocation_Reinsertion stores NewMol.pos[SelectedTrial]
+        cudaMemcpy(host_positions, &Sims.New.pos[SelectedTrial], sizeof(double3), cudaMemcpyDeviceToHost);
+      }
+      else
+      {
+        // Multiple atoms: Widom_Move_Chain_PARTIAL sets Sims.Old.pos[0] = selected first bead trial
+        // StoreNewLocation_Reinsertion stores Mol.pos[0] (Sims.Old.pos[0]) for first bead
+        // and NewMol.pos[SelectedTrial*chainsize+(i-1)] for chain atoms
+        cudaMemcpy(&host_positions[0], &Sims.Old.pos[0], sizeof(double3), cudaMemcpyDeviceToHost);
+        
+        size_t chainsize = molsize - 1;
+        for(size_t i = 1; i < molsize; i++)
+        {
+          size_t selectsize = SelectedTrial * chainsize + (i - 1);
+          cudaMemcpy(&host_positions[i], &Sims.New.pos[selectsize], sizeof(double3), cudaMemcpyDeviceToHost);
+        }
+      }
+      
+      for(size_t i = 0; i < molsize; i++)
+      {
+        if(CheckBlockedPosition(SystemComponents, SelectedComponent, host_positions[i], Sims.Box))
+        {
+          delete[] host_positions;
+          InsertionVariables.SuccessConstruction = false;
+          InsertionVariables.Rosenbluth = 0.0;
+          return;
+        }
+      }
+      delete[] host_positions;
+    }
+    
     //Store the inserted molecule//
     if(InsertionVariables.SuccessConstruction)
     {
@@ -260,21 +343,36 @@ struct ReinsertionMove
     //size_t& SelectedMolInComponent = SystemComponents.TempVal.molecule;
     size_t& SelectedComponent = SystemComponents.TempVal.component;
 
+    // NOTE: Blocking check for reinsertion is already done in Widom_Move_FirstBead_PARTIAL
+    // which checks all first bead trials for REINSERTION_INSERTION and marks blocked ones
+    // No need to check again here to avoid double-checking
+
     double RANDOM = Get_Uniform_Random();
     Pacc = InsertionVariables.Rosenbluth / DeletionVariables.Rosenbluth;
 
-    if(RANDOM < Pacc)
-    { // accept the move
-      SystemComponents.Moves[SelectedComponent].Record_Move_Accept(REINSERTION);
-      size_t UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.TempVal.molecule;
-      Update_Reinsertion_data<<<1,SystemComponents.Moleculesize[SelectedComponent]>>>(Sims.d_a, SystemComponents.tempMolStorage, SelectedComponent, UpdateLocation); checkCUDAError("error Updating Reinsertion data");
-
-      if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
-        Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
-      //energy.print();
+    // Check if move was blocked (already checked in first bead via device_flag)
+    // The first bead check marks blocked trials, which causes SuccessConstruction = false
+    if(InsertionVariables.SuccessConstruction == false || InsertionVariables.Rosenbluth <= 1e-150)
+    {
+      energy.zero();
+      return;
     }
-    else
-    energy.zero();
+    
+    // Now check probability
+    if(RANDOM >= Pacc)
+    {
+      energy.zero();
+      return;
+    }
+
+    // accept the move
+    SystemComponents.Moves[SelectedComponent].Record_Move_Accept(REINSERTION);
+    size_t UpdateLocation = SystemComponents.Moleculesize[SelectedComponent] * SystemComponents.TempVal.molecule;
+    Update_Reinsertion_data<<<1,SystemComponents.Moleculesize[SelectedComponent]>>>(Sims.d_a, SystemComponents.tempMolStorage, SelectedComponent, UpdateLocation); checkCUDAError("error Updating Reinsertion data");
+
+    if(!FF.noCharges && SystemComponents.hasPartialCharge[SelectedComponent])
+      Update_Vector_Ewald(Sims.Box, false, SystemComponents, SelectedComponent);
+    //energy.print();
   }
   MoveEnergy Run(Variables& Vars, size_t systemId)
   {

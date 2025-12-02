@@ -2,6 +2,7 @@
 #include "mc_swap_utilities.h"
 #include "lambda.h"
 #include "mc_cbcfc.h"
+#include "read_data.h"
 /*
 __global__ void StoreNewLocation_Reinsertion(Atoms Mol, Atoms NewMol, double3* temp, size_t SelectedTrial, size_t Moleculesize)
 {
@@ -295,6 +296,37 @@ static inline MoveEnergy IdentitySwapMove(Variables& Vars, size_t systemId)
   if(SystemComponents.Moleculesize[NEWComponent] > 1) SelectedTrial = InsertionVariables.selectedTrialOrientation;
   // Store The New Locations //
   StoreNewLocation_Reinsertion<<<1,SystemComponents.Moleculesize[NEWComponent]>>>(Sims.Old, Sims.New, SystemComponents.tempMolStorage, SelectedTrial, SystemComponents.Moleculesize[NEWComponent]);
+
+  // Check block pockets for identity swap after chain growth (matching RASPA2: checks all atoms in NewPosition)
+  // RASPA2 checks: for(i=0;i<Components[NewComponent].NumberOfAtoms;i++) if(BlockedPocket(NewPosition[i])) return 0;
+  if(NEWComponent < SystemComponents.UseBlockPockets.size() && 
+     SystemComponents.UseBlockPockets[NEWComponent])
+  {
+    // Ensure statistics vectors are large enough
+    if(NEWComponent >= SystemComponents.BlockPocketTotalAttempts.size())
+    {
+      SystemComponents.BlockPocketTotalAttempts.resize(NEWComponent + 1, 0);
+      SystemComponents.BlockPocketBlockedCount.resize(NEWComponent + 1, 0);
+    }
+    
+    // Check all atoms in the new molecule configuration (stored in tempMolStorage)
+    std::vector<double3> new_positions(SystemComponents.Moleculesize[NEWComponent]);
+    cudaMemcpy(new_positions.data(), SystemComponents.tempMolStorage, 
+               SystemComponents.Moleculesize[NEWComponent] * sizeof(double3), cudaMemcpyDeviceToHost);
+    
+    SystemComponents.CurrentBlockedPocketMoveType = 5; // IdentitySwap
+    for(size_t i = 0; i < SystemComponents.Moleculesize[NEWComponent]; i++)
+    {
+      if(BlockedPocket(SystemComponents, NEWComponent, new_positions[i], Sims.Box))
+      {
+        SystemComponents.CurrentBlockedPocketMoveType = 7; // Reset to Other
+        Sims.ExcludeList[0] = {-1, -1}; //Set to negative so that excludelist is ignored
+        energy.zero();
+        return energy; // Block the move, matching RASPA2 behavior
+      }
+    }
+    SystemComponents.CurrentBlockedPocketMoveType = 7; // Reset to Other
+  }
 
   /////////////
   // RETRACE //

@@ -1,3 +1,5 @@
+#include "mc_utilities.h"  // For CheckBlockedPosition
+
 inline MoveEnergy Insertion_Body(Variables& Vars, size_t systemId, CBMC_Variables& CBMC)
 {
   Components& SystemComponents = Vars.SystemComponents[systemId];
@@ -19,6 +21,8 @@ inline MoveEnergy Insertion_Body(Variables& Vars, size_t systemId, CBMC_Variable
   if(Rosenbluth <= 1e-150) CBMC.SuccessConstruction = false; //Zhao's note: added this protection bc of weird error when testing GibbsParticleXfer
   if(!CBMC.SuccessConstruction)
   {
+    // CRITICAL: If construction failed (blocked or high energy), ensure Rosenbluth is 0
+    CBMC.Rosenbluth = 0.0;
     return energy;
   }
   if(SystemComponents.Moleculesize[SelectedComponent] > 1)
@@ -28,8 +32,20 @@ inline MoveEnergy Insertion_Body(Variables& Vars, size_t systemId, CBMC_Variable
     if(Rosenbluth <= 1e-150) CBMC.SuccessConstruction = false;
     if(!CBMC.SuccessConstruction)
     {
+      // CRITICAL: If construction failed (blocked or high energy), ensure Rosenbluth is 0
+      CBMC.Rosenbluth = 0.0;
       return energy;
     }
+    
+    // NOTE: Blocking check for CBMC INSERTION is done in Widom_Move_FirstBead_PARTIAL
+    // Only first bead is checked (center-only, like RASPA2)
+    // RASPA2 does NOT check all atoms after chain growth for regular CBMC INSERTION
+    // Only REINSERTION checks all atoms after chain growth (line 4487-4491)
+  }
+  else if(SystemComponents.Moleculesize[SelectedComponent] == 1)
+  {
+    // For single atom molecules, blocking is already checked in Widom_Move_FirstBead_PARTIAL
+    // No need to check again here
   }
   energy = CBMC.FirstBeadEnergy + CBMC.ChainEnergy;
 
