@@ -436,7 +436,7 @@ inline void Widom_Move_FirstBead_PARTIAL(Variables& Vars, size_t systemId, CBMC_
   Random.Update(NumberOfTrials);
 
   // Check block pockets for insertion moves (matching RASPA2)
-  // RASPA2 checks BlockedPocket for all trial positions in CBMC_INSERTION, REINSERTION_INSERTION, and IDENTITY_SWAP_NEW
+  // RASPA2 checks BlockedPocket for the starting bead AFTER molecule growth and rejects entire attempt if blocked
   if((MoveType == CBMC_INSERTION || MoveType == REINSERTION_INSERTION || MoveType == IDENTITY_SWAP_NEW) && 
      SelectedComponent < SystemComponents.UseBlockPockets.size() && 
      SystemComponents.UseBlockPockets[SelectedComponent])
@@ -448,21 +448,48 @@ inline void Widom_Move_FirstBead_PARTIAL(Variables& Vars, size_t systemId, CBMC_
       SystemComponents.BlockPocketBlockedCount.resize(SelectedComponent + 1, 0);
     }
     
+    // Set move type for blockpocket statistics
+    int move_type = 7; // Default to Other
+    if(MoveType == CBMC_INSERTION) move_type = 2; // Insertion
+    else if(MoveType == REINSERTION_INSERTION) move_type = 4; // Reinsertion
+    else if(MoveType == IDENTITY_SWAP_NEW) move_type = 5; // IdentitySwap
+    SystemComponents.CurrentBlockedPocketMoveType = move_type;
+    
     std::vector<double3> trial_positions(NumberOfTrials);
     cudaMemcpy(trial_positions.data(), Sims.New.pos, NumberOfTrials * sizeof(double3), cudaMemcpyDeviceToHost);
     bool* host_flags = new bool[NumberOfTrials];
     cudaMemcpy(host_flags, Sims.device_flag, NumberOfTrials * sizeof(bool), cudaMemcpyDeviceToHost);
     
-    // Check each trial position (matching RASPA2: if(BlockedPocket(TrialPosition[i])) return 0;)
-    for(size_t i = 0; i < NumberOfTrials; i++)
+    // RASPA2 only checks the starting bead position (first trial) and rejects entire attempt if blocked
+    // RASPA2: while(OVERLAP==TRUE||BlockedPocket(NewPosition[StartingBead])); - rejects and regenerates if blocked
+    // Match this behavior: if starting bead is blocked, mark ALL trials as blocked to reject the move
+    if(NumberOfTrials > 0)
     {
-      if(BlockedPocket(SystemComponents, SelectedComponent, trial_positions[i], Sims.Box))
+      bool starting_bead_blocked = BlockedPocket(SystemComponents, SelectedComponent, trial_positions[0], Sims.Box);
+      if(starting_bead_blocked)
       {
-        host_flags[i] = true; // Mark as blocked/overlap
+        // Reject entire insertion attempt if starting bead is blocked (matching RASPA2)
+        for(size_t i = 0; i < NumberOfTrials; i++)
+        {
+          host_flags[i] = true; // Mark all trials as blocked to reject the move
+        }
+      }
+      else
+      {
+        // Starting bead is not blocked, check other trials for statistics only
+        // (RASPA2 doesn't check other trials, but we do for completeness)
+        for(size_t i = 1; i < NumberOfTrials; i++)
+        {
+          if(BlockedPocket(SystemComponents, SelectedComponent, trial_positions[i], Sims.Box))
+          {
+            host_flags[i] = true; // Mark individual trial as blocked
+          }
+        }
       }
     }
     cudaMemcpy(Sims.device_flag, host_flags, NumberOfTrials * sizeof(bool), cudaMemcpyHostToDevice);
     delete[] host_flags;
+    SystemComponents.CurrentBlockedPocketMoveType = 7; // Reset to Other
   }
 
   //printf("Selected Component: %zu, Selected Molecule: %zu (%zu), Total in Component: %zu\n", SelectedComponent, SelectedMolID, SystemComponents.TempVal.SelectedMolInComponent, SystemComponents.NumberOfMolecule_for_Component[SelectedComponent]);

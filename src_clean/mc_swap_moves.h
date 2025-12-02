@@ -314,15 +314,18 @@ static inline MoveEnergy IdentitySwapMove(Variables& Vars, size_t systemId)
     cudaMemcpy(new_positions.data(), SystemComponents.tempMolStorage, 
                SystemComponents.Moleculesize[NEWComponent] * sizeof(double3), cudaMemcpyDeviceToHost);
     
+    SystemComponents.CurrentBlockedPocketMoveType = 5; // IdentitySwap
     for(size_t i = 0; i < SystemComponents.Moleculesize[NEWComponent]; i++)
     {
       if(BlockedPocket(SystemComponents, NEWComponent, new_positions[i], Sims.Box))
       {
+        SystemComponents.CurrentBlockedPocketMoveType = 7; // Reset to Other
         Sims.ExcludeList[0] = {-1, -1}; //Set to negative so that excludelist is ignored
         energy.zero();
         return energy; // Block the move, matching RASPA2 behavior
       }
     }
+    SystemComponents.CurrentBlockedPocketMoveType = 7; // Reset to Other
   }
 
   /////////////

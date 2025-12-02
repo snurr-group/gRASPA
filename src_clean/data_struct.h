@@ -1103,6 +1103,15 @@ struct Components
   double DeletionDNNDrift=0.0;
   double SingleSwapDNNDrift=0.0;
   double DNNDrift = 100000.0;
+  
+  // Blockpocket statistics tracking
+  std::vector<double> BlockPocketCalls;      // Number of blockpocket checks per component
+  std::vector<double> BlockPocketBlocked;     // Number of blocked positions per component
+  // Per-move-type blockpocket statistics: [component][move_type]
+  // Move types: 0=Translation, 1=Rotation, 2=Insertion, 3=Deletion, 4=Reinsertion, 5=IdentitySwap, 6=Widom, 7=Other
+  std::vector<std::vector<double>> BlockPocketCallsByMove;      // [component][move_type]
+  std::vector<std::vector<double>> BlockPocketBlockedByMove;   // [component][move_type]
+  int CurrentBlockedPocketMoveType = 7;  // Current move type (7 = Other)
   double DNNEnergyConversion;
   bool UseAllegro = false;
   bool UseLCLin = false;

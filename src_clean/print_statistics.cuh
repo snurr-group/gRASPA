@@ -667,6 +667,98 @@ static inline void Gather_Averages_double(std::vector<double>& Array, double val
 ///////////////////////////////////////////////////////
 // Wrapper for the functions for printing statistics //
 ///////////////////////////////////////////////////////
+static inline void Print_BlockPocket_Statistics(Components& SystemComponents, FILE* OUTPUT)
+{
+  // Check if any component uses block pockets (similar to RASPA2)
+  bool hasBlockPockets = false;
+  
+  for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
+  {
+    if(i < SystemComponents.UseBlockPockets.size() && SystemComponents.UseBlockPockets[i])
+    {
+      hasBlockPockets = true;
+      break;
+    }
+  }
+  
+  if(hasBlockPockets)
+  {
+    fprintf(OUTPUT, "BlockedPocket statistics:\n");
+    fprintf(OUTPUT, "==========================\n");
+    for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
+    {
+      // Only print for components that use blockpockets
+      if(i < SystemComponents.UseBlockPockets.size() && SystemComponents.UseBlockPockets[i])
+      {
+        double calls = 0.0;
+        double blocked = 0.0;
+        
+        // Try BlockPocketCalls/BlockPocketBlocked first (matches RASPA2 variable names)
+        if(i < SystemComponents.BlockPocketCalls.size())
+          calls = SystemComponents.BlockPocketCalls[i];
+        if(i < SystemComponents.BlockPocketBlocked.size())
+          blocked = SystemComponents.BlockPocketBlocked[i];
+        
+        // If not found, try alternative variable names
+        if(calls == 0.0 && i < SystemComponents.BlockPocketTotalAttempts.size())
+          calls = (double)SystemComponents.BlockPocketTotalAttempts[i];
+        if(blocked == 0.0 && i < SystemComponents.BlockPocketBlockedCount.size())
+          blocked = (double)SystemComponents.BlockPocketBlockedCount[i];
+        
+        // Calculate percentage (matches RASPA2 format exactly)
+        double percentage = 0.0;
+        if(calls > 0.0)
+          percentage = 100.0 * blocked / calls;
+        
+        // Print in RASPA2 format: "Component [name] BlockedPocket calls: X blocked: Y (Z [%])"
+        fprintf(OUTPUT, "Component [%s] BlockedPocket calls: %.6f blocked: %.6f (%.6f [%%])\n",
+          SystemComponents.MoleculeName[i].c_str(),
+          calls,
+          blocked,
+          percentage);
+        
+        // Per-move-type statistics
+        const char *move_type_names[] = {
+          "Translation",
+          "Rotation",
+          "Insertion",
+          "Deletion",
+          "Reinsertion",
+          "IdentitySwap",
+          "Widom",
+          "Other"
+        };
+        
+        if(i < SystemComponents.BlockPocketCallsByMove.size() && i < SystemComponents.BlockPocketBlockedByMove.size())
+        {
+          fprintf(OUTPUT, "  Per-move-type statistics:\n");
+          for(size_t move_type = 0; move_type < 8; move_type++)
+          {
+            double move_calls = 0.0;
+            double move_blocked = 0.0;
+            
+            if(move_type < SystemComponents.BlockPocketCallsByMove[i].size())
+              move_calls = SystemComponents.BlockPocketCallsByMove[i][move_type];
+            if(move_type < SystemComponents.BlockPocketBlockedByMove[i].size())
+              move_blocked = SystemComponents.BlockPocketBlockedByMove[i][move_type];
+            
+            if(move_calls > 0.0)
+            {
+              double move_percentage = 100.0 * move_blocked / move_calls;
+              fprintf(OUTPUT, "    %s: calls: %.6f blocked: %.6f (%.6f [%%])\n",
+                move_type_names[move_type],
+                move_calls,
+                move_blocked,
+                move_percentage);
+            }
+          }
+        }
+      }
+    }
+    fprintf(OUTPUT, "\n");
+  }
+}
+
 static inline void PrintAllStatistics(Components& SystemComponents, Simulations& Sims, size_t Cycles, int SimulationMode, int BlockAverageSize, Units& Constants)
 {
   for(size_t comp = 0; comp < SystemComponents.NComponents.x; comp++)
@@ -686,6 +778,10 @@ static inline void PrintAllStatistics(Components& SystemComponents, Simulations&
     }
     fprintf(SystemComponents.OUTPUT, "================================================================================================\n");
   }
+  
+  // Print blockpocket statistics
+  Print_BlockPocket_Statistics(SystemComponents, SystemComponents.OUTPUT);
+  
   if(SimulationMode == PRODUCTION)
   {
     Print_Averages(SystemComponents, Cycles, BlockAverageSize, Sims, Constants);

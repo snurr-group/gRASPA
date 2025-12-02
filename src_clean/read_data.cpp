@@ -3295,9 +3295,31 @@ bool BlockedPocket(Components& SystemComponents, size_t component, const double3
     return false;
   
   // Track the call (matching RASPA2 statistics)
+  if(component < SystemComponents.BlockPocketCalls.size())
+  {
+    SystemComponents.BlockPocketCalls[component] += 1.0;
+  }
   if(component < SystemComponents.BlockPocketTotalAttempts.size())
   {
     SystemComponents.BlockPocketTotalAttempts[component] += 1.0;
+  }
+  
+  // Track per-move-type statistics
+  int move_type = SystemComponents.CurrentBlockedPocketMoveType;
+  if(move_type >= 0 && move_type < 8)
+  {
+    // Ensure vectors are large enough
+    if(component >= SystemComponents.BlockPocketCallsByMove.size())
+      SystemComponents.BlockPocketCallsByMove.resize(component + 1);
+    if(component >= SystemComponents.BlockPocketBlockedByMove.size())
+      SystemComponents.BlockPocketBlockedByMove.resize(component + 1);
+    
+    if(move_type >= SystemComponents.BlockPocketCallsByMove[component].size())
+      SystemComponents.BlockPocketCallsByMove[component].resize(8, 0.0);
+    if(move_type >= SystemComponents.BlockPocketBlockedByMove[component].size())
+      SystemComponents.BlockPocketBlockedByMove[component].resize(8, 0.0);
+    
+    SystemComponents.BlockPocketCallsByMove[component][move_type] += 1.0;
   }
   
   // Copy Box data to host for PBC calculation
@@ -3409,9 +3431,21 @@ bool BlockedPocket(Components& SystemComponents, size_t component, const double3
   
 track_and_return:
   // Track if blocked (matching RASPA2 statistics)
-  if(result == true && component < SystemComponents.BlockPocketBlockedCount.size())
+  if(result == true)
   {
-    SystemComponents.BlockPocketBlockedCount[component] += 1.0;
+    if(component < SystemComponents.BlockPocketBlocked.size())
+      SystemComponents.BlockPocketBlocked[component] += 1.0;
+    if(component < SystemComponents.BlockPocketBlockedCount.size())
+      SystemComponents.BlockPocketBlockedCount[component] += 1.0;
+    
+    // Track per-move-type blocked statistics
+    int move_type = SystemComponents.CurrentBlockedPocketMoveType;
+    if(move_type >= 0 && move_type < 8 && 
+       component < SystemComponents.BlockPocketBlockedByMove.size() &&
+       move_type < SystemComponents.BlockPocketBlockedByMove[component].size())
+    {
+      SystemComponents.BlockPocketBlockedByMove[component][move_type] += 1.0;
+    }
   }
   return result;
 }
