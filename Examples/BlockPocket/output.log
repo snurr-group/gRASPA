@@ -1,0 +1,1253 @@
+/home/xiaoyi/gRASPA/src_clean/nvc_main.x------------------GENERAL SIMULATION SETUP-------------
+Finished Checking Number of Components, There are 1 framework, 1 Adsorbates, 2 total Components
+DONE Reading Model Info from simulation.input file
+Setting Maximum Number of Steps for a Cycle, Max Step = 1
+-------------------------------------------------------
+device_random[0] = 2.30000 4.50000 6.70000
+Read 31 block pockets for component 1 from LTA.block
+================FUGACITY COEFFICIENT CALCULATION================
+Checking: Current Fugacity Coeff for 1 component: -1.00000
+Component 1 needs PR-EOS for fugacity coeff (negative value), going to ignore the fugacity coefficient for other components and calculate all using PR-EOS!start calculating fugacity, Pressure: 10000.00000, Temperature: 303.00000
+Component 1, Pc: 7377300.00000, Tc: 304.12820, Ac: 0.22394
+Component Mol Fraction: 1.00000
+kappa: 0.70648, alpha: 1.00262
+==========================================
+====== Preparing Simulation box 0 ======
+==========================================
+Parsing [1] Component
+-------------- READING AdsorbateComponent 0 (CO2) --------------
+==================================================
+ACCUMULATED Probabilities:
+Translation Probability:      0.25000
+Rotation Probability:         0.50000
+Special Rotation Probability: 0.50000
+Widom Probability:            0.50000
+Reinsertion Probability:      0.75000
+Identity Swap Probability:    0.75000
+CBCF Swap Probability:        0.75000
+Swap Probability:             1.00000
+Volume Probability:           1.00000
+Gibbs Swap Probability:       1.00000
+Gibbs Volume Probability:     1.00000
+Sum of Probabilities:         1.00000
+==================================================
+-------------- END OF READING Component 0 (CO2) --------------
+1
+Number of Solutions: 1
+TempComponents.AmountOfExcessMolecules for component 0 is 0.0000000000; Compressibility: 0.9994796680
+Fugacity Coefficient for component 1 is 0.9994798669
+Check: Computed FugaCoeff for 0, 0 is 0.9994798669
+================END OF FUGACITY COEFFICIENT CALCULATION================
+----------------- MEMORY ALLOCAION STATUS -----------------
+System allocate_sizes are: 576, 10240
+Component allocate_sizes are: 576, 10240
+Allocated Blocksum size: 16001, vdw_real size: 16001, fourier_size: 0
+------------------------------------------------------------
+------------------- SIMULATION BOX PARAMETERS -----------------
+Pressure:        0.00060
+Box Volume:      14805.38875
+Box Beta:        0.00397
+Box Temperature: 303.00000
+---------------------------------------------------------------
+Volume: 14805.38875, excess_volume: 0.00000, Pressure: 10000.00000
+Rosen capacity: 10
+Allocated 6 double3 for reinsertion!
+Replicated block pockets for component 1: 31 -> 31 total (Cartesian->fractional coordinates)
+======================== CALCULATING INITIAL STAGE ENERGY ========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
+VDW + Real on the GPU took 0.00001 secs
+Total GPU Energy: 
+====================== DONE CALCULATING INITIAL STAGE ENERGY ======================
+Component 1, Need to create 0 full molecule
+======================== CALCULATING CREATE_MOLECULE STAGE ENERGY ========================
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: 0.00000; Real: 0.00000
+Guest-Guest VDW: 0.00000; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: 0.00000, Real: 0.00000
+Compoent [1-1], VDW: 0.00000, Real: 0.00000
+VDW + Real on the GPU took 0.00000 secs
+Total GPU Energy: 
+====================== DONE CALCULATING CREATE_MOLECULE STAGE ENERGY ======================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 10000.00000 [Pa], temp: 303.00000 [K]
+==================================
+== RUNNING INITIALIZATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+Box 0, Volume: 14805.38875
+Total Volume: 14805.38875
+INITIALIZATION Cycle: 0, 0 Adsorbate Molecules, Total Energy: 0.00000  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 0 Molecules  ||  
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: 0.00000, HGReal: 0.00000, GGVDW: 0.00000, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+============================================
+== END OF PREPARATION, SIMULATION STARTS! ==
+============================================
+INITIALIZATION Cycle: 5000, 38 Adsorbate Molecules, Total Energy: -107855.73510  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 38 Molecules  ||  
+INITIALIZATION Cycle: 10000, 40 Adsorbate Molecules, Total Energy: -115067.10515  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 40 Molecules  ||  
+INITIALIZATION Cycle: 15000, 54 Adsorbate Molecules, Total Energy: -158479.21385  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 54 Molecules  ||  
+INITIALIZATION Cycle: 20000, 49 Adsorbate Molecules, Total Energy: -141517.37203  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 49 Molecules  ||  
+INITIALIZATION Cycle: 25000, 40 Adsorbate Molecules, Total Energy: -115645.73094  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 40 Molecules  ||  
+INITIALIZATION Cycle: 30000, 44 Adsorbate Molecules, Total Energy: -125792.75761  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+INITIALIZATION Cycle: 35000, 50 Adsorbate Molecules, Total Energy: -145412.46776  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 50 Molecules  ||  
+INITIALIZATION Cycle: 40000, 45 Adsorbate Molecules, Total Energy: -123409.50277  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 45 Molecules  ||  
+INITIALIZATION Cycle: 45000, 38 Adsorbate Molecules, Total Energy: -109730.19117  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 38 Molecules  ||  
+======================== MOVE STATISTICS FOR COMPONENT [1] (CO2) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 12138
+Translation Accepted: 4988
+Max Translation: 0.4598439221, 0.4598439221, 0.4598439221
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 12420
+Rotation Accepted: 6154
+Max Rotation: 0.3601723297, 0.3601723297, 0.3601723297
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   6380
+Insertion Accepted:    1635
+Deletion Performed:    6206
+Deletion Accepted:     1585
+Reinsertion Performed: 12596
+Reinsertion Accepted:  1727
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+=====================BLOCK POCKET STATISTICS FOR COMPONENT [1]=====================
+Total Insertion Attempts: 274942
+Blocked Insertions: 20222
+Blocking Percentage: 7.36%
+================================================================================
+================================================================================================
+BlockedPocket statistics:
+==========================
+Component [CO2] BlockedPocket calls: 274942.000000 blocked: 20222.000000 (7.355006 [%])
+  Per-move-type statistics:
+    Translation: calls: 35649.000000 blocked: 765.000000 (2.145923 [%])
+    Rotation: calls: 36450.000000 blocked: 777.000000 (2.131687 [%])
+    Insertion: calls: 57815.000000 blocked: 6221.000000 (10.760183 [%])
+    Reinsertion: calls: 113999.000000 blocked: 12341.000000 (10.825534 [%])
+    Other: calls: 31029.000000 blocked: 118.000000 (0.380289 [%])
+
+===============================
+== INITIALIZATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 10000.00000 [Pa], temp: 303.00000 [K]
+==================================
+== RUNNING EQUILIBRATION PHASE ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+===============================
+== EQUILIBRATION PHASE ENDS ==
+===============================
+Running Simulation Boxes in SERIAL, currently [0] box; pres: 10000.00000 [Pa], temp: 303.00000 [K]
+==================================
+==  RUNNING PRODUCTION PHASE   ==
+==================================
+CBMC Uses 10 trial positions and 10 trial orientations
+PRODUCTION Cycle: 0, 50 Adsorbate Molecules, Total Energy: -146450.26935  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 50 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 50, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 5000, 41 Adsorbate Molecules, Total Energy: -116392.08990  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 41 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 41, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 10000, 51 Adsorbate Molecules, Total Energy: -151394.86270  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 51 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 51, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 15000, 48 Adsorbate Molecules, Total Energy: -141501.02520  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 48 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 48, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 20000, 43 Adsorbate Molecules, Total Energy: -124741.96505  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 43 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 43, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 25000, 46 Adsorbate Molecules, Total Energy: -132832.34069  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 46 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 46, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 30000, 47 Adsorbate Molecules, Total Energy: -134173.76521  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 47 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 47, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 35000, 37 Adsorbate Molecules, Total Energy: -103299.74900  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 37 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 37, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 40000, 39 Adsorbate Molecules, Total Energy: -110493.83745  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 39 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 39, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 45000, 43 Adsorbate Molecules, Total Energy: -121648.30049  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 43 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 43, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 50000, 51 Adsorbate Molecules, Total Energy: -150893.97467  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 51 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 51, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 55000, 37 Adsorbate Molecules, Total Energy: -104652.49521  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 37 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 37, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 60000, 44 Adsorbate Molecules, Total Energy: -127224.80836  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 65000, 49 Adsorbate Molecules, Total Energy: -143156.75113  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 49 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 49, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 70000, 37 Adsorbate Molecules, Total Energy: -105203.91250  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 37 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 37, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 75000, 48 Adsorbate Molecules, Total Energy: -138132.65682  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 48 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 48, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 80000, 46 Adsorbate Molecules, Total Energy: -129487.31514  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 46 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 46, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 85000, 47 Adsorbate Molecules, Total Energy: -137343.16808  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 47 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 47, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 90000, 43 Adsorbate Molecules, Total Energy: -123222.65997  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 43 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 43, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 95000, 35 Adsorbate Molecules, Total Energy: -99523.08682  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 35 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 35, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 100000, 48 Adsorbate Molecules, Total Energy: -138366.14651  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 48 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 48, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 105000, 47 Adsorbate Molecules, Total Energy: -137968.66048  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 47 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 47, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 110000, 36 Adsorbate Molecules, Total Energy: -106451.98534  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 36 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 36, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 115000, 40 Adsorbate Molecules, Total Energy: -118809.63945  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 40 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 40, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 120000, 37 Adsorbate Molecules, Total Energy: -102582.73395  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 37 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 37, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 125000, 41 Adsorbate Molecules, Total Energy: -120656.64683  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 41 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 41, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 130000, 46 Adsorbate Molecules, Total Energy: -131179.62944  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 46 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 46, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 135000, 35 Adsorbate Molecules, Total Energy: -100129.90765  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 35 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 35, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 140000, 50 Adsorbate Molecules, Total Energy: -142502.57103  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 50 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 50, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 145000, 43 Adsorbate Molecules, Total Energy: -123477.76843  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 43 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 43, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 150000, 48 Adsorbate Molecules, Total Energy: -140450.02320  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 48 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 48, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 155000, 50 Adsorbate Molecules, Total Energy: -143350.53712  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 50 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 50, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 160000, 46 Adsorbate Molecules, Total Energy: -132964.89666  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 46 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 46, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 165000, 36 Adsorbate Molecules, Total Energy: -101075.94047  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 36 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 36, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 170000, 49 Adsorbate Molecules, Total Energy: -141082.70498  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 49 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 49, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 175000, 47 Adsorbate Molecules, Total Energy: -134677.93744  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 47 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 47, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 180000, 38 Adsorbate Molecules, Total Energy: -105465.62452  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 38 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 38, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 185000, 45 Adsorbate Molecules, Total Energy: -131377.50962  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 45 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 45, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 190000, 49 Adsorbate Molecules, Total Energy: -144149.24046  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 49 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 49, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 195000, 43 Adsorbate Molecules, Total Energy: -124141.69970  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 43 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 43, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 200000, 48 Adsorbate Molecules, Total Energy: -133932.47076  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 48 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 48, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 205000, 48 Adsorbate Molecules, Total Energy: -140641.71989  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 48 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 48, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 210000, 50 Adsorbate Molecules, Total Energy: -143935.15633  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 50 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 50, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 215000, 39 Adsorbate Molecules, Total Energy: -111361.62202  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 39 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 39, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 220000, 38 Adsorbate Molecules, Total Energy: -108141.91590  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 38 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 38, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 225000, 41 Adsorbate Molecules, Total Energy: -118866.19018  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 41 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 41, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 230000, 34 Adsorbate Molecules, Total Energy: -95613.66559  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 34 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 34, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 235000, 41 Adsorbate Molecules, Total Energy: -119475.43833  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 41 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 41, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 240000, 42 Adsorbate Molecules, Total Energy: -121009.28630  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 245000, 42 Adsorbate Molecules, Total Energy: -117368.96790  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 250000, 48 Adsorbate Molecules, Total Energy: -137558.86676  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 48 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 48, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 255000, 42 Adsorbate Molecules, Total Energy: -119884.18160  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 260000, 44 Adsorbate Molecules, Total Energy: -128861.09568  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 265000, 44 Adsorbate Molecules, Total Energy: -126740.66500  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 270000, 49 Adsorbate Molecules, Total Energy: -143427.93770  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 49 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 49, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 275000, 47 Adsorbate Molecules, Total Energy: -137106.61403  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 47 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 47, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 280000, 42 Adsorbate Molecules, Total Energy: -117267.70645  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 285000, 38 Adsorbate Molecules, Total Energy: -108656.17733  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 38 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 38, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 290000, 46 Adsorbate Molecules, Total Energy: -138148.53179  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 46 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 46, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 295000, 36 Adsorbate Molecules, Total Energy: -100114.00394  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 36 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 36, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 300000, 49 Adsorbate Molecules, Total Energy: -146727.19129  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 49 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 49, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 305000, 35 Adsorbate Molecules, Total Energy: -97716.23991  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 35 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 35, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 310000, 40 Adsorbate Molecules, Total Energy: -116230.60851  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 40 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 40, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 315000, 41 Adsorbate Molecules, Total Energy: -124900.21538  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 41 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 41, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 320000, 49 Adsorbate Molecules, Total Energy: -145861.49086  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 49 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 49, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 325000, 43 Adsorbate Molecules, Total Energy: -123340.18401  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 43 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 43, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 330000, 45 Adsorbate Molecules, Total Energy: -130581.96179  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 45 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 45, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 335000, 44 Adsorbate Molecules, Total Energy: -129594.33289  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 340000, 33 Adsorbate Molecules, Total Energy: -92272.80425  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 33 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 33, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 345000, 42 Adsorbate Molecules, Total Energy: -120381.31696  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 350000, 40 Adsorbate Molecules, Total Energy: -112818.69025  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 40 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 40, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 355000, 40 Adsorbate Molecules, Total Energy: -112175.76678  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 40 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 40, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 360000, 32 Adsorbate Molecules, Total Energy: -89990.67236  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 32 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 32, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 365000, 32 Adsorbate Molecules, Total Energy: -89067.97869  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 32 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 32, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 370000, 42 Adsorbate Molecules, Total Energy: -118053.44499  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 375000, 40 Adsorbate Molecules, Total Energy: -112891.21643  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 40 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 40, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 380000, 42 Adsorbate Molecules, Total Energy: -121787.25947  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 385000, 53 Adsorbate Molecules, Total Energy: -156168.37558  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 53 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 53, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 390000, 39 Adsorbate Molecules, Total Energy: -110159.53900  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 39 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 39, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 395000, 45 Adsorbate Molecules, Total Energy: -128315.61360  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 45 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 45, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 400000, 42 Adsorbate Molecules, Total Energy: -114473.68613  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 405000, 40 Adsorbate Molecules, Total Energy: -113476.15094  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 40 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 40, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 410000, 44 Adsorbate Molecules, Total Energy: -128406.81992  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 415000, 41 Adsorbate Molecules, Total Energy: -117444.07795  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 41 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 41, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 420000, 52 Adsorbate Molecules, Total Energy: -152195.46965  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 52 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 52, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 425000, 44 Adsorbate Molecules, Total Energy: -126468.25405  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 430000, 44 Adsorbate Molecules, Total Energy: -125562.54699  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 435000, 37 Adsorbate Molecules, Total Energy: -107045.77507  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 37 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 37, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 440000, 42 Adsorbate Molecules, Total Energy: -121813.05436  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 445000, 46 Adsorbate Molecules, Total Energy: -133568.22058  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 46 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 46, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 450000, 44 Adsorbate Molecules, Total Energy: -131241.53975  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 455000, 45 Adsorbate Molecules, Total Energy: -130342.70821  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 45 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 45, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 460000, 39 Adsorbate Molecules, Total Energy: -112225.73330  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 39 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 39, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 465000, 37 Adsorbate Molecules, Total Energy: -106279.35294  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 37 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 37, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 470000, 35 Adsorbate Molecules, Total Energy: -97892.88000  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 35 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 35, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 475000, 33 Adsorbate Molecules, Total Energy: -92072.00966  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 33 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 33, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 480000, 42 Adsorbate Molecules, Total Energy: -120851.31091  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 42 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 42, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 485000, 36 Adsorbate Molecules, Total Energy: -102293.45870  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 36 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 36, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 490000, 37 Adsorbate Molecules, Total Energy: -107977.87962  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 37 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 37, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+PRODUCTION Cycle: 495000, 44 Adsorbate Molecules, Total Energy: -126411.55800  ||  Component 0 [LTA5A_fractional.cif], 1 Molecules  ||  Component 1 [CO2], 44 Molecules  ||  
+Printing: Component: 0 [ LTA5A_fractional.cif ], NumMol: 1, Molsize: 576
+Printing: Component: 1 [ CO2 ], NumMol: 44, Molsize: 3
+Component 0, Molsize: 576
+Component 1, Molsize: 3
+======================== MOVE STATISTICS FOR COMPONENT [1] (CO2) ========================
+=====================TRANSLATION MOVES=====================
+Translation Performed: 137168
+Translation Accepted: 68329
+Max Translation: 0.4371706078, 0.4371706078, 0.4371706078
+===========================================================
+=====================ROTATION MOVES========================
+Rotation Performed: 137314
+Rotation Accepted: 68994
+Max Rotation: 0.3784570010, 0.3784570010, 0.3784570010
+===========================================================
+=====================SWAP MOVES=====================
+Insertion Performed:   69128
+Insertion Accepted:    17352
+Deletion Performed:    68713
+Deletion Accepted:     17308
+Reinsertion Performed: 137420
+Reinsertion Accepted:  19245
+====================================================
+=====================IDENTITY SWAP MOVES=====================
+=============================================================
+=====================BLOCK POCKET STATISTICS FOR COMPONENT [1]=====================
+Total Insertion Attempts: 3004655
+Blocked Insertions: 218489
+Blocking Percentage: 7.27%
+================================================================================
+================================================================================================
+BlockedPocket statistics:
+==========================
+Component [CO2] BlockedPocket calls: 3004655.000000 blocked: 218489.000000 (7.271683 [%])
+  Per-move-type statistics:
+    Translation: calls: 400861.000000 blocked: 7523.000000 (1.876710 [%])
+    Rotation: calls: 401269.000000 blocked: 7487.000000 (1.865831 [%])
+    Insertion: calls: 623087.000000 blocked: 67544.000000 (10.840220 [%])
+    Reinsertion: calls: 1240334.000000 blocked: 134889.000000 (10.875216 [%])
+    Other: calls: 339104.000000 blocked: 1046.000000 (0.308460 [%])
+
+=====================Rosenbluth Summary For Component [1] (CO2)=====================
+There are 5 blocks
+=====BLOCK 0=====
+Widom Performed: 0.0
+=====BLOCK 1=====
+Widom Performed: 0.0
+=====BLOCK 2=====
+Widom Performed: 0.0
+=====BLOCK 3=====
+Widom Performed: 0.0
+=====BLOCK 4=====
+Widom Performed: 0.0
+=========================AVERAGE========================
+Averaged Rosenbluth Weight: 0.0000000000 +/- 0.0000000000
+Averaged Excess Chemical Potential: 0.0000000000 +/- 0.0000000000
+Averaged Henry Coefficient [mol/kg/Pa]: 0 +/- 0
+Averaged Fugacity: 0.0000000000 +/- 0.0000000000
+============= BLOCK AVERAGES (HEAT OF ADSORPTION: kJ/mol) =========
+COMPONENT [1] (CO2)
+BLOCK [0], Blocksize: 100000, Average: -33.60551
+BLOCK [1], Blocksize: 100000, Average: -33.80801
+BLOCK [2], Blocksize: 100000, Average: -34.62398
+BLOCK [3], Blocksize: 100000, Average: -34.12719
+BLOCK [4], Blocksize: 100000, Average: -32.85287
+Overall: Average: -33.80351, ErrorBar: 1.17333
+-----------------------------
+==============================================================
+=================== BLOCK AVERAGES (LOADING: # MOLECULES)=============
+COMPONENT [0] (LTA5A_fractional.cif)
+BLOCK [0], Blocksize: 100000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 100000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 100000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 100000, Average: 1.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 100000, Average: 1.00000, ErrorBar: 0.00000
+Overall: Average: 1.00000, ErrorBar: 0.00000
+---------- EXCESS LOADING (# MOLECULES) ----------
+BLOCK [0], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+Overall: Average: 0.00000, ErrorBar: 0.00000
+------------------------------------
+----------------------------------------------------------
+COMPONENT [1] (CO2)
+BLOCK [0], Blocksize: 100000, Average: 43.45658, ErrorBar: 8.87804
+BLOCK [1], Blocksize: 100000, Average: 43.08473, ErrorBar: 8.97710
+BLOCK [2], Blocksize: 100000, Average: 43.44373, ErrorBar: 9.00179
+BLOCK [3], Blocksize: 100000, Average: 41.92943, ErrorBar: 8.36807
+BLOCK [4], Blocksize: 100000, Average: 42.49076, ErrorBar: 7.86937
+Overall: Average: 42.88105, ErrorBar: 1.18228
+---------- EXCESS LOADING (# MOLECULES) ----------
+BLOCK [0], Blocksize: 100000, Average: 43.45658, ErrorBar: 8.87804
+BLOCK [1], Blocksize: 100000, Average: 43.08473, ErrorBar: 8.97710
+BLOCK [2], Blocksize: 100000, Average: 43.44373, ErrorBar: 9.00179
+BLOCK [3], Blocksize: 100000, Average: 41.92943, ErrorBar: 8.36807
+BLOCK [4], Blocksize: 100000, Average: 42.49076, ErrorBar: 7.86937
+Overall: Average: 42.88105, ErrorBar: 1.18228
+------------------------------------
+----------------------------------------------------------
+======================================================================
+=====================BLOCK AVERAGES (LOADING: mg/g)=============
+COMPONENT [0] (LTA5A_fractional.cif)
+Framework component 0, molar mass: 11430.14400
+Framework total mass: 11430.14400
+BLOCK [0], Blocksize: 100000, Average: 1000.00000, ErrorBar: -nan
+BLOCK [1], Blocksize: 100000, Average: 1000.00000, ErrorBar: -nan
+BLOCK [2], Blocksize: 100000, Average: 1000.00000, ErrorBar: -nan
+BLOCK [3], Blocksize: 100000, Average: 1000.00000, ErrorBar: -nan
+BLOCK [4], Blocksize: 100000, Average: 1000.00000, ErrorBar: -nan
+Overall: Average: 1000.00000, ErrorBar: -nan
+---------- EXCESS LOADING (mg/g) ----------
+Framework component 0, molar mass: 11430.14400
+Framework total mass: 11430.14400
+BLOCK [0], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+Overall: Average: 0.00000, ErrorBar: 0.00000
+------------------------------------
+----------------------------------------------------------
+COMPONENT [1] (CO2)
+Framework component 0, molar mass: 11430.14400
+Framework total mass: 11430.14400
+BLOCK [0], Blocksize: 100000, Average: 167.28481, ErrorBar: 34.17575
+BLOCK [1], Blocksize: 100000, Average: 165.85339, ErrorBar: 34.55709
+BLOCK [2], Blocksize: 100000, Average: 167.23535, ErrorBar: 34.65210
+BLOCK [3], Blocksize: 100000, Average: 161.40610, ErrorBar: 32.21262
+BLOCK [4], Blocksize: 100000, Average: 163.56692, ErrorBar: 30.29290
+Overall: Average: 165.06931, ErrorBar: 4.55116
+---------- EXCESS LOADING (mg/g) ----------
+Framework component 0, molar mass: 11430.14400
+Framework total mass: 11430.14400
+BLOCK [0], Blocksize: 100000, Average: 167.28481, ErrorBar: 34.17575
+BLOCK [1], Blocksize: 100000, Average: 165.85339, ErrorBar: 34.55709
+BLOCK [2], Blocksize: 100000, Average: 167.23535, ErrorBar: 34.65210
+BLOCK [3], Blocksize: 100000, Average: 161.40610, ErrorBar: 32.21262
+BLOCK [4], Blocksize: 100000, Average: 163.56692, ErrorBar: 30.29290
+Overall: Average: 165.06931, ErrorBar: 4.55116
+------------------------------------
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: mol/kg)=============
+COMPONENT [0] (LTA5A_fractional.cif)
+Framework component 0, molar mass: 11430.14400
+Framework total mass: 11430.14400
+BLOCK [0], Blocksize: 100000, Average: 0.08749, ErrorBar: -nan
+BLOCK [1], Blocksize: 100000, Average: 0.08749, ErrorBar: -nan
+BLOCK [2], Blocksize: 100000, Average: 0.08749, ErrorBar: -nan
+BLOCK [3], Blocksize: 100000, Average: 0.08749, ErrorBar: -nan
+BLOCK [4], Blocksize: 100000, Average: 0.08749, ErrorBar: -nan
+Overall: Average: 0.08749, ErrorBar: -nan
+---------- EXCESS LOADING (mol/kg) ----------
+Framework component 0, molar mass: 11430.14400
+Framework total mass: 11430.14400
+BLOCK [0], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [1], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [2], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [3], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+BLOCK [4], Blocksize: 100000, Average: 0.00000, ErrorBar: 0.00000
+Overall: Average: 0.00000, ErrorBar: 0.00000
+------------------------------------
+----------------------------------------------------------
+COMPONENT [1] (CO2)
+Framework component 0, molar mass: 11430.14400
+Framework total mass: 11430.14400
+BLOCK [0], Blocksize: 100000, Average: 3.80193, ErrorBar: 0.77672
+BLOCK [1], Blocksize: 100000, Average: 3.76940, ErrorBar: 0.78539
+BLOCK [2], Blocksize: 100000, Average: 3.80080, ErrorBar: 0.78755
+BLOCK [3], Blocksize: 100000, Average: 3.66832, ErrorBar: 0.73210
+BLOCK [4], Blocksize: 100000, Average: 3.71743, ErrorBar: 0.68847
+Overall: Average: 3.75158, ErrorBar: 0.10344
+---------- EXCESS LOADING (mol/kg) ----------
+Framework component 0, molar mass: 11430.14400
+Framework total mass: 11430.14400
+BLOCK [0], Blocksize: 100000, Average: 3.80193, ErrorBar: 0.77672
+BLOCK [1], Blocksize: 100000, Average: 3.76940, ErrorBar: 0.78539
+BLOCK [2], Blocksize: 100000, Average: 3.80080, ErrorBar: 0.78755
+BLOCK [3], Blocksize: 100000, Average: 3.66832, ErrorBar: 0.73210
+BLOCK [4], Blocksize: 100000, Average: 3.71743, ErrorBar: 0.68847
+Overall: Average: 3.75158, ErrorBar: 0.10344
+------------------------------------
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (LOADING: g/L)=============
+COMPONENT [1] (CO2)
+Total Unit Cells 1 
+BLOCK [0], Blocksize: 100000, Average: 214.45565, ErrorBar: 43.81260
+BLOCK [1], Blocksize: 100000, Average: 212.62060, ErrorBar: 44.30147
+BLOCK [2], Blocksize: 100000, Average: 214.39224, ErrorBar: 44.42328
+BLOCK [3], Blocksize: 100000, Average: 206.91926, ErrorBar: 41.29591
+BLOCK [4], Blocksize: 100000, Average: 209.68939, ErrorBar: 38.83486
+Overall: Average: 211.61543, ErrorBar: 5.83449
+---------- EXCESS LOADING (g/L) ----------
+Total Unit Cells 1 
+BLOCK [0], Blocksize: 100000, Average: 3175099.32680, ErrorBar: 648662.55165
+BLOCK [1], Blocksize: 100000, Average: 3147930.58309, ErrorBar: 655900.46538
+BLOCK [2], Blocksize: 100000, Average: 3174160.45802, ErrorBar: 657703.89131
+BLOCK [3], Blocksize: 100000, Average: 3063520.06914, ErrorBar: 611401.97873
+BLOCK [4], Blocksize: 100000, Average: 3104532.92623, ErrorBar: 574965.22203
+Overall: Average: 3133048.67266, ErrorBar: 86381.85999
+------------------------------------
+----------------------------------------------------------
+==============================================================
+=====================BLOCK AVERAGES (VOLUME Å^3)================
+BLOCK [0], Blocksize: 100000, Average: 14805.38875, ErrorBar: -nan
+BLOCK [1], Blocksize: 100000, Average: 14805.38875, ErrorBar: -nan
+BLOCK [2], Blocksize: 100000, Average: 14805.38875, ErrorBar: -nan
+BLOCK [3], Blocksize: 100000, Average: 14805.38875, ErrorBar: -nan
+BLOCK [4], Blocksize: 100000, Average: 14805.38875, ErrorBar: -nan
+Overall: Average: 14805.38875, ErrorBar: 0.00003
+----------------------------------------------------------
+==============================================================
+===============================
+== PRODUCTION PHASE ENDS ==
+===============================
+Work took 84.618169 seconds
+======================================
+CHECKING FINAL ENERGY FOR SYSTEM [0]
+======================================
+======================== CALCULATING FINAL STAGE ENERGY ========================
+========================
+== END OF SIMULATION! ==
+========================
+****** Calculating VDW + Real Energy (CPU) ******
+Host-Host   VDW: 0.00000; Real: 0.00000
+Host-Guest  VDW: -112973.02870; Real: 0.00000
+Guest-Guest VDW: -9971.45422; Real: 0.00000
+********** PRINTING COMPONENT ENERGIES**********
+Compoent [0-0], VDW: 0.00000, Real: 0.00000
+Compoent [0-1], VDW: -112973.02870, Real: 0.00000
+Compoent [1-1], VDW: -9971.45422, Real: 0.00000
+VDW + Real on the GPU took 0.00035 secs
+Total GPU Energy: 
+====================== DONE CALCULATING FINAL STAGE ENERGY ======================
+======================================
+Random Numbers Regenerated 21 times, offset: 234946, randomsize: 333334
+DNN Feature Preparation Time: 0.00000, DNN Prediction Time: 0.00000
+DNN GPU Time: 0.00000, DNN Sort Time: 0.00000, std::sort Time: 0.00000, Featurization Time: 0.00000
+======================== ENERGY SUMMARY (Simulation 0) =========================
+ *** INITIAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** CREATE MOLECULE STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** RUNNING DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** CHECK DELTA_E (CREATE MOLECULE - INITIAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** FINAL STAGE *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -112973.02870 (-135875.40513 [K])
+VDW [Guest-Guest]:          -9971.45422 (-11992.91014 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+ --> Total Ewald [Host-Host]:
+      0.00000 (0.00000 [K])
+ --> Initial Ewald [Host-Host] (excluded):
+      0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -122944.48291 (-147868.31527 [K])
+========================================================================
+ *** RUNNING DELTA_E (FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -112973.02870 (-135875.40513 [K])
+VDW [Guest-Guest]:          -9971.45422 (-11992.91014 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -122944.48291 (-147868.31527 [K])
+========================================================================
+ *** CHECK DELTA_E (RUNNING FINAL - CREATE MOLECULE) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -112973.02870 (-135875.40513 [K])
+VDW [Guest-Guest]:          -9971.45422 (-11992.91014 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -122944.48291 (-147868.31527 [K])
+========================================================================
+ *** ENERGY DRIFT (CPU FINAL - RUNNING FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -0.00000 (-0.00000 [K])
+VDW [Guest-Guest]:          -0.00000 (-0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -0.00000 (-0.00000 [K])
+========================================================================
+ *** GPU DRIFT (GPU FINAL - CPU FINAL) *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+================================================================================
+======================== PRODUCTION PHASE AVERAGE ENERGIES (Simulation 0) =========================
+ *** PRODUCTION PHASE AVERAGE ENERGY *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           -113235.23845 (-136190.77117 [K])
+VDW [Guest-Guest]:          -10316.55086 (-12407.96626 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               -123551.78931 (-148598.73743 [K])
+========================================================================
+ *** PRODUCTION PHASE AVERAGE ENERGY ERRORBAR *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           3309.25929 (3980.12652 [K])
+VDW [Guest-Guest]:          609.04658 (732.51512 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               3918.30588 (4712.64163 [K])
+========================================================================
+================================================================================
+======================== WIDOM ADSORPTION ENERGIES (Simulation 0) =========================
+ *** AVERAGE WIDOM ADSORPTION ENERGY for CO2 *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+ *** WIDOM ADSORPTION ENERGY ERRORBAR for CO2 *** 
+========================================================================
+VDW [Host-Host]:            0.00000 (0.00000 [K])
+VDW [Host-Guest]:           0.00000 (0.00000 [K])
+VDW [Guest-Guest]:          0.00000 (0.00000 [K])
+Real Coulomb [Host-Host]:   0.00000 (0.00000 [K])
+Real Coulomb [Host-Guest]:  0.00000 (0.00000 [K])
+Real Coulomb [Guest-Guest]: 0.00000 (0.00000 [K])
+Ewald [Host-Host]:          0.00000 (0.00000 [K])
+Ewald [Host-Guest]:         0.00000 (0.00000 [K])
+Ewald [Guest-Guest]:        0.00000 (0.00000 [K])
+DNN Energy:                 0.00000 (0.00000 [K])
+Tail Correction Energy:     0.00000 (0.00000 [K])
+Total Energy:               0.00000 (0.00000 [K])
+========================================================================
+================================================================================
+DNN Rejection Summary:
+Translation+Rotation: 0
+Reinsertion: 0
+Insertion: 0
+Deletion: 0
+SingleSwap: 0
+DNN Drift Summary:
+Translation+Rotation: 0.00000
+Reinsertion: 0.00000
+Insertion: 0.00000
+Deletion: 0.00000
+SingleSwap: 0.00000
+Summary for simulation 0
+HHVDW: 0.00000, HHReal: 0.00000, HGVDW: -112973.02870, HGReal: 0.00000, GGVDW: -9971.45422, GGReal: 0.00000, HHEwaldE: 0.00000,
+ HGEwaldE: 0.00000,
+ GGEwaldE: 0.00000, TailE: 0.00000, DNN_E: 0.00000
+Stored HGVDW: 0.00000, Stored HGReal: 0.00000, Stored HGEwaldE: 0.00000
+PseudoAtom Type: Ac[0], #: 0
+PseudoAtom Type: Ag[1], #: 0
+PseudoAtom Type: Al[2], #: 96
+PseudoAtom Type: Am[3], #: 0
+PseudoAtom Type: As[4], #: 0
+PseudoAtom Type: At[5], #: 0
+PseudoAtom Type: Au[6], #: 0
+PseudoAtom Type: B[7], #: 0
+PseudoAtom Type: Ba[8], #: 0
+PseudoAtom Type: Be[9], #: 0
+PseudoAtom Type: Bi[10], #: 0
+PseudoAtom Type: Bk[11], #: 0
+PseudoAtom Type: Br[12], #: 0
+PseudoAtom Type: C[13], #: 0
+PseudoAtom Type: Ca[14], #: 0
+PseudoAtom Type: Cd[15], #: 0
+PseudoAtom Type: Ce[16], #: 0
+PseudoAtom Type: Cf[17], #: 0
+PseudoAtom Type: Cl[18], #: 0
+PseudoAtom Type: Cm[19], #: 0
+PseudoAtom Type: Co[20], #: 0
+PseudoAtom Type: Cr[21], #: 0
+PseudoAtom Type: Cu[22], #: 0
+PseudoAtom Type: Cs[23], #: 0
+PseudoAtom Type: Dy[24], #: 0
+PseudoAtom Type: Eu[25], #: 0
+PseudoAtom Type: Er[26], #: 0
+PseudoAtom Type: Es[27], #: 0
+PseudoAtom Type: F[28], #: 0
+PseudoAtom Type: Fe[29], #: 0
+PseudoAtom Type: Fm[30], #: 0
+PseudoAtom Type: Fr[31], #: 0
+PseudoAtom Type: Ga[32], #: 0
+PseudoAtom Type: Ge[33], #: 0
+PseudoAtom Type: Gd[34], #: 0
+PseudoAtom Type: H[35], #: 0
+PseudoAtom Type: He[36], #: 0
+PseudoAtom Type: Hf[37], #: 0
+PseudoAtom Type: Hg[38], #: 0
+PseudoAtom Type: Ho[39], #: 0
+PseudoAtom Type: I[40], #: 0
+PseudoAtom Type: In[41], #: 0
+PseudoAtom Type: Ir[42], #: 0
+PseudoAtom Type: K[43], #: 0
+PseudoAtom Type: Kr[44], #: 0
+PseudoAtom Type: La[45], #: 0
+PseudoAtom Type: Li[46], #: 0
+PseudoAtom Type: Lu[47], #: 0
+PseudoAtom Type: Md[48], #: 0
+PseudoAtom Type: Mg[49], #: 0
+PseudoAtom Type: Mn[50], #: 0
+PseudoAtom Type: Mo[51], #: 0
+PseudoAtom Type: N[52], #: 0
+PseudoAtom Type: Na[53], #: 0
+PseudoAtom Type: Ne[54], #: 0
+PseudoAtom Type: Nb[55], #: 0
+PseudoAtom Type: Nd[56], #: 0
+PseudoAtom Type: No[57], #: 0
+PseudoAtom Type: Ni[58], #: 0
+PseudoAtom Type: Np[59], #: 0
+PseudoAtom Type: O[60], #: 384
+PseudoAtom Type: Os[61], #: 0
+PseudoAtom Type: P[62], #: 0
+PseudoAtom Type: Pa[63], #: 0
+PseudoAtom Type: Pb[64], #: 0
+PseudoAtom Type: Pd[65], #: 0
+PseudoAtom Type: Pm[66], #: 0
+PseudoAtom Type: Po[67], #: 0
+PseudoAtom Type: Pr[68], #: 0
+PseudoAtom Type: Pt[69], #: 0
+PseudoAtom Type: Pu[70], #: 0
+PseudoAtom Type: Ra[71], #: 0
+PseudoAtom Type: Rb[72], #: 0
+PseudoAtom Type: Re[73], #: 0
+PseudoAtom Type: Rh[74], #: 0
+PseudoAtom Type: Rn[75], #: 0
+PseudoAtom Type: Ru[76], #: 0
+PseudoAtom Type: S[77], #: 0
+PseudoAtom Type: Sb[78], #: 0
+PseudoAtom Type: Sc[79], #: 0
+PseudoAtom Type: Se[80], #: 0
+PseudoAtom Type: Si[81], #: 96
+PseudoAtom Type: Sm[82], #: 0
+PseudoAtom Type: Sn[83], #: 0
+PseudoAtom Type: Sr[84], #: 0
+PseudoAtom Type: Ta[85], #: 0
+PseudoAtom Type: Tb[86], #: 0
+PseudoAtom Type: Tc[87], #: 0
+PseudoAtom Type: Te[88], #: 0
+PseudoAtom Type: Th[89], #: 0
+PseudoAtom Type: Ti[90], #: 0
+PseudoAtom Type: Tl[91], #: 0
+PseudoAtom Type: Tm[92], #: 0
+PseudoAtom Type: U[93], #: 0
+PseudoAtom Type: V[94], #: 0
+PseudoAtom Type: W[95], #: 0
+PseudoAtom Type: Xe[96], #: 0
+PseudoAtom Type: Y[97], #: 0
+PseudoAtom Type: Yb[98], #: 0
+PseudoAtom Type: Zn[99], #: 0
+PseudoAtom Type: Zr[100], #: 0
+PseudoAtom Type: CH4_sp3[101], #: 0
+PseudoAtom Type: C_co2[102], #: 44
+PseudoAtom Type: O_co2[103], #: 88
+PseudoAtom Type: Ar[104], #: 0
+PseudoAtom Type: Ht[105], #: 0
+PseudoAtom Type: OT[106], #: 0
+PseudoAtom Type: Op[107], #: 0
+PseudoAtom Type: Ow[108], #: 0
+PseudoAtom Type: Hw[109], #: 0
+PseudoAtom Type: Lw[110], #: 0
+PseudoAtom Type: CH2_sp2[111], #: 0
+PseudoAtom Type: CH3_sp3[112], #: 0
+PseudoAtom Type: CH_sp2[113], #: 0
+PseudoAtom Type: xCH_sp2_com[114], #: 0
+
+===========================
+==    END OF PROGRAM!    ==
+== PRINTING MEMORY USAGE ==
+===========================
+Total Program Size: 9454 MB
+Resident Set Size: 122 MB
+Shared Pages: 99 MB
+Text (code): 0 MB
+Data + Stack: 70 MB

@@ -1,0 +1,52 @@
+UseGPUReduction no
+Useflag yes
+
+NumberOfInitializationCycles 50000
+NumberOfEquilibrationCycles  0
+NumberOfProductionCycles     500000
+RandomSeed                      4444
+
+UseMaxStep  yes
+MaxStepPerCycle 1
+
+UseChargesFromCIFFile no
+
+RestartFile no
+
+BMCBiasingMethod LJ_Biasing
+
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+NumberOfBlocks 1
+AdsorbateAllocateSpace 10240
+NumberOfSimulations 1
+SingleSimulation yes
+
+DifferentFrameworks yes
+InputFileType cif
+FrameworkName LTA5A_fractional
+UnitCells 0 1 1 1
+
+ChargeMethod None
+Temperature 303
+Pressure    10000
+
+OverlapCriteria 1e5
+CutOffVDW 12.0
+CutOffCoulomb 12.0
+EwaldPrecision 1e-6
+
+UseDNNforHostGuest no
+
+Component 0 MoleculeName             CO2
+            IdealGasRosenbluthWeight 1.0
+            FugacityCoefficient      -1
+            TranslationProbability   1.0
+            RotationProbability      1.0
+            ReinsertionProbability   1.0
+            SwapProbability          1.0
+            CreateNumberOfMolecules  0
+            BlockPockets             yes
+            BlockPocketsFilename     LTA
+
+
