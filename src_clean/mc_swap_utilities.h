@@ -37,10 +37,47 @@ inline MoveEnergy Insertion_Body(Variables& Vars, size_t systemId, CBMC_Variable
       return energy;
     }
     
-    // NOTE: Blocking check for CBMC INSERTION is done in Widom_Move_FirstBead_PARTIAL
-    // Only first bead is checked (center-only, like RASPA2)
-    // RASPA2 does NOT check all atoms after chain growth for regular CBMC INSERTION
-    // Only REINSERTION checks all atoms after chain growth (line 4487-4491)
+    // RASPA2: After chain growth for INSERTION, check ALL atoms for blocking
+    // RASPA2 line 4487-4491: for(i=0; i<Components[CurrentComponent].NumberOfAtoms; i++) { if(BlockedPocket(TrialPosition[i])) return 0; }
+    // Check IMMEDIATELY after chain growth, BEFORE storing (matching RASPA2's timing exactly)
+    // CRITICAL: Widom_Move_Chain_PARTIAL sets Sims.Old.pos[0] = selected first bead trial
+    // Update_insertion_data_Parallel stores: Sims.Old.pos[0] for multi-atom first bead, Sims.New.pos[SelectedTrial] for single atom
+    // So we check the exact positions that will be stored
+    if(CBMC.SuccessConstruction &&
+       SelectedComponent < SystemComponents.UseBlockPockets.size() && 
+       SystemComponents.UseBlockPockets[SelectedComponent] &&
+       SystemComponents.Moleculesize[SelectedComponent] > 0)
+    {
+      cudaDeviceSynchronize();
+      size_t molsize = SystemComponents.Moleculesize[SelectedComponent];
+      double3* host_positions = new double3[molsize];
+      
+      size_t SelectedTrial = CBMC.selectedTrialOrientation;
+      
+      // Multiple atoms: Widom_Move_Chain_PARTIAL sets Sims.Old.pos[0] = selected first bead trial
+      // Update_insertion_data_Parallel stores Mol.pos[0] (Sims.Old.pos[0]) for first bead
+      // and NewMol.pos[SelectedTrial*chainsize+(i-1)] for chain atoms
+      cudaMemcpy(&host_positions[0], &Sims.Old.pos[0], sizeof(double3), cudaMemcpyDeviceToHost);
+      
+      size_t chainsize = molsize - 1;
+      for(size_t i = 1; i < molsize; i++)
+      {
+        size_t selectsize = SelectedTrial * chainsize + (i - 1);
+        cudaMemcpy(&host_positions[i], &Sims.New.pos[selectsize], sizeof(double3), cudaMemcpyDeviceToHost);
+      }
+      
+      for(size_t i = 0; i < molsize; i++)
+      {
+        if(CheckBlockedPosition(SystemComponents, SelectedComponent, host_positions[i], Sims.Box))
+        {
+          delete[] host_positions;
+          CBMC.SuccessConstruction = false;
+          CBMC.Rosenbluth = 0.0;
+          return energy;
+        }
+      }
+      delete[] host_positions;
+    }
   }
   else if(SystemComponents.Moleculesize[SelectedComponent] == 1)
   {
