@@ -63,11 +63,11 @@ Modify line 65 in `patch.py` file to `patch_model=['Allegro']`. Then,
 ```shellscript
 python patch.py
 ```
-Now the patched source code is in `patch_libtorch_Allegro/`. Go into the patched folder, and we have some final work to do.
+Now the patched source code is in `patch_Allegro/`. Go into the patched folder, and we have some final work to do.
 ```shellscript
-cd patch_libtorch_Allegro/
+cd patch_Allegro/
 ```
-If you are using the Lin model, modify line 64 in `patch.py` to `tf_or_torch = ['cppflow']` and line 65 to `patch_model=['LCLIN']`. Then do the similar steps to those for the Allegro model. The patched code will be in `patch_cppflow_LCLIN` folder.
+If you are using the Lin model, modify line 64 in `patch.py` to `tf_or_torch = ['cppflow']` and line 65 to `patch_model=['LCLIN']`. Then do the similar steps to those for the Allegro model. The patched code will be in `patch_LCLIN/`.
 
 # Step 6
 Finally, we need to modify the source code due to NERSC configuration:
