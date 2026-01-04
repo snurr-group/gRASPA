@@ -810,6 +810,7 @@ struct PseudoAtomDefinitions //Always a host struct, never on the device
   std::vector<std::string> Symbol; //Symbol name for each pseudo-atom
   std::vector<std::string> UniqueSymbol; //all the unique Symbol list //
   std::vector<size_t> SymbolIndex; //It has the size of the number of pseudo atoms, it tells the ID of the symbol for the pseudo-atoms, e.g., CO2->C->2
+  std::vector<bool> print; //whether to print this atom to LAMMPS movie files
   std::vector<double> oxidation;
   std::vector<double> mass;
   std::vector<double> charge;

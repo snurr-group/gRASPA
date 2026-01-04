@@ -9,13 +9,30 @@
 static inline void WriteBox_LAMMPS(Atoms* System, Components& SystemComponents, ForceField& FF, Boxsize& Box, std::ofstream& textrestartFile, std::vector<std::string>& AtomNames)
 {
   size_t NumberOfAtoms = 0;
+  size_t printableAtoms = 0;
+  // Count both total atoms and printable atoms
   for(size_t i = 0; i < SystemComponents.NComponents.x; i++)
   {
+    // Original count: all atoms
     NumberOfAtoms += SystemComponents.NumberOfMolecule_for_Component[i] * SystemComponents.Moleculesize[i];
-    fprintf(SystemComponents.OUTPUT, "Printing: Component: %zu [ %s ], NumMol: %zu, Molsize: %zu\n", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i], SystemComponents.Moleculesize[i]);
+    
+    // Count printable atoms (with print flag set to true)
+    Atoms Data = System[i];
+    size_t componentPrintableAtoms = 0;
+    for(size_t j = 0; j < Data.size; j++)
+    {
+      if(Data.Type[j] < SystemComponents.PseudoAtoms.print.size() && SystemComponents.PseudoAtoms.print[Data.Type[j]])
+      {
+        componentPrintableAtoms++;
+      }
+    }
+    printableAtoms += componentPrintableAtoms;
+    fprintf(SystemComponents.OUTPUT, "Printing: Component: %zu [ %s ], NumMol: %zu, Molsize: %zu, Total atoms: %zu, Printable atoms: %zu\n", i, SystemComponents.MoleculeName[i].c_str(), SystemComponents.NumberOfMolecule_for_Component[i], SystemComponents.Moleculesize[i], SystemComponents.NumberOfMolecule_for_Component[i] * SystemComponents.Moleculesize[i], componentPrintableAtoms);
   }
+  fprintf(SystemComponents.OUTPUT, "Total atoms: %zu, Printable atoms: %zu\n", NumberOfAtoms, printableAtoms);
   textrestartFile << "# LAMMPS data file written by WriteLammpsdata function in RASPA(written by Zhao Li)" << '\n';
-  textrestartFile << NumberOfAtoms << " atoms" << '\n';
+  textrestartFile << "# Total atoms: " << NumberOfAtoms << ", Printable atoms: " << printableAtoms << '\n';
+  textrestartFile << printableAtoms << " atoms" << '\n';
   textrestartFile << 0 << " bonds" << '\n';
   textrestartFile << 0 << " angles" << '\n';
   textrestartFile << 0 << " dihedrals" << '\n';
@@ -66,6 +83,12 @@ static inline void WriteAtoms_LAMMPS(Atoms* System, Components& SystemComponents
       {
         pos += Wrap_shift;
       }
+      // Check print flag before writing atom
+      if(Data.Type[j] >= SystemComponents.PseudoAtoms.print.size() || !SystemComponents.PseudoAtoms.print[Data.Type[j]])
+      {
+        continue; // Skip this atom if print flag is false
+      }
+
       int oldPrecision = std::cout.precision(); // Store current precision
       int newPrecision = 10;
       std::cout.precision(oldPrecision); // Reset to previous precision
