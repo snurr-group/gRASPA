@@ -1158,6 +1158,10 @@ void PseudoAtomParser(PseudoAtomDefinitions& PseudoAtom)
       Split_Tab_Space(termsScannedLined, str);
       if(termsScannedLined[0] != PseudoAtom.Name[counter-3]) throw std::runtime_error("Order of pseudo-atom and force field definition don't match!");
 
+      // Read print flag (column 2/index 1): "yes" or "no"
+      bool printFlag = (termsScannedLined.size() > 1 && (termsScannedLined[1] == "yes" || termsScannedLined[1] == "YES" || termsScannedLined[1] == "Yes"));
+      PseudoAtom.print.push_back(printFlag);
+
       PseudoAtom.Symbol.push_back(termsScannedLined[2]);
       //size_t SymbolIdx = PseudoAtom.MatchUniqueSymbolTypeFromSymbolName(termsScannedLined[2]);
       //if(SymbolIdx >= PseudoAtom.UniqueSymbol.size()) PseudoAtom.UniqueSymbol.push_back(termsScannedLined[2]);
