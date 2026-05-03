@@ -473,35 +473,35 @@ inline void PRINT_ENERGY_AT_STAGE(Components& SystemComponents, int stage, Units
   }
   fprintf(SystemComponents.OUTPUT, " *** %s *** \n", stage_name.c_str());
   fprintf(SystemComponents.OUTPUT, "========================================================================\n");
-  fprintf(SystemComponents.OUTPUT, "VDW [Host-Host]:            %.5f (%.5f [K])\n", E.HHVDW, E.HHVDW * Constants.energy_to_kelvin);
-  fprintf(SystemComponents.OUTPUT, "VDW [Host-Guest]:           %.5f (%.5f [K])\n", E.HGVDW, E.HGVDW * Constants.energy_to_kelvin);
-  fprintf(SystemComponents.OUTPUT, "VDW [Guest-Guest]:          %.5f (%.5f [K])\n", E.GGVDW, E.GGVDW * Constants.energy_to_kelvin);
-  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Host-Host]:   %.5f (%.5f [K])\n", E.HHReal, E.HHReal * Constants.energy_to_kelvin);
-  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Host-Guest]:  %.5f (%.5f [K])\n", E.HGReal, E.HGReal * Constants.energy_to_kelvin);
-  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Guest-Guest]: %.5f (%.5f [K])\n", E.GGReal, E.GGReal * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "VDW [Host-Host]:            %.5f (%.5f [K], %.5f [kJ/mol])\n", E.HHVDW, E.HHVDW * Constants.energy_to_kelvin, E.HHVDW * Constants.energy_to_kJ_per_mol);
+  fprintf(SystemComponents.OUTPUT, "VDW [Host-Guest]:           %.5f (%.5f [K], %.5f [kJ/mol])\n", E.HGVDW, E.HGVDW * Constants.energy_to_kelvin, E.HGVDW * Constants.energy_to_kJ_per_mol);
+  fprintf(SystemComponents.OUTPUT, "VDW [Guest-Guest]:          %.5f (%.5f [K], %.5f [kJ/mol])\n", E.GGVDW, E.GGVDW * Constants.energy_to_kelvin, E.GGVDW * Constants.energy_to_kJ_per_mol);
+  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Host-Host]:   %.5f (%.5f [K], %.5f [kJ/mol])\n", E.HHReal, E.HHReal * Constants.energy_to_kelvin, E.HHReal * Constants.energy_to_kJ_per_mol);
+  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Host-Guest]:  %.5f (%.5f [K], %.5f [kJ/mol])\n", E.HGReal, E.HGReal * Constants.energy_to_kelvin, E.HGReal * Constants.energy_to_kJ_per_mol);
+  fprintf(SystemComponents.OUTPUT, "Real Coulomb [Guest-Guest]: %.5f (%.5f [K], %.5f [kJ/mol])\n", E.GGReal, E.GGReal * Constants.energy_to_kelvin, E.GGReal * Constants.energy_to_kJ_per_mol);
   //double HHEwaldE_Net = (stage_name.find("STAGE") != std::string::npos) ? E.HHEwaldE - SystemComponents.InitialFrameworkEwald : E.HHEwaldE;
-  fprintf(SystemComponents.OUTPUT, "Ewald [Host-Host]:          %.5f (%.5f [K])\n", E.HHEwaldE, E.HHEwaldE * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Ewald [Host-Host]:          %.5f (%.5f [K], %.5f [kJ/mol])\n", E.HHEwaldE, E.HHEwaldE * Constants.energy_to_kelvin, E.HHEwaldE * Constants.energy_to_kJ_per_mol);
   //Zhao's note: Minus initial framework Ewald E (usually the intra-molecular + self-correction of the framework component zero) //
   if(stage_name == "INITIAL STAGE" || stage_name == "CREATE MOLECULE STAGE" || stage_name == "FINAL STAGE")
   {
     double HHEwaldE_include_frameworkzero = E.HHEwaldE + SystemComponents.InitialFrameworkEwald;
-    fprintf(SystemComponents.OUTPUT, " --> Total Ewald [Host-Host]:\n      %.5f (%.5f [K])\n", HHEwaldE_include_frameworkzero, HHEwaldE_include_frameworkzero * Constants.energy_to_kelvin);
-    fprintf(SystemComponents.OUTPUT, " --> Initial Ewald [Host-Host] (excluded):\n      %.5f (%.5f [K])\n", SystemComponents.InitialFrameworkEwald, SystemComponents.InitialFrameworkEwald * Constants.energy_to_kelvin);
-  } 
-  fprintf(SystemComponents.OUTPUT, "Ewald [Host-Guest]:         %.5f (%.5f [K])\n", E.HGEwaldE, E.HGEwaldE * Constants.energy_to_kelvin);
-  fprintf(SystemComponents.OUTPUT, "Ewald [Guest-Guest]:        %.5f (%.5f [K])\n", E.GGEwaldE, E.GGEwaldE * Constants.energy_to_kelvin);
-  fprintf(SystemComponents.OUTPUT, "DNN Energy:                 %.5f (%.5f [K])\n", E.DNN_E, E.DNN_E * Constants.energy_to_kelvin);
+    fprintf(SystemComponents.OUTPUT, " --> Total Ewald [Host-Host]:\n      %.5f (%.5f [K], %.5f [kJ/mol])\n", HHEwaldE_include_frameworkzero, HHEwaldE_include_frameworkzero * Constants.energy_to_kelvin, HHEwaldE_include_frameworkzero * Constants.energy_to_kJ_per_mol);
+    fprintf(SystemComponents.OUTPUT, " --> Initial Ewald [Host-Host] (excluded):\n      %.5f (%.5f [K], %.5f [kJ/mol])\n", SystemComponents.InitialFrameworkEwald, SystemComponents.InitialFrameworkEwald * Constants.energy_to_kelvin, SystemComponents.InitialFrameworkEwald * Constants.energy_to_kJ_per_mol);
+  }
+  fprintf(SystemComponents.OUTPUT, "Ewald [Host-Guest]:         %.5f (%.5f [K], %.5f [kJ/mol])\n", E.HGEwaldE, E.HGEwaldE * Constants.energy_to_kelvin, E.HGEwaldE * Constants.energy_to_kJ_per_mol);
+  fprintf(SystemComponents.OUTPUT, "Ewald [Guest-Guest]:        %.5f (%.5f [K], %.5f [kJ/mol])\n", E.GGEwaldE, E.GGEwaldE * Constants.energy_to_kelvin, E.GGEwaldE * Constants.energy_to_kJ_per_mol);
+  fprintf(SystemComponents.OUTPUT, "DNN Energy:                 %.5f (%.5f [K], %.5f [kJ/mol])\n", E.DNN_E, E.DNN_E * Constants.energy_to_kelvin, E.DNN_E * Constants.energy_to_kJ_per_mol);
   if(SystemComponents.UseDNNforHostGuest)
   {
     fprintf(SystemComponents.OUTPUT, " --> Stored Classical Host-Guest Interactions: \n");
-    fprintf(SystemComponents.OUTPUT, "     VDW:             %.5f (%.5f [K])\n", E.storedHGVDW, E.storedHGVDW * Constants.energy_to_kelvin);
-    fprintf(SystemComponents.OUTPUT, "     Real Coulomb:    %.5f (%.5f [K])\n", E.storedHGReal, E.storedHGReal * Constants.energy_to_kelvin);
-    fprintf(SystemComponents.OUTPUT, "     Ewald:           %.5f (%.5f [K])\n", E.storedHGEwaldE, E.storedHGEwaldE * Constants.energy_to_kelvin);
-    fprintf(SystemComponents.OUTPUT, "     Total:           %.5f (%.5f [K])\n", E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE, (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE) * Constants.energy_to_kelvin);
-    fprintf(SystemComponents.OUTPUT, " --> DNN - Classical: %.5f (%.5f [K])\n", E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE), (E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE)) * Constants.energy_to_kelvin);
+    fprintf(SystemComponents.OUTPUT, "     VDW:             %.5f (%.5f [K], %.5f [kJ/mol])\n", E.storedHGVDW, E.storedHGVDW * Constants.energy_to_kelvin, E.storedHGVDW * Constants.energy_to_kJ_per_mol);
+    fprintf(SystemComponents.OUTPUT, "     Real Coulomb:    %.5f (%.5f [K], %.5f [kJ/mol])\n", E.storedHGReal, E.storedHGReal * Constants.energy_to_kelvin, E.storedHGReal * Constants.energy_to_kJ_per_mol);
+    fprintf(SystemComponents.OUTPUT, "     Ewald:           %.5f (%.5f [K], %.5f [kJ/mol])\n", E.storedHGEwaldE, E.storedHGEwaldE * Constants.energy_to_kelvin, E.storedHGEwaldE * Constants.energy_to_kJ_per_mol);
+    fprintf(SystemComponents.OUTPUT, "     Total:           %.5f (%.5f [K], %.5f [kJ/mol])\n", E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE, (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE) * Constants.energy_to_kelvin, (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE) * Constants.energy_to_kJ_per_mol);
+    fprintf(SystemComponents.OUTPUT, " --> DNN - Classical: %.5f (%.5f [K], %.5f [kJ/mol])\n", E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE), (E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE)) * Constants.energy_to_kelvin, (E.DNN_E - (E.storedHGVDW + E.storedHGReal + E.storedHGEwaldE)) * Constants.energy_to_kJ_per_mol);
   }
-  fprintf(SystemComponents.OUTPUT, "Tail Correction Energy:     %.5f (%.5f [K])\n", E.TailE, E.TailE * Constants.energy_to_kelvin);
-  fprintf(SystemComponents.OUTPUT, "Total Energy:               %.5f (%.5f [K])\n", E.total(), E.total() * Constants.energy_to_kelvin);
+  fprintf(SystemComponents.OUTPUT, "Tail Correction Energy:     %.5f (%.5f [K], %.5f [kJ/mol])\n", E.TailE, E.TailE * Constants.energy_to_kelvin, E.TailE * Constants.energy_to_kJ_per_mol);
+  fprintf(SystemComponents.OUTPUT, "Total Energy:               %.5f (%.5f [K], %.5f [kJ/mol])\n", E.total(), E.total() * Constants.energy_to_kelvin, E.total() * Constants.energy_to_kJ_per_mol);
   fprintf(SystemComponents.OUTPUT, "========================================================================\n");
 }
 void ENERGY_SUMMARY(Variables& Vars)
