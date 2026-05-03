@@ -187,7 +187,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
       SelfE         += prefactor_self * scaling * charge * scaling * charge;
       if(comp < SystemComponents.NComponents.y && SystemComponents.NumberOfFrameworks > 0) E.HHEwaldE -= prefactor_self * scaling * charge * scaling * charge;
     }
-    fprintf(SystemComponents.OUTPUT, "Component: %zu, SelfAtomE: %.5f (%.5f kJ/mol)\n", comp, SelfE, SelfE*1.2027242847);
+    fprintf(SystemComponents.OUTPUT, "Component: %zu, SelfAtomE: %.5f (%.5f [K], %.5f [kJ/mol])\n", comp, SelfE, SelfE*1.2027242847, SelfE*0.01);
   }
 
   // Subtract exclusion-energy, Zhao's note: taking out the pairs of energies that belong to the same molecule
@@ -223,7 +223,7 @@ void Ewald_Total(Boxsize& Box, Atoms*& Host_System, ForceField& FF, Components& 
         }
       }
     }
-    fprintf(SystemComponents.OUTPUT, "Component: %zu, Intra-Molecular ExclusionE: %.5f (%.5f kJ/mol)\n", l, exclusionE, exclusionE*1.2027242847);
+    fprintf(SystemComponents.OUTPUT, "Component: %zu, Intra-Molecular ExclusionE: %.5f (%.5f [K], %.5f [kJ/mol])\n", l, exclusionE, exclusionE*1.2027242847, exclusionE*0.01);
   }
   SystemComponents.FrameworkEwald = E.HHEwaldE;
   /*
@@ -279,7 +279,7 @@ double Calculate_Intra_Molecule_Exclusion(Boxsize& Box, Atoms* System, double al
       E += Prefactor * factorA * factorB * std::erf(alpha * r) / r;
     }
   }
-  fprintf(SystemComponents.OUTPUT, "Component %zu, Intra Exclusion Energy: %.5f (%.5f kJ/mol)\n", SelectedComponent, E, E*1.2027242847);
+  fprintf(SystemComponents.OUTPUT, "Component %zu, Intra Exclusion Energy: %.5f (%.5f [K], %.5f [kJ/mol])\n", SelectedComponent, E, E*1.2027242847, E*0.01);
   return E;
 }
 
@@ -293,7 +293,7 @@ double Calculate_Self_Exclusion(Boxsize& Box, Atoms* System, double alpha, doubl
     double scaling = System[SelectedComponent].scaleCoul[i];
     E += prefactor_self * scaling * charge * scaling * charge;
   }
-  fprintf(SystemComponents.OUTPUT, "Component %zu, Atom Self Exclusion Energy: %.5f (%.5f kJ/mol)\n", SelectedComponent, E, E*1.2027242847);
+  fprintf(SystemComponents.OUTPUT, "Component %zu, Atom Self Exclusion Energy: %.5f (%.5f [K], %.5f [kJ/mol])\n", SelectedComponent, E, E*1.2027242847, E*0.01);
   return E;
 }
 

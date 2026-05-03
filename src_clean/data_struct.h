@@ -56,6 +56,7 @@ struct Units
   double TimeUnit          = {1e-12};
   double LengthUnit        = {1e-10};
   double energy_to_kelvin  = {1.2027242847};
+  double energy_to_kJ_per_mol = {0.01};
   double BoltzmannConstant = {1.380649e-23};
   double Avogadro          = {6.02214076e23};  // NIST standards [1/mol]
   double gas_constant      = {8.314462618}; // NIST standards [J/mol/K]

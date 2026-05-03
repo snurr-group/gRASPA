@@ -70,6 +70,11 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
 * Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down **MC moves**, add their **modifications**
 * Access the pybind-gRASPA extension [here](https://github.com/Zhaoli2042/gRASPA_pybind), as a patch to the original code
 
+### AutoJIT-gRASPA (automated GPU optimization)
+* AutoJIT-gRASPA is an automated, agent-driven optimization pipeline that takes a specific simulation (input + force field + framework) and produces a **specialized binary** that runs ~5–20% faster with **bit-for-bit identical results** (verified automatically after every change).
+* Three phases: deterministic dead-code stripping → LLM-driven per-kernel micro-optimizations → structural multi-file changes (e.g., CUDA Graph capture, kernel fusion).
+* Access AutoJIT-gRASPA [here](https://github.com/Zhaoli2042/AutoJIT-gRASPA).
+
 ## Quick Start
 * Go to [```Examples/```](Examples/) folder and read more!
 
