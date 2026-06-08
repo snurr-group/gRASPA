@@ -853,7 +853,13 @@ static inline double GetTailCorrectionValue_Coeff(double C12, double C6, double 
   double rc7 = rc3 * rc3 * rc;
   double rc9 = rc7 * rc * rc;
   double pi = 3.14159265358979323846;
-  double val = 4.0 * pi * (C12 / (9.0 * rc9) - C6 / (3.0 * rc3) + C10 / (7.0 * rc7) + C4 / rc);
+  // Per-pair tail-correction coefficient = 2*pi * integral_{rc}^inf U(r) r^2 dr, where
+  // U(r) = C12/r^12 - C6/r^6 + C10/r^10 + C4/r^4 (matches the 12-6-4 VDW kernel).
+  // The 2*pi prefactor makes this reduce EXACTLY to the standard LJ result in
+  // GetTailCorrectionValue() when C4=C10=0 (there C12=4*eps*sig^12, C6=4*eps*sig^6
+  // give 2*pi*(C12/(9 rc^9) - C6/(3 rc^3)) = 8*pi*eps*(sig^12/(9 rc^9) - sig^6/(3 rc^3))).
+  // NOTE: a previous 4.0*pi here double-counted the tail energy (bug: TailE was 2x too large).
+  double val = 2.0 * pi * (C12 / (9.0 * rc9) - C6 / (3.0 * rc3) + C10 / (7.0 * rc7) + C4 / rc);
   return val;
 }
 
@@ -950,14 +956,20 @@ void OverWrite_Mixing_Rule(Input_Container& Input)
   counter = 0;
   while (std::getline(OverWritefile, str))
   {
-    if (str.find("number of defined interactions", 0) != std::string::npos)
+    // FIRST occurrence of each marker wins (matches the original pre-12-6-4 behavior, which
+    // broke out of this loop after reading the first "mixing rules to overwrite" count).
+    // Without the "== 0" guard, a force_field.def that contains a SECOND, trailing
+    // "# mixing rules to overwrite\n0" section (as real NaX/zeolite inputs do) would overwrite
+    // mixrule_startline/Nmixrule with the empty trailing section -> Nmixrule=0 -> early return
+    // -> ALL pairwise overrides silently dropped (default LJ path, no UseLJ1264 needed).
+    if (str.find("number of defined interactions", 0) != std::string::npos && defint_startline == 0)
       defint_startline = counter;
     if(defint_startline > 0 && (counter == defint_startline + 1))
     {
       Split_Tab_Space(termsScannedLined, str);
       sscanf(termsScannedLined[0].c_str(), "%zu", &Ndefint);
     }
-    if (str.find("mixing rules to overwrite", 0) != std::string::npos)
+    if (str.find("mixing rules to overwrite", 0) != std::string::npos && mixrule_startline == 0)
       mixrule_startline = counter;
     if(mixrule_startline > 0 && (counter == mixrule_startline + 1))
     {
@@ -983,14 +995,21 @@ void OverWrite_Mixing_Rule(Input_Container& Input)
 
   // Second pass: process sections
   counter = 0;
+  size_t Ndefint_done = 0; // number of GENERIC2_HC data lines consumed so far
   while (std::getline(OverWritefile, str))
   {
     // --- Process "defined interactions" section (GENERIC2_HC, only when Use1264=true) ---
-    if(Ndefint > 0 && counter >= (defint_startline+3) && counter < (3 + defint_startline + Ndefint))
+    // Robust to comment/blank lines between the count line and the data: we scan every
+    // line after the count line (defint_startline+1) and consume the next Ndefint lines
+    // that are actual GENERIC2_HC entries. (The previous fixed window [defint_startline+3,
+    // +3+Ndefint) silently skipped the data whenever extra comment lines preceded it, so
+    // the interaction was never applied -- see the shipped TIP4PEW example.)
+    if(Ndefint > 0 && Ndefint_done < Ndefint && counter > (defint_startline + 1))
     {
       Split_Tab_Space(termsScannedLined, str);
       if(termsScannedLined.size() >= 9 && termsScannedLined[2] == "GENERIC2_HC")
       {
+        Ndefint_done++;
         // GENERIC2_HC: U(r) = p0*exp(-p1*r) - p2/r^4 - p3/r^6 - p4/r^8 - p5/r^12
         // Ref: haoyuanchen/RASPA-tools LJ1264Potential (Du et al., JCTC 2020)
         // NOTE: last term is r^-12 (NOT r^-10 like original GENERIC)
@@ -1033,13 +1052,22 @@ void OverWrite_Mixing_Rule(Input_Container& Input)
     if(Nmixrule > 0 && counter >= (mixrule_startline+3) && counter < (3 + mixrule_startline + Nmixrule))
     {
       Split_Tab_Space(termsScannedLined, str);
-      if(termsScannedLined.size() == 5) //5 entries = LJ mixing rule parameter length
+      // Two accepted pair-override forms:
+      //   5 tokens : "<I> <J> lennard-jones <eps> <sig>"
+      //   6 tokens : "<I> <J> lennard-jones-1264 <eps> <sig> <C4>"   (12-6-4 extra C4 term)
+      // The 6-token form was previously documented (CLAUDE.md) but silently dropped because
+      // only size()==5 was handled (Bug #3). C4 is the r^-4 charge-induced-dipole coefficient
+      // and only affects the VDW kernel when UseLJ1264 is on.
+      bool is_lj     = (termsScannedLined.size() == 5);
+      bool is_lj1264 = (termsScannedLined.size() == 6 && termsScannedLined[2] == "lennard-jones-1264");
+      if(is_lj || is_lj1264)
       {
         size_t typeI = GetTypeFromFFName(Input, termsScannedLined[0]);
         size_t typeJ = GetTypeFromFFName(Input, termsScannedLined[1]);
 
         double temp_ep = std::stod(termsScannedLined[3])/1.20272430057;
         double temp_sig= std::stod(termsScannedLined[4]);
+        double temp_C4 = is_lj1264 ? std::stod(termsScannedLined[5])/1.20272430057 : 0.0;
 
         if(Input.Use1264)
         {
@@ -1053,19 +1081,26 @@ void OverWrite_Mixing_Rule(Input_Container& Input)
           Input.Mix_Epsilon[typeJ * FFsize + typeI] = C12;
           Input.Mix_Sigma[typeI * FFsize + typeJ] = C6;
           Input.Mix_Sigma[typeJ * FFsize + typeI] = C6;
-          Input.Mix_Z[typeI * FFsize + typeJ] = 0.0;
-          Input.Mix_Z[typeJ * FFsize + typeI] = 0.0;
+          Input.Mix_Z[typeI * FFsize + typeJ] = temp_C4;   // C4 from the 6-token form (0 for 5-token)
+          Input.Mix_Z[typeJ * FFsize + typeI] = temp_C4;
           Input.Mix_C10[typeI * FFsize + typeJ] = 0.0;
           Input.Mix_C10[typeJ * FFsize + typeI] = 0.0;
           if(shifted)
           {
-            double shift_val = Get_Shifted_Value_Coeff(C12, C6, 0.0, 0.0, Input.CutOffVDW);
+            double shift_val = Get_Shifted_Value_Coeff(C12, C6, temp_C4, 0.0, Input.CutOffVDW);
             Input.Mix_Shift[typeI * FFsize + typeJ] = shift_val;
             Input.Mix_Shift[typeJ * FFsize + typeI] = shift_val;
           }
         }
         else
         {
+          // LJ (12-6) kernel ignores C4. Warn loudly rather than silently discarding a value
+          // the user explicitly provided.
+          if(is_lj1264)
+            fprintf(stderr, "WARNING: force_field.def override \"%s %s lennard-jones-1264 ...\" "
+                            "provides a C4 term (%s) but UseLJ1264 is off; C4 is ignored.\n",
+                            termsScannedLined[0].c_str(), termsScannedLined[1].c_str(),
+                            termsScannedLined[5].c_str());
           // Original: store epsilon/sigma directly
           Input.Mix_Epsilon[typeI * FFsize + typeJ] = temp_ep;
           Input.Mix_Epsilon[typeJ * FFsize + typeI] = temp_ep;
@@ -1077,6 +1112,14 @@ void OverWrite_Mixing_Rule(Input_Container& Input)
             Input.Mix_Shift[typeJ * FFsize + typeI] = Get_Shifted_Value(temp_ep, temp_sig, Input.CutOffVDW);
           }
         }
+      }
+      else
+      {
+        // Defense-in-depth: NEVER silently drop a line inside the override window (the root
+        // cause shared by all four 12-6-4 parser bugs). Report unrecognized formats instead.
+        fprintf(stderr, "WARNING: unrecognized \"mixing rules to overwrite\" line ignored "
+                        "(expected 5-token lennard-jones or 6-token lennard-jones-1264): \"%s\"\n",
+                        str.c_str());
       }
     }
     counter ++;
