@@ -1,0 +1,10 @@
+# number of pseudo atoms
+7
+#type      print   as   chem   oxi   mass      charge       pol
+Al         yes     Al   Al     0     26.981    0.48598	     0
+Si         yes     Si   Si     0     28.085    0.78598       0
+O          yes     O    O      0     15.999   -0.39299	     0
+Oa         yes     O    O      0     15.999   -0.41384       0
+Na         yes     Na   Na     0     22.990    0.38340       0
+C_co2	   yes     C    C      0     12.011    0.65120	     0
+O_co2	   yes     O    O      0     15.999   -0.32560       0

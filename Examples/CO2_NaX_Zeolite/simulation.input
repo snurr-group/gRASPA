@@ -1,0 +1,57 @@
+UseGPUReduction no
+Useflag yes
+
+NumberOfInitializationCycles 10000
+NumberOfEquilibrationCycles  0
+NumberOfProductionCycles     10000
+
+UseMaxStep  yes
+MaxStepPerCycle 1
+
+UseChargesFromCIFFile yes
+
+RestartFile no
+RandomSeed  0
+
+BMCBiasingMethod LJ_Biasing
+
+NumberOfTrialPositions 10
+NumberOfTrialOrientations 10
+NumberOfBlocks 1
+AdsorbateAllocateSpace 10240
+NumberOfSimulations 1
+SingleSimulation yes
+
+DifferentFrameworks yes
+InputFileType cif
+FrameworkName NaX_Al55
+UnitCells 0 1 1 1
+
+ChargeMethod Ewald
+Temperature 303
+Pressure    10000
+
+OverlapCriteria 1e5
+CutOffVDW 12.0
+CutOffCoulomb 12.0
+EwaldPrecision 1e-6
+
+SeparateFrameworkComponents yes
+NumberofFrameworkComponents 2
+UseChargesFromCIFFile         yes
+Framework_Component_ 1
+TranslationProbability     1.0
+END_OF_Framework_Component_ 1
+
+UseDNNforHostGuest no
+
+Component 0 MoleculeName             CO2
+            IdealGasRosenbluthWeight 1.0
+            FugacityCoefficient      PR-EOS
+            BlockPockets             yes
+            BlockPocketsFilename     FAU
+            TranslationProbability   1.0
+            RotationProbability      1.0
+            ReinsertionProbability   1.0
+            SwapProbability          1.0
+            CreateNumberOfMolecules  0

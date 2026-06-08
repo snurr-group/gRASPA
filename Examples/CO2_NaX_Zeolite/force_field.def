@@ -1,0 +1,18 @@
+# rules to overwrite
+0
+# mixing rules to overwrite
+11
+# type type2 interaction
+O       O_co2  lennard-jones  78.980  3.237   
+Oa      O_co2  lennard-jones  78.980  3.237   
+O       C_co2  lennard-jones  37.595  3.511
+Oa      C_co2  lennard-jones  37.595  3.511
+O       Na     lennard-jones  23.000  3.400   
+Oa      Na     lennard-jones  23.000  3.400
+O_co2   Na     lennard-jones  200.831 2.758  
+C_co2   Na     lennard-jones  362.292 3.320  
+O_co2   O_co2  lennard-jones  85.671  3.017  
+C_co2   C_co2  lennard-jones  29.933  2.745  
+O_co2   C_co2  lennard-jones  50.640  2.880 
+# mixing rules to overwrite
+0
