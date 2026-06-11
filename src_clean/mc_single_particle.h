@@ -99,8 +99,11 @@ inline void SingleBody_Prepare(Variables& Vars, size_t systemId)
     SystemComponents.CurrentBlockedPocketMoveType = move_type;
     
     // Check all atoms in the molecule (matching RASPA2: for(i=0;i<nr_atoms;i++) if(BlockedPocket(TrialPosition[i])) return 0;)
+    // get_new_position writes the proposed positions at Sims.New.pos[0..Molsize); start_position only offsets reads from d_a.
+    // Reading at start_position overruns the 1024-slot temporary buffer once a component exceeds 85 molecules (issue #80).
     std::vector<double3> trial_positions(Molsize);
-    cudaMemcpy(trial_positions.data(), &Sims.New.pos[start_position], Molsize * sizeof(double3), cudaMemcpyDeviceToHost);
+    cudaMemcpy(trial_positions.data(), Sims.New.pos, Molsize * sizeof(double3), cudaMemcpyDeviceToHost);
+    checkCUDAError("error copying proposed positions for blockpocket check (single-particle move)");
     
     for(size_t i = 0; i < Molsize; i++)
     {
