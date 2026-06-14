@@ -344,6 +344,10 @@ Both codes use the same PBC algorithm:
 Despite implementation differences, both codes exhibit **equivalent behavior**:
 
 1. ✅ **Translation/Rotation**: Check all atoms, reject if any blocked
+   *(fixed in `e59b4d4` — before that, issue #80: the check read the wrong slot of the
+   temporary position buffer, so for any molecule index ≥ 1 it tested stale/garbage
+   coordinates and could over- or under-block; it also caused an out-of-bounds `cudaMemcpy`
+   crash once a component exceeded ~85 molecules. See "Loading Validation" below.)*
 2. ✅ **CBMC Insertion**: Check starting bead only, reject entire attempt if blocked
 3. ✅ **Reinsertion**: Check starting bead only, reject if blocked
 4. ✅ **Identity Swap**: Check all atoms in new component, reject if any blocked
@@ -357,4 +361,34 @@ Despite implementation differences, both codes exhibit **equivalent behavior**:
 - The main architectural difference is gRASPA's use of explicit parameters vs RASPA2's global variables
 - Both codes correctly implement the blockpocket logic for all MC move types
 - The checking occurs at the same logical points in both codes, ensuring equivalent rejection behavior
+
+## Loading Validation (this example)
+
+CO₂ in LTA5A, 303 K, 10 000 Pa, LJ-only (`ChargeMethod None`), 31 LTA block pockets, single
+unit cell. GPU runs on Quest A100 (gRASPA `e59b4d4`), 50 000 init + 500 000 production cycles,
+5 blocks, averaged over 3 random seeds (0 / 4444 / 777). Loading is **molecules per unit cell**.
+
+| Configuration | CO₂ loading (molec/uc) | CO₂ found inside blocked pockets |
+|---|---|---|
+| BlockPockets **off** (no exclusion) | **52.94 ± 1.09** | — |
+| BlockPockets **on** (gRASPA `e59b4d4`, fixed) | **43.16 ± 0.12** | **0** |
+| BlockPockets **on** (pre-fix `9e94189`, issue #80) | 43.05 ± 0.02 | 0 |
+
+Reference loading for this example (current `main`, BlockPockets on): **≈ 43.2 molecules/unit
+cell** (no-blocking ceiling ≈ 52.9). Block pockets correctly exclude **~9.8 CO₂/uc (~18 %)** from
+the LTA sodalite cages, and no CO₂ remains inside a blocked pocket in the final configuration.
+
+Notes:
+- The block-pocket *loading* is unchanged by the issue-#80 fix (43.16 vs 43.05, within error),
+  because in a swap-driven GCMC the loading is set by **insertion** blocking — which reads the
+  correct buffer in both versions — while transient translation/rotation leaks are washed out by
+  swaps. The fix is therefore **loading-neutral** for normal isotherms.
+- The fix's real effect is (a) eliminating the out-of-bounds-`cudaMemcpy` crash at high loading
+  (issue #80; triggers once a single component exceeds `floor(1024/atoms_per_molecule)` molecules,
+  e.g. 86 for a 12-atom xylene), and (b) restoring correct translation/rotation screening, which
+  matters in translation-dominated regimes (large molecules, low swap acceptance, or swap-free runs
+  — where a swap-free o-xylene/FORXAM test left molecules trapped in blocked pockets pre-fix and
+  none post-fix).
+- The blockpocket machinery was cross-validated against RASPA2 on methane/LTA5A: gRASPA reproduces
+  RASPA2's no-blocking loading to within error (82.5 vs 82.59 ± 0.91 molec/uc).
 
