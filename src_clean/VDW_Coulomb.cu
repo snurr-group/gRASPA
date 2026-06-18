@@ -1052,7 +1052,9 @@ __global__ void Energy_difference_LambdaChange(Boxsize Box, Atoms* System, Atoms
   BlockEnergy[blockIdx.x] = 0.0; BlockEnergy[blockIdx.x + HG_Nblock + GG_Nblock] = 0.0;
   //BlockdUdlambda[blockIdx.x] = 0.0;
 
-  __shared__ bool Blockflag = false;
+  __shared__ bool Blockflag;
+  if(threadIdx.x == 0) Blockflag = false;
+  __syncthreads();
 
   const size_t NTotalComp = NComps.x; //Zhao's note: need to change here for multicomponent (Nguest comp > 1)
   const size_t NHostComp  = NComps.y;
