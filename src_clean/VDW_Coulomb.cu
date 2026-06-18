@@ -3,7 +3,7 @@
 #include "maths.cuh"
 #include "Ewald_Energy_Functions.h"
 #include "TailCorrection_Energy_Functions.h"
-#include <cuda_fp16.h>
+#include "gpu_compat.h"
 #include <omp.h>
 
 #include "DNN_HostGuest_Energy_Functions.h"

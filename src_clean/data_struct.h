@@ -1,3 +1,4 @@
+#include "gpu_compat.h"
 #include <filesystem>
 
 #include <stdio.h>
