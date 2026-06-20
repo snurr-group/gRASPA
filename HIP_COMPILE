@@ -1,0 +1,30 @@
+#!/bin/bash
+# AMD/ROCm (HIP) build of the classical gRASPA core, mirroring NVC_COMPILE.
+# Compile from inside src_clean/:  cd src_clean && ../HIP_COMPILE
+# Override the GPU target with GRASPA_ARCH (default: gfx90a, e.g. MI250X).
+
+rm -f hip_main.x
+
+CXX="hipcc"
+
+ARCH="${GRASPA_ARCH:-gfx90a}"
+
+# -fgpu-rdc: relocatable device code (cross-TU device linking, like nvc++ -cuda).
+# -munsafe-fp-atomics: hardware FP atomics on gfx90a.
+HIPFLAG="-O3 -std=c++20 --offload-arch=${ARCH} -x hip -fgpu-rdc -munsafe-fp-atomics -fopenmp -Wno-unused-result -Wno-format"
+
+$CXX $HIPFLAG -c axpy.cu && echo "Finished axpy.cu" &
+
+$CXX $HIPFLAG -c main.cpp && echo "Finished main.cpp" &
+
+$CXX $HIPFLAG -c read_data.cpp && echo "Finished read_data.cpp" &
+
+$CXX $HIPFLAG -c data_struct.cpp && echo "Finished data_struct.cpp" &
+
+$CXX $HIPFLAG -c VDW_Coulomb.cu && echo "Finished VDW_Coulomb.cu" &
+
+wait
+
+$CXX -std=c++20 --offload-arch=${ARCH} -fgpu-rdc -fopenmp --hip-link main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o hip_main.x ; echo "Finished Linking"
+
+rm -f *.o

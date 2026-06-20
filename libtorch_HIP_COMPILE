@@ -1,0 +1,45 @@
+#!/bin/bash
+# AMD/ROCm (HIP) build of gRASPA + Allegro (ROCm LibTorch), mirroring
+# libtorch_NVC_COMPILE. Run inside a ROCm PyTorch environment/container.
+#
+# Workflow (same as the CUDA Allegro build):
+#   python patch.py            # with patch_path = ['libtorch-patch/Allegro']
+#   cd patch_Allegro && ../libtorch_HIP_COMPILE
+#
+# TORCH_DIR must point at the ROCm LibTorch install (the torch package dir,
+# e.g. .../site-packages/torch). Override the GPU target with GRASPA_ARCH.
+
+rm -f hip_main.x
+
+CXX="hipcc"
+
+ARCH="${GRASPA_ARCH:-gfx90a}"
+
+torchDir="${TORCH_DIR:?set TORCH_DIR to the ROCm LibTorch directory}"
+
+# Link ROCm LibTorch: torch_hip/c10_hip are the AMD device libraries
+# (NOT torch_cuda). _GLIBCXX_USE_CXX11_ABI must match the torch build (=1
+# for torch 2.x wheels; use =0 if you hit std::__cxx11 link errors).
+INCFLAG="-I${torchDir}/include -I${torchDir}/include/torch/csrc/api/include"
+
+LINKFLAG="-L${torchDir}/lib -Wl,-rpath,${torchDir}/lib -ltorch -ltorch_cpu -lc10 -ltorch_hip -lc10_hip"
+
+ABIFLAG="-D_GLIBCXX_USE_CXX11_ABI=1"
+
+HIPFLAG="-O3 -std=c++20 --offload-arch=${ARCH} -x hip -fgpu-rdc -munsafe-fp-atomics -fopenmp -Wno-unused-result -Wno-format -Wno-c++11-narrowing"
+
+$CXX $HIPFLAG $ABIFLAG $INCFLAG -c axpy.cu && echo "Finished axpy.cu" &
+
+$CXX $HIPFLAG $ABIFLAG $INCFLAG -c main.cpp && echo "Finished main.cpp" &
+
+$CXX $HIPFLAG $ABIFLAG $INCFLAG -c read_data.cpp && echo "Finished read_data.cpp" &
+
+$CXX $HIPFLAG $ABIFLAG $INCFLAG -c data_struct.cpp && echo "Finished data_struct.cpp" &
+
+$CXX $HIPFLAG $ABIFLAG $INCFLAG -c VDW_Coulomb.cu && echo "Finished VDW_Coulomb.cu" &
+
+wait
+
+$CXX -std=c++20 --offload-arch=${ARCH} -fgpu-rdc -fopenmp --hip-link $ABIFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o $LINKFLAG -o hip_main.x ; echo "Finished Linking"
+
+rm -f *.o

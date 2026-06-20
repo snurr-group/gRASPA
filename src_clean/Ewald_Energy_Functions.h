@@ -1043,7 +1043,7 @@ __global__ void TotalFourierEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Com
 
 __global__ void TotalFourierEwald_CalculateEnergy(Boxsize Box, Complex* FrameworkEik, Complex* Eik, double* BlockSum, size_t kpoints, size_t kpoint_per_thread, size_t Nblocks)
 {
-  __shared__ double sdata[];
+  extern __shared__ double sdata[];
   size_t threadID = blockIdx.x * blockDim.x + threadIdx.x;
   double Framework_E = 0.0;
   double Adsorbate_E = 0.0;

@@ -1,8 +1,13 @@
 #include <algorithm>
 #include <omp.h>
-#include <cuda_fp16.h>
+#include "gpu_compat.h"
+// These thrust headers are dead includes (no thrust:: symbol is used in
+// this translation unit). Guarding them avoids forcing hipcc to resolve
+// rocThrust; the CUDA build is unaffected.
+#if !defined(__HIP__)
 #include <thrust/device_ptr.h>
 #include <thrust/reduce.h>
+#endif // !defined(__HIP__)
 #include "read_data.h"
 
 
