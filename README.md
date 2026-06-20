@@ -64,7 +64,31 @@ A detailed installation note for gRASPA on CentOS/Ubuntu 24.04 is documented in 
 * For NVIDIA GPUs, gRASPA code has been tested on the following NVIDIA GPUs:
   * A40, A100, RTX 3080 Ti, RTX 3090, RTX 4090.
   * 🤯: RTX 3090/4090 is faster than A40/A100 for gRASPA
+* For AMD GPUs, gRASPA builds for ROCm/HIP (see below); tested on MI250X (`gfx90a`).
 * gRASPA has a SYCL version (experimental) that supports other devices, available in [Releases](https://github.com/snurr-group/gRASPA/releases)
+
+### AMD / ROCm (HIP)
+The `src_clean/` source tree is dual-platform: under `nvc++`/`nvcc` it builds for
+NVIDIA exactly as before, and under `hipcc` it builds for AMD GPUs through HIP via
+the `src_clean/gpu_compat.h` shim (no separate source tree). Both the **classical
+MC core** and the **Allegro** ML-potential path are supported on ROCm.
+
+```bash
+cd src_clean && ../HIP_COMPILE          # classical core  -> hip_main.x
+# Allegro: run patch.py, then ../libtorch_HIP_COMPILE against ROCm LibTorch
+```
+
+Notes:
+* Both scripts target `gfx90a` by default; override the GPU with `GRASPA_ARCH`
+  (e.g. `GRASPA_ARCH=gfx942` for MI300X).
+* At runtime AMD builds require `HSA_XNACK=1` (the code uses managed memory).
+* `libtorch_HIP_COMPILE` links ROCm LibTorch (`-ltorch_hip -lc10_hip`) and sets
+  `-D_GLIBCXX_USE_CXX11_ABI=1` (matches PyTorch 2.x wheels); use `=0` if you hit
+  `std::__cxx11` link errors.
+* Validate against the CUDA reference with the binary-agnostic harness:
+  `HSA_XNACK=1 GRASPA_BIN=.../src_clean/hip_main.x python run_designated_folders.py`
+  then `pytest -s` in `Examples/`.
+* The LCLin/cppflow (TensorFlow) path is CUDA-only and is not available on ROCm.
 
 ### Pybind Extension (testing)
 * Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down **MC moves**, add their **modifications**

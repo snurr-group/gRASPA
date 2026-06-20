@@ -1,5 +1,5 @@
 #include "data_struct.h"
-#include <cuda_fp16.h> 
+#include "gpu_compat.h"
 
 ///////////
 // MATHS //
@@ -10,6 +10,10 @@ void inverse_matrix(double* x, double **inverse_x);
 
 void GaussJordan(std::vector<std::vector<double>>& a, std::vector<std::vector<double>>& b);
 
+// HIP's double3 (HIP_vector_type) already provides these componentwise
+// operators, so declaring them again would clash. Under nvcc the guard is
+// true and the declarations are emitted verbatim.
+#if !defined(__HIP__)
 __host__ __device__ void operator +=(double3 &a, double3 b);
 
 __host__ __device__ void operator -=(double3 &a, double3 b);
@@ -29,6 +33,7 @@ __host__ __device__ double3 operator *(double3 a, double b);
 __host__ __device__ void operator *=(double3 &a, double3 b);
 
 __host__ __device__ void operator *=(double3 &a, double b);
+#endif // !defined(__HIP__)
 
 __host__ __device__ double dot(double3 a, double3 b);
 

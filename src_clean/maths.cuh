@@ -137,6 +137,11 @@ inline __host__ __device__ void matrix_multiply_by_vector(double* a, double3 b, 
   c.z=a[0*3+2]*b.x + a[1*3+2]*b.y + a[2*3+2]*b.z;
 }
 
+// HIP's double3 (HIP_vector_type) already defines these componentwise
+// operators, so redefining them would clash. Under nvcc the guard is true
+// and the definitions are emitted verbatim. dot() (scalar return) and the
+// MoveEnergy operators below are NOT provided by HIP and stay unguarded.
+#if !defined(__HIP__)
 __host__ __device__ void operator +=(double3 &a, double3 b)
 {
   a.x += b.x;
@@ -210,6 +215,7 @@ __host__ __device__ double3 operator *(double3 a, double b)
 {
     return {a.x * b, a.y * b, a.z * b};
 }
+#endif // !defined(__HIP__)
 
 __host__ __device__ double dot(double3 a, double3 b)
 {

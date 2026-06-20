@@ -1,7 +1,7 @@
 #ifndef READ_DATA_H
 #define READ_DATA_H
 
-#include <cuda_runtime.h>
+#include "gpu_compat.h"
 //#include "VDW_Coulomb.cuh"
 
 void Check_Inputs_In_read_data_cpp(std::string& exepath);
