@@ -18,8 +18,10 @@ $CXX $NVCFLAG $LINKFLAG -c data_struct.cpp && echo "Finished data_struct.cpp" &
 
 $CXX $NVCFLAG $LINKFLAG -c VDW_Coulomb.cu && echo "Finished VDW_Coulomb.cu" &
 
+$CXX $NVCFLAG $LINKFLAG -c flexible_incremental_bonded_growth.cpp && echo "Finished flexible_incremental_bonded_growth.cpp" &
+
 wait
 
-$CXX $NVCFLAG $LINKFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o -o nvc_main.x ; echo "Finished Linking"
+$CXX $NVCFLAG $LINKFLAG main.o read_data.o axpy.o data_struct.o VDW_Coulomb.o flexible_incremental_bonded_growth.o -o nvc_main.x ; echo "Finished Linking"
 
 rm *.o
