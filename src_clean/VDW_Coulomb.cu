@@ -1630,7 +1630,7 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
     cudaMalloc(&Sim.Blocksum, 2*Nblock * sizeof(double));
   }
 
-  int3 BLOCKS = {HH_Nblock, HG_Nblock, GG_Nblock};
+  int3 BLOCKS = {static_cast<int>(HH_Nblock), static_cast<int>(HG_Nblock), static_cast<int>(GG_Nblock)};
 
   //Calculate the energy of the new systems//
   //Host-Guest + Guest-Guest//

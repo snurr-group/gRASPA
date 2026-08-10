@@ -872,8 +872,8 @@ __global__ void TotalFourierEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Com
   int       ky      = kxy %(2 * ky_max + 1) - ky_max;
   double ksqr = static_cast<double>(kx * kx + ky * ky + kz * kz);
 
-  double alpha = Box.Alpha; double alpha_squared = alpha * alpha;
-  double prefactor = Box.Prefactor * (2.0 * M_PI / Box.Volume);
+  // double alpha = Box.Alpha; double alpha_squared = alpha * alpha;
+  // double prefactor = Box.Prefactor * (2.0 * M_PI / Box.Volume);
 
   double3 ax = {Box.InverseCell[0], Box.InverseCell[3], Box.InverseCell[6]};
   double3 ay = {Box.InverseCell[1], Box.InverseCell[4], Box.InverseCell[7]};
@@ -881,7 +881,7 @@ __global__ void TotalFourierEwald(Atoms* d_a, Boxsize Box, double* BlockSum, Com
   double3 kvec_x = ax * 2.0 * M_PI * (double) kx;
   double3 kvec_y = ay * 2.0 * M_PI * (double) ky;
   double3 kvec_z = az * 2.0 * M_PI * (double) kz;
-  double factor = (kx == 0) ? (1.0 * prefactor) : (2.0 * prefactor);
+  // double factor = (kx == 0) ? (1.0 * prefactor) : (2.0 * prefactor);
 
   double3 tempkvec  = kvec_x + kvec_y + kvec_z;
   double  rksq      = dot(tempkvec, tempkvec);
@@ -1297,8 +1297,8 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
 
   if(NTotalAtom > 0)
   {
-    int2 NAtomPerThread = {NHostAtom > 0 ? NHostAtom / NHostGuestthread.x : 0, NGuestAtom > 0 ? NGuestAtom / NHostGuestthread.y : 0};
-    int2 residueAtoms   = {NHostAtom > 0 ? NHostAtom % NHostGuestthread.x : 0, NGuestAtom > 0 ? NGuestAtom % NHostGuestthread.y : 0};
+    int2 NAtomPerThread = {NHostAtom > 0 ? static_cast<int>(NHostAtom / NHostGuestthread.x) : 0, NGuestAtom > 0 ? static_cast<int>(NGuestAtom / NHostGuestthread.y) : 0};
+    int2 residueAtoms   = {NHostAtom > 0 ? static_cast<int>(NHostAtom % NHostGuestthread.x) : 0, NGuestAtom > 0 ? static_cast<int>(NGuestAtom % NHostGuestthread.y) : 0};
 
     //Setup eikx, eiky, and eikz//
     Setup_threadblock(NTotalAtom, Nblock, Nthread);
