@@ -7,7 +7,7 @@ rm -f nvc_main.x *.o *.ii *.cpp.ii
 CXX="$(which nvcc)"
 
 CUDA_LIB="$(dirname "$(dirname "$(dirname "$CXX")")")/cuda/lib64"
-LINKFLAG="-L${CUDA_LIB} -L/usr/lib64/"
+LINKFLAG="-L${CUDA_LIB} -L/usr/lib64/ -arch=native"
 
 NVCFLAG="-O3 -std=c++20 -x cu -expt-relaxed-constexpr -rdc=true -Xcompiler -fopenmp"
 
