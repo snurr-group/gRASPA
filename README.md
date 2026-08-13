@@ -106,6 +106,7 @@ Notes:
 * gRASPA manual is available online @ https://zhaoli2042.github.io/gRASPA-mkdoc
   * also available in [Chinese](https://zhaoli2042.github.io/gRASPA-mkdoc/Chinese)
 * a doxygen documentation is also available @ https://zhaoli2042.github.io/gRASPA
+* a PDF manual is available [here](gRASPA-manual.pdf)
 ## Reference
 * gRASPA paper is now published. Please kindly cite it if you find it useful.
   * Li, Shi, Dubbeldam, Dewing, Knight, Vázquez-Mayagoitia, Snurr, 
@@ -114,7 +115,7 @@ Notes:
 * Also, please give our repository a :star: if our code helps!
 
 ## Authors
-* Zhao Li (Northwestern University, currently at Purdue University/University of Notre Dame, zhaoli2023@u.northwestern.edu)
+* Zhao Li (Northwestern University, zhaoli2023@u.northwestern.edu)
 * Kaihang Shi (Northwestern University, currently at University at Buffalo, kaihangs@buffalo.edu)
 * David Dubbeldam (University of Amsterdam, d.dubbeldam@uva.nl)
 * Mark Dewing (Argonne National Laboratory, markdewing@yahoo.com)
