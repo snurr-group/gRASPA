@@ -1341,7 +1341,7 @@ void PseudoAtomParser(PseudoAtomDefinitions& PseudoAtom)
     else if(counter >= 3) // read data for each pseudo atom
     {
       Split_Tab_Space(termsScannedLined, str);
-      if(termsScannedLined[0] != PseudoAtom.Name[counter-3]) throw std::runtime_error("Order of pseudo-atom and force field definition don't match!");
+      if(termsScannedLined[0] != PseudoAtom.Name[counter-3]) throw std::runtime_error("At line " + std::to_string(counter + 1) + " in pseudo_atoms.def, the order of pseudo-atom and force field definition don't match!");
 
       // Read print flag (column 2/index 1): "yes" or "no"
       bool printFlag = (termsScannedLined.size() > 1 && (termsScannedLined[1] == "yes" || termsScannedLined[1] == "YES" || termsScannedLined[1] == "Yes"));

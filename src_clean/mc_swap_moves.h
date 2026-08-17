@@ -265,7 +265,7 @@ static inline MoveEnergy IdentitySwapMove(Variables& Vars, size_t systemId)
   //Take care of the frist bead location HERE//
   copy_firstbead_to_new<<<1,1>>>(Sims.New, Sims.d_a, OLDComponent, OLDMolInComponent * SystemComponents.Moleculesize[OLDComponent]);
   //WRITE THE component and molecule ID THAT IS GOING TO BE IGNORED DURING THE ENERGY CALC//
-  Sims.ExcludeList[0] = {OLDComponent, OLDMolInComponent};
+  Sims.ExcludeList[0] = {static_cast<int>(OLDComponent), static_cast<int>(OLDMolInComponent)};
   SystemComponents.TempVal.Scale  = SystemComponents.Lambda[NEWComponent].SET_SCALE(1.0); //Zhao's note: not used in reinsertion, just set to 1.0//
   double& Rosenbluth = InsertionVariables.Rosenbluth;
   Widom_Move_FirstBead_PARTIAL(Vars, systemId, InsertionVariables);
