@@ -1541,9 +1541,11 @@ __global__ void TotalVDWRealCoulomb(Boxsize Box, Atoms* System, ForceField FF, d
         determine_comp_and_Atomindex_from_thread(System, AtomA, compA, NComponents.y, NComponents.x);
         determine_comp_and_Atomindex_from_thread(System, AtomB, compB, NComponents.y, NComponents.x);
       }
+      //The last block is padded, so the trailing threads map to atom indices
+      //past the end of the component. Check the bounds before touching MolID.
+      if(AtomA >= System[compA].size || AtomB >= System[compB].size) continue;
       MolA = System[compA].MolID[AtomA];
       MolB = System[compB].MolID[AtomB];
-      if(AtomA >= System[compA].size || AtomB >= System[compB].size) continue;
       if(!ConsiderIntra && (MolA == MolB) && (compA == compB)) continue;
 
       const Atoms ComponentA = System[compA];
