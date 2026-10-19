@@ -301,8 +301,9 @@ void Check_StructureFactor_CPUGPU(Boxsize& Box, Components& SystemComponents)
 {
   fprintf(SystemComponents.OUTPUT, " ****** CHECKING StructureFactors (SF) Stored on CPU vs. GPU ****** \n");
   size_t numberOfStructureFactors = (Box.kmax.x + 1) * (2 * Box.kmax.y + 1) * (2 * Box.kmax.z + 1);
-  Complex GPUSF[numberOfStructureFactors];
-  cudaMemcpy(GPUSF, Box.AdsorbateEik, numberOfStructureFactors * sizeof(Complex), cudaMemcpyDeviceToHost);
+  //heap storage instead of a stack VLA: 16 bytes x number of k-vectors can exceed the stack for large boxes//
+  std::vector<Complex> GPUSF(numberOfStructureFactors);
+  cudaMemcpy(GPUSF.data(), Box.AdsorbateEik, numberOfStructureFactors * sizeof(Complex), cudaMemcpyDeviceToHost);
 
   fprintf(SystemComponents.OUTPUT, "CPU SF: %zu, GPU SF: %zu\n", SystemComponents.AdsorbateEik.size(), numberOfStructureFactors);
 

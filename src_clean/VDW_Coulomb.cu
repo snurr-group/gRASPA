@@ -1650,7 +1650,7 @@ MoveEnergy Total_VDW_Coulomb_Energy(Simulations& Sim, Components& SystemComponen
   //printf("Total VDW + Real, Nblock = %zu, Nthread = %zu, Host: %zu, Guest: %zu, Allocated size: %zu\n", Nblock, Nthread, Host_threads, Guest_threads, Sim.Nblocks);
   //Zhao's note: consider using the flag to check for overlap here//
   //printf("Total Thread: %zu, Nblock: %zu, Nthread: %zu\n", Host_threads + Guest_threads, Nblock, Nthread);
-  double BlockE[Nblock*2]; cudaMemcpy(BlockE, Sim.Blocksum, Nblock*2 * sizeof(double), cudaMemcpyDeviceToHost);
+  std::vector<double> BlockE(Nblock*2); cudaMemcpy(BlockE.data(), Sim.Blocksum, Nblock*2 * sizeof(double), cudaMemcpyDeviceToHost); //heap, not a stack VLA//
 
   for(size_t id = 0; id < HH_Nblock; id++) E.HHVDW += BlockE[id];
   for(size_t id = HH_Nblock; id < HH_Nblock + HG_Nblock; id++) E.HGVDW += BlockE[id];
