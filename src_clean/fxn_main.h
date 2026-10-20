@@ -254,8 +254,11 @@ inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components& SystemCo
   cudaMalloc(&device_Box.tempFrameworkEik, AdsorbateEiksize * sizeof(Complex));
   cudaMalloc(&device_Box.FrameworkEik,     AdsorbateEiksize * sizeof(Complex));
 
-  Complex AdsorbateEik[AdsorbateEiksize]; //Temporary Complex struct on the host//
-  Complex FrameworkEik[AdsorbateEiksize];
+  //Zhao's note (fix): these used to be variable-length arrays on the stack. Their size is
+  //2 * StructureFactor_Multiplier * (kx+1)(2ky+1)(2kz+1) * 16 bytes, which grows with the box volume
+  //and overflows the default 8 MB Linux stack for large (super)cells -> segfault. Use heap storage.//
+  std::vector<Complex> AdsorbateEik(AdsorbateEiksize); //Temporary Complex struct on the host//
+  std::vector<Complex> FrameworkEik(AdsorbateEiksize);
   //for(size_t i = 0; i < SystemComponents.AdsorbateEik.size(); i++)
   for(size_t i = 0; i < AdsorbateEiksize; i++)
   {
@@ -274,8 +277,8 @@ inline void Allocate_Copy_Ewald_Vector(Boxsize& device_Box, Components& SystemCo
     }
     if(i < 10) fprintf(SystemComponents.OUTPUT, "Structure Factor %zu is %.5f %.5f\n", i, AdsorbateEik[i].real, AdsorbateEik[i].imag);
   }
-  cudaMemcpy(device_Box.AdsorbateEik,    AdsorbateEik,    AdsorbateEiksize * sizeof(Complex), cudaMemcpyHostToDevice); checkCUDAError("error copying Complex");
-  cudaMemcpy(device_Box.FrameworkEik, FrameworkEik, AdsorbateEiksize * sizeof(Complex), cudaMemcpyHostToDevice); checkCUDAError("error copying Complex");
+  cudaMemcpy(device_Box.AdsorbateEik,    AdsorbateEik.data(),    AdsorbateEiksize * sizeof(Complex), cudaMemcpyHostToDevice); checkCUDAError("error copying Complex");
+  cudaMemcpy(device_Box.FrameworkEik, FrameworkEik.data(), AdsorbateEiksize * sizeof(Complex), cudaMemcpyHostToDevice); checkCUDAError("error copying Complex");
   fprintf(SystemComponents.OUTPUT, "****** DONE Allocating Ewald WaveVectors + StructureFactors(INITIAL STAGE ONLY) ******\n");
 }
 

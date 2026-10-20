@@ -1,4 +1,7 @@
 #include <omp.h>
+#include <algorithm>
+#include <vector>
+#include <stdexcept>
 #include "ewald_preparation.h"
 inline void checkCUDAErrorEwald(const char *msg)
 {
@@ -1158,9 +1161,22 @@ __global__ void Framework_ComponentZero_Calculate_Intra_Self_Exclusion(Boxsize B
   for(size_t i = 0; i != InteractionPerThread; i++)
   {
     size_t InteractionIdx = THREADIdx * InteractionPerThread + i;
+    if(InteractionIdx >= IntraInteractions) break; //tail threads have no pair to do//
     //Unwrap Atoms from interactions (upper triangle)//
-    size_t AtomA = NAtoms - 2 - std::floor(std::sqrt(-8*(int) InteractionIdx + 4*NAtoms*(NAtoms-1)-7)/2.0 - 0.5);
-    size_t AtomB = InteractionIdx + AtomA + 1 - NAtoms*(NAtoms-1)/2 + (NAtoms-AtomA)*((NAtoms-AtomA)-1)/2;
+    //Zhao's note (fix): the old expression "-8*(int) InteractionIdx + 4*NAtoms*(NAtoms-1)-7" did the first
+    //product in 32-bit int, which overflows once N(N-1)/2 > 2^28 (about 23,000 framework atoms) and
+    //silently scrambled the framework exclusion energy. Do the estimate in double, then snap it to the
+    //exact row with integer arithmetic (pairs before row A = A*N - A*(A+1)/2).//
+    const long long N = static_cast<long long>(NAtoms);
+    const long long k = static_cast<long long>(InteractionIdx);
+    long long AtomA_ll = N - 2 - static_cast<long long>(std::floor(std::sqrt(-8.0*static_cast<double>(k) + 4.0*static_cast<double>(N)*(static_cast<double>(N)-1.0) - 7.0)/2.0 - 0.5));
+    if(AtomA_ll < 0)     AtomA_ll = 0;
+    if(AtomA_ll > N - 2) AtomA_ll = N - 2;
+    while(AtomA_ll > 0     && k <  AtomA_ll*N - AtomA_ll*(AtomA_ll+1)/2)             AtomA_ll--;
+    while(AtomA_ll < N - 2 && k >= (AtomA_ll+1)*N - (AtomA_ll+1)*(AtomA_ll+2)/2)     AtomA_ll++;
+    const long long AtomB_ll = AtomA_ll + 1 + (k - (AtomA_ll*N - AtomA_ll*(AtomA_ll+1)/2));
+    size_t AtomA = static_cast<size_t>(AtomA_ll);
+    size_t AtomB = static_cast<size_t>(AtomB_ll);
 
     if(AtomA < NAtoms && AtomB < NAtoms)
     {
@@ -1361,12 +1377,16 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
     TotalFourierEwald_CalculateEnergy<<<NCudaBlock, 128, 128*3*sizeof(double)>>>(Box, Box.tempFrameworkEik, Box.tempEik, Sim.Blocksum, Nblock, kpoint_per_thread, NCudaBlock);
     checkCUDAErrorEwald("Error in summing the energies of fourier part\n");
 
-    double HostTotEwald[NCudaBlock*3]; //HH + HG + GG//
+    //Zhao's note (fix): this used to be a stack VLA of 3*NCudaBlock doubles, sized for the Fourier block sums
+    //(which scale with the number of k-vectors), but it is reused below to receive the intra/self exclusion
+    //block sums, whose count grows as N_framework^2. For large frameworks the exclusion copy ran past the
+    //end of the array and smashed the stack (segfault). Use heap storage sized to the whole Blocksum.//
+    std::vector<double> HostTotEwald(std::max(static_cast<size_t>(3 * NCudaBlock), Sim.Nblocks), 0.0); //HH + HG + GG//
     double HHFourier = 0.0;
     double GGFourier = 0.0;
     double HGFourier = 0.0;
 
-    cudaMemcpy(HostTotEwald, Sim.Blocksum, 3* NCudaBlock * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(HostTotEwald.data(), Sim.Blocksum, 3* NCudaBlock * sizeof(double), cudaMemcpyDeviceToHost);
     for(size_t i = 0; i < NCudaBlock; i++) HHFourier += HostTotEwald[i];
     for(size_t i = NCudaBlock;   i < NCudaBlock*2; i++) GGFourier += HostTotEwald[i];
     for(size_t i = NCudaBlock*2; i < NCudaBlock*3; i++) HGFourier += HostTotEwald[i];
@@ -1392,14 +1412,23 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
       size_t InteractionPerThread = 100;
       size_t TotalThreadsNeeded = IntraInteractions / InteractionPerThread + (IntraInteractions % InteractionPerThread == 0 ? 0 : 1);
       Setup_threadblock(TotalThreadsNeeded, Exclusion_Nblock, Exclusion_Nthread);
-      
+      //Zhao's note (fix): Blocksum is pinned host memory holding Sim.Nblocks doubles and is shared by every
+      //reduction. Exclusion_Nblock ~ N_framework^2 / (2*InteractionPerThread*128) is not bounded by it, so
+      //fold more pairs into each thread until the block sums fit (same idea as kpoint_per_thread above).//
+      while(Exclusion_Nblock > Sim.Nblocks)
+      {
+        InteractionPerThread *= 2;
+        TotalThreadsNeeded = IntraInteractions / InteractionPerThread + (IntraInteractions % InteractionPerThread == 0 ? 0 : 1);
+        Setup_threadblock(TotalThreadsNeeded, Exclusion_Nblock, Exclusion_Nthread);
+      }
+
       //DEBUG//printf("Component %zu, Atoms: %zu, IntraInteractions: %zu, totalThreads: %zu, Nblock: %zu, Nthread: %zu\n", 0, FrameworkCompZeroAtoms, IntraInteractions, TotalThreadsNeeded, Exclusion_Nblock, Exclusion_Nthread);
 
-      Framework_ComponentZero_Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread, Exclusion_Nthread * sizeof(double)>>>(Box, d_a, Sim.Blocksum, IntraInteractions, InteractionPerThread, TotalThreadsNeeded); 
+      Framework_ComponentZero_Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread, Exclusion_Nthread * sizeof(double)>>>(Box, d_a, Sim.Blocksum, IntraInteractions, InteractionPerThread, TotalThreadsNeeded);
       checkCUDAErrorEwald("error Calculating Intra Self Exclusion (FRAMEWORK) for Ewald Summation for Total Ewald summation!!!");
-      
+
       double FrameworkExclusion = 0.0;
-      cudaMemcpy(HostTotEwald, Sim.Blocksum, Exclusion_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+      cudaMemcpy(HostTotEwald.data(), Sim.Blocksum, Exclusion_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
       for(size_t i = 0; i < Exclusion_Nblock; i++) FrameworkExclusion += HostTotEwald[i];
       //printf("Framework Component 0 Exclusion: %.5f\n", FrameworkExclusion);
       E.HHEwaldE += FrameworkExclusion;
@@ -1411,11 +1440,11 @@ MoveEnergy Ewald_TotalEnergy(Simulations& Sim, Components& SystemComponents, boo
       if(SystemComponents.NumberOfMolecule_for_Component[i] == 0) continue;
       Setup_threadblock(SystemComponents.NumberOfMolecule_for_Component[i], Exclusion_Nblock, Exclusion_Nthread);
       //printf("Component %zu, Nblock: %zu, Nthread: %zu\n", i, Exclusion_Nblock, Exclusion_Nthread);
-      Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread, Exclusion_Nthread * sizeof(double)>>>(Box, d_a, Sim.Blocksum, i); 
+      //one thread per molecule, so Exclusion_Nblock = ceil(NMol/128) is always far below Sim.Nblocks; keep an explicit check//
+      if(Exclusion_Nblock > Sim.Nblocks) throw std::runtime_error("Ewald_TotalEnergy: intra/self exclusion needs more blocks than Blocksum holds!");
+      Calculate_Intra_Self_Exclusion<<<Exclusion_Nblock, Exclusion_Nthread, Exclusion_Nthread * sizeof(double)>>>(Box, d_a, Sim.Blocksum, i);
       checkCUDAErrorEwald("error Calculating Intra Self Exclusion (ADSORBATE) for Ewald Summation for Total Ewald summation!!!");
-      //Curently we are assuming that the number of blocks for self+exclusion is smaller than total number of kspace points (99.99999% true)
-      //Zhao's note: assume that you use less blocks for intra-self exclusion
-      cudaMemcpy(HostTotEwald, Sim.Blocksum, Exclusion_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
+      cudaMemcpy(HostTotEwald.data(), Sim.Blocksum, Exclusion_Nblock * sizeof(double), cudaMemcpyDeviceToHost);
       double Component_Exclusion = 0.0;
       for(size_t ii = 0; ii < Exclusion_Nblock; ii++) Component_Exclusion += HostTotEwald[ii];
       //printf("Component %zu, Exclusion (self + intra) = %.5f\n", i, Component_Exclusion);
