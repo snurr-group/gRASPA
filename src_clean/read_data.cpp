@@ -1474,9 +1474,13 @@ void CheckFrameworkComponentAtomOrder(Components& SystemComponents, std::vector<
 void CheckFrameworkCIF(Boxsize& Box, PseudoAtomDefinitions& PseudoAtom, std::string& Frameworkfile, bool UseChargeFromCIF, double3 NumberUnitCells, Components& SystemComponents)
 {
   std::vector<std::string> termsScannedLined{};
-  termsScannedLined = split(Frameworkfile, '.');
-  std::string frameworkName = termsScannedLined[0];
-  std::string CIFFile = frameworkName + ".cif";
+  //Zhao's note (fix): the file name used to be rebuilt from the text before the FIRST '.', so a framework
+  //called "DB-12-j.more_words" (file DB-12-j.more_words.cif) was looked up as "DB-12-j.cif" and aborted.
+  //ReadFramework already verified that Frameworkfile (= FrameworkName + ".cif") exists, so use it as given
+  //and only append the extension when it is missing.//
+  std::filesystem::path CIFPath(Frameworkfile);
+  if(CIFPath.extension() != ".cif") CIFPath += ".cif";
+  std::string CIFFile = CIFPath.string();
   std::ifstream simfile(CIFFile);
   std::filesystem::path pathfile = std::filesystem::path(CIFFile);
   if (!std::filesystem::exists(pathfile))
