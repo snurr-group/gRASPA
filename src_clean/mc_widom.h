@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <numeric>
 #include <omp.h>
 #include "gpu_compat.h"
 // These thrust headers are dead includes (no thrust:: symbol is used in

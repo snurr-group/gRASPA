@@ -16,7 +16,9 @@
 #include "equations_of_state.h"
 #include "fxn_main.h"
 
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 #include <limits.h>
 
@@ -28,6 +30,7 @@ void printMemoryUsage()
   std::cout << "== PRINTING MEMORY USAGE =="<< std::endl;
   std::cout << "==========================="<< std::endl;
 
+#ifndef _WIN32
   std::ifstream file("/proc/self/statm");
   if (file.is_open()) 
   {
@@ -53,6 +56,9 @@ void printMemoryUsage()
     std::cerr << "Unable to open /proc/self/statm" << std::endl;
   }
   file.close();
+#else
+  std::cout << "Memory usage is not reported on this platform" << std::endl;
+#endif
 }
 
 Variables Initialize(void) //for pybind
@@ -62,8 +68,13 @@ Variables Initialize(void) //for pybind
   //https://stackoverflow.com/questions/143174/how-do-i-get-the-directory-that-a-program-is-running-from
   //This breaks when the code is generated to a library, so comment for now..//
   char result[ 256 ];
+#ifndef _WIN32
   ssize_t count = readlink( "/proc/self/exe", result, 256 );
   std::string exepath = std::string( result, (count > 0) ? count : 0 );
+#else
+  (void) result;
+  std::string exepath;
+#endif
   std::cout << exepath;
   //Check_Inputs_In_read_data_cpp(exepath);
  

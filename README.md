@@ -89,6 +89,18 @@ Notes:
   `HSA_XNACK=1 GRASPA_BIN=.../src_clean/hip_main.x python run_designated_folders.py`
   then `pytest -s` in `Examples/`.
 * The LCLin/cppflow (TensorFlow) path is CUDA-only and is not available on ROCm.
+* Windows: the classical core also compiles with the `clang++` shipped in the
+  ROCm HIP SDK. `HIP_COMPILE` is a bash script and is not used there; compile
+  the same sources directly with `-O3 -std=c++20 --offload-arch=<arch> -x hip
+  -fgpu-rdc -fopenmp -D_USE_MATH_DEFINES -isystem
+  "$(clang++ -print-resource-dir)/include"`, then link them with `--hip-link`.
+  The `-isystem` is needed because MSVC's `emmintrin.h` declares the SSE2
+  intrinsics `extern` rather than `static inline`, which leaves the CRT's
+  `wmemcmp` unresolved at link time; putting clang's own intrinsic headers
+  first avoids that. Take the directory from `clang++ -print-resource-dir`
+  rather than spelling it out: it sits under `lib/clang/` in the HIP SDK and
+  under `lib/llvm/lib/clang/` in a ROCm build that keeps LLVM in a
+  subdirectory.
 
 ### Pybind Extension (testing)
 * Pybind extension for gRASPA allows user to interact with the **internal variables** of gRASPA, break down **MC moves**, add their **modifications**

@@ -1,3 +1,5 @@
+#include <numeric>
+
 void Initialize_WangLandauIteration(LAMBDA& lambda);
 void Sample_WangLandauIteration(LAMBDA& lambda);
 void Finalize_WangLandauIteration(LAMBDA& lambda);
