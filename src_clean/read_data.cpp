@@ -3132,6 +3132,9 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents)
     size_t  MolID[SystemComponents.NumberOfMolecule_for_Component[i]     * SystemComponents.Moleculesize[i]];
 
     size_t atom=0;
+    //Position of the first atom of the molecule being read. Declared outside the line loop: //
+    //it is set on the line of atom 0 and read on the lines of the other atoms of that molecule//
+    double3 first_bead_pos = {0.0, 0.0, 0.0};
     while (std::getline(file, str))
     {
       //Read positions, Type and MolID//
@@ -3152,7 +3155,6 @@ void RestartFileParser(Boxsize& Box, Components& SystemComponents)
         //Calculate atom distance between atom A and the first atom in the molecule//
         //I know, many code will consider using the oxygen atom as the reference for wrapping, no, this is not general enough//
         //We will use the first atom//
-        double3 first_bead_pos;
         if(atomid == 0)
         {
           first_bead_pos = pos[atom];
