@@ -516,6 +516,7 @@ static __global__ void get_new_position(Simulations& Sim, ForceField FF, size_t 
     case ROTATION://ROTATION:
     {
       Sim.New.pos[i] = pos - Sim.d_a[SelectedComponent].pos[start_position];
+      PBC_Intra(Sim.New.pos[i], Sim.Box.Cell, Sim.Box.InverseCell); //rotate about the first atom using the minimum-image bond vector//
       const double3 Angle = MaxChange * 2.0 * (RANDOM[index] - 0.5);
       
       RotationAroundAxis(Sim.New.pos, i, Angle.x, {1.0, 0.0, 0.0}); //X

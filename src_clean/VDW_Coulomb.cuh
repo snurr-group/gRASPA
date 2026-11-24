@@ -79,6 +79,21 @@ __device__ void VDW(const double* FFarg, const double rr_dot, const double scali
 __device__ void CoulombReal(const ForceField FF, const double chargeA, const double chargeB, const double r, const double scaling, double* result, double prefactor, double alpha);
 
 __host__ __device__ void PBC(double3& posvec, double* Cell, double* InverseCell, bool Cubic);
+//Minimum image of a vector between two atoms of the same molecule.                    //
+//Leaves v unchanged, bit for bit, when no lattice shift is needed (complete molecules).//
+static inline __host__ __device__ void PBC_Intra(double3& v, const double* Cell, const double* InverseCell)
+{
+  const double sx = InverseCell[0*3+0]*v.x + InverseCell[1*3+0]*v.y + InverseCell[2*3+0]*v.z;
+  const double sy = InverseCell[0*3+1]*v.x + InverseCell[1*3+1]*v.y + InverseCell[2*3+1]*v.z;
+  const double sz = InverseCell[0*3+2]*v.x + InverseCell[1*3+2]*v.y + InverseCell[2*3+2]*v.z;
+  const int nx = static_cast<int>(sx + ((sx >= 0.0) ? 0.5 : -0.5));
+  const int ny = static_cast<int>(sy + ((sy >= 0.0) ? 0.5 : -0.5));
+  const int nz = static_cast<int>(sz + ((sz >= 0.0) ? 0.5 : -0.5));
+  if(nx == 0 && ny == 0 && nz == 0) return;
+  v.x -= Cell[0*3+0]*nx + Cell[1*3+0]*ny + Cell[2*3+0]*nz;
+  v.y -= Cell[0*3+1]*nx + Cell[1*3+1]*ny + Cell[2*3+1]*nz;
+  v.z -= Cell[0*3+2]*nx + Cell[1*3+2]*ny + Cell[2*3+2]*nz;
+}
 //__device__ void PBC(double* posvec, double* Cell, double* InverseCell, bool Cubic);
 
 __device__ void WrapInBox(double* posvec, double* Cell, double* InverseCell, bool Cubic);
