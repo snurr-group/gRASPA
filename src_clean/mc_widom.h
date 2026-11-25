@@ -255,6 +255,7 @@ __global__ void get_random_trial_orientation(Boxsize Box, Atoms* d_a, Atoms Mol,
   //{
     double3 Vec;
     Vec = AllData.pos[1+a] - AllData.pos[0];
+    PBC_Intra(Vec, Box.Cell, Box.InverseCell); //the template molecule may span a periodic boundary//
     switch(MoveType)
     {
       /////////////////////////////////////////////////////////////////////////////////////////////////
